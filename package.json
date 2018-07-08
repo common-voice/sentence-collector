@@ -3,10 +3,6 @@
   "version": "0.0.1",
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
-  "dependencies": {
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
-  },
   "scripts": {
     "clean": "rm -rf dist .cache node_modules yarn.lock",
     "reset": "yarn clean && yarn",
@@ -15,13 +11,16 @@
     "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
     "deploy": "yarn build && gh-pages -d dist"
   },
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
   "devDependencies": {
-    "@types/react": "^16.4.6",
     "btoa": "^1.2.1",
     "gh-pages": "^1.2.0",
     "node-fetch": "^2.1.2",
     "parcel-bundler": "^1.9.4",
-    "parcel-plugin-typescript": "^1.0.0",
     "typescript": "^2.9.2"
   }
 }
