@@ -13,7 +13,7 @@
     "build": "parcel build src/index.html --public-url .",
     "restart": "yarn reset && start",
     "rebuild": "yarn reset && parcel build",
-    "init-db": "parcel build -t \"node\" scripts/init-db.ts && node dist/init-db",
+    "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
     "deploy": "yarn build && gh-pages -d dist"
   },
   "devDependencies": {

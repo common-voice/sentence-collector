@@ -1,6 +1,3 @@
-declare function require(moduleName: string): any;
-declare const global: any;
-
 const KintoClient = require('kinto-http');
 const btoa2 = require('btoa');
 
@@ -8,12 +5,12 @@ const btoa2 = require('btoa');
 const fetch2 = require('node-fetch');
 global.fetch = fetch2;
 
-const username: string = 'admin';
-const password: string = 'password';
+const username = 'admin';
+const password = 'password';
 
-const AUTH_HEADER: string = "Basic " + btoa2(`${username}:${password}`);
-const REMOTE_URL: string = 'https://kinto.mozvoice.org/v1';
-const BUCKET_NAME: string = 'APP';
+const AUTH_HEADER = "Basic " + btoa2(`${username}:${password}`);
+const REMOTE_URL = 'https://kinto.mozvoice.org/v1';
+const BUCKET_NAME = 'APP';
 
 const defaultOptions = {
   remote: REMOTE_URL,
