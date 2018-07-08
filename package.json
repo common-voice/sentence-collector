@@ -4,7 +4,8 @@
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "dependencies": {
-    "parcel-bundler": "^1.9.4"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "scripts": {
     "clean": "rm -rf dist .cache node_modules yarn.lock",
@@ -15,10 +16,11 @@
     "deploy": "yarn build && gh-pages -d dist"
   },
   "devDependencies": {
+    "@types/react": "^16.4.6",
     "btoa": "^1.2.1",
     "gh-pages": "^1.2.0",
-    "kinto-http": "^4.5.3",
     "node-fetch": "^2.1.2",
+    "parcel-bundler": "^1.9.4",
     "parcel-plugin-typescript": "^1.0.0",
     "typescript": "^2.9.2"
   }

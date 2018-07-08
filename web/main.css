@@ -5,3 +5,7 @@ body {
   color: white;
   text-align: center;
 }
+
+#content {
+  background-color: green;
+}
