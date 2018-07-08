@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "gh-pages": "^1.2.0",
+    "parcel-plugin-typescript": "^1.0.0",
     "typescript": "^2.9.2"
   }
 }
