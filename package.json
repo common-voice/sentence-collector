@@ -9,12 +9,18 @@
   "scripts": {
     "clean": "rm -rf dist .cache node_modules yarn.lock",
     "reset": "yarn clean && yarn",
-    "start": "yarn reset && parcel src/index.html",
-    "build": "yarn reset && parcel build src/index.html --public-url .",
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url .",
+    "restart": "yarn reset && start",
+    "rebuild": "yarn reset && parcel build",
+    "init-db": "parcel build -t \"node\" scripts/init-db.ts && node dist/init-db",
     "deploy": "yarn build && gh-pages -d dist"
   },
   "devDependencies": {
+    "btoa": "^1.2.1",
     "gh-pages": "^1.2.0",
+    "kinto-http": "^4.5.3",
+    "node-fetch": "^2.1.2",
     "parcel-plugin-typescript": "^1.0.0",
     "typescript": "^2.9.2"
   }
