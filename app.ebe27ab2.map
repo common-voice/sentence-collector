@@ -1,0 +1,1 @@
+{"version":3,"sources":["ts/app.ts"],"names":[],"mappings":";AAAA,SAAS,KAAK,YAAc","file":"app.ebe27ab2.map","sourceRoot":"../src","sourcesContent":["document.body.textContent = 'Hello world!';\n"]}

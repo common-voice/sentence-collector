@@ -1,0 +1,1 @@
+{"version":3,"sources":["ts/app.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,SAAS,IAAT,CAAc,WAAd,GAA4B,cAA5B","file":"app.b18c5007.map","sourceRoot":"../src","sourcesContent":["document.body.textContent = 'Hello world!';\n"]}
