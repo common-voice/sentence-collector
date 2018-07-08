@@ -1,27 +1,17 @@
-const KintoClient = require('kinto-http');
-const btoa2 = require('btoa');
+const btoa = require('btoa');
+const DB = require('./src/db').default;
 
 // Kinto http needs fetch on the global scope.
-const fetch2 = require('node-fetch');
-global.fetch = fetch2;
+global.fetch = require('node-fetch');
 
 const username = 'admin';
 const password = 'password';
 
-const AUTH_HEADER = "Basic " + btoa2(`${username}:${password}`);
-const REMOTE_URL = 'https://kinto.mozvoice.org/v1';
-const BUCKET_NAME = 'APP';
+function run() {
+  const db = new DB(username, password);
+  db.getId()
+    .then(console.log.bind(console, 'your user id is:'))
+    .catch(console.error.bind(console));
+}
 
-const defaultOptions = {
-  remote: REMOTE_URL,
-  headers: {
-    Authorization: AUTH_HEADER,
-  },
-  bucket: BUCKET_NAME,
-};
-
-const server = new KintoClient(REMOTE_URL, defaultOptions);
-server.fetchServerInfo()
-  .then(result => result.user.id)
-  .then(console.log.bind(console, 'your user id is:'))
-  .catch(console.error.bind(console));
+run();
