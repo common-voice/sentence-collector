@@ -1,0 +1,15 @@
+{
+  "name": "sentence-collector",
+  "version": "0.0.1",
+  "description": "A web console for collecting and validating sentences",
+  "dependencies": {
+    "parcel-bundler": "^1.9.4"
+  },
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "devDependencies": {
+    "typescript": "^2.9.2"
+  }
+}
