@@ -9,8 +9,8 @@
   "scripts": {
     "clean": "rm -rf dist .cache node_modules yarn.lock",
     "reset": "yarn clean && yarn",
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url .",
+    "start": "parcel web/index.html",
+    "build": "parcel build web/index.html --public-url .",
     "restart": "yarn reset && start",
     "rebuild": "yarn reset && parcel build",
     "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
