@@ -1,6 +1,6 @@
 ## Prerequisites
 
-yarn
+[yarn](https://yarnpkg.com/docs/install)
 
 ## Local Development
 
