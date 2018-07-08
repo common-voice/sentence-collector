@@ -6,10 +6,12 @@
     "parcel-bundler": "^1.9.4"
   },
   "scripts": {
-    "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "start": "rm -rf dist && parcel src/index.html",
+    "build": "rm -rf dist && parcel build src/index.html --public-url .",
+    "deploy": "yarn build && gh-pages -d dist"
   },
   "devDependencies": {
+    "gh-pages": "^1.2.0",
     "typescript": "^2.9.2"
   }
 }
