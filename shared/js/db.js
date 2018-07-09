@@ -1,4 +1,4 @@
-// import * as Kinto from '../vendor/kinto.js';
+// import * as Kinto from 'kinto';
 import btoa from 'btoa';
 import KintoClient from 'kinto-http';
 
