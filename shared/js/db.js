@@ -1,6 +1,6 @@
 // import * as Kinto from '../vendor/kinto.js';
 import btoa from 'btoa';
-import KintoClient from '../vendor/kinto-http.js';
+import KintoClient from 'kinto-http';
 
 const REMOTE_URL = 'https://kinto.mozvoice.org/v1';
 const BUCKET_NAME = 'APP';
