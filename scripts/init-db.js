@@ -1,6 +1,6 @@
-const DB = require('../shared/ts/db').default;
+import DB from '../shared/js/db';
 
-// Kinto http needs btoa and fetch on the global scope.
+// Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');
 
 const username = 'admin';
