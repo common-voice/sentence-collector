@@ -1,12 +1,14 @@
-import { Component } from 'react';
+import React from 'react';
+import Form from './form';
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.id = props.id;
+export default class App extends React.Component {
+
+  componentDidCatch(error, info) {
+    debugger;
+    console.error('top level error', error, info);
   }
 
   render() {
-    return 'hello world! ' + this.id;
+    return <Form />
   }
 }
