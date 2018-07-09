@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM  from "react-dom";
 
-import DB from '../shared/ts/db';
 import App from './components/app';
 
 const USERNAME = 'admin';
