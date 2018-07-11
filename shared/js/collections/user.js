@@ -8,10 +8,9 @@ const NAME = 'User';
 
 export default class User {
 
-  constructor(kintoServer: KintoClient, kintoBucket: Bucket) {
+  constructor(kintoServer) {
     this.id = null;
     this.server = kintoServer;
-    this.bucket = kintoBucket;
   }
 
   async getId() {
@@ -21,12 +20,8 @@ export default class User {
 
   async tryAuth(username) {
     try {
-      const bucket = await this.server.bucket(DB.BUCKET_NAME);
-      const collection = await bucket.collection(NAME);
-      const result = await collection.createRecord({
-        id: username,
-      });
-
+      const bucket = await this.server.bucket(DB.BUCKET_NAME)
+        .collection(NAME).createRecord({ id: username });
       return true;
     } catch (err) {
 

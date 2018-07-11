@@ -1,7 +1,5 @@
 import btoa from 'btoa';
 import KintoClient from 'kinto-http';
-import Bucket from 'kinto-http/lib/bucket.js'
-
 import User from './collections/user';
 
 const REMOTE_URL = 'https://kinto.mozvoice.org/v1';
@@ -24,8 +22,7 @@ export default class DB {
     }
 
     this.server = new KintoClient(REMOTE_URL, defaultOptions);
-    this.bucket = new Bucket(this.server, BUCKET_NAME);
-    this.user = new User(this.server, this.bucket);
+    this.user = new User(this.server);
 
     this.authenticated = false;
   }
@@ -33,7 +30,6 @@ export default class DB {
   async auth() {
     const authed = await this.user.tryAuth(this.username);
     this.authenticated = authed;
-    console.log('authed?', authed);
     return authed;
   }
 
