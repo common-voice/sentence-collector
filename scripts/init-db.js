@@ -8,7 +8,7 @@ const password = 'password';
 
 function run() {
   const db = new DB(username, password);
-  db.init()
+  db.initDB()
     .then(console.log.bind(console, 'database initialized'))
     .catch(console.error.bind(console));
 }
