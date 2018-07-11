@@ -3,6 +3,12 @@ import React from 'react';
 import './form.css';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onLogout = this.onLogout.bind(this);
+  }
+
   onSubmit(evt) {
     evt.preventDefault();
 
@@ -11,9 +17,14 @@ export default class App extends React.Component {
     this.props.onSubmit && this.props.onSubmit(username, password);
   }
 
+  onLogout(evt) {
+    evt.preventDefault();
+    this.props.onLogout && this.props.onLogout();
+  }
+
   render() {
     return (
-      <form onSubmit={this.onSubmit.bind(this)}>
+      <form onSubmit={this.onSubmit}>
         <section>
           {this.props.authed ? 'Authed!' : 'Log in:'}
         </section>
@@ -30,7 +41,7 @@ export default class App extends React.Component {
             </section>
           ) : (
             <section>
-              <button>Logout (implement me!)</button>
+              <button onClick={this.onLogout}>Logout</button>
             </section>
           )}
       </form>

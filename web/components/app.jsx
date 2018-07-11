@@ -6,6 +6,8 @@ import DB from '../../shared/js/db';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.tryAuth = this.tryAuth.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   componentDidCatch(error, info) {
@@ -22,9 +24,17 @@ export default class App extends React.Component {
     });
   }
 
+  async onLogout() {
+    this.setState({
+      authed: false,
+      message: '',
+    });
+  }
+
   render() {
     return <Form authed={this.state && this.state.authed}
                  message={this.state && this.state.message}
-                 onSubmit={this.tryAuth.bind(this)} />;
+                 onSubmit={this.tryAuth.bind(this)}
+                 onLogout={this.onLogout.bind(this)} />;
   }
 }
