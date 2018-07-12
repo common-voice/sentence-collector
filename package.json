@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist .cache node_modules yarn.lock",
     "reset": "yarn clean && yarn",
-    "start": "parcel web/index.html",
+    "start": "rm -rf dist .cache && parcel web/index.html",
     "build": "parcel build --no-cache web/index.html --public-url .",
     "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
     "deploy": "yarn build && gh-pages -d dist"
