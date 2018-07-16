@@ -11,7 +11,6 @@ export default class App extends React.Component {
 
   onSubmit(evt) {
     evt.preventDefault();
-
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
     this.props.onSubmit && this.props.onSubmit(username, password);

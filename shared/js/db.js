@@ -3,6 +3,7 @@ import KintoClient from 'kinto-http';
 import User from './collections/user';
 
 const REMOTE_URL = 'https://kinto.mozvoice.org/v1';
+// const REMOTE_URL = 'http://localhost:8888/v1';
 const BUCKET_NAME = 'App';
 
 export default class DB {
