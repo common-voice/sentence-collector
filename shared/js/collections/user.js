@@ -1,6 +1,6 @@
 import KintoClient from 'kinto-http';
-import Bucket from 'kinto-http/lib/bucket.js'
-import Collection from 'kinto-http/lib/collection.js'
+import Bucket from 'kinto-http/lib/bucket.js';
+import Collection from 'kinto-http/lib/collection.js';
 
 import DB from '../db.js';
 

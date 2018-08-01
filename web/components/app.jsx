@@ -26,7 +26,7 @@ export default class App extends React.Component {
     console.error('Main app component error', error, info);
   }
 
-  async tryAuth(username: string, password: string) {
+  async tryAuth(username, password) {
     this.db = new DB(username, password);
     const authed = await this.db.auth();
     const message = authed ? 'hello' : 'Login failed';
