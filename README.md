@@ -1,3 +1,5 @@
+# Common Voice Sentence Collector [![Build Status](https://travis-ci.com/Common-Voice/sentence-collector.svg?branch=master)](https://travis-ci.com/Common-Voice/sentence-collector)
+
 ## Prerequisites
 
  * [yarn](https://yarnpkg.com/docs/install)
