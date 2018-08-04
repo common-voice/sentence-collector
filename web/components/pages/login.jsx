@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import DB from '../../../shared/js/db';
 import {
@@ -54,6 +55,13 @@ class Form extends React.Component {
 
   render() {
     let authed = isLoggedIn(this.props.auth);
+
+    // If we are authed and have a place to be, go there.
+    let locState = this.props.location.state;
+    if (authed && locState && locState.from) {
+      return <Redirect to={locState.from} />;
+    }
+
     let pending = isPending(this.props.auth);
     return (
       <form onSubmit={this.onSubmit}>
