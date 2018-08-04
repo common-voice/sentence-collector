@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { isLoggedIn } from '../store/actions';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
@@ -24,16 +25,17 @@ class App extends React.Component {
   }
 
   render() {
+    let authed = isLoggedIn(this.props.auth);
     return (
       <Router>
-        <Page authed={this.props.authed}>
+        <Page>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
             <Route exact path="/login" component={Form} />
-            <PrivateRoute authed={this.props.authed}
+            <PrivateRoute authed={authed}
               path="/profile" component={Profile} />
-            <PrivateRoute authed={this.props.authed}
+            <PrivateRoute authed={authed}
               path="/add" component={Add} />
           </Switch>
         </Page>
@@ -64,6 +66,6 @@ const PrivateRoute = (props) => {
 
 export default connect(state => {
   return {
-    authed: state.authed
+    auth: state.auth
   };
 })(App);

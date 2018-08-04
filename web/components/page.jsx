@@ -10,7 +10,7 @@ export default class Page extends React.Component {
 
   render() {
     return [
-      <Header authed={this.props.authed} />,
+      <Header />,
       <div id="page">
         <main>
           {this.props.children}

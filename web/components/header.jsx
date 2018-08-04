@@ -13,7 +13,7 @@ const Header = (props) => (
       <NavLink to="/add" exact={true}>add</NavLink>
       <NavLink to="/profile" exact={true}>Profile</NavLink>
     </nav>
-    <ProfileWidget authed={props.authed} />
+    <ProfileWidget />
   </header>
 );
 
