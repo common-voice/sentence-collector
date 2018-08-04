@@ -78,6 +78,7 @@ header {
   background-color: var(--second-bg-color);
   color: var(--second-font-color);
   padding: 1rem;
+  flex: 0 0 8rem;
 }
 
 nav {
