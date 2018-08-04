@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+
+import logoURL from '../img/white-mozilla.svg';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -9,15 +11,21 @@ export default class App extends React.Component {
   render() {
     return [
       <header>
+        <Link to="/" href=""><img src={logoURL}/></Link>
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/how-to">How-to</Link>
-          <Link to="/add">add</Link>
-          <Link to="/profile">Profile</Link>
+          <NavLink to="/" exact="true">Home</NavLink>
+          <NavLink to="/how-to" exact="true">How-to</NavLink>
+          <NavLink to="/add" exact="true">add</NavLink>
+          <NavLink to="/profile" exact="true">Profile</NavLink>
         </nav>
       </header>,
-      <main>{this.props.children}</main>,
-      <footer>Footer</footer>
+      <div id="page">
+
+        <main>
+          {this.props.children}
+        </main>
+        <footer>Footer</footer>
+      </div>
     ];
   }
 }

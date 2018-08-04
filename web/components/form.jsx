@@ -24,6 +24,7 @@ export default class App extends React.Component {
   render() {
     return (
       <form onSubmit={this.onSubmit}>
+        <h2>Log in</h2>
         <section>
           {this.props.authed ? 'Authed!' : 'Log in:'}
         </section>

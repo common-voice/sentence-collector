@@ -1,35 +1,27 @@
 form {
-  width: 40%;
-  margin: 0 auto;
-  background-color: white;
-  inset: 1px 1px;
-  border-radius: 4px;
-  box-shadow: inset 1px 1px 3px #aaaaaa;
-  padding: 0.7rem 0;
+  width: 13rem;
+  margin: 2rem auto;
+  background-color: #e7e5e2;
+  padding: 0.7rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 form section {
   padding: 0.4rem;
 }
 
-form input,
-form label {
-  margin: 0 0.2rem;
-}
-
 form label {
   width: 20%;
   display: inline-block;
+  font-weight: bold;
 }
 
 form input {
-  border-radius: 1px;
-  border-color: #0003;
-  padding: 0.2rem;
-  font-size: 1.2rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 form button {
-  background-color: gray;
-  padding: 0.3rem 0;
+  margin: 0.5rem auto;
+  display: block;
 }
