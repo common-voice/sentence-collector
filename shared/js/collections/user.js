@@ -16,7 +16,7 @@ export default class User {
 
   async tryAuth(username) {
     try {
-      await this.server.bucket(DB.BUCKET_NAME)
+      const bucket = await this.server.bucket(DB.BUCKET_NAME)
         .collection(NAME).createRecord({ id: username });
       return true;
     } catch (err) {
