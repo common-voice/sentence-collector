@@ -26971,7 +26971,9 @@ exports.Switch = _Switch3.default;
 exports.generatePath = _generatePath3.default;
 exports.matchPath = _matchPath3.default;
 exports.withRouter = _withRouter3.default;
-},{"./BrowserRouter":"../node_modules/react-router-dom/es/BrowserRouter.js","./HashRouter":"../node_modules/react-router-dom/es/HashRouter.js","./Link":"../node_modules/react-router-dom/es/Link.js","./MemoryRouter":"../node_modules/react-router-dom/es/MemoryRouter.js","./NavLink":"../node_modules/react-router-dom/es/NavLink.js","./Prompt":"../node_modules/react-router-dom/es/Prompt.js","./Redirect":"../node_modules/react-router-dom/es/Redirect.js","./Route":"../node_modules/react-router-dom/es/Route.js","./Router":"../node_modules/react-router-dom/es/Router.js","./StaticRouter":"../node_modules/react-router-dom/es/StaticRouter.js","./Switch":"../node_modules/react-router-dom/es/Switch.js","./generatePath":"../node_modules/react-router-dom/es/generatePath.js","./matchPath":"../node_modules/react-router-dom/es/matchPath.js","./withRouter":"../node_modules/react-router-dom/es/withRouter.js"}],"components/page.jsx":[function(require,module,exports) {
+},{"./BrowserRouter":"../node_modules/react-router-dom/es/BrowserRouter.js","./HashRouter":"../node_modules/react-router-dom/es/HashRouter.js","./Link":"../node_modules/react-router-dom/es/Link.js","./MemoryRouter":"../node_modules/react-router-dom/es/MemoryRouter.js","./NavLink":"../node_modules/react-router-dom/es/NavLink.js","./Prompt":"../node_modules/react-router-dom/es/Prompt.js","./Redirect":"../node_modules/react-router-dom/es/Redirect.js","./Route":"../node_modules/react-router-dom/es/Route.js","./Router":"../node_modules/react-router-dom/es/Router.js","./StaticRouter":"../node_modules/react-router-dom/es/StaticRouter.js","./Switch":"../node_modules/react-router-dom/es/Switch.js","./generatePath":"../node_modules/react-router-dom/es/generatePath.js","./matchPath":"../node_modules/react-router-dom/es/matchPath.js","./withRouter":"../node_modules/react-router-dom/es/withRouter.js"}],"img/white-mozilla.svg":[function(require,module,exports) {
+module.exports = "/white-mozilla.c461af1b.svg";
+},{}],"components/page.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -27004,6 +27006,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require('react-router-dom');
 
+var _whiteMozilla = require('../img/white-mozilla.svg');
+
+var _whiteMozilla2 = _interopRequireDefault(_whiteMozilla);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function (_React$Component) {
@@ -27021,37 +27027,47 @@ var App = function (_React$Component) {
         'header',
         null,
         _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/', href: '' },
+          _react2.default.createElement('img', { src: _whiteMozilla2.default })
+        ),
+        _react2.default.createElement(
           'nav',
           null,
           _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/' },
+            _reactRouterDom.NavLink,
+            { to: '/', exact: 'true' },
             'Home'
           ),
           _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/how-to' },
+            _reactRouterDom.NavLink,
+            { to: '/how-to', exact: 'true' },
             'How-to'
           ),
           _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/add' },
+            _reactRouterDom.NavLink,
+            { to: '/add', exact: 'true' },
             'add'
           ),
           _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/profile' },
+            _reactRouterDom.NavLink,
+            { to: '/profile', exact: 'true' },
             'Profile'
           )
         )
       ), _react2.default.createElement(
-        'main',
-        null,
-        this.props.children
-      ), _react2.default.createElement(
-        'footer',
-        null,
-        'Footer'
+        'div',
+        { id: 'page' },
+        _react2.default.createElement(
+          'main',
+          null,
+          this.props.children
+        ),
+        _react2.default.createElement(
+          'footer',
+          null,
+          'Footer'
+        )
       )];
     }
   }]);
@@ -27059,7 +27075,7 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = App;
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js"}],"components/pages/home.jsx":[function(require,module,exports) {
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","../img/white-mozilla.svg":"img/white-mozilla.svg"}],"components/pages/home.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -27242,6 +27258,11 @@ var App = function (_React$Component) {
       return _react2.default.createElement(
         'form',
         { onSubmit: this.onSubmit },
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Log in'
+        ),
         _react2.default.createElement(
           'section',
           null,
@@ -35310,18 +35331,6 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _kintoHttp = require('kinto-http');
-
-var _kintoHttp2 = _interopRequireDefault(_kintoHttp);
-
-var _bucket = require('kinto-http/lib/bucket.js');
-
-var _bucket2 = _interopRequireDefault(_bucket);
-
-var _collection = require('kinto-http/lib/collection.js');
-
-var _collection2 = _interopRequireDefault(_collection);
-
 var _db = require('../db.js');
 
 var _db2 = _interopRequireDefault(_db);
@@ -35373,7 +35382,6 @@ var User = function () {
     key: 'tryAuth',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(username) {
-        var bucket;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -35383,31 +35391,30 @@ var User = function () {
                 return this.server.bucket(_db2.default.BUCKET_NAME).collection(NAME).createRecord({ id: username });
 
               case 3:
-                bucket = _context2.sent;
                 return _context2.abrupt('return', true);
 
-              case 7:
-                _context2.prev = 7;
+              case 6:
+                _context2.prev = 6;
                 _context2.t0 = _context2['catch'](0);
 
                 if (!(_context2.t0.data && _context2.t0.data.code === 403)) {
-                  _context2.next = 11;
+                  _context2.next = 10;
                   break;
                 }
 
                 return _context2.abrupt('return', false);
 
-              case 11:
+              case 10:
 
                 console.error('unknown auth failure', _context2.t0);
                 return _context2.abrupt('return', false);
 
-              case 13:
+              case 12:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[0, 7]]);
+        }, _callee2, this, [[0, 6]]);
       }));
 
       function tryAuth(_x) {
@@ -35424,7 +35431,7 @@ exports.default = User;
 
 
 User.COLLECTION_NAME = NAME;
-},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","kinto-http":"../node_modules/kinto-http/lib/index.js","kinto-http/lib/bucket.js":"../node_modules/kinto-http/lib/bucket.js","kinto-http/lib/collection.js":"../node_modules/kinto-http/lib/collection.js","../db.js":"../shared/js/db.js"}],"../shared/js/db.js":[function(require,module,exports) {
+},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","../db.js":"../shared/js/db.js"}],"../shared/js/db.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35863,7 +35870,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '42285' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '38293' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 

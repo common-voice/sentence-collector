@@ -1,61 +1,120 @@
 body {
-  background-color: #effbff;
-  font-family: Helvetica;
-  font-size: 12pt;
-  color: #424242;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13pt;
+  color: black;
   width: 100vw;
   height: 100vh;
+  margin: 0;
+}
+
+
+h1, h2, h3, h4 {
+  font-family: 'Zilla Slab', serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input {
+  border-radius: 3px;
+  border: 1px solid #959595;
+  padding: 0.2rem;
+  font-size: 1.1rem;
+}
+
+button {
+  box-sizing: border-box;
+  line-height: 1.125;
+  transition: background-color 100ms, border-color 100ms, color 100ms;
+  background-color: #000000;
+  border-radius: 2px;
+  border: 2px solid #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.7rem 1.3rem;
+  text-decoration: none;
+}
+
+button:hover {
+  background-color: white;
+  color: black;
 }
 
 #content {
-  background-color: #e6efff;
-  width: 1000px;
-  height: 600px;
-  position: relative;
-  left: 0.2rem;
-  bottom: 3rem;
-  border-radius: 13px;
-  box-shadow: 1px 2px 0.2rem #81859c;
-  padding: 20px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+header {
+  width: 10rem;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+}
+
+nav {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+nav > a {
+  padding: .3rem;
+}
+
+nav > .active {
+  background-color: white;
+  color: black;
+}
+
+#page {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  min-height: calc(100vh - 2rem);
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  height: 2rem;
 }
 form {
-  width: 40%;
-  margin: 0 auto;
-  background-color: white;
-  inset: 1px 1px;
-  border-radius: 4px;
-  box-shadow: inset 1px 1px 3px #aaaaaa;
-  padding: 0.7rem 0;
+  width: 13rem;
+  margin: 2rem auto;
+  background-color: #e7e5e2;
+  padding: 0.7rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 form section {
   padding: 0.4rem;
 }
 
-form input,
-form label {
-  margin: 0 0.2rem;
-}
-
 form label {
   width: 20%;
   display: inline-block;
+  font-weight: bold;
 }
 
 form input {
-  border-radius: 1px;
-  border-color: #0003;
-  padding: 0.2rem;
-  font-size: 1.2rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 form button {
-  background-color: gray;
-  padding: 0.3rem 0;
+  margin: 0.5rem auto;
+  display: block;
 }
