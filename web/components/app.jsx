@@ -45,7 +45,7 @@ export default class App extends React.Component {
 
   render() {
     return <Router>
-      <Page>
+      <Page authed={this.state.authed}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/how-to" component={HowTo} />

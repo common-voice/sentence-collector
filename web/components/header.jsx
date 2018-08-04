@@ -4,7 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 import ProfileWidget from './profile-widget';
 import logoURL from '../img/white-mozilla.svg';
 
-const Header = () => (
+const Header = (props) => (
   <header>
     <Link to="/" href=""><img src={logoURL}/></Link>
     <nav>
@@ -13,7 +13,7 @@ const Header = () => (
       <NavLink to="/add" exact={true}>add</NavLink>
       <NavLink to="/profile" exact={true}>Profile</NavLink>
     </nav>
-    <ProfileWidget />
+    <ProfileWidget authed={props.authed} />
   </header>
 );
 
