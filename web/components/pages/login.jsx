@@ -10,7 +10,7 @@ import {
   isPending
 } from '../../store/actions';
 
-import './form.css';
+import './login.css';
 
 class Form extends React.Component {
   constructor(props) {

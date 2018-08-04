@@ -11,7 +11,7 @@ import { isLoggedIn } from '../store/actions';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
-import Form from './pages/form';
+import Login from './pages/login';
 import Profile from './pages/profile';
 import Add from './pages/add';
 
@@ -32,7 +32,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
-            <Route exact path="/login" component={Form} />
+            <Route exact path="/login" component={Login} />
             <PrivateRoute authed={authed}
               path="/profile" component={Profile} />
             <PrivateRoute authed={authed}
