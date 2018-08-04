@@ -2,7 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DB from '../../../shared/js/db';
-import { login, logout, setPending, LOGIN_STATUSES } from '../../store/actions';
+import {
+  login,
+  logout,
+  setPending,
+  isLoggedIn,
+  isPending
+} from '../../store/actions';
 
 import './form.css';
 
@@ -45,8 +51,8 @@ class Form extends React.Component {
   }
 
   render() {
-    let authed = this.props.auth === LOGIN_STATUSES.LOGGED_IN;
-    let pending = this.props.auth === LOGIN_STATUSES.PENDING;
+    let authed = isLoggedIn(this.props.auth);
+    let pending = isPending(this.props.auth);
     return (
       <form onSubmit={this.onSubmit}>
         <h2>Log in</h2>

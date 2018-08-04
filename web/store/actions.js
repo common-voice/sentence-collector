@@ -27,3 +27,11 @@ export function logout() {
     type: ACTION_LOGOUT,
   };
 }
+
+export function isLoggedIn(auth) {
+  return auth === LOGIN_STATUSES.LOGGED_IN;
+}
+
+export function isPending(auth) {
+  return auth === LOGIN_STATUSES.PENDING;
+}

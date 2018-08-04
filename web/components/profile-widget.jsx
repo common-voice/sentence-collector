@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { ACTION_LOGIN, ACTION_LOGOUT } from '../store';
+import { logout, isLoggedIn } from '../store/actions';
 
 class ProfileWidget extends React.Component {
   constructor(props) {
@@ -10,8 +10,8 @@ class ProfileWidget extends React.Component {
   }
 
   onToggle() {
-    if (this.props.authed) {
-      this.props.dispatch({ type: ACTION_LOGOUT });
+    if (isLoggedIn(this.props.auth)) {
+      this.props.dispatch(logout());
     } else {
       // TODO: redirect to login page?
     }
@@ -20,7 +20,7 @@ class ProfileWidget extends React.Component {
   render() {
     return <div>
       <button className="inverse" onClick={this.onToggle}>
-        { this.props.authed ? 'Logout' : 'Login' }
+        { isLoggedIn(this.props.auth) ? 'Logout' : 'Login' }
       </button>
     </div>;
   }
@@ -28,7 +28,7 @@ class ProfileWidget extends React.Component {
 
 export default connect(state => {
   return {
-    authed: state.authed
+    auth: state.auth
   };
 })(ProfileWidget);
 
