@@ -1,7 +1,14 @@
+:root {
+  --main-bg-color: white;
+  --main-font-color: black;
+  --second-bg-color: black;
+  --second-font-color: white;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 13pt;
-  color: black;
+  color: var(--main-font-color);
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -28,11 +35,11 @@ button {
   box-sizing: border-box;
   line-height: 1.125;
   transition: background-color 100ms, border-color 100ms, color 100ms;
-  background-color: #000000;
+  background-color: var(--second-bg-color);
   border-radius: 2px;
-  border: 2px solid #000000;
+  border: 2px solid var(--main-bd-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  color: #ffffff;
+  color: var(--second-font-color);
   cursor: pointer;
   display: inline-block;
   font-weight: bold;
@@ -41,11 +48,11 @@ button {
 }
 
 button:hover {
-  background-color: white;
-  color: black;
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
 }
 
-#content {
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -55,8 +62,8 @@ button:hover {
 
 header {
   width: 10rem;
-  background-color: black;
-  color: white;
+  background-color: var(--second-bg-color);
+  color: var(--second-font-color);
   padding: 1rem;
 }
 
@@ -71,8 +78,8 @@ nav > a {
 }
 
 nav > .active {
-  background-color: white;
-  color: black;
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
 }
 
 #page {
@@ -86,8 +93,8 @@ main {
 }
 
 footer {
-  background-color: black;
-  color: white;
+  background-color: var(--second-bg-color);
+  color: var(--second-font-color);
   text-align: center;
   height: 2rem;
 }

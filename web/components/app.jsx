@@ -5,61 +5,40 @@ import {
   Redirect,
   Route
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
-import Login from './pages/login';
+import Form from './pages/form';
 import Profile from './pages/profile';
 import Add from './pages/add';
-import DB from '../../shared/js/db';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.tryAuth = this.tryAuth.bind(this);
-    this.onLogout = this.onLogout.bind(this);
   }
 
   componentDidCatch(error, info) {
     console.error('Main app component error', error, info);
   }
 
-  async tryAuth(username, password) {
-    this.db = new DB(username, password);
-    const authed = await this.db.auth();
-    const message = authed ? 'hello' : 'Login failed';
-    this.setState({
-      authed: authed,
-      message: message,
-    });
-  }
-
-  async onLogout() {
-    this.setState({
-      authed: false,
-      message: '',
-    });
-  }
-
   render() {
-    return <Router>
-      <Page authed={this.state.authed}>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/how-to" component={HowTo} />
-          <Route exact path="/login" render={props => (
-            <Login authed={this.state.authed} message={this.state.message}
-              onLogin={this.tryAuth} onLogout={this.onLogout} />
-          )} />
-          <PrivateRoute authed={this.state.authed}
-            path="/profile" component={Profile} />
-          <PrivateRoute authed={this.state.authed}
-            path="/add" component={Add} />
-        </Switch>
-      </Page>
-    </Router>;
+    return (
+      <Router>
+        <Page authed={this.props.authed}>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/how-to" component={HowTo} />
+            <Route exact path="/login" component={Form} />
+            <PrivateRoute authed={this.props.authed}
+              path="/profile" component={Profile} />
+            <PrivateRoute authed={this.props.authed}
+              path="/add" component={Add} />
+          </Switch>
+        </Page>
+      </Router>
+    );
   }
 }
 
@@ -82,3 +61,9 @@ const PrivateRoute = (props) => {
     }
   />;
 }
+
+export default connect(state => {
+  return {
+    authed: state.authed
+  };
+})(App);

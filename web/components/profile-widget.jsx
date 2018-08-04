@@ -1,9 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const ProfileWidget = (props) => (
-  <div>
-    <button>{ props.authed ? 'Logout' : 'Login' }</button>
-  </div>
-);
+import { ACTION_LOGIN, ACTION_LOGOUT } from '../store';
 
-export default ProfileWidget;
+class ProfileWidget extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onToggle = this.onToggle.bind(this);
+  }
+
+  onToggle() {
+    if (this.props.authed) {
+      this.props.dispatch({ type: ACTION_LOGOUT });
+    } else {
+      // TODO: redirect to login page?
+    }
+  }
+
+  render() {
+    return <div>
+      <button onClick={this.onToggle}>
+        { this.props.authed ? 'Logout' : 'Login' }
+      </button>
+    </div>;
+  }
+}
+
+export default connect(state => {
+  return {
+    authed: state.authed
+  };
+})(ProfileWidget);
+
