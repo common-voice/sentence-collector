@@ -32,6 +32,8 @@ class Form extends React.Component {
 
     if (authed) {
       this.props.dispatch(login(username));
+    } else {
+      this.props.dispatch(logout());
     }
   }
 
