@@ -4,8 +4,14 @@
     "ecmaVersion": 2017,
     "sourceType": "module"
   },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
   "rules": {
-    "semi": 2
+    "no-console": "off",
+    "semi": "error"
   }
 }
 

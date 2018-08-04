@@ -1,7 +1,3 @@
-import KintoClient from 'kinto-http';
-import Bucket from 'kinto-http/lib/bucket.js';
-import Collection from 'kinto-http/lib/collection.js';
-
 import DB from '../db.js';
 
 const NAME = 'User';
@@ -20,7 +16,7 @@ export default class User {
 
   async tryAuth(username) {
     try {
-      const bucket = await this.server.bucket(DB.BUCKET_NAME)
+      await this.server.bucket(DB.BUCKET_NAME)
         .collection(NAME).createRecord({ id: username });
       return true;
     } catch (err) {
