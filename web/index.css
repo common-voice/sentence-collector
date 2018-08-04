@@ -37,7 +37,7 @@ button {
   transition: background-color 100ms, border-color 100ms, color 100ms;
   background-color: var(--second-bg-color);
   border-radius: 2px;
-  border: 2px solid var(--main-bd-color);
+  border: 2px solid var(--second-bg-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   color: var(--second-font-color);
   cursor: pointer;
@@ -51,6 +51,19 @@ button:hover {
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
 }
+
+button.inverse {
+  background-color: var(--main-bg-color);
+  border-color: var(--second-bg-color);
+  color: var(--main-font-color);
+}
+
+button.inverse:hover {
+  background-color: var(--second-bg-color);
+  border-color: var(--main-bg-color);
+  color: var(--second-font-color);
+}
+
 
 #root {
   width: 100%;

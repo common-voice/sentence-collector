@@ -19,7 +19,7 @@ class ProfileWidget extends React.Component {
 
   render() {
     return <div>
-      <button onClick={this.onToggle}>
+      <button className="inverse" onClick={this.onToggle}>
         { this.props.authed ? 'Logout' : 'Login' }
       </button>
     </div>;
