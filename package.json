@@ -8,8 +8,10 @@
     "reset": "yarn clean && yarn",
     "start": "rm -rf dist .cache && parcel web/index.html",
     "build": "parcel build --no-cache web/index.html --public-url .",
+    "lint": "eslint shared web scripts",
     "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
-    "deploy": "yarn build && gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist",
+    "test": "yarn lint && yarn build"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
