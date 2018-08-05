@@ -3,12 +3,16 @@
   --main-font-color: black;
   --second-bg-color: black;
   --second-font-color: white;
+  --deactive-color: #d7d7db;
+}
+
+html {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 19px;
+  color: var(--main-font-color);
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 13pt;
-  color: var(--main-font-color);
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -47,9 +51,19 @@ button {
   text-decoration: none;
 }
 
-button:hover {
+button:disabled {
+  background-color: var(--deactive-color);
+  border-color: var(--deactive-color);
+  box-shadow: none;
+}
+
+button:not(:disabled):hover {
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
+}
+
+button:not(:disabled):active {
+  box-shadow: none;
 }
 
 button.inverse {
@@ -58,10 +72,11 @@ button.inverse {
   color: var(--main-font-color);
 }
 
-button.inverse:hover {
+button.inverse:not(:disabled):active {
   background-color: var(--second-bg-color);
   border-color: var(--main-bg-color);
   color: var(--second-font-color);
+  box-shadow: none;
 }
 
 
@@ -74,11 +89,10 @@ button.inverse:hover {
 }
 
 header {
-  width: 10rem;
   background-color: var(--second-bg-color);
   color: var(--second-font-color);
   padding: 1rem;
-  flex: 0 0 8rem;
+  flex: 0 0 10rem;
 }
 
 nav {
@@ -94,6 +108,10 @@ nav > a {
 nav > .active {
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
+}
+
+.profile-widget {
+  flex-grow: 1;
 }
 
 #page {

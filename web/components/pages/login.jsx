@@ -54,38 +54,25 @@ class Form extends React.Component {
   }
 
   render() {
-    let authed = isLoggedIn(this.props.auth);
-
-    // If we are authed and have a place to be, go there.
-    let locState = this.props.location.state;
-    if (authed && locState && locState.from) {
-      return <Redirect to={locState.from} />;
+    // If we are authed either return to last page or go to profile.
+    if (isLoggedIn(this.props.auth)) {
+      const locState = this.props.location.state || {}
+      const from = locState.from || { pathname: '/profile' };
+      return <Redirect to={from} />;
     }
 
     let pending = isPending(this.props.auth);
     return (
       <form onSubmit={this.onSubmit}>
         <h2>Log in</h2>
+        <p id="form-message">{this.state.message}</p>
         <section>
-          {authed ? 'Authed!' : pending ? 'Pending' : 'Log in:'}
+          <label htmlFor="username">username</label>
+          <input type="text" id="username" disabled={pending} />
+          <label htmlFor="password">password</label>
+          <input type="password" id="password" disabled={pending} />
+          <button disabled={pending}>Submit</button>
         </section>
-          <section>
-          {this.state.message && (
-            <p id="form-message">{this.state.message}</p>
-          )}
-          </section>
-          {!authed ? (
-            <section>
-              <label htmlFor="username">username</label><input type="text" id="username" />
-              <label htmlFor="password">password</label><input type="password" id="password" />
-              <button>Submit</button>
-            </section>
-          ) : (
-            <section>
-              <p>{`Welcome ${this.props.username}`}</p>
-              <button onClick={this.onLogout}>Logout</button>
-            </section>
-          )}
       </form>
     );
   }

@@ -10,12 +10,12 @@ export default class Page extends React.Component {
 
   render() {
     return [
-      <Header />,
-      <div id="page">
-        <main>
+      <Header key="header" />,
+      <div id="page" key="page">
+        <main key="main">
           {this.props.children}
         </main>
-        <Footer />
+        <Footer key="footer"/>
       </div>
     ];
   }

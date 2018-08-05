@@ -1,9 +1,9 @@
 form {
-  width: 13rem;
+  width: 20rem;
   margin: 2rem auto;
-  background-color: #e7e5e2;
   padding: 0.7rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 form section {
@@ -24,4 +24,9 @@ form input {
 form button {
   margin: 0.5rem auto;
   display: block;
+}
+
+#form-message {
+  margin: 0;
+  line-height: 1rem;
 }
