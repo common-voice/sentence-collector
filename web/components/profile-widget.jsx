@@ -20,7 +20,7 @@ class ProfileWidget extends React.Component {
     }
 
     return <div className="profile-widget">
-      <h2><Link to="/profile">{this.props.username}</Link></h2>
+      <h3><Link to="/profile">{this.props.username}</Link></h3>
       <button className="inverse" onClick={this.onLogout}>Logout</button>
     </div>;
   }

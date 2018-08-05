@@ -1,16 +1,18 @@
 :root {
   --main-bg-color: white;
   --main-font-color: black;
+  --main-border-radius: 3px;
+  --main-font-family: 'Open Sans', sans-serif;
   --second-bg-color: black;
   --second-font-color: white;
+  --second-font-family: 'Zilla Slab', serif;
   --deactive-color: #d7d7db;
   --warning-color: #ff4f5e;
   --base-font-size: 19px;
-  --main-border-radius: 3px;
 }
 
 html {
-  font-family: 'Open Sans', sans-serif;
+  font-family: var(--main-font-family);
   font-size: var(--base-font-size);
   color: var(--main-font-color);
 }
@@ -21,9 +23,13 @@ body {
   margin: 0;
 }
 
+input, textarea, button, select {
+  font-family: var(--main-font-family);
+  font-size: 0.8rem;
+}
 
 h1, h2, h3, h4 {
-  font-family: 'Zilla Slab', serif;
+  font-family: var(--second-font-family);
   margin: 0.5em 0;
 }
 
@@ -46,7 +52,6 @@ button {
   border-radius: 2px;
   border: 2px solid var(--second-bg-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-size: 0.8rem;
   color: var(--second-font-color);
   cursor: pointer;
   display: inline-block;
@@ -137,11 +142,14 @@ main {
 }
 
 form {
-  width: 20rem;
   margin: 2rem auto;
   padding: 0.7rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+form#login {
+  width: 20rem;
 }
 
 form section {
@@ -149,7 +157,6 @@ form section {
 }
 
 form label {
-  width: 20%;
   display: inline-block;
   font-weight: bold;
 }
@@ -164,10 +171,16 @@ form button {
   display: block;
 }
 
+select {
+  font-size: 1.1rem;
+  padding: 0.15rem 0.5rem;
+}
+
 #form-message {
   line-height: 1rem;
   color: var(--warning-color);
   text-align: center;
+  font-weight: bold;
 }
 
 footer {

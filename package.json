@@ -16,6 +16,7 @@
   "dependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-runtime": "^6.26.0",
+    "iso-639-1": "^2.0.3",
     "kinto": "^11.2.0",
     "kinto-http": "^4.5.3",
     "react": "^16.4.1",

@@ -61,7 +61,7 @@ class Form extends React.Component {
 
     let pending = isPending(this.props.auth);
     return (
-      <form onSubmit={this.onSubmit}>
+      <form id="login" onSubmit={this.onSubmit}>
         <h2>Log in</h2>
         <section id="form-message">{this.state.message}</section>
         <section>
