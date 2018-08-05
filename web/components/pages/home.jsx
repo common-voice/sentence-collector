@@ -1,4 +1,5 @@
 import React from 'react';
+import welcome from '../../../doc/welcome.md';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -6,6 +7,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    return <h1>Home</h1>;
+    return <div dangerouslySetInnerHTML={{ __html: welcome }} />;
   }
 }
