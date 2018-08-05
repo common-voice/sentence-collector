@@ -65,7 +65,7 @@ class Form extends React.Component {
     return (
       <form onSubmit={this.onSubmit}>
         <h2>Log in</h2>
-        <p id="form-message">{this.state.message}</p>
+        <section id="form-message">{this.state.message}</section>
         <section>
           <label htmlFor="username">username</label>
           <input type="text" id="username" disabled={pending} />

@@ -27,6 +27,7 @@ form button {
 }
 
 #form-message {
-  margin: 0;
   line-height: 1rem;
+  color: var(--warning-color);
+  text-align: center;
 }
