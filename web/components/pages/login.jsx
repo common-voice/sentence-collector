@@ -11,8 +11,6 @@ import {
   isPending
 } from '../../store/actions';
 
-import './login.css';
-
 class Form extends React.Component {
   constructor(props) {
     super(props);

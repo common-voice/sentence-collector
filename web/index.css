@@ -136,6 +136,40 @@ main {
   padding: 0.3rem 2rem;
 }
 
+form {
+  width: 20rem;
+  margin: 2rem auto;
+  padding: 0.7rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+form section {
+  padding: 0.4rem;
+}
+
+form label {
+  width: 20%;
+  display: inline-block;
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+form button {
+  margin: 0.5rem auto;
+  display: block;
+}
+
+#form-message {
+  line-height: 1rem;
+  color: var(--warning-color);
+  text-align: center;
+}
+
 footer {
   background-color: var(--second-bg-color);
   color: var(--second-font-color);
