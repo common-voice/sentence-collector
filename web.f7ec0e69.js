@@ -29279,7 +29279,67 @@ exports.Switch = _Switch3.default;
 exports.generatePath = _generatePath3.default;
 exports.matchPath = _matchPath3.default;
 exports.withRouter = _withRouter3.default;
-},{"./BrowserRouter":"../node_modules/react-router-dom/es/BrowserRouter.js","./HashRouter":"../node_modules/react-router-dom/es/HashRouter.js","./Link":"../node_modules/react-router-dom/es/Link.js","./MemoryRouter":"../node_modules/react-router-dom/es/MemoryRouter.js","./NavLink":"../node_modules/react-router-dom/es/NavLink.js","./Prompt":"../node_modules/react-router-dom/es/Prompt.js","./Redirect":"../node_modules/react-router-dom/es/Redirect.js","./Route":"../node_modules/react-router-dom/es/Route.js","./Router":"../node_modules/react-router-dom/es/Router.js","./StaticRouter":"../node_modules/react-router-dom/es/StaticRouter.js","./Switch":"../node_modules/react-router-dom/es/Switch.js","./generatePath":"../node_modules/react-router-dom/es/generatePath.js","./matchPath":"../node_modules/react-router-dom/es/matchPath.js","./withRouter":"../node_modules/react-router-dom/es/withRouter.js"}],"components/profile-widget.jsx":[function(require,module,exports) {
+},{"./BrowserRouter":"../node_modules/react-router-dom/es/BrowserRouter.js","./HashRouter":"../node_modules/react-router-dom/es/HashRouter.js","./Link":"../node_modules/react-router-dom/es/Link.js","./MemoryRouter":"../node_modules/react-router-dom/es/MemoryRouter.js","./NavLink":"../node_modules/react-router-dom/es/NavLink.js","./Prompt":"../node_modules/react-router-dom/es/Prompt.js","./Redirect":"../node_modules/react-router-dom/es/Redirect.js","./Route":"../node_modules/react-router-dom/es/Route.js","./Router":"../node_modules/react-router-dom/es/Router.js","./StaticRouter":"../node_modules/react-router-dom/es/StaticRouter.js","./Switch":"../node_modules/react-router-dom/es/Switch.js","./generatePath":"../node_modules/react-router-dom/es/generatePath.js","./matchPath":"../node_modules/react-router-dom/es/matchPath.js","./withRouter":"../node_modules/react-router-dom/es/withRouter.js"}],"../node_modules/react-router/es/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.withRouter = exports.matchPath = exports.generatePath = exports.Switch = exports.StaticRouter = exports.Router = exports.Route = exports.Redirect = exports.Prompt = exports.MemoryRouter = undefined;
+
+var _MemoryRouter2 = require("./MemoryRouter");
+
+var _MemoryRouter3 = _interopRequireDefault(_MemoryRouter2);
+
+var _Prompt2 = require("./Prompt");
+
+var _Prompt3 = _interopRequireDefault(_Prompt2);
+
+var _Redirect2 = require("./Redirect");
+
+var _Redirect3 = _interopRequireDefault(_Redirect2);
+
+var _Route2 = require("./Route");
+
+var _Route3 = _interopRequireDefault(_Route2);
+
+var _Router2 = require("./Router");
+
+var _Router3 = _interopRequireDefault(_Router2);
+
+var _StaticRouter2 = require("./StaticRouter");
+
+var _StaticRouter3 = _interopRequireDefault(_StaticRouter2);
+
+var _Switch2 = require("./Switch");
+
+var _Switch3 = _interopRequireDefault(_Switch2);
+
+var _generatePath2 = require("./generatePath");
+
+var _generatePath3 = _interopRequireDefault(_generatePath2);
+
+var _matchPath2 = require("./matchPath");
+
+var _matchPath3 = _interopRequireDefault(_matchPath2);
+
+var _withRouter2 = require("./withRouter");
+
+var _withRouter3 = _interopRequireDefault(_withRouter2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.MemoryRouter = _MemoryRouter3.default;
+exports.Prompt = _Prompt3.default;
+exports.Redirect = _Redirect3.default;
+exports.Route = _Route3.default;
+exports.Router = _Router3.default;
+exports.StaticRouter = _StaticRouter3.default;
+exports.Switch = _Switch3.default;
+exports.generatePath = _generatePath3.default;
+exports.matchPath = _matchPath3.default;
+exports.withRouter = _withRouter3.default;
+},{"./MemoryRouter":"../node_modules/react-router/es/MemoryRouter.js","./Prompt":"../node_modules/react-router/es/Prompt.js","./Redirect":"../node_modules/react-router/es/Redirect.js","./Route":"../node_modules/react-router/es/Route.js","./Router":"../node_modules/react-router/es/Router.js","./StaticRouter":"../node_modules/react-router/es/StaticRouter.js","./Switch":"../node_modules/react-router/es/Switch.js","./generatePath":"../node_modules/react-router/es/generatePath.js","./matchPath":"../node_modules/react-router/es/matchPath.js","./withRouter":"../node_modules/react-router/es/withRouter.js"}],"components/profile-widget.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29312,6 +29372,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _reactRouterDom = require('react-router-dom');
+
 var _actions = require('../store/actions');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -29324,29 +29386,38 @@ var ProfileWidget = function (_React$Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ProfileWidget.__proto__ || (0, _getPrototypeOf2.default)(ProfileWidget)).call(this, props));
 
-    _this.onToggle = _this.onToggle.bind(_this);
+    _this.onLogout = _this.onLogout.bind(_this);
     return _this;
   }
 
   (0, _createClass3.default)(ProfileWidget, [{
-    key: 'onToggle',
-    value: function onToggle() {
-      if ((0, _actions.isLoggedIn)(this.props.auth)) {
-        this.props.dispatch((0, _actions.logout)());
-      } else {
-        // TODO: redirect to login page?
-      }
+    key: 'onLogout',
+    value: function onLogout() {
+      this.props.dispatch((0, _actions.logout)());
     }
   }, {
     key: 'render',
     value: function render() {
+      if (!(0, _actions.isLoggedIn)(this.props.auth)) {
+        return '';
+      }
+
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'profile-widget' },
+        _react2.default.createElement(
+          'h3',
+          null,
+          _react2.default.createElement(
+            _reactRouterDom.Link,
+            { to: '/profile' },
+            this.props.username
+          )
+        ),
         _react2.default.createElement(
           'button',
-          { className: 'inverse', onClick: this.onToggle },
-          (0, _actions.isLoggedIn)(this.props.auth) ? 'Logout' : 'Login'
+          { className: 'inverse', onClick: this.onLogout },
+          'Logout'
         )
       );
     }
@@ -29356,10 +29427,11 @@ var ProfileWidget = function (_React$Component) {
 
 exports.default = (0, _reactRedux.connect)(function (state) {
   return {
-    auth: state.auth
+    auth: state.auth,
+    username: state.username
   };
 })(ProfileWidget);
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../store/actions":"store/actions.js"}],"img/white-mozilla.svg":[function(require,module,exports) {
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","../store/actions":"store/actions.js"}],"img/white-mozilla.svg":[function(require,module,exports) {
 module.exports = "/white-mozilla.c461af1b.svg";
 },{}],"components/header.jsx":[function(require,module,exports) {
 'use strict';
@@ -29374,9 +29446,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = require('react-router-dom');
 
+var _reactRedux = require('react-redux');
+
+var _reactRouter = require('react-router');
+
 var _profileWidget = require('./profile-widget');
 
 var _profileWidget2 = _interopRequireDefault(_profileWidget);
+
+var _actions = require('../store/actions');
 
 var _whiteMozilla = require('../img/white-mozilla.svg');
 
@@ -29385,6 +29463,7 @@ var _whiteMozilla2 = _interopRequireDefault(_whiteMozilla);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Header = function Header(props) {
+  var authed = (0, _actions.isLoggedIn)(props.auth);
   return _react2.default.createElement(
     'header',
     null,
@@ -29406,23 +29485,30 @@ var Header = function Header(props) {
         { to: '/how-to', exact: true },
         'How-to'
       ),
-      _react2.default.createElement(
+      authed ? [_react2.default.createElement(
         _reactRouterDom.NavLink,
-        { to: '/add', exact: true },
+        { to: '/add', exact: true, key: 'add' },
         'add'
-      ),
-      _react2.default.createElement(
+      ), _react2.default.createElement(
         _reactRouterDom.NavLink,
-        { to: '/profile', exact: true },
+        { to: '/profile', exact: true, key: 'profile' },
         'Profile'
+      )] : _react2.default.createElement(
+        _reactRouterDom.NavLink,
+        { to: '/login', exact: true },
+        'Login'
       )
     ),
     _react2.default.createElement(_profileWidget2.default, null)
   );
 };
 
-exports.default = Header;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","./profile-widget":"components/profile-widget.jsx","../img/white-mozilla.svg":"img/white-mozilla.svg"}],"components/footer.jsx":[function(require,module,exports) {
+exports.default = (0, _reactRouter.withRouter)((0, _reactRedux.connect)(function (state) {
+  return {
+    auth: state.auth
+  };
+})(Header));
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router":"../node_modules/react-router/es/index.js","./profile-widget":"components/profile-widget.jsx","../store/actions":"store/actions.js","../img/white-mozilla.svg":"img/white-mozilla.svg"}],"components/footer.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29496,15 +29582,15 @@ var Page = function (_React$Component) {
   (0, _createClass3.default)(Page, [{
     key: 'render',
     value: function render() {
-      return [_react2.default.createElement(_header2.default, null), _react2.default.createElement(
+      return [_react2.default.createElement(_header2.default, { key: 'header' }), _react2.default.createElement(
         'div',
-        { id: 'page' },
+        { id: 'page', key: 'page' },
         _react2.default.createElement(
           'main',
-          null,
+          { key: 'main' },
           this.props.children
         ),
-        _react2.default.createElement(_footer2.default, null)
+        _react2.default.createElement(_footer2.default, { key: 'footer' })
       )];
     }
   }]);
@@ -29512,7 +29598,12 @@ var Page = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Page;
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","./header":"components/header.jsx","./footer":"components/footer.jsx"}],"components/pages/home.jsx":[function(require,module,exports) {
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","./header":"components/header.jsx","./footer":"components/footer.jsx"}],"../doc/welcome.md":[function(require,module,exports) {
+module.exports=`<p>﻿</p>
+<h1 id="welcome-to-the-sentence-collector">Welcome to the Sentence Collector</h1>
+<p>This is a website where we collect and review sentences for <a href="https://voice.mozilla.org/">Common Voice</a>.</p>
+`
+},{}],"components/pages/home.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29543,6 +29634,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _welcome = require('../../../doc/welcome.md');
+
+var _welcome2 = _interopRequireDefault(_welcome);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function (_React$Component) {
@@ -29556,18 +29651,14 @@ var App = function (_React$Component) {
   (0, _createClass3.default)(App, [{
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'h1',
-        null,
-        'Home'
-      );
+      return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: _welcome2.default } });
     }
   }]);
   return App;
 }(_react2.default.Component);
 
 exports.default = App;
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js"}],"../doc/how-to.md":[function(require,module,exports) {
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","../../../doc/welcome.md":"../doc/welcome.md"}],"../doc/how-to.md":[function(require,module,exports) {
 module.exports=`<p>﻿</p>
 <h1 id="how-to">How to</h1>
 <h2 id="review-sentences">Review Sentences</h2>
@@ -37695,12 +37786,7 @@ exports.default = DB;
 
 
 DB.BUCKET_NAME = BUCKET_NAME;
-},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","btoa":"../node_modules/btoa/index.js","kinto-http":"../node_modules/kinto-http/lib/index.js","./collections/user":"../shared/js/collections/user.js"}],"components/pages/form.css":[function(require,module,exports) {
-
-var reloadCSS = require('_css_loader');
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/pages/form.jsx":[function(require,module,exports) {
+},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","btoa":"../node_modules/btoa/index.js","kinto-http":"../node_modules/kinto-http/lib/index.js","./collections/user":"../shared/js/collections/user.js"}],"components/pages/login.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37741,13 +37827,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _reactRouterDom = require('react-router-dom');
+
 var _db = require('../../../shared/js/db');
 
 var _db2 = _interopRequireDefault(_db);
 
 var _actions = require('../../store/actions');
-
-require('./form.css');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37847,11 +37933,17 @@ var Form = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var authed = (0, _actions.isLoggedIn)(this.props.auth);
+      // If we are authed either return to last page or go to profile.
+      if ((0, _actions.isLoggedIn)(this.props.auth)) {
+        var locState = this.props.location.state || {};
+        var from = locState.from || { pathname: '/profile' };
+        return _react2.default.createElement(_reactRouterDom.Redirect, { to: from });
+      }
+
       var pending = (0, _actions.isPending)(this.props.auth);
       return _react2.default.createElement(
         'form',
-        { onSubmit: this.onSubmit },
+        { id: 'login', onSubmit: this.onSubmit },
         _react2.default.createElement(
           'h2',
           null,
@@ -37859,19 +37951,10 @@ var Form = function (_React$Component) {
         ),
         _react2.default.createElement(
           'section',
-          null,
-          authed ? 'Authed!' : pending ? 'Pending' : 'Log in:'
+          { id: 'form-message' },
+          this.state.message
         ),
         _react2.default.createElement(
-          'section',
-          null,
-          this.state.message && _react2.default.createElement(
-            'p',
-            { id: 'form-message' },
-            this.state.message
-          )
-        ),
-        !authed ? _react2.default.createElement(
           'section',
           null,
           _react2.default.createElement(
@@ -37879,30 +37962,17 @@ var Form = function (_React$Component) {
             { htmlFor: 'username' },
             'username'
           ),
-          _react2.default.createElement('input', { type: 'text', id: 'username' }),
+          _react2.default.createElement('input', { type: 'text', id: 'username', disabled: pending }),
           _react2.default.createElement(
             'label',
             { htmlFor: 'password' },
             'password'
           ),
-          _react2.default.createElement('input', { type: 'password', id: 'password' }),
+          _react2.default.createElement('input', { type: 'password', id: 'password', disabled: pending }),
           _react2.default.createElement(
             'button',
-            null,
+            { disabled: pending },
             'Submit'
-          )
-        ) : _react2.default.createElement(
-          'section',
-          null,
-          _react2.default.createElement(
-            'p',
-            null,
-            'Welcome ' + this.props.username
-          ),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.onLogout },
-            'Logout'
           )
         )
       );
@@ -37917,7 +37987,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     username: state.username
   };
 })(Form);
-},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","../../../shared/js/db":"../shared/js/db.js","../../store/actions":"store/actions.js","./form.css":"components/pages/form.css"}],"components/pages/profile.jsx":[function(require,module,exports) {
+},{"babel-runtime/regenerator":"../node_modules/babel-runtime/regenerator/index.js","babel-runtime/helpers/asyncToGenerator":"../node_modules/babel-runtime/helpers/asyncToGenerator.js","babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","../../../shared/js/db":"../shared/js/db.js","../../store/actions":"store/actions.js"}],"components/pages/profile.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37950,15 +38020,15 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function (_React$Component) {
-  (0, _inherits3.default)(App, _React$Component);
+var Profile = function (_React$Component) {
+  (0, _inherits3.default)(Profile, _React$Component);
 
-  function App(props) {
-    (0, _classCallCheck3.default)(this, App);
-    return (0, _possibleConstructorReturn3.default)(this, (App.__proto__ || (0, _getPrototypeOf2.default)(App)).call(this, props));
+  function Profile(props) {
+    (0, _classCallCheck3.default)(this, Profile);
+    return (0, _possibleConstructorReturn3.default)(this, (Profile.__proto__ || (0, _getPrototypeOf2.default)(Profile)).call(this, props));
   }
 
-  (0, _createClass3.default)(App, [{
+  (0, _createClass3.default)(Profile, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -37968,11 +38038,886 @@ var App = function (_React$Component) {
       );
     }
   }]);
-  return App;
+  return Profile;
 }(_react2.default.Component);
 
-exports.default = App;
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js"}],"components/pages/add.jsx":[function(require,module,exports) {
+exports.default = Profile;
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js"}],"../node_modules/iso-639-1/src/data.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var LANGUAGES_LIST = {
+  aa: {
+    name: 'Afar',
+    nativeName: 'Afaraf'
+  },
+  ab: {
+    name: 'Abkhaz',
+    nativeName: 'аҧсуа бызшәа'
+  },
+  ae: {
+    name: 'Avestan',
+    nativeName: 'avesta'
+  },
+  af: {
+    name: 'Afrikaans',
+    nativeName: 'Afrikaans'
+  },
+  ak: {
+    name: 'Akan',
+    nativeName: 'Akan'
+  },
+  am: {
+    name: 'Amharic',
+    nativeName: 'አማርኛ'
+  },
+  an: {
+    name: 'Aragonese',
+    nativeName: 'aragonés'
+  },
+  ar: {
+    name: 'Arabic',
+    nativeName: 'اللغة العربية'
+  },
+  as: {
+    name: 'Assamese',
+    nativeName: 'অসমীয়া'
+  },
+  av: {
+    name: 'Avaric',
+    nativeName: 'авар мацӀ'
+  },
+  ay: {
+    name: 'Aymara',
+    nativeName: 'aymar aru'
+  },
+  az: {
+    name: 'Azerbaijani',
+    nativeName: 'azərbaycan dili'
+  },
+  ba: {
+    name: 'Bashkir',
+    nativeName: 'башҡорт теле'
+  },
+  be: {
+    name: 'Belarusian',
+    nativeName: 'беларуская мова'
+  },
+  bg: {
+    name: 'Bulgarian',
+    nativeName: 'български език'
+  },
+  bh: {
+    name: 'Bihari',
+    nativeName: 'भोजपुरी'
+  },
+  bi: {
+    name: 'Bislama',
+    nativeName: 'Bislama'
+  },
+  bm: {
+    name: 'Bambara',
+    nativeName: 'bamanankan'
+  },
+  bn: {
+    name: 'Bengali',
+    nativeName: 'বাংলা'
+  },
+  bo: {
+    name: 'Tibetan Standard',
+    nativeName: 'བོད་ཡིག'
+  },
+  br: {
+    name: 'Breton',
+    nativeName: 'brezhoneg'
+  },
+  bs: {
+    name: 'Bosnian',
+    nativeName: 'bosanski jezik'
+  },
+  ca: {
+    name: 'Catalan',
+    nativeName: 'català'
+  },
+  ce: {
+    name: 'Chechen',
+    nativeName: 'нохчийн мотт'
+  },
+  ch: {
+    name: 'Chamorro',
+    nativeName: 'Chamoru'
+  },
+  co: {
+    name: 'Corsican',
+    nativeName: 'corsu'
+  },
+  cr: {
+    name: 'Cree',
+    nativeName: 'ᓀᐦᐃᔭᐍᐏᐣ'
+  },
+  cs: {
+    name: 'Czech',
+    nativeName: 'čeština'
+  },
+  cu: {
+    name: 'Old Church Slavonic',
+    nativeName: 'ѩзыкъ словѣньскъ'
+  },
+  cv: {
+    name: 'Chuvash',
+    nativeName: 'чӑваш чӗлхи'
+  },
+  cy: {
+    name: 'Welsh',
+    nativeName: 'Cymraeg'
+  },
+  da: {
+    name: 'Danish',
+    nativeName: 'dansk'
+  },
+  de: {
+    name: 'German',
+    nativeName: 'Deutsch'
+  },
+  dv: {
+    name: 'Divehi',
+    nativeName: 'Dhivehi'
+  },
+  dz: {
+    name: 'Dzongkha',
+    nativeName: 'རྫོང་ཁ'
+  },
+  ee: {
+    name: 'Ewe',
+    nativeName: 'Eʋegbe'
+  },
+  el: {
+    name: 'Greek',
+    nativeName: 'ελληνικά'
+  },
+  en: {
+    name: 'English',
+    nativeName: 'English'
+  },
+  eo: {
+    name: 'Esperanto',
+    nativeName: 'Esperanto'
+  },
+  es: {
+    name: 'Spanish',
+    nativeName: 'Español'
+  },
+  et: {
+    name: 'Estonian',
+    nativeName: 'eesti'
+  },
+  eu: {
+    name: 'Basque',
+    nativeName: 'euskara'
+  },
+  fa: {
+    name: 'Persian',
+    nativeName: 'فارسی'
+  },
+  ff: {
+    name: 'Fula',
+    nativeName: 'Fulfulde'
+  },
+  fi: {
+    name: 'Finnish',
+    nativeName: 'suomi'
+  },
+  fj: {
+    name: 'Fijian',
+    nativeName: 'Vakaviti'
+  },
+  fo: {
+    name: 'Faroese',
+    nativeName: 'føroyskt'
+  },
+  fr: {
+    name: 'French',
+    nativeName: 'Français'
+  },
+  fy: {
+    name: 'Western Frisian',
+    nativeName: 'Frysk'
+  },
+  ga: {
+    name: 'Irish',
+    nativeName: 'Gaeilge'
+  },
+  gd: {
+    name: 'Scottish Gaelic',
+    nativeName: 'Gàidhlig'
+  },
+  gl: {
+    name: 'Galician',
+    nativeName: 'galego'
+  },
+  gn: {
+    name: 'Guaraní',
+    nativeName: "Avañe'ẽ"
+  },
+  gu: {
+    name: 'Gujarati',
+    nativeName: 'ગુજરાતી'
+  },
+  gv: {
+    name: 'Manx',
+    nativeName: 'Gaelg'
+  },
+  ha: {
+    name: 'Hausa',
+    nativeName: 'هَوُسَ'
+  },
+  he: {
+    name: 'Hebrew',
+    nativeName: 'עברית'
+  },
+  hi: {
+    name: 'Hindi',
+    nativeName: 'हिन्दी'
+  },
+  ho: {
+    name: 'Hiri Motu',
+    nativeName: 'Hiri Motu'
+  },
+  hr: {
+    name: 'Croatian',
+    nativeName: 'hrvatski jezik'
+  },
+  ht: {
+    name: 'Haitian',
+    nativeName: 'Kreyòl ayisyen'
+  },
+  hu: {
+    name: 'Hungarian',
+    nativeName: 'magyar'
+  },
+  hy: {
+    name: 'Armenian',
+    nativeName: 'Հայերեն'
+  },
+  hz: {
+    name: 'Herero',
+    nativeName: 'Otjiherero'
+  },
+  ia: {
+    name: 'Interlingua',
+    nativeName: 'Interlingua'
+  },
+  id: {
+    name: 'Indonesian',
+    nativeName: 'Indonesian'
+  },
+  ie: {
+    name: 'Interlingue',
+    nativeName: 'Interlingue'
+  },
+  ig: {
+    name: 'Igbo',
+    nativeName: 'Asụsụ Igbo'
+  },
+  ii: {
+    name: 'Nuosu',
+    nativeName: 'ꆈꌠ꒿ Nuosuhxop'
+  },
+  ik: {
+    name: 'Inupiaq',
+    nativeName: 'Iñupiaq'
+  },
+  io: {
+    name: 'Ido',
+    nativeName: 'Ido'
+  },
+  is: {
+    name: 'Icelandic',
+    nativeName: 'Íslenska'
+  },
+  it: {
+    name: 'Italian',
+    nativeName: 'Italiano'
+  },
+  iu: {
+    name: 'Inuktitut',
+    nativeName: 'ᐃᓄᒃᑎᑐᑦ'
+  },
+  ja: {
+    name: 'Japanese',
+    nativeName: '日本語'
+  },
+  jv: {
+    name: 'Javanese',
+    nativeName: 'basa Jawa'
+  },
+  ka: {
+    name: 'Georgian',
+    nativeName: 'ქართული'
+  },
+  kg: {
+    name: 'Kongo',
+    nativeName: 'Kikongo'
+  },
+  ki: {
+    name: 'Kikuyu',
+    nativeName: 'Gĩkũyũ'
+  },
+  kj: {
+    name: 'Kwanyama',
+    nativeName: 'Kuanyama'
+  },
+  kk: {
+    name: 'Kazakh',
+    nativeName: 'қазақ тілі'
+  },
+  kl: {
+    name: 'Kalaallisut',
+    nativeName: 'kalaallisut'
+  },
+  km: {
+    name: 'Khmer',
+    nativeName: 'ខេមរភាសា'
+  },
+  kn: {
+    name: 'Kannada',
+    nativeName: 'ಕನ್ನಡ'
+  },
+  ko: {
+    name: 'Korean',
+    nativeName: '한국어'
+  },
+  kr: {
+    name: 'Kanuri',
+    nativeName: 'Kanuri'
+  },
+  ks: {
+    name: 'Kashmiri',
+    nativeName: 'कश्मीरी'
+  },
+  ku: {
+    name: 'Kurdish',
+    nativeName: 'Kurdî'
+  },
+  kv: {
+    name: 'Komi',
+    nativeName: 'коми кыв'
+  },
+  kw: {
+    name: 'Cornish',
+    nativeName: 'Kernewek'
+  },
+  ky: {
+    name: 'Kyrgyz',
+    nativeName: 'Кыргызча'
+  },
+  la: {
+    name: 'Latin',
+    nativeName: 'latine'
+  },
+  lb: {
+    name: 'Luxembourgish',
+    nativeName: 'Lëtzebuergesch'
+  },
+  lg: {
+    name: 'Ganda',
+    nativeName: 'Luganda'
+  },
+  li: {
+    name: 'Limburgish',
+    nativeName: 'Limburgs'
+  },
+  ln: {
+    name: 'Lingala',
+    nativeName: 'Lingála'
+  },
+  lo: {
+    name: 'Lao',
+    nativeName: 'ພາສາ'
+  },
+  lt: {
+    name: 'Lithuanian',
+    nativeName: 'lietuvių kalba'
+  },
+  lu: {
+    name: 'Luba-Katanga',
+    nativeName: 'Tshiluba'
+  },
+  lv: {
+    name: 'Latvian',
+    nativeName: 'latviešu valoda'
+  },
+  mg: {
+    name: 'Malagasy',
+    nativeName: 'fiteny malagasy'
+  },
+  mh: {
+    name: 'Marshallese',
+    nativeName: 'Kajin M̧ajeļ'
+  },
+  mi: {
+    name: 'Māori',
+    nativeName: 'te reo Māori'
+  },
+  mk: {
+    name: 'Macedonian',
+    nativeName: 'македонски јазик'
+  },
+  ml: {
+    name: 'Malayalam',
+    nativeName: 'മലയാളം'
+  },
+  mn: {
+    name: 'Mongolian',
+    nativeName: 'Монгол хэл'
+  },
+  mr: {
+    name: 'Marathi',
+    nativeName: 'मराठी'
+  },
+  ms: {
+    name: 'Malay',
+    nativeName: 'هاس ملايو‎'
+  },
+  mt: {
+    name: 'Maltese',
+    nativeName: 'Malti'
+  },
+  my: {
+    name: 'Burmese',
+    nativeName: 'ဗမာစာ'
+  },
+  na: {
+    name: 'Nauru',
+    nativeName: 'Ekakairũ Naoero'
+  },
+  nb: {
+    name: 'Norwegian Bokmål',
+    nativeName: 'Norsk bokmål'
+  },
+  nd: {
+    name: 'Northern Ndebele',
+    nativeName: 'isiNdebele'
+  },
+  ne: {
+    name: 'Nepali',
+    nativeName: 'नेपाली'
+  },
+  ng: {
+    name: 'Ndonga',
+    nativeName: 'Owambo'
+  },
+  nl: {
+    name: 'Dutch',
+    nativeName: 'Nederlands'
+  },
+  nn: {
+    name: 'Norwegian Nynorsk',
+    nativeName: 'Norsk nynorsk'
+  },
+  no: {
+    name: 'Norwegian',
+    nativeName: 'Norsk'
+  },
+  nr: {
+    name: 'Southern Ndebele',
+    nativeName: 'isiNdebele'
+  },
+  nv: {
+    name: 'Navajo',
+    nativeName: 'Diné bizaad'
+  },
+  ny: {
+    name: 'Chichewa',
+    nativeName: 'chiCheŵa'
+  },
+  oc: {
+    name: 'Occitan',
+    nativeName: 'occitan'
+  },
+  oj: {
+    name: 'Ojibwe',
+    nativeName: 'ᐊᓂᔑᓈᐯᒧᐎᓐ'
+  },
+  om: {
+    name: 'Oromo',
+    nativeName: 'Afaan Oromoo'
+  },
+  or: {
+    name: 'Oriya',
+    nativeName: 'ଓଡ଼ିଆ'
+  },
+  os: {
+    name: 'Ossetian',
+    nativeName: 'ирон æвзаг'
+  },
+  pa: {
+    name: 'Panjabi',
+    nativeName: 'ਪੰਜਾਬੀ'
+  },
+  pi: {
+    name: 'Pāli',
+    nativeName: 'पाऴि'
+  },
+  pl: {
+    name: 'Polish',
+    nativeName: 'język polski'
+  },
+  ps: {
+    name: 'Pashto',
+    nativeName: 'پښتو'
+  },
+  pt: {
+    name: 'Portuguese',
+    nativeName: 'Português'
+  },
+  qu: {
+    name: 'Quechua',
+    nativeName: 'Runa Simi'
+  },
+  rm: {
+    name: 'Romansh',
+    nativeName: 'rumantsch grischun'
+  },
+  rn: {
+    name: 'Kirundi',
+    nativeName: 'Ikirundi'
+  },
+  ro: {
+    name: 'Romanian',
+    nativeName: 'limba română'
+  },
+  ru: {
+    name: 'Russian',
+    nativeName: 'Русский'
+  },
+  rw: {
+    name: 'Kinyarwanda',
+    nativeName: 'Ikinyarwanda'
+  },
+  sa: {
+    name: 'Sanskrit',
+    nativeName: 'संस्कृतम्'
+  },
+  sc: {
+    name: 'Sardinian',
+    nativeName: 'sardu'
+  },
+  sd: {
+    name: 'Sindhi',
+    nativeName: 'सिन्धी'
+  },
+  se: {
+    name: 'Northern Sami',
+    nativeName: 'Davvisámegiella'
+  },
+  sg: {
+    name: 'Sango',
+    nativeName: 'yângâ tî sängö'
+  },
+  si: {
+    name: 'Sinhala',
+    nativeName: 'සිංහල'
+  },
+  sk: {
+    name: 'Slovak',
+    nativeName: 'slovenčina'
+  },
+  sl: {
+    name: 'Slovene',
+    nativeName: 'slovenski jezik'
+  },
+  sm: {
+    name: 'Samoan',
+    nativeName: "gagana fa'a Samoa"
+  },
+  sn: {
+    name: 'Shona',
+    nativeName: 'chiShona'
+  },
+  so: {
+    name: 'Somali',
+    nativeName: 'Soomaaliga'
+  },
+  sq: {
+    name: 'Albanian',
+    nativeName: 'Shqip'
+  },
+  sr: {
+    name: 'Serbian',
+    nativeName: 'српски језик'
+  },
+  ss: {
+    name: 'Swati',
+    nativeName: 'SiSwati'
+  },
+  st: {
+    name: 'Southern Sotho',
+    nativeName: 'Sesotho'
+  },
+  su: {
+    name: 'Sundanese',
+    nativeName: 'Basa Sunda'
+  },
+  sv: {
+    name: 'Swedish',
+    nativeName: 'svenska'
+  },
+  sw: {
+    name: 'Swahili',
+    nativeName: 'Kiswahili'
+  },
+  ta: {
+    name: 'Tamil',
+    nativeName: 'தமிழ்'
+  },
+  te: {
+    name: 'Telugu',
+    nativeName: 'తెలుగు'
+  },
+  tg: {
+    name: 'Tajik',
+    nativeName: 'тоҷикӣ'
+  },
+  th: {
+    name: 'Thai',
+    nativeName: 'ไทย'
+  },
+  ti: {
+    name: 'Tigrinya',
+    nativeName: 'ትግርኛ'
+  },
+  tk: {
+    name: 'Turkmen',
+    nativeName: 'Türkmen'
+  },
+  tl: {
+    name: 'Tagalog',
+    nativeName: 'Wikang Tagalog'
+  },
+  tn: {
+    name: 'Tswana',
+    nativeName: 'Setswana'
+  },
+  to: {
+    name: 'Tonga',
+    nativeName: 'faka Tonga'
+  },
+  tr: {
+    name: 'Turkish',
+    nativeName: 'Türkçe'
+  },
+  ts: {
+    name: 'Tsonga',
+    nativeName: 'Xitsonga'
+  },
+  tt: {
+    name: 'Tatar',
+    nativeName: 'татар теле'
+  },
+  tw: {
+    name: 'Twi',
+    nativeName: 'Twi'
+  },
+  ty: {
+    name: 'Tahitian',
+    nativeName: 'Reo Tahiti'
+  },
+  ug: {
+    name: 'Uyghur',
+    nativeName: 'ئۇيغۇرچە‎'
+  },
+  uk: {
+    name: 'Ukrainian',
+    nativeName: 'Українська'
+  },
+  ur: {
+    name: 'Urdu',
+    nativeName: 'اردو'
+  },
+  uz: {
+    name: 'Uzbek',
+    nativeName: 'Ўзбек'
+  },
+  ve: {
+    name: 'Venda',
+    nativeName: 'Tshivenḓa'
+  },
+  vi: {
+    name: 'Vietnamese',
+    nativeName: 'Tiếng Việt'
+  },
+  vo: {
+    name: 'Volapük',
+    nativeName: 'Volapük'
+  },
+  wa: {
+    name: 'Walloon',
+    nativeName: 'walon'
+  },
+  wo: {
+    name: 'Wolof',
+    nativeName: 'Wollof'
+  },
+  xh: {
+    name: 'Xhosa',
+    nativeName: 'isiXhosa'
+  },
+  yi: {
+    name: 'Yiddish',
+    nativeName: 'ייִדיש'
+  },
+  yo: {
+    name: 'Yoruba',
+    nativeName: 'Yorùbá'
+  },
+  za: {
+    name: 'Zhuang',
+    nativeName: 'Saɯ cueŋƅ'
+  },
+  zh: {
+    name: 'Chinese',
+    nativeName: '中文'
+  },
+  zu: {
+    name: 'Zulu',
+    nativeName: 'isiZulu'
+  }
+};
+
+exports.default = LANGUAGES_LIST;
+},{}],"../node_modules/iso-639-1/src/index.js":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _data = require('./data');
+
+var _data2 = _interopRequireDefault(_data);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ISO6391 = function () {
+  function ISO6391() {
+    _classCallCheck(this, ISO6391);
+  }
+
+  _createClass(ISO6391, null, [{
+    key: 'getLanguages',
+    value: function getLanguages() {
+      var codes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      return codes.map(function (code) {
+        return {
+          code: code,
+          name: ISO6391.getName(code),
+          nativeName: ISO6391.getNativeName(code)
+        };
+      });
+    }
+  }, {
+    key: 'getName',
+    value: function getName(code) {
+      return ISO6391.validate(code) ? _data2.default[code].name : '';
+    }
+  }, {
+    key: 'getAllNames',
+    value: function getAllNames() {
+      return Object.values(_data2.default).map(function (l) {
+        return l.name;
+      });
+    }
+  }, {
+    key: 'getNativeName',
+    value: function getNativeName(code) {
+      return ISO6391.validate(code) ? _data2.default[code].nativeName : '';
+    }
+  }, {
+    key: 'getAllNativeNames',
+    value: function getAllNativeNames() {
+      return Object.values(_data2.default).map(function (l) {
+        return l.nativeName;
+      });
+    }
+  }, {
+    key: 'getCode',
+    value: function getCode(name) {
+      var code = Object.keys(_data2.default).find(function (code) {
+        var language = _data2.default[code];
+
+        return language.name.toLowerCase() === name.toLowerCase() || language.nativeName.toLowerCase() === name.toLowerCase();
+      });
+      return code || '';
+    }
+  }, {
+    key: 'getAllCodes',
+    value: function getAllCodes() {
+      return Object.keys(_data2.default);
+    }
+  }, {
+    key: 'validate',
+    value: function validate(code) {
+      return _data2.default[code] !== undefined;
+    }
+  }]);
+
+  return ISO6391;
+}();
+
+exports.default = ISO6391;
+},{"./data":"../node_modules/iso-639-1/src/data.js"}],"components/language-selector.jsx":[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _iso = require('iso-639-1');
+
+var _iso2 = _interopRequireDefault(_iso);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var languages = _iso2.default.getLanguages(_iso2.default.getAllCodes());
+
+var LanguageSelector = function LanguageSelector() {
+  return _react2.default.createElement(
+    'select',
+    null,
+    _react2.default.createElement(
+      'option',
+      { value: '' },
+      '--'
+    ),
+    languages.map(function (lang, index) {
+      return _react2.default.createElement(
+        'option',
+        { value: lang.code, key: index },
+        lang.nativeName + ' (' + lang.name + ')'
+      );
+    })
+  );
+};
+
+exports.default = LanguageSelector;
+},{"react":"../node_modules/react/index.js","iso-639-1":"../node_modules/iso-639-1/src/index.js"}],"components/pages/add.css":[function(require,module,exports) {
+
+var reloadCSS = require('_css_loader');
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/pages/add.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38003,31 +38948,110 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _languageSelector = require('../language-selector');
+
+var _languageSelector2 = _interopRequireDefault(_languageSelector);
+
+require('./add.css');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function (_React$Component) {
-  (0, _inherits3.default)(App, _React$Component);
+var Add = function (_React$Component) {
+  (0, _inherits3.default)(Add, _React$Component);
 
-  function App(props) {
-    (0, _classCallCheck3.default)(this, App);
-    return (0, _possibleConstructorReturn3.default)(this, (App.__proto__ || (0, _getPrototypeOf2.default)(App)).call(this, props));
+  function Add(props) {
+    (0, _classCallCheck3.default)(this, Add);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Add.__proto__ || (0, _getPrototypeOf2.default)(Add)).call(this, props));
+
+    _this.onSubmit = _this.onSubmit.bind(_this);
+    return _this;
   }
 
-  (0, _createClass3.default)(App, [{
+  (0, _createClass3.default)(Add, [{
+    key: 'onSubmit',
+    value: function onSubmit(evt) {
+      evt.preventDefault();
+      var lang = document.querySelector('#add-form select');
+      if (!lang || !lang.value) {
+        this.setState({
+          message: 'Please select a langauge.'
+        });
+        return;
+      }
+
+      var sentences = document.querySelector('#sentences-input').value;
+      if (!sentences) {
+        this.setState({
+          message: 'Please add sentences.'
+        });
+        return;
+      }
+
+      // TODO: implement sentence sanity check.
+      document.getElementById('add-form').reset();
+      this.setState({
+        message: 'Sentences (fake) submitted.'
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'h1',
-        null,
-        'add'
+        'form',
+        { id: 'add-form', onSubmit: this.onSubmit },
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Add Sentences'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Please add your sentences by typing or copy&pasting them below.'
+        ),
+        _react2.default.createElement(
+          'section',
+          { id: 'form-message' },
+          this.state && this.state.message
+        ),
+        _react2.default.createElement(
+          'section',
+          null,
+          _react2.default.createElement(
+            'label',
+            { id: 'language-selector-label', htmlFor: 'language-selector' },
+            'Select Language'
+          ),
+          _react2.default.createElement(_languageSelector2.default, { name: 'language-selector' })
+        ),
+        _react2.default.createElement(
+          'section',
+          null,
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'sentences-input' },
+            'Enter sentences'
+          ),
+          _react2.default.createElement('textarea', { id: 'sentences-input' })
+        ),
+        _react2.default.createElement(
+          'section',
+          null,
+          _react2.default.createElement(
+            'button',
+            null,
+            'Submit'
+          )
+        )
       );
     }
   }]);
-  return App;
+  return Add;
 }(_react2.default.Component);
 
-exports.default = App;
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js"}],"components/app.jsx":[function(require,module,exports) {
+exports.default = Add;
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","../language-selector":"components/language-selector.jsx","./add.css":"components/pages/add.css"}],"components/app.jsx":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -38076,9 +39100,9 @@ var _howTo = require('./pages/how-to');
 
 var _howTo2 = _interopRequireDefault(_howTo);
 
-var _form = require('./pages/form');
+var _login = require('./pages/login');
 
-var _form2 = _interopRequireDefault(_form);
+var _login2 = _interopRequireDefault(_login);
 
 var _profile = require('./pages/profile');
 
@@ -38118,7 +39142,7 @@ var App = function (_React$Component) {
             null,
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/how-to', component: _howTo2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _form2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _login2.default }),
             _react2.default.createElement(PrivateRoute, { authed: authed,
               path: '/profile', component: _profile2.default }),
             _react2.default.createElement(PrivateRoute, { authed: authed,
@@ -38152,7 +39176,7 @@ exports.default = (0, _reactRedux.connect)(function (state) {
     auth: state.auth
   };
 })(App);
-},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","react-redux":"../node_modules/react-redux/es/index.js","../store/actions":"store/actions.js","./page":"components/page.jsx","./pages/home":"components/pages/home.jsx","./pages/how-to":"components/pages/how-to.jsx","./pages/form":"components/pages/form.jsx","./pages/profile":"components/pages/profile.jsx","./pages/add":"components/pages/add.jsx"}],"index.jsx":[function(require,module,exports) {
+},{"babel-runtime/core-js/object/get-prototype-of":"../node_modules/babel-runtime/core-js/object/get-prototype-of.js","babel-runtime/helpers/classCallCheck":"../node_modules/babel-runtime/helpers/classCallCheck.js","babel-runtime/helpers/createClass":"../node_modules/babel-runtime/helpers/createClass.js","babel-runtime/helpers/possibleConstructorReturn":"../node_modules/babel-runtime/helpers/possibleConstructorReturn.js","babel-runtime/helpers/inherits":"../node_modules/babel-runtime/helpers/inherits.js","react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/es/index.js","react-redux":"../node_modules/react-redux/es/index.js","../store/actions":"store/actions.js","./page":"components/page.jsx","./pages/home":"components/pages/home.jsx","./pages/how-to":"components/pages/how-to.jsx","./pages/login":"components/pages/login.jsx","./pages/profile":"components/pages/profile.jsx","./pages/add":"components/pages/add.jsx"}],"index.jsx":[function(require,module,exports) {
 'use strict';
 
 var _regenerator = require('babel-runtime/regenerator');
@@ -38242,7 +39266,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '41609' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '34139' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
