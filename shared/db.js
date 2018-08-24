@@ -52,3 +52,4 @@ export default class DB {
 }
 
 DB.BUCKET_NAME = BUCKET_NAME;
+DB.REMOTE_URL = REMOTE_URL;

@@ -10,6 +10,7 @@
     "build": "parcel build --no-cache web/index.html --public-url .",
     "lint": "eslint shared web scripts",
     "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
+    "flush-db": "parcel build -t \"node\" scripts/flush-db.js && node dist/flush-db",
     "deploy": "yarn build && gh-pages -d dist",
     "test": "yarn lint && yarn build"
   },
@@ -19,6 +20,7 @@
     "iso-639-1": "^2.0.3",
     "kinto": "^11.2.0",
     "kinto-http": "^4.5.3",
+    "kinto-node-test-server": "^1.0.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
