@@ -161,7 +161,8 @@ form label {
   font-weight: bold;
 }
 
-form input {
+form input[type="password"],
+form input[type="text"] {
   width: 100%;
   margin-bottom: 0.5rem;
 }

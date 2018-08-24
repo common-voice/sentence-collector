@@ -1,0 +1,57 @@
+.validator {
+  --validator-height: 8rem;
+  height: var(--validator-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+}
+
+.sentence-box {
+  margin: 0 2rem;
+  padding: 0 1rem;
+  height: 4.5rem;
+  border: 2px solid black;
+  flex-basis: 100%;
+  line-height: 1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.75);
+}
+
+.validator li {
+  height: calc(var(--validator-height) / 2);
+  line-height: calc(var(--validator-height) / 2);
+}
+
+.button-group {
+  width: 6rem;
+}
+
+.validator label {
+  box-sizing: border-box;
+  width: 6rem;
+  height: 2.3rem;
+  line-height: 2.3rem;
+}
+
+.validator input[type="radio"] {
+  transform: scale(1.75);
+  margin: 0 0.5rem;
+}
+
+.validator .button-group input[type="radio"] {
+  display: none;
+}
+
+.validator .button-group input[type="radio"] + label {
+  border: 1px solid;
+  border-color: var(--deactive-color);
+  margin: 0.2rem 0;
+  text-align: center;
+}
+
+.validator .button-group input[type="radio"]:checked + label {
+  background-color: var(--deactive-color);
+}
