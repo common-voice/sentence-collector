@@ -44,6 +44,7 @@ export default class ReviewForm extends React.Component {
 
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
+        <h2>Review Sentences</h2>
         { this.props.sentences.map((sentence, i) => (
           <section id={`sentence-${i}`} key={i} className="validator">
             <div className="sentence-box">

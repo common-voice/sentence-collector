@@ -190,6 +190,7 @@ const ReviewLink = (props) => {
 
 const ConfirmForm = (props) => (
   <form onSubmit={props.onSubmit}>
+    <h2>Confirm New Sentences</h2>
     <p>
       {`${props.submitted.length} sentences found.`}
     </p>
@@ -207,20 +208,16 @@ const ConfirmForm = (props) => (
     )}
     {props.unreviewed.length > 0 && (
       <p>
-        <b>
-          {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}
-          <ReviewLink onReview={props.onReview}
-                      sentences={props.unreviewed}
-                      type={SENTENCE_STATE_SUBMITTED} />
-        </b>
+        {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}
+        <ReviewLink onReview={props.onReview}
+                    sentences={props.unreviewed}
+                    type={SENTENCE_STATE_SUBMITTED} />
       </p>
     )}
     {props.validated.length + props.invalidated.length > 0 && (
       <p>
-        <b>
-          {`-- ${props.validated.length + props.invalidated.length}`}&nbsp;
-          sentences are already reviewed. Great job!
-        </b>
+        {`-- ${props.validated.length + props.invalidated.length}`}&nbsp;
+        sentences are already reviewed. Great job!
       </p>
     )}
     <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
