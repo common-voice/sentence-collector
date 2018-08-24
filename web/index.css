@@ -174,7 +174,7 @@ form button {
 
 select {
   font-size: 1.1rem;
-  padding: 0.15rem 0.5rem;
+  height: 2rem;
 }
 
 #form-message {
