@@ -8,3 +8,12 @@
   height: 6rem;
   width: 25.3rem;
 }
+
+#confirm-buttons {
+  text-align: center;
+}
+
+#confirm-buttons button {
+  display: inline-block;
+  margin: 0 0.3rem;
+}

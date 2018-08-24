@@ -38,6 +38,7 @@ export default class Add extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
+    this.onCancel = this.onCancel.bind(this);
     this.onReview = this.onReview.bind(this);
     this.onReviewed = this.onReviewed.bind(this);
   }
@@ -133,6 +134,11 @@ export default class Add extends React.Component {
     });
   }
 
+  onCancel(evt) {
+    evt.preventDefault();
+    this.resetState();
+  }
+
   onReview(type) {
     const sentences = type === SENTENCE_STATE_SUBMITTED ?
                       this.state.unreviewed : this.state.filtered;
@@ -164,6 +170,7 @@ export default class Add extends React.Component {
       // The confirm form is a stats page where sentence submission happens.
       return <ConfirmForm onSubmit={this.onConfirm}
                           onReview={this.onReview}
+                          onCancel={this.onCancel}
                           submitted={this.state.submitted}
                           unreviewed={this.state.unreviewed}
                           validated={this.state.validated}
@@ -221,7 +228,10 @@ const ConfirmForm = (props) => (
       </p>
     )}
     <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
-    <button type="submit">Confirm</button>
+    <section id="confirm-buttons">
+      <button type="submit">Confirm</button>
+      <button onClick={props.onCancel}>Cancel</button>
+    </section>
   </form>
 );
 
