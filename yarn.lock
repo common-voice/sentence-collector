@@ -3644,8 +3644,8 @@ postcss-merge-longhand@^2.0.1:
     postcss "^5.0.4"
 
 postcss-merge-longhand@^4.0.0:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/postcss-merge-longhand/-/postcss-merge-longhand-4.0.4.tgz#bffc7c6ffa146591c993a0bb8373d65f9a06d4d0"
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/postcss-merge-longhand/-/postcss-merge-longhand-4.0.5.tgz#00898d72347fc7e40bb564b11bdc08119c599b59"
   dependencies:
     css-color-names "0.0.4"
     postcss "^6.0.0"
@@ -3839,8 +3839,8 @@ postcss-ordered-values@^2.1.0:
     postcss-value-parser "^3.0.1"
 
 postcss-ordered-values@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/postcss-ordered-values/-/postcss-ordered-values-4.0.0.tgz#58b40c74f72e022eb34152c12e4b0f9354482fc2"
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-ordered-values/-/postcss-ordered-values-4.1.0.tgz#2c769d5d44aa3c7c907b8be2e997ed19dfd8d50a"
   dependencies:
     cssnano-util-get-arguments "^4.0.0"
     postcss "^6.0.0"
