@@ -1,4 +1,4 @@
-import DB from '../shared/js/db';
+import DB from '../shared/db';
 
 // Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');

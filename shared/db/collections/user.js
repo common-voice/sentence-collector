@@ -1,4 +1,4 @@
-import DB from '../db.js';
+import DB from '../../db.js';
 
 const NAME = 'User';
 
