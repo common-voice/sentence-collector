@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { getNewStore } from './store/store';
 
 import './index.css';
+import Store from './store';
 import App from './components/app';
 
 async function main() {
-  const store = getNewStore();
   const root = document.getElementById('root');
-  ReactDOM.render(<Provider store={store}><App /></Provider>, root);
+  ReactDOM.render(<Store><App /></Store>, root);
 }
 
-main().catch(console.error.bind(console, 'Render ERROR'));
+main().catch(console.error.bind(console, 'Initial Render ERROR'));
