@@ -14,6 +14,7 @@
     "db-helper": "yarn build:server && yarn env node dist/db-helper",
     "init-db": "yarn db-helper init",
     "flush-db": "yarn db-helper flush",
+    "list-db": "yarn db-helper list",
     "deploy": "yarn build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test": "yarn lint && yarn build"

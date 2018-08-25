@@ -9,6 +9,10 @@ export default class User {
     this.server = kintoServer;
   }
 
+  async getCollection() {
+    return this.server.bucket(DB.BUCKET_NAME).collection(NAME);
+  }
+
   async getId() {
     const result = await this.server.fetchServerInfo();
     this.id = result.user.id;
@@ -26,6 +30,19 @@ export default class User {
       }
 
       console.error('unknown auth failure', err);
+      return false;
+    }
+  }
+
+  async listAll() {
+    try {
+      const collection = await this.getCollection();
+      const result = await collection.listRecords();
+      const users = result.data.map(user => user.id);
+      console.log('Users', users);
+      return users;
+    } catch (err) {
+      console.error('--list user error--', err);
       return false;
     }
   }

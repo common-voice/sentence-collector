@@ -43,6 +43,10 @@ export default class DB {
     }});
     return id;
   }
+
+  async listUsers() {
+    return this.user.listAll();
+  }
 }
 
 DB.BUCKET_NAME = BUCKET_NAME;

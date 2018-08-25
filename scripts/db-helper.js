@@ -6,6 +6,7 @@ global.fetch = require('node-fetch');
 
 const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
+const ACTION_LIST_USERS = 'list';
 
 const remote = process.env.KINTO_URL_LOCAL;
 const username = process.env.KINTO_USER;
@@ -41,7 +42,7 @@ async function run() {
   }
 
   try {
-    let db, server, authed;
+    let db, server, users, authed;
 
     switch (action) {
       case ACTION_INIT:
@@ -58,6 +59,12 @@ async function run() {
         server = new KintoTestServer(remote);
         await server.flush();
         console.log('database flushed');
+        break;
+
+      case ACTION_LIST_USERS:
+        db = new DB(remote, username, password);
+        users = await db.listUsers();
+        console.log('users', users);
         break;
 
       default:
