@@ -5,7 +5,6 @@ const NAME = 'User';
 export default class User {
 
   constructor(kintoServer) {
-    this.id = null;
     this.server = kintoServer;
   }
 
@@ -15,13 +14,19 @@ export default class User {
 
   async getId() {
     const result = await this.server.fetchServerInfo();
-    this.id = result.user.id;
+    return result.user.id;
   }
 
   async tryAuth(username) {
     try {
+      const userid = await this.getId();
+      const record = {
+        id: username,
+        userid,
+      };
+
       await this.server.bucket(DB.BUCKET_NAME)
-        .collection(NAME).createRecord({ id: username });
+        .collection(NAME).createRecord(record);
       return true;
     } catch (err) {
 
@@ -34,12 +39,11 @@ export default class User {
     }
   }
 
-  async listAll() {
+  async getAllUsers() {
     try {
       const collection = await this.getCollection();
       const result = await collection.listRecords();
       const users = result.data.map(user => user.id);
-      console.log('Users', users);
       return users;
     } catch (err) {
       console.error('--list user error--', err);

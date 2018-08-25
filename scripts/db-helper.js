@@ -47,11 +47,12 @@ async function run() {
     switch (action) {
       case ACTION_INIT:
         db = new DB(remote, username, password);
+        await db.initDB();
+
         authed = await db.auth();
         if (!authed) {
           fail('db admin must be authed user');
         }
-        await db.initDB();
         console.log('database initialized');
         break;
 
@@ -63,7 +64,7 @@ async function run() {
 
       case ACTION_LIST_USERS:
         db = new DB(remote, username, password);
-        users = await db.listUsers();
+        users = await db.getUsers();
         console.log('users', users);
         break;
 

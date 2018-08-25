@@ -44,8 +44,8 @@ export default class DB {
     return id;
   }
 
-  async listUsers() {
-    return this.user.listAll();
+  async getUsers() {
+    return this.user.getAllUsers();
   }
 }
 
