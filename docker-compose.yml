@@ -1,23 +1,36 @@
-db:
-  image: postgres
-  environment:
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: postgres
-cache:
-  image: library/memcached
-web:
-  image: kinto/kinto-server
-  links:
-   - db
-   - cache
-  ports:
-   - "8888:8888"
-  environment:
-    KINTO_CACHE_BACKEND: kinto.core.cache.memcached
-    KINTO_CACHE_HOSTS: cache:11211 cache:11212
-    KINTO_STORAGE_BACKEND: kinto.core.storage.postgresql
-    KINTO_STORAGE_URL: postgres://postgres:postgres@db/postgres
-    KINTO_PERMISSION_BACKEND: kinto.core.permission.postgresql
-    KINTO_PERMISSION_URL: postgres://postgres:postgres@db/postgres
-    KINTO_INCLUDES: kinto.plugins.admin
-      kinto.plugins.flush
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    networks:
+      - backend-net
+
+  cache:
+    image: library/memcached
+    networks:
+      - backend-net
+
+  web:
+    image: kinto/kinto-server
+    depends_on:
+     - db
+     - cache
+    ports:
+     - "8888:8888"
+    environment:
+      - KINTO_CACHE_BACKEND=kinto.core.cache.memcached
+      - KINTO_CACHE_HOSTS=cache:11211 cache:11212
+      - KINTO_STORAGE_BACKEND=kinto.core.storage.postgresql
+      - KINTO_STORAGE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
+      - KINTO_PERMISSION_BACKEND=kinto.core.permission.postgresql
+      - KINTO_PERMISSION_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
+      - KINTO_INCLUDES=kinto.plugins.admin kinto.plugins.flush
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge

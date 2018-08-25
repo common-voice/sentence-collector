@@ -10,6 +10,7 @@ import {
   isLoggedIn,
   isPending
 } from '../../store/actions';
+import { getDatabaseUrl } from '../../config';
 
 class Form extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Form extends React.Component {
 
   async tryAuth(username, password) {
     this.props.dispatch(setPending());
-    this.db = new DB(username, password);
+    this.db = new DB(getDatabaseUrl(), username, password);
     const authed = await this.db.auth();
     const message = authed ? 'hello' : 'Login failed';
 

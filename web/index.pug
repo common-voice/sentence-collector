@@ -1,0 +1,11 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Sentence Collector
+    base(href=process.env.CLIENT_URL)
+    link(rel='shortcut icon' type='image/x-icon' href='./favicon.ico')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans|Zilla+Slab')
+  body
+    div(id='root' data-db-url=process.env.KINTO_URL)
+    script(src='./index.jsx')

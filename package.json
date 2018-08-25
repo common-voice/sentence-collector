@@ -4,14 +4,18 @@
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf dist .cache node_modules yarn.lock",
-    "reset": "yarn clean && yarn",
-    "start": "rm -rf dist .cache && parcel web/index.html",
-    "build": "parcel build --no-cache web/index.html --public-url .",
+    "env": "env $(grep -v '^#' .env | xargs)",
+    "clean": "rm -rf dist .cache",
+    "reset": "yarn clean && rm -rf node_modules yarn.lock && yarn",
+    "start": "yarn clean && yarn env parcel web/index.pug",
+    "build": "yarn clean && parcel build --no-cache web/index.pug --public-url .",
+    "build:server": "yarn clean && parcel build -t \"node\" scripts/db-helper.js",
     "lint": "eslint shared web scripts",
-    "init-db": "parcel build -t \"node\" scripts/init-db.js && node dist/init-db",
-    "flush-db": "parcel build -t \"node\" scripts/flush-db.js && node dist/flush-db",
+    "db-helper": "yarn build:server && yarn env node dist/db-helper",
+    "init-db": "yarn db-helper init",
+    "flush-db": "yarn db-helper flush",
     "deploy": "yarn build && gh-pages -d dist",
+    "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test": "yarn lint && yarn build"
   },
   "dependencies": {
@@ -40,6 +44,7 @@
     "parcel-bundler": "^1.9.4",
     "parcel-plugin-eslint": "^1.0.4",
     "parcel-plugin-markdown": "^0.3.1",
+    "pug": "^2.0.3",
     "typescript": "^2.9.2"
   }
 }
