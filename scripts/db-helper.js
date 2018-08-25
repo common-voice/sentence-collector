@@ -41,11 +41,15 @@ async function run() {
   }
 
   try {
-    let db, server;
+    let db, server, authed;
 
     switch (action) {
       case ACTION_INIT:
         db = new DB(remote, username, password);
+        authed = await db.auth();
+        if (!authed) {
+          fail('db admin must be authed user');
+        }
         await db.initDB();
         console.log('database initialized');
         break;
@@ -66,7 +70,7 @@ async function run() {
       fail(`Could not connect to kinto host: ${remote}. ` +
         'Perhaps you need to start the service with docker-compose.');
     } else {
-      fail(err.name, err.type, err.message);
+      fail(err);
     }
   }
 }
