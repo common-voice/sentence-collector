@@ -7,7 +7,7 @@ global.fetch = require('node-fetch');
 const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 
-const remote = process.env.KINTO_URL;
+const remote = process.env.KINTO_URL_LOCAL;
 const username = process.env.KINTO_USER;
 const password = process.env.KINTO_PASSWORD;
 

@@ -4,9 +4,10 @@ html(lang='en')
     meta(charset='utf-8')
     title Sentence Collector
     base(href=process.env.NODE_ENV === 'production' ?
-      process.env.PROD_CLIENT_URL : process.env.LOCAL_CLIENT_URL)
+      process.env.CLIENT_URL_PROD : process.env.CLIENT_URL_LOCAL)
     link(rel='shortcut icon' type='image/x-icon' href='./favicon.ico')
     link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans|Zilla+Slab')
   body
-    div(id='root' data-db-url=process.env.KINTO_URL)
+    div(id='root' data-db-url=process.env.NODE_ENV === 'production' ?
+      process.env.KINTO_URL_PROD : process.env.KINTO_URL_LOCAL)
     script(src='./index.jsx')
