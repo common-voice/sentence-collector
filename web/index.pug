@@ -3,7 +3,8 @@ html(lang='en')
   head
     meta(charset='utf-8')
     title Sentence Collector
-    base(href=process.env.CLIENT_URL)
+    base(href=process.env.NODE_ENV === 'production' ?
+      process.env.PROD_CLIENT_URL : process.env.LOCAL_CLIENT_URL)
     link(rel='shortcut icon' type='image/x-icon' href='./favicon.ico')
     link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans|Zilla+Slab')
   body
