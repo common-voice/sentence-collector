@@ -4,7 +4,7 @@ import tokenizeWords from 'talisman/tokenizers/words';
 
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
-import './add.css';
+import '../../../css/add.css';
 
 const MAX_WORDS = 14;
 

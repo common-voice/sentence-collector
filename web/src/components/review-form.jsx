@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './review-form.css';
+import '../../css/review-form.css';
 
 export default class ReviewForm extends React.Component {
   constructor(props) {
