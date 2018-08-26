@@ -28,6 +28,10 @@ export function logout() {
   };
 }
 
+export function addLanguage() {
+  // ??
+}
+
 export function isLoggedIn(auth) {
   return auth === LOGIN_STATUSES.LOGGED_IN;
 }

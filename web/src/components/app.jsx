@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { isLoggedIn } from '../store/actions';
+import { isLoggedIn } from '../actions';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';

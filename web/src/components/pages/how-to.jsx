@@ -1,6 +1,6 @@
 import React from 'react';
 
-import howTo from '../../../doc/how-to.md';
+import howTo from '../../../../doc/how-to.md';
 
 export default class App extends React.Component {
   constructor(props) {

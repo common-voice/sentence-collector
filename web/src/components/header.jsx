@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import ProfileWidget from './profile-widget';
-import { isLoggedIn } from '../store/actions';
-import logoURL from '../img/white-mozilla.svg';
+import { isLoggedIn } from '../actions';
+import logoURL from '../../img/white-mozilla.svg';
 
 const Header = (props) => {
   let authed = isLoggedIn(props.auth);

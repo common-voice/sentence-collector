@@ -6,6 +6,11 @@ export default class Profile extends React.Component {
   }
 
   render() {
-    return <h1>Profile</h1>;
+    return (
+      <form>
+        <section>languages</section>
+        <section>add language</section>
+      </form>
+    );
   }
 }

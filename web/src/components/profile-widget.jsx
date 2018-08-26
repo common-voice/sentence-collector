@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { logout, isLoggedIn } from '../store/actions';
+import { logout, isLoggedIn } from '../actions';
 
 class ProfileWidget extends React.Component {
   constructor(props) {

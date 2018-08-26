@@ -1,5 +1,5 @@
 import React from 'react';
-import welcome from '../../../doc/welcome.md';
+import welcome from '../../../../doc/welcome.md';
 
 export default class App extends React.Component {
   constructor(props) {

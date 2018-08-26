@@ -10,4 +10,4 @@ html(lang='en')
   body
     div(id='root' data-db-url=process.env.NODE_ENV === 'production' ?
       process.env.KINTO_URL_PROD : process.env.KINTO_URL_LOCAL)
-    script(src='./index.jsx')
+    script(src='./src/index.jsx')
