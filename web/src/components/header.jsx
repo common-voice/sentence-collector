@@ -1,9 +1,8 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import ProfileWidget from './profile-widget';
+import ProfileWidget from '../containers/profile-widget';
 import { isLoggedIn } from '../actions';
 import logoURL from '../../img/white-mozilla.svg';
 
@@ -23,10 +22,6 @@ const Header = (props) => {
     </nav>
     <ProfileWidget />
   </header>;
-}
+};
 
-export default withRouter(connect(state => {
-  return {
-    auth: state.auth
-  };
-})(Header));
+export default Header;

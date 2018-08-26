@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import '../css/index.css';
 import Store from './store';
-import App from './components/app';
+import App from './containers/app';
 
 async function main() {
   const root = document.getElementById('root');

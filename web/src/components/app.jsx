@@ -5,17 +5,16 @@ import {
   Redirect,
   Route
 } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { isLoggedIn } from '../actions';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
-import Login from './pages/login';
+import Login from '../containers/login';
 import Profile from './pages/profile';
 import Add from './pages/add';
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -63,9 +62,3 @@ const PrivateRoute = (props) => {
     }
   />;
 }
-
-export default connect(state => {
-  return {
-    auth: state.auth
-  };
-})(App);

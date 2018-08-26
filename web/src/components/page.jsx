@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from './header';
+import Header from '../containers/header';
 import Footer from './footer';
 
 export default class Page extends React.Component {

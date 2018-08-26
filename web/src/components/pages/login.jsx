@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import DB from '../../../../shared/db';
@@ -12,7 +11,7 @@ import {
 } from '../../actions';
 import { getDatabaseUrl } from '../../config';
 
-class Form extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -76,10 +75,3 @@ class Form extends React.Component {
     );
   }
 }
-
-export default connect(state => {
-  return {
-    auth: state.auth,
-    username: state.username,
-  };
-})(Form);

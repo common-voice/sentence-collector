@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { logout, isLoggedIn } from '../actions';
 
-class ProfileWidget extends React.Component {
+export default class ProfileWidget extends React.Component {
   constructor(props) {
     super(props);
     this.onLogout = this.onLogout.bind(this);
@@ -25,11 +24,3 @@ class ProfileWidget extends React.Component {
     </div>;
   }
 }
-
-export default connect(state => {
-  return {
-    auth: state.auth,
-    username: state.username,
-  };
-})(ProfileWidget);
-
