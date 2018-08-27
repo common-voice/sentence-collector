@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { logout, isLoggedIn } from '../actions';
-
 export default class ProfileWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -10,17 +8,19 @@ export default class ProfileWidget extends React.Component {
   }
 
   onLogout() {
-    this.props.dispatch(logout());
+    this.props.logout();
   }
 
   render() {
-    if (!isLoggedIn(this.props.auth)) {
+    if (!this.props.authed) {
       return '';
     }
 
-    return <div className="profile-widget">
-      <h3><Link to="/profile">{this.props.username}</Link></h3>
-      <button className="inverse" onClick={this.onLogout}>Logout</button>
-    </div>;
+    return (
+      <div className="profile-widget">
+        <h3><Link to="/profile">{this.props.username}</Link></h3>
+        <button className="inverse" onClick={this.onLogout}>Logout</button>
+      </div>
+    );
   }
 }

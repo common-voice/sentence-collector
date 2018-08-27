@@ -1,26 +1,21 @@
+import DB from '../../../shared/db';
+import { getDatabaseUrl } from '../config';
+
 export const ACTION_LOGOUT = 'LOGOUT';
-export const ACTION_PENDING = 'WAIT';
-export const ACTION_LOGIN = 'LOGIN';
+export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-export const LOGIN_STATUSES = {
-  LOGGED_IN: 'LOGGED_IN',
-  PENDING: 'PENDING',
-  LOGGED_OUT: 'LOGGED_OUT',
-};
+export function login(username, password) {
+  return async function (dispatch) {
+    dispatch(sendLoginRequest());
 
-export function login(username) {
-  return {
-    type: ACTION_LOGIN,
-    username,
+    const db = new DB(getDatabaseUrl(), username, password);
+    const authed = await db.auth();
+    dispatch(authed ? loginSuccess(username, password) : loginFailure());
+    return authed;
   };
 }
-
-export function setPending() {
-  return {
-    type: ACTION_PENDING,
-  };
-}
-
 
 export function logout() {
   return {
@@ -28,14 +23,26 @@ export function logout() {
   };
 }
 
+export function sendLoginRequest() {
+  return {
+    type: ACTION_LOGIN_REQUEST,
+  };
+}
+
+export function loginSuccess(username, password) {
+  return {
+    type: ACTION_LOGIN_SUCCESS,
+    username,
+    password,
+  };
+}
+
+export function loginFailure() {
+  return {
+    type: ACTION_LOGIN_FAILURE,
+  };
+}
+
 export function addLanguage() {
   // ??
-}
-
-export function isLoggedIn(auth) {
-  return auth === LOGIN_STATUSES.LOGGED_IN;
-}
-
-export function isPending(auth) {
-  return auth === LOGIN_STATUSES.PENDING;
 }

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react'
 import storage from 'redux-persist/lib/storage';
+import thunk from 'redux-thunk';
 
-import reducer from './reducers';
+import reducer, { INITIAL_STATE } from './reducers';
 
-const ROOT_KEY = 'root';
+const ROOT_KEY = 'redux';
 
 export function getPersistedStore() {
   const persistConfig = {
@@ -15,7 +16,7 @@ export function getPersistedStore() {
     storage,
   };
   const persistedReducer = persistReducer(persistConfig, reducer);
-  return createStore(persistedReducer);
+  return createStore(persistedReducer, INITIAL_STATE, applyMiddleware(thunk));
 }
 
 export function getPersistor(store) {

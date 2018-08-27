@@ -4,7 +4,7 @@ import Header from '../components/header';
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
+    authed: state.authed,
   };
 }
 

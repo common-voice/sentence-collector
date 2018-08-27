@@ -4,7 +4,7 @@ import App from '../components/app';
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
+    authed: state.authed,
   };
 }
 

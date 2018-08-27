@@ -3,17 +3,15 @@ import { NavLink, Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import ProfileWidget from '../containers/profile-widget';
-import { isLoggedIn } from '../actions';
 import logoURL from '../../img/white-mozilla.svg';
 
 const Header = (props) => {
-  let authed = isLoggedIn(props.auth);
   return <header>
     <Link to="/" href=""><img src={logoURL}/></Link>
     <nav>
       <NavLink to="/" exact={true}>Home</NavLink>
       <NavLink to="/how-to" exact={true}>How-to</NavLink>
-      { authed ? [
+      { props.authed ? [
         <NavLink to="/add" exact={true} key="add">add</NavLink>,
         <NavLink to="/profile" exact={true} key="profile">Profile</NavLink>,
       ] : (

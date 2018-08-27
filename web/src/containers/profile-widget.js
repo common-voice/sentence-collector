@@ -1,12 +1,19 @@
 import { connect } from 'react-redux';
 
+import { logout } from '../actions';
 import ProfileWidget from '../components/profile-widget';
 
 function mapStateToProps(state) {
   return {
-    auth: state.auth,
+    authed: state.authed,
     username: state.username,
   };
 }
 
-export default connect(mapStateToProps)(ProfileWidget);
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => dispatch(logout()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileWidget);

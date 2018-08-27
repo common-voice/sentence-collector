@@ -6,7 +6,6 @@ import {
   Route
 } from 'react-router-dom';
 
-import { isLoggedIn } from '../actions';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
@@ -24,7 +23,6 @@ export default class App extends React.Component {
   }
 
   render() {
-    let authed = isLoggedIn(this.props.auth);
     return (
       <Router>
         <Page>
@@ -32,9 +30,9 @@ export default class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute authed={authed}
+            <PrivateRoute authed={this.props.authed}
               path="/profile" component={Profile} />
-            <PrivateRoute authed={authed}
+            <PrivateRoute authed={this.props.authed}
               path="/add" component={Add} />
           </Switch>
         </Page>
