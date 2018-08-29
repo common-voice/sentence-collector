@@ -9,13 +9,13 @@ const Header = (props) => {
   return <header>
     <Link to="/" href=""><img src={logoURL}/></Link>
     <nav>
-      <NavLink to="/" exact={true}>Home</NavLink>
-      <NavLink to="/how-to" exact={true}>How-to</NavLink>
-      { props.authed ? [
-        <NavLink to="/add" exact={true} key="add">Add</NavLink>,
-        <NavLink to="/profile" exact={true} key="profile">Profile</NavLink>,
-      ] : (
-        <NavLink to="/login" exact={true}>Login</NavLink>
+      <NavLink to="/" exact>Home</NavLink>
+      <NavLink to="/how-to" exact>How-to</NavLink>
+      <NavLink to="/add" exact key="add">Add</NavLink>
+      { props.authed ? (
+        <NavLink to="/profile" exact key="profile">Profile</NavLink>
+      ) : (
+        <NavLink to="/login" exact>Login</NavLink>
       )}
     </nav>
     <ProfileWidget />

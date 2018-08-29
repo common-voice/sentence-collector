@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  HashRouter as Router,
   Switch,
   Redirect,
   Route
 } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
 import Page from './page';
 import Home from './pages/home';
@@ -13,18 +13,15 @@ import Login from '../containers/login';
 import Profile from '../containers/profile';
 import Add from '../containers/add';
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidCatch(error, info) {
-    console.error('Main app component error', error, info);
-  }
-
   render() {
     return (
-      <Router>
+      <ConnectedRouter history={this.props.history}>
         <Page>
           <Switch>
             <Route exact path="/" component={Home} />
@@ -34,9 +31,10 @@ export default class App extends React.Component {
               path="/profile" component={Profile} />
             <PrivateRoute authed={this.props.authed}
               path="/add" component={Add} />
+            <Route render={() => (<div>Add 404 page here</div>)} />
           </Switch>
         </Page>
-      </Router>
+      </ConnectedRouter>
     );
   }
 }
