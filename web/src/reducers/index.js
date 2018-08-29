@@ -25,7 +25,7 @@ export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case ACTION_LOGOUT:
     case ACTION_LOGIN_FAILURE:
-      return INITIAL_STATE;
+      return copyInto(state, INITIAL_STATE);
 
     case ACTION_LOGIN_SUCCESS:
       return  copyInto(state, {
