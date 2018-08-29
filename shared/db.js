@@ -21,15 +21,11 @@ export default class DB {
     }
 
     this.server = new KintoClient(remote, defaultOptions);
-    this.user = new User(this.server);
-
-    this.authenticated = false;
+    this.user = new User(this.server, username);
   }
 
   async auth() {
-    const authed = await this.user.tryAuth(this.username);
-    this.authenticated = authed;
-    return authed;
+    return this.user.tryAuth();
   }
 
   async initDB() {
@@ -46,6 +42,10 @@ export default class DB {
 
   async getUsers() {
     return this.user.getAllUsers();
+  }
+
+  async addLanguage(language) {
+    return this.user.addLanguage(language);
   }
 }
 

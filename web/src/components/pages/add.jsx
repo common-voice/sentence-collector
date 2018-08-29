@@ -244,7 +244,7 @@ const SubmitForm = (props) => (
       {props.message}
     </section>
     <section>
-      <label id="language-selector-label" htmlFor="language-selector">
+      <label className="language-selector-label" htmlFor="language-selector">
         Select Language
       </label>
       <LanguageSelector name="language-selector" />

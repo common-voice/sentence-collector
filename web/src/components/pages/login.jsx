@@ -9,10 +9,11 @@ export default class Login extends React.Component {
   }
 
   async tryAuth(username, password) {
-    const isLoggedIn = await this.props.login(username, password);
-    if (!isLoggedIn) {
+    try {
+      await this.props.login(username, password);
+    } catch (err) {
       document.getElementById('password').value = '';
-      this.setState({ message: 'Login failed' });
+      this.setState({ message: 'Login failed: ' + err });
     }
   }
 

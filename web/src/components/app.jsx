@@ -10,7 +10,7 @@ import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
 import Login from '../containers/login';
-import Profile from './pages/profile';
+import Profile from '../containers/profile';
 import Add from './pages/add';
 
 export default class App extends React.Component {

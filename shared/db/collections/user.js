@@ -4,7 +4,8 @@ const NAME = 'User';
 
 export default class User {
 
-  constructor(kintoServer) {
+  constructor(kintoServer, username) {
+    this.username = username;
     this.server = kintoServer;
   }
 
@@ -17,26 +18,44 @@ export default class User {
     return result.user.id;
   }
 
-  async tryAuth(username) {
+  getInitialRecord() {
+    return {
+      username: this.username,
+      languages: [],
+    };
+  }
+
+  async createNew() {
     try {
-      const userid = await this.getId();
-      const record = {
-        id: username,
-        userid,
-      };
-
-      await this.server.bucket(DB.BUCKET_NAME)
-        .collection(NAME).createRecord(record);
-      return true;
+      const collection = await this.getCollection();
+      await collection.createRecord(this.getInitialRecord());
     } catch (err) {
-
       if (err.data && err.data.code === 403) {
-        return false;
+        throw new Error('invalid login credentials');
       }
 
-      console.error('unknown auth failure', err);
-      return false;
+      throw new Error('unknown failure when creating user: ' + err);
     }
+
+  }
+
+  async tryAuth() {
+    let collection, user;
+
+    try {
+      collection = await this.getCollection();
+      user = await collection.getRecord(this.username);
+    } catch (err) {
+      if (!err.data || !err.data.code === 403) {
+        throw new Error('unknown failure when fetching user: ' + err);
+      }
+    }
+
+    if (!user) {
+      user = await this.createNew();
+    }
+
+    return user.data;
   }
 
   async getAllUsers() {
@@ -49,6 +68,21 @@ export default class User {
       console.error('--list user error--', err);
       return false;
     }
+  }
+
+  async addLanguage(language) {
+    const collection = await this.getCollection();
+    const record = await collection.getRecord(this.username);
+    const user = record.data;
+
+    if (user.languages && user.languages.indexOf(language) !== -1) {
+      throw new Error('Language already added.');
+    }
+
+    user.languages = user.languages ?
+      user.languages.concat(language) : [language];
+    const updatedUser = await collection.updateRecord(user);
+    return updatedUser.data.languages;
   }
 }
 
