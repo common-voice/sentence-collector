@@ -181,7 +181,8 @@ export default class Add extends React.Component {
     } else {
       // The plain submission form allows copy & pasting
       return <SubmitForm onSubmit={this.onSubmit}
-                         message={this.state.message} />;
+                         message={this.state.message}
+                         languages={this.props.languages} />;
     }
   }
 }
@@ -247,7 +248,7 @@ const SubmitForm = (props) => (
       <label className="language-selector-label" htmlFor="language-selector">
         Select Language
       </label>
-      <LanguageSelector name="language-selector" />
+      <LanguageSelector name="language-selector" only={props.languages}/>
     </section>
     <section>
       <label htmlFor="sentences-input">Enter sentences</label>

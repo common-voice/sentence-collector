@@ -12,7 +12,7 @@ const Header = (props) => {
       <NavLink to="/" exact={true}>Home</NavLink>
       <NavLink to="/how-to" exact={true}>How-to</NavLink>
       { props.authed ? [
-        <NavLink to="/add" exact={true} key="add">add</NavLink>,
+        <NavLink to="/add" exact={true} key="add">Add</NavLink>,
         <NavLink to="/profile" exact={true} key="profile">Profile</NavLink>,
       ] : (
         <NavLink to="/login" exact={true}>Login</NavLink>

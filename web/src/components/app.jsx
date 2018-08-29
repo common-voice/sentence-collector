@@ -11,7 +11,7 @@ import Home from './pages/home';
 import HowTo from './pages/how-to';
 import Login from '../containers/login';
 import Profile from '../containers/profile';
-import Add from './pages/add';
+import Add from '../containers/add';
 
 export default class App extends React.Component {
   constructor(props) {
