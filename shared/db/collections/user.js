@@ -20,7 +20,7 @@ export default class User {
 
   getInitialRecord() {
     return {
-      username: this.username,
+      id: this.username,
       languages: [],
     };
   }
@@ -28,7 +28,7 @@ export default class User {
   async createNew() {
     try {
       const collection = await this.getCollection();
-      await collection.createRecord(this.getInitialRecord());
+      return await collection.createRecord(this.getInitialRecord());
     } catch (err) {
       if (err.data && err.data.code === 403) {
         throw new Error('invalid login credentials');
