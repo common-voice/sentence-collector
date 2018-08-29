@@ -60,7 +60,7 @@ export default class Profile extends React.Component {
           <label className="language-selector-label" htmlFor="language-selector">
             Add a language
           </label>
-          <LanguageSelector name="language-selector" />
+          <LanguageSelector name="language-selector" filters={this.props.languages} />
           <button disabled={this.props.pendingLanguages}
                   onClick={this.onAdd} className="add-language">Add</button>
         </section>
