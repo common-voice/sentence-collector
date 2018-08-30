@@ -84,6 +84,26 @@ export default class User {
     const updatedUser = await collection.updateRecord(user);
     return updatedUser.data.languages;
   }
+
+  async removeLanguage(language) {
+    const collection = await this.getCollection();
+    const record = await collection.getRecord(this.username);
+    const user = record.data;
+    const languages = user.languages;
+
+    if (!languages) {
+      throw new Error('No languages to be removed');
+    }
+
+    const index = languages.indexOf(language);
+    if (index === -1) {
+      throw new Error('Language cannot be removed, not in list.');
+    }
+
+    user.languages.splice(index, 1);
+    const updatedUser = await collection.updateRecord(user);
+    return updatedUser.data.languages;
+  }
 }
 
 User.COLLECTION_NAME = NAME;

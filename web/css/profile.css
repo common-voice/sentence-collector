@@ -1,0 +1,9 @@
+button.remove-lang {
+  display: inline-block;
+  margin: 0 0.3rem;
+  color: var(--main-font-color);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+}

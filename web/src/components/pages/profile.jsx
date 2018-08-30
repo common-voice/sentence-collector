@@ -1,5 +1,6 @@
 import React from 'react';
 
+import '../../../css/profile.css';
 import LanguageSelector, { getLanguageName } from '../language-selector';
 
 export default class Profile extends React.Component {
@@ -7,13 +8,15 @@ export default class Profile extends React.Component {
     super(props);
     this.state = {};
     this.onAdd = this.onAdd.bind(this);
+    this.onRemove = this.onRemove.bind(this);
   }
 
-  setMessage(message, error = '') {
-    this.setState({
-      message,
-      error,
-    });
+  setMessage(message) {
+    this.setState({ message });
+  }
+
+  setError(error) {
+    this.setState({ error });
   }
 
   async onAdd(evt) {
@@ -34,7 +37,19 @@ export default class Profile extends React.Component {
       this.setMessage('Language added: ' + getLanguageName(language));
     } catch (err) {
       console.error(err);
-      this.setMessage(null, 'Could not add language: ' + err);
+      this.setError('Could not add language: ' + err);
+    }
+  }
+
+  async onRemove(evt) {
+    try {
+      evt.preventDefault();
+      const language = evt.currentTarget.dataset.lang;
+      await this.props.removeLanguage(language);
+      this.setMessage('Language removed: ' + getLanguageName(language));
+    } catch (err) {
+      console.error(err);
+      this.setError('Could not remove language: ' + err);
     }
   }
 
@@ -49,7 +64,13 @@ export default class Profile extends React.Component {
           { this.props.languages && this.props.languages.length > 0 ? (
             <ul>
               { this.props.languages.map((language, i) => (
-                <li key={i}>{ getLanguageName(language) }</li>
+                <li key={i}>
+                  { getLanguageName(language) }
+                  <button className="remove-lang" data-lang={language}
+                          onClick={this.onRemove} disabled={this.props.pending}>
+                    remove
+                </button>
+                </li>
               ))}
             </ul>
           ) : (
@@ -60,8 +81,10 @@ export default class Profile extends React.Component {
           <label className="language-selector-label" htmlFor="language-selector">
             Add a language
           </label>
-          <LanguageSelector name="language-selector" filters={this.props.languages} />
-          <button disabled={this.props.pendingLanguages}
+          <LanguageSelector disabled={this.props.pending}
+                            name="language-selector"
+                            filters={this.props.languages} />
+          <button disabled={this.props.pending}
                   onClick={this.onAdd} className="add-language">Add</button>
         </section>
       </form>

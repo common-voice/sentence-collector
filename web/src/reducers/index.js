@@ -5,7 +5,10 @@ import {
   ACTION_LOGIN_FAILURE,
   ACTION_ADD_LANGUAGE_REQUEST,
   ACTION_ADD_LANGUAGE_SUCCESS,
-  ACTION_ADD_LANGUAGE_FAILURE
+  ACTION_ADD_LANGUAGE_FAILURE,
+  ACTION_REMOVE_LANGUAGE_REQUEST,
+  ACTION_REMOVE_LANGUAGE_SUCCESS,
+  ACTION_REMOVE_LANGUAGE_FAILURE
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -54,6 +57,22 @@ export default function reducer(state = INITIAL_STATE, action) {
       });
 
     case ACTION_ADD_LANGUAGE_FAILURE:
+      return copyInto(state, {
+        pendingLanguages: false,
+      });
+
+    case ACTION_REMOVE_LANGUAGE_REQUEST:
+      return copyInto(state, {
+        pendingLanguages: true,
+      });
+
+    case ACTION_REMOVE_LANGUAGE_SUCCESS:
+      return copyInto(state, {
+        pendingLanguages: false,
+        languages: action.languages,
+      });
+
+    case ACTION_REMOVE_LANGUAGE_FAILURE:
       return copyInto(state, {
         pendingLanguages: false,
       });

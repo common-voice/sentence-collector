@@ -47,6 +47,10 @@ export default class DB {
   async addLanguage(language) {
     return this.user.addLanguage(language);
   }
+
+  async removeLanguage(language) {
+    return this.user.removeLanguage(language);
+  }
 }
 
 DB.BUCKET_NAME = BUCKET_NAME;

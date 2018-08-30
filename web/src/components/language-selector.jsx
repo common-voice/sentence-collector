@@ -8,7 +8,8 @@ const getAllLanguages = () => ISO6391.getLanguages(ISO6391.getAllCodes());
 export const getLanguageName = ISO6391.getNativeName.bind(ISO6391);
 
 const LanguageSelector = (props) => (
-  <select className='language-selector {props.className}'>
+  <select disabled={props.disabled}
+          className='language-selector {props.className}'>
     <Options {...props} />
   </select>
 );
