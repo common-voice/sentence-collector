@@ -15,7 +15,7 @@ const LanguageSelector = (props) => (
 );
 
 const Options = (props) => {
-  let languages = props.only ?
+  let languages = props.only && props.only.length > 0 ?
     ISO6391.getLanguages(props.only) : getAllLanguages();
 
   if (props.filters) {
