@@ -1,6 +1,13 @@
 import btoa from 'btoa';
 import KintoClient from 'kinto-http';
+
+import {
+  authedRead,
+  authedCreate,
+  authedCreateAndRead
+} from './db/permissions';
 import User from './db/collections/user';
+import Sentences from './db/collections/sentences';
 
 const BUCKET_NAME = 'App';
 
@@ -24,20 +31,21 @@ export default class DB {
     this.user = new User(this.server, username);
   }
 
+  async getBucket() {
+    return this.server.bucket(BUCKET_NAME);
+  }
+
   async auth() {
     return this.user.tryAuth();
   }
 
   async initDB() {
-    let id = await this.user.getId();
-    await this.server.createBucket(BUCKET_NAME);
-    const bucket = await this.server.bucket(BUCKET_NAME, { permissions: {
-      read : ['system.Authenticated'],
-    }});
-    await bucket.createCollection(User.COLLECTION_NAME, { permissions: {
-      'record:create': ['system.Authenticated'],
-    }});
-    return id;
+    await this.server.createBucket(BUCKET_NAME, authedRead());
+    const bucket = await this.getBucket();
+
+    // Create collections.
+    await bucket.createCollection(User.NAME, authedCreate());
+    await bucket.createCollection(Sentences.NAME, authedCreateAndRead());
   }
 
   async getUsers() {

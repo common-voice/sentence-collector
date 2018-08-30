@@ -106,4 +106,4 @@ export default class User {
   }
 }
 
-User.COLLECTION_NAME = NAME;
+User.NAME = NAME;
