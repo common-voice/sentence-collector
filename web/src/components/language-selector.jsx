@@ -3,26 +3,41 @@ import ISO6391 from 'iso-639-1';
 
 import '../../css/language-selector.css';
 
-const languages = ISO6391.getLanguages(ISO6391.getAllCodes());
+const getAllLanguages = () => ISO6391.getLanguages(ISO6391.getAllCodes());
 
 export const getLanguageName = ISO6391.getNativeName.bind(ISO6391);
 
 const LanguageSelector = (props) => (
   <select className='language-selector {props.className}'>
-    <option value="">--</option>
-    { (props.only ? ISO6391.getLanguages(props.only) : languages)
-      .reduce((accum, lang, index) => {
-        if (!props.filters || props.filters.indexOf(lang.code) === -1) {
-          return accum.concat(
-            <option value={lang.code} key={index}>
-              {`${lang.nativeName} (${lang.name})`}
-            </option>
-          );
-        }
-        return accum;
-      }, [])
-    }
+    <Options {...props} />
   </select>
 );
+
+const Options = (props) => {
+  let languages = props.only ?
+    ISO6391.getLanguages(props.only) : getAllLanguages();
+
+  if (props.filters) {
+    languages = languages.filter(({ code }) => props.filters.indexOf(code) === -1);
+  }
+
+  if (languages.length === 1) {
+    return <Option key="default" lang={languages[0]} />;
+  }
+
+  return [<NullOption key="null" />]
+    .concat(languages.map(
+      lang => <Option key={lang.code} lang={lang} />
+    ));
+};
+
+const Option = (props) => (
+  <option value={props.lang.code}>
+    {`${props.lang.nativeName} (${props.lang.name})`}
+  </option>
+);
+
+const NullOption = () => <option value="">--</option>;
+
 
 export default LanguageSelector
