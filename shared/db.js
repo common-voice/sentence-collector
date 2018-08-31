@@ -2,9 +2,8 @@ import btoa from 'btoa';
 import KintoClient from 'kinto-http';
 
 import {
-  authedRead,
-  authedCreate,
-  authedCreateAndRead
+  lockDown,
+  authedCreateNoRead
 } from './db/permissions';
 import User from './db/collections/user';
 import Sentences from './db/collections/sentences';
@@ -29,6 +28,7 @@ export default class DB {
 
     this.server = new KintoClient(remote, defaultOptions);
     this.user = new User(this.server, username);
+    this.sentences = new Sentences(this.server);
   }
 
   async getBucket() {
@@ -40,12 +40,12 @@ export default class DB {
   }
 
   async initDB() {
-    await this.server.createBucket(BUCKET_NAME, authedRead());
+    await this.server.createBucket(BUCKET_NAME, lockDown());
     const bucket = await this.getBucket();
 
     // Create collections.
-    await bucket.createCollection(User.NAME, authedCreate());
-    await bucket.createCollection(Sentences.NAME, authedCreateAndRead());
+    await bucket.createCollection(User.NAME, authedCreateNoRead());
+    await this.sentences.createAllCollections(bucket);
   }
 
   async getUsers() {
@@ -58,6 +58,10 @@ export default class DB {
 
   async removeLanguage(language) {
     return this.user.removeLanguage(language);
+  }
+
+  async submitSentences(language, sentences) {
+    return this.sentences.submitSentences(language, sentences);
   }
 }
 

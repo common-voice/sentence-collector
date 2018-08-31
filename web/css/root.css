@@ -179,6 +179,12 @@ select {
 
 #form-message {
   line-height: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+#form-error {
+  line-height: 1rem;
   color: var(--warning-color);
   text-align: center;
   font-weight: bold;

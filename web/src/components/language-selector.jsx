@@ -1,25 +1,22 @@
 import React from 'react';
-import ISO6391 from 'iso-639-1';
 
 import '../../css/language-selector.css';
-
-const getAllLanguages = () => ISO6391.getLanguages(ISO6391.getAllCodes());
-
-export const getLanguageName = ISO6391.getNativeName.bind(ISO6391);
+import { getLanguages, getAllLanguages } from '../../../shared/languages';
 
 const LanguageSelector = (props) => (
   <select disabled={props.disabled}
-          className='language-selector {props.className}'>
+          className='language-selector'>
     <Options {...props} />
   </select>
 );
 
 const Options = (props) => {
   let languages = props.only && props.only.length > 0 ?
-    ISO6391.getLanguages(props.only) : getAllLanguages();
+    getLanguages(props.only) : getAllLanguages();
 
   if (props.filters) {
-    languages = languages.filter(({ code }) => props.filters.indexOf(code) === -1);
+    languages = languages.filter(
+      ({ code }) => props.filters.indexOf(code) === -1);
   }
 
   if (languages.length === 1) {

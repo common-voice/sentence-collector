@@ -1,7 +1,8 @@
 import React from 'react';
 
 import '../../../css/profile.css';
-import LanguageSelector, { getLanguageName } from '../language-selector';
+import { getLanguageName } from '../../../../shared/languages';
+import LanguageSelector from '../language-selector';
 
 export default class Profile extends React.Component {
   constructor(props) {

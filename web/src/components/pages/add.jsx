@@ -16,7 +16,8 @@ const SENTENCE_STATE_INVALIDATED = 'invalidated';
 const SENTENCE_STATE_FILTERED = 'filtered';
 
 const DEFAULT_STATE = {
-  message: null,
+  message: '',
+  error: '',
   submitted: [],
   unreviewed: [],
   reviewing: [],
@@ -84,6 +85,7 @@ export default class Add extends React.Component {
   validateForm() {
     let lang = this.getLanguageInput();
     if (!lang) {
+      this.resetState();
       this.setState({
         message: 'Please select a langauge.',
       });
@@ -102,12 +104,13 @@ export default class Add extends React.Component {
     return true;
   }
 
-  parseSentences(text) {
+  parseSentences(language, text) {
     const submitted = tokenizeSentences(text);
     let valid, filtered;
     ({ valid, filtered } = this.filterSentences(submitted));
 
     this.setState({
+      language,
       submitted,
       unreviewed: valid,
       filtered,
@@ -122,16 +125,33 @@ export default class Add extends React.Component {
     }
 
     this.resetState();
-    this.parseSentences(this.getSentencesInput());
+    this.parseSentences(this.getLanguageInput(), this.getSentencesInput());
   }
 
-  onConfirm(evt) {
-    evt.preventDefault();
-    const submission = this.getReadySentences()
-    this.resetState();
-    this.setState({
-      message: `Submited (fake) ${submission.length} sentences`,
-    });
+  async onConfirm(evt) {
+    try {
+      evt.preventDefault();
+      const readySentences = this.getReadySentences();
+      const language = this.state.language;
+      const { sentences, errors } =
+        await this.props.submitSentences(language, readySentences);
+
+      let message = sentences.length > 0 ?
+          `Submited ${sentences.length} sentences.` : ''
+      let error = errors.length > 0 ?
+          `${errors.length} sentences failed` : '';
+
+      this.resetState();
+      this.setState({
+        message,
+        error,
+      });
+    } catch (err) {
+      this.resetState();
+      this.setState({
+        message: 'Submission error: ' + err,
+      });
+    }
   }
 
   onCancel(evt) {
@@ -182,6 +202,7 @@ export default class Add extends React.Component {
       // The plain submission form allows copy & pasting
       return <SubmitForm onSubmit={this.onSubmit}
                          message={this.state.message}
+                         error={this.state.error}
                          languages={this.props.languages} />;
     }
   }
@@ -243,6 +264,9 @@ const SubmitForm = (props) => (
     <p>Please add your sentences by typing or copy & pasting them below.</p>
     <section id="form-message">
       {props.message}
+    </section>
+    <section id="form-error">
+      {props.error}
     </section>
     <section>
       <label className="language-selector-label" htmlFor="language-selector">

@@ -1,6 +1,7 @@
 export const PRINCIPAL_ALL = 'system.Everyone';
 export const PRINCIPAL_AUTHED = 'system.Authenticated';
 
+export const TYPE_WRITE = 'write';
 export const TYPE_READ = 'read';
 export const TYPE_CREATE_RECORD = 'record:create';
 
@@ -14,6 +15,17 @@ function getPermissionsObject(permissions) {
   return { permissions: permObject };
 }
 
+export function lockDown() {
+  return getPermissionsObject({
+    type: TYPE_READ,
+    principals: [],
+  }, {
+    type: TYPE_WRITE,
+    principals: [],
+  });
+}
+
+
 export function authedRead() {
   return getPermissionsObject({
     type: TYPE_READ,
@@ -26,6 +38,16 @@ export function authedCreate() {
     type: TYPE_CREATE_RECORD,
     principals: [ PRINCIPAL_AUTHED ],
   });
+}
+
+export function authedCreateNoRead() {
+  return getPermissionsObject([{
+    type: TYPE_CREATE_RECORD,
+    principals: [ PRINCIPAL_AUTHED ],
+  }, {
+    type: TYPE_READ,
+    principals: [],
+  }]);
 }
 
 export function authedCreateAndRead() {

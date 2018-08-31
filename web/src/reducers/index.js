@@ -8,7 +8,10 @@ import {
   ACTION_ADD_LANGUAGE_FAILURE,
   ACTION_REMOVE_LANGUAGE_REQUEST,
   ACTION_REMOVE_LANGUAGE_SUCCESS,
-  ACTION_REMOVE_LANGUAGE_FAILURE
+  ACTION_REMOVE_LANGUAGE_FAILURE,
+  ACTION_SUBMIT_SENTENCES_REQUEST,
+  ACTION_SUBMIT_SENTENCES_SUCCESS,
+  ACTION_SUBMIT_SENTENCES_FAILURE
 } from '../actions';
 
 export const INITIAL_STATE = {
@@ -18,10 +21,17 @@ export const INITIAL_STATE = {
   password: null,
   languages: [],
   pendingLanguages: false,
+  sentences: [],
+  pendingSentences: false,
 };
 
 function copyInto(oldObj, newObj) {
   return Object.assign({}, oldObj, newObj);
+}
+
+function mergeArray(arr1, arr2) {
+  arr1 && arr1.forEach(item => (arr2.indexOf(item) === -1 && arr2.push(item)));
+  return arr2;
 }
 
 export default function reducer(state = INITIAL_STATE, action) {
@@ -77,8 +87,23 @@ export default function reducer(state = INITIAL_STATE, action) {
         pendingLanguages: false,
       });
 
+    case ACTION_SUBMIT_SENTENCES_REQUEST:
+      return copyInto(state, {
+        pendingSentences: true,
+      });
+
+    case ACTION_SUBMIT_SENTENCES_SUCCESS:
+      return copyInto(state, {
+        pendingSentences: false,
+        sentences: mergeArray(state.sentences, action.sentences),
+      });
+
+    case ACTION_SUBMIT_SENTENCES_FAILURE:
+      return copyInto(state, {
+        pendingSentences: false,
+      });
+
     default:
       return state;
   }
 }
-
