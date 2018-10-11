@@ -7,7 +7,7 @@ import {
 import { ConnectedRouter } from 'connected-react-router';
 
 import Page from './page';
-import Home from './pages/home';
+import Home from '../containers/home';
 import HowTo from './pages/how-to';
 import Login from '../containers/login';
 import Profile from '../containers/profile';

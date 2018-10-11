@@ -1,12 +1,23 @@
 import React from 'react';
-import welcome from '../../../../doc/welcome.md';
 
-export default class App extends React.Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    return <div dangerouslySetInnerHTML={{ __html: welcome }} />;
+    return (
+      <div>
+        <h1>Welcome { this.props.authed ? ' back' : '' } to the Sentence Collector</h1>
+        { !this.props.authed ? (
+          <p>
+            This is a website where we collect and review sentences
+            for <a href="https://voice.mozilla.org/">Common Voice</a>.
+          </p>
+        ) : (
+          <p>It's good to see you, { this.props.username }.</p>
+        )}
+      </div>
+    );
   }
 }
