@@ -1,5 +1,7 @@
 import ISO6391 from 'iso-639-1';
 
+export const ENGLISH_CODE = 'en';
+
 export const getAllLanguages =
   () => ISO6391.getLanguages(ISO6391.getAllCodes());
 

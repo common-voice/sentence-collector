@@ -1,7 +1,11 @@
 import React from 'react';
 
 import '../../css/language-selector.css';
-import { getLanguages, getAllLanguages } from '../../../shared/languages';
+import {
+  ENGLISH_CODE,
+  getLanguages,
+  getAllLanguages
+} from '../../../shared/languages';
 
 const LanguageSelector = (props) => (
   <select disabled={props.disabled}
@@ -13,6 +17,13 @@ const LanguageSelector = (props) => (
 const Options = (props) => {
   let languages = props.only && props.only.length > 0 ?
     getLanguages(props.only) : getAllLanguages();
+
+  // For convenience, move English to the top of the list since
+  // for now the website is localized in English only.
+  const englishLang = languages.find(lang => lang.code === ENGLISH_CODE);
+  const englishIndex = languages.indexOf(englishLang);
+  languages.splice(englishIndex, 1);
+  languages.unshift(englishLang);
 
   if (props.filters) {
     languages = languages.filter(
