@@ -20,12 +20,13 @@
     "test": "yarn lint && yarn build"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.0.0",
     "babel-preset-env": "^1.7.0",
     "babel-runtime": "^6.26.0",
     "connected-react-router": "^4.4.1",
     "iso-639-1": "^2.0.3",
     "js-md5": "^0.7.3",
-    "kinto": "^11.2.0",
+    "kinto": "^12.1.1",
     "kinto-http": "^4.5.3",
     "react": "^15.5.4 || ^16.0.0",
     "react-dom": "^16.4.1",
@@ -35,22 +36,20 @@
     "redux": "^3.6.0 || ^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "talisman": "^0.20.0"
+    "talisman": "^0.21.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.6",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "babel-eslint": "^10.0.1",
     "btoa": "^1.2.1",
-    "eslint": "4.x",
-    "gh-pages": "^1.2.0",
+    "eslint": "5.6.1",
+    "gh-pages": "^2.0.1",
     "kinto-node-test-server": "^1.0.2",
     "node-fetch": "^2.1.2",
     "parcel-bundler": "^1.9.4",
     "parcel-plugin-eslint": "^1.0.4",
     "parcel-plugin-markdown": "^0.3.1",
-    "pug": "^2.0.3",
-    "typescript": "^2.9.2"
+    "pug": "^2.0.3"
   }
 }
