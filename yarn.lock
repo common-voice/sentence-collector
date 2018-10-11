@@ -3945,7 +3945,7 @@ pandemonium@^1.0.2:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/pandemonium/-/pandemonium-1.4.1.tgz#61f4fb0df843a9282b5f7bce7a467ed05857961d"
 
-parcel-bundler@^1.8.1, parcel-bundler@^1.9.4:
+parcel-bundler@^1.10.2, parcel-bundler@^1.8.1:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/parcel-bundler/-/parcel-bundler-1.10.2.tgz#be8448de155552d43ba9b44c2f81389812586b78"
   dependencies:
@@ -4016,9 +4016,9 @@ parcel-plugin-eslint@^1.0.4:
     eslint-friendly-formatter "^3.0.0"
     jsonfile "^4.0.0"
 
-parcel-plugin-markdown@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/parcel-plugin-markdown/-/parcel-plugin-markdown-0.3.1.tgz#2e6dad68347c71c62abc5a67e0e38dc680b215f2"
+parcel-plugin-markdown@mikehenrty/parcel-plugin-markdown#upgrade-asset:
+  version "0.3.0"
+  resolved "https://codeload.github.com/mikehenrty/parcel-plugin-markdown/tar.gz/f0c08896b5b9ec6ca9433acffd26bc50270fa65c"
   dependencies:
     marked "^0.4.0"
     parcel-bundler "^1.8.1"

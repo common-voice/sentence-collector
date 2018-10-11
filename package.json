@@ -47,9 +47,9 @@
     "gh-pages": "^2.0.1",
     "kinto-node-test-server": "^1.0.2",
     "node-fetch": "^2.1.2",
-    "parcel-bundler": "^1.9.4",
+    "parcel-bundler": "^1.10.2",
     "parcel-plugin-eslint": "^1.0.4",
-    "parcel-plugin-markdown": "^0.3.1",
+    "parcel-plugin-markdown": "mikehenrty/parcel-plugin-markdown#upgrade-asset",
     "pug": "^2.0.3"
   }
 }
