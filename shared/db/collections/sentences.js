@@ -1,7 +1,7 @@
 import { getAllLanguages } from '../../languages';
 import { BUCKET_NAME } from '../../db.js';
 import { authedCreateAndRead } from '../permissions';
-import hash from '../hash';
+import hash from '../../hash';
 
 const NAME = 'Sentences';
 const PREFIX = NAME + '_';
