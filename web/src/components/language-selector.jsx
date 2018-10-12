@@ -8,8 +8,8 @@ import {
 } from '../../../shared/languages';
 
 const LanguageSelector = (props) => (
-  <select disabled={props.disabled}
-          className='language-selector'>
+  <select onChange={evt => props.onChange && props.onChange(evt.target.value)}
+          disabled={props.disabled} value={props.selected} className='language-selector'>
     <Options {...props} />
   </select>
 );

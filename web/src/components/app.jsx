@@ -12,7 +12,7 @@ import HowTo from './pages/how-to';
 import Login from '../containers/login';
 import Profile from '../containers/profile';
 import Add from '../containers/add';
-
+import Review from '../containers/review';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,10 +27,14 @@ export default class App extends React.Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute authed={this.props.authed}
+            <PrivateRoute exact authed={this.props.authed}
               path="/profile" component={Profile} />
-            <PrivateRoute authed={this.props.authed}
+            <PrivateRoute exact authed={this.props.authed}
               path="/add" component={Add} />
+            <PrivateRoute exact authed={this.props.authed}
+              path="/review" component={Review} />
+            <PrivateRoute authed={this.props.authed}
+              path="/review/:language" component={Review} />
             <Route render={() => (<div>Add 404 page here</div>)} />
           </Switch>
         </Page>
