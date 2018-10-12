@@ -1,5 +1,5 @@
 import { getAllLanguages } from '../../languages';
-import DB from '../../db.js';
+import { BUCKET_NAME } from '../../db.js';
 import { authedCreateAndRead } from '../permissions';
 import hash from '../hash';
 
@@ -34,7 +34,7 @@ export default class Sentences {
   }
 
   async getCollection(language) {
-    return this.server.bucket(DB.BUCKET_NAME)
+    return this.server.bucket(BUCKET_NAME)
       .collection(this.getCollectionName(language));
   }
 
@@ -63,6 +63,11 @@ export default class Sentences {
       sentences: newSentences,
       errors,
     };
+  }
+
+  async count(language) {
+    let collection = await this.getCollection(language);
+    return collection.getTotalRecords();
   }
 }
 

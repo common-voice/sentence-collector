@@ -8,7 +8,7 @@ import {
 import User from './db/collections/user';
 import Sentences from './db/collections/sentences';
 
-const BUCKET_NAME = 'App';
+export const BUCKET_NAME = 'App';
 
 export default class DB {
 
@@ -62,6 +62,10 @@ export default class DB {
 
   async submitSentences(language, sentences) {
     return this.sentences.submitSentences(language, sentences);
+  }
+
+  async getSentenceCount(language) {
+    return this.sentences.count(language);
   }
 }
 

@@ -7,6 +7,7 @@ function mapStateToProps(state) {
     languages: state.languages,
     authed: state.authed,
     username: state.username,
+    password: state.password,
   };
 }
 

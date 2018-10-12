@@ -1,5 +1,4 @@
-import DB from '../../../shared/db';
-import { getDatabaseUrl } from '../config';
+import WebDB from '../web-db';
 
 export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -18,16 +17,12 @@ export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
 export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 
-function getDB(username, password) {
-  return new DB(getDatabaseUrl(), username, password);
-}
-
 export function login(username, password) {
   return async function(dispatch) {
     try {
       dispatch(sendLoginRequest());
 
-      const db = getDB(username, password);
+      const db = new WebDB(username, password);
       const user = await db.auth();
       dispatch(loginSuccess(username, password, user.languages));
     } catch (err) {
@@ -43,7 +38,7 @@ export function addLanguage(language) {
       dispatch(sendAddLanguage());
 
       const state = getState();
-      const db = getDB(state.username, state.password);
+      const db = new WebDB(state.username, state.password);
       const updatedLanguages = await db.addLanguage(language);
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -59,7 +54,7 @@ export function removeLanguage(language) {
       dispatch(sendRemoveLanguage());
 
       const state = getState();
-      const db = getDB(state.username, state.password);
+      const db = new WebDB(state.username, state.password);
       const updatedLanguages = await db.removeLanguage(language);
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -75,7 +70,7 @@ export function submitSentences(language, sentences) {
       dispatch(sendSubmitSentences());
 
       const state = getState();
-      const db = getDB(state.username, state.password);
+      const db = new WebDB(state.username, state.password);
       const results = await db.submitSentences(language, sentences);
       dispatch(submitSentencesSuccess(results.sentences.slice(0)));
       return results;
