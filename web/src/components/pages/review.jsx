@@ -12,7 +12,6 @@ export default class Review extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.state.language = this.getLanguageFromParams();
 
     this.onReviewed = this.onReviewed.bind(this);
     this.onSelectLanguage = this.onSelectLanguage.bind(this);
@@ -26,6 +25,35 @@ export default class Review extends React.Component {
       lang = '';
     }
     return lang;
+  }
+
+  // If user only has one language possible, redirect to it.
+  needsRedirectToOnlyLang() {
+    return (this.props.languages.length === 1 &&
+            this.props.languages[0] !== this.getLanguageFromParams());
+  }
+
+  isInvalidLanguageRequest() {
+    return this.props.languages && this.getLanguageFromParams() &&
+           this.props.languages.indexOf(this.getLanguageFromParams()) === -1;
+  }
+
+  async fetchSentences() {
+    if (!this.getLanguageFromParams()) {
+      console.warn('Cannot fetch sentences, no language found');
+      return;
+    }
+
+    this.setState({
+      loading: true,
+    });
+
+    const db = new WebDB(this.props.username, this.props.password);
+    const sentences = await db.getSentences(this.getLanguageFromParams());
+    this.setState({
+      loading: false,
+      sentences,
+    });
   }
 
   onSelectLanguage(language) {
@@ -55,6 +83,20 @@ export default class Review extends React.Component {
   }
 
   render() {
+    // If user only has one language possible, redirect to it.
+    if (this.needsRedirectToOnlyLang()) {
+      return (
+        <Redirect to={`/review/${this.props.languages[0]}`} />
+      );
+    }
+
+    // Make sure requested lang in url is in users languages list.
+    if (this.isInvalidLanguageRequest()) {
+      return (
+        <Redirect to={`/review/`} />
+      );
+    }
+
     // If language has changed, redirect to that language.
     if (this.state.language !== this.getLanguageFromParams()) {
       return (
@@ -62,11 +104,11 @@ export default class Review extends React.Component {
       );
     }
 
-    // If user hasn't selected languages, direct them to do so.
+    // If user hasn't added any languages, ask them to do so.
     if (!this.props.languages || this.props.languages.length < 1) {
       return (
         <p>
-          You have not selected any languages. Please go to your
+          You have not selected any languages. Please go to your&nbsp;
           <Link to="/profile">Profile</Link> to select languages.
         </p>
       );
@@ -80,7 +122,7 @@ export default class Review extends React.Component {
             Language to review
           </label>
           <LanguageSelector name="language-selector-review" only={this.props.languages}
-            selected={this.state.language} onChange={this.onSelectLanguage} />
+            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>
         { this.renderContent() }
       </div>
