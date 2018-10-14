@@ -139,6 +139,8 @@ main {
   box-sizing: border-box;
   min-height: calc(100vh - 2rem);
   padding: 0.3rem 2rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 form {
