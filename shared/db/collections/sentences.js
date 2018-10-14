@@ -38,6 +38,12 @@ export default class Sentences {
       .collection(this.getCollectionName(language));
   }
 
+  async getAll(language) {
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords();
+    return result.data;
+  }
+
   async submitSentences(language, sentences) {
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {

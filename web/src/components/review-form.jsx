@@ -16,14 +16,14 @@ export default class ReviewForm extends React.Component {
     // Extract sentence that have been voted on.
     const unreviewed = this.props.sentences.filter((sen, i) => {
       const no = document.querySelector(`#no-${i}`);
-      if (no.checked) {
-        invalidated.push(this.props.sentences.slice(i, i + 1));
+      if (no && no.checked) {
+        invalidated.push(sen);
         return false;
       }
 
       const yes = document.querySelector(`#yes-${i}`);
-      if (yes.checked) {
-        validated.push(this.props.sentences.slice(i, i + 1));
+      if (yes && yes.checked) {
+        validated.push(sen);
         return false;
       }
 
@@ -45,10 +45,11 @@ export default class ReviewForm extends React.Component {
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
         <h2>Review Sentences</h2>
+        { this.props.message && ( <p>{ this.props.message }</p> ) }
         { this.props.sentences.map((sentence, i) => (
           <section id={`sentence-${i}`} key={i} className="validator">
             <div className="sentence-box">
-              {sentence}
+              {sentence.sentence}
             </div>
             <input id={`yes-${i}`} type="radio" name={`validate-${i}`} />
             <label htmlFor={`yes-${i}`}>Yes</label>

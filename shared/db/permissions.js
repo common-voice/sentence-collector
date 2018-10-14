@@ -59,3 +59,17 @@ export function authedCreateAndRead() {
     principals: [PRINCIPAL_ALL],
   }]);
 }
+
+export function authedCreateReadAndWrite() {
+  return getPermissionsObject([{
+    type: TYPE_CREATE_RECORD,
+    principals: [ PRINCIPAL_AUTHED ],
+  }, {
+    type: TYPE_WRITE,
+    principals: [ PRINCIPAL_AUTHED ],
+  }, {
+    type: TYPE_READ,
+    principals: [PRINCIPAL_ALL],
+  }]);
+
+}

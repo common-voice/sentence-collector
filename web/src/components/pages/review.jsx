@@ -3,28 +3,54 @@ import { Link, Redirect } from 'react-router-dom';
 
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
+import WebDB from '../../web-db';
 
 const DEFAULT_STATE = {
+  message: '',
   loading: false,
+}
+
+export const getReviewUrl = (language) => {
+  return `/review/${language || ''}`;
+};
+
+export const getLanguageFromMatch = (match) => {
+  // Always return an empty string if no lang specified.
+  // This ensures we never have an undefined language.
+  let lang = match.params.language;
+  if (!lang) {
+    lang = '';
+  }
+  return lang;
 }
 
 export default class Review extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = DEFAULT_STATE;
 
     this.onReviewed = this.onReviewed.bind(this);
     this.onSelectLanguage = this.onSelectLanguage.bind(this);
   }
 
-  getLanguageFromParams() {
-    let lang = this.props.match.params.language;
-    // Always return an empty string if no lang specified.
-    // This ensures we never have type undefined lang.
-    if (!lang) {
-      lang = '';
+  resetState() {
+    this.setState(DEFAULT_STATE);
+  }
+
+  componentDidMount() {
+    this.fetchSentences();
+  }
+
+  componentDidUpdate(prevProps) {
+    const oldLang = getLanguageFromMatch(prevProps.match);
+    const newLang = this.getLanguageFromParams();
+    if (oldLang !== newLang) {
+      this.fetchSentences();
     }
-    return lang;
+  }
+
+  getLanguageFromParams() {
+    return getLanguageFromMatch(this.props.match);
   }
 
   // If user only has one language possible, redirect to it.
@@ -38,9 +64,35 @@ export default class Review extends React.Component {
            this.props.languages.indexOf(this.getLanguageFromParams()) === -1;
   }
 
-  async fetchSentences() {
+  userHasNoLanguages() {
+    return (
+      !this.props.languages || this.props.languages.length < 1
+    );
+  }
+
+  // Make sure the requests matches the user profile.
+  isValidSentenceRequest() {
     if (!this.getLanguageFromParams()) {
-      console.warn('Cannot fetch sentences, no language found');
+      return false;
+    }
+
+    if (this.needsRedirectToOnlyLang()) {
+      return false;
+    }
+
+    if (this.isInvalidLanguageRequest()) {
+      return false;
+    }
+
+    if (this.userHasNoLanguages()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async fetchSentences() {
+    if (!this.isValidSentenceRequest()) {
       return;
     }
 
@@ -57,27 +109,31 @@ export default class Review extends React.Component {
   }
 
   onSelectLanguage(language) {
-    this.setState({
-      language
-    });
+    this.resetState();
+    this.props.history.push(getReviewUrl(language));
   }
 
-  onReviewed(reviewedState) {
+  async onReviewed(reviewedState) {
+    const validated = reviewedState.validated;
+    const invalidated = reviewedState.invalidated;
+    const lang = this.getLanguageFromParams();
+
+    const db = new WebDB(this.props.username, this.props.password);
+    const { votes, errors } = await db.vote(lang, validated, invalidated);
     this.setState({
-      reviewing: [],
-      unreviewed: reviewedState.unreviewed,
-      validated: merge(this.state.validated, reviewedState.validated),
-      invalidated: merge(this.state.invalidated, reviewedState.invalidated),
+      message: `${votes.length} sentences reviewed. Thank you!`
     });
   }
 
   renderContent() {
     if (this.state.loading) {
       return <p>Loading sentences...</p>;
+    } else if (!this.getLanguageFromParams()) {
+      return <p>Please select a language to review sentences.</p>;
     } else if (!this.state.sentences || this.state.sentences.length < 1) {
       return <p>No sentences to review</p>;
     } else {
-      return <ReviewForm onReviewed={this.onReviewed}
+      return <ReviewForm message={this.state.message} onReviewed={this.onReviewed}
         sentences={this.state.sentences} />;
     }
   }
@@ -86,26 +142,19 @@ export default class Review extends React.Component {
     // If user only has one language possible, redirect to it.
     if (this.needsRedirectToOnlyLang()) {
       return (
-        <Redirect to={`/review/${this.props.languages[0]}`} />
+        <Redirect to={getReviewUrl(this.props.languages[0])} />
       );
     }
 
     // Make sure requested lang in url is in users languages list.
     if (this.isInvalidLanguageRequest()) {
       return (
-        <Redirect to={`/review/`} />
-      );
-    }
-
-    // If language has changed, redirect to that language.
-    if (this.state.language !== this.getLanguageFromParams()) {
-      return (
-        <Redirect to={`/review/${this.state.language}`} />
+        <Redirect to={getReviewUrl()} />
       );
     }
 
     // If user hasn't added any languages, ask them to do so.
-    if (!this.props.languages || this.props.languages.length < 1) {
+    if (this.userHasNoLanguages()) {
       return (
         <p>
           You have not selected any languages. Please go to your&nbsp;
