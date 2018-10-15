@@ -1,4 +1,6 @@
+import SentencesMeta from './sentences-meta';
 import { getAllLanguages } from '../../languages';
+import { parseBatchResults } from '../api-result-parser';
 import { BUCKET_NAME } from '../../db.js';
 import { authedCreateAndRead } from '../permissions';
 import hash from '../../hash';
@@ -10,6 +12,7 @@ export default class Sentences {
   constructor(kintoServer, username) {
     this.server = kintoServer;
     this.username = username;
+    this.meta = new SentencesMeta(this.server, this, username);
   }
 
   getCollectionName(code) {
@@ -31,6 +34,7 @@ export default class Sentences {
       const name = this.getCollectionName(code);
       await bucket.createCollection(name, authedCreateAndRead());
     }
+    await this.meta.createAllCollections(bucket);
   }
 
   async getCollection(language) {
@@ -44,6 +48,10 @@ export default class Sentences {
     return result.data;
   }
 
+  async getNotVoted(language) {
+    return this.meta.getNotVoted(language);
+  }
+
   async submitSentences(language, sentences) {
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {
@@ -53,27 +61,26 @@ export default class Sentences {
       }
     });
 
-    let newSentences = [];
-    let errors = [];
-    results.forEach(result => {
-      if (result.status === 200 || result.status === 201) {
-        newSentences.push(result.body.data.sentence);
-      } else if (result.status === 403) {
-        errors.push(new Error('sentence already submitted by another user'));
-      } else {
-        errors.push(new Error(result.body.message));
-      }
-    });
+    // Use only successes from sentence table to feed meta table.
+    const { successes, errors } = parseBatchResults(results);
+    const {
+      sentences: metas,
+      errors: metaErrors,
+    } = await this.meta.submitSentences(language, successes);
 
     return {
-      sentences: newSentences,
-      errors,
+      sentences: metas.map(data => data.sentences),
+      errors: errors.concat(metaErrors),
     };
   }
 
   async count(language) {
     let collection = await this.getCollection(language);
     return collection.getTotalRecords();
+  }
+
+  async vote(language, validated, invalidated) {
+    return this.meta.vote(language, validated, invalidated);
   }
 }
 

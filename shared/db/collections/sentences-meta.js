@@ -1,10 +1,15 @@
 import { getAllLanguages } from '../../languages';
 import { BUCKET_NAME } from '../../db.js';
-import { authedCreateReadAndWrite } from '../permissions';
+import { parseBatchResults } from '../api-result-parser';
+import { authedCreateReadAndWrite, authedReadAndWrite } from '../permissions';
 import hash from '../../hash';
 
 const NAME = 'Sentences_Meta';
 const PREFIX = NAME + '_';
+const USER_PREFIX = PREFIX + 'UserVote_';
+
+const VALID = true;
+const INVALID = false;
 
 export default class SentencesMeta {
   constructor(kintoServer, sentences, username) {
@@ -15,6 +20,10 @@ export default class SentencesMeta {
 
   getCollectionName(code) {
     return PREFIX + code;
+  }
+
+  getUserKey(username) {
+    return USER_PREFIX + username;
   }
 
   getDefaultRecord(sentence) {
@@ -46,14 +55,41 @@ export default class SentencesMeta {
     return result.data;
   }
 
+  async getNotVoted(language) {
+    const filters = {};
+    // filter current user from votes.
+    filters['has_' + this.getUserKey(this.username)] = false;
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({ filters });
+    return result.data;
+  }
+
+  async submitSentences(language, sentences) {
+    const collection = await this.getCollection(language);
+    const results = await collection.batch(batch => {
+      for (let i = 0; i < sentences.length; i++) {
+        const record = this.getDefaultRecord(sentences[i].sentence);
+        batch.createRecord(record, authedReadAndWrite);
+      }
+    });
+
+    const { successes, errors } = parseBatchResults(results);
+    return {
+      sentences: successes,
+      errors,
+    };
+  }
+
   getVoteRecords(isValid, sentences, existing) {
     return sentences.map(sentence => {
       let record = existing[sentence.id] ?
         existing[sentence.id] : this.getDefaultRecord(sentence.sentence);
       if (isValid) {
         record.valid.push(this.username);
+        record[this.getUserKey(this.username)] = VALID;
       } else {
         record.invalid.push(this.username);
+        record[this.getUserKey(this.username)] = INVALID;
       }
       return record;
     });

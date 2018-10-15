@@ -50,6 +50,16 @@ export function authedCreateNoRead() {
   }]);
 }
 
+export function authedReadAndWrite() {
+  return getPermissionsObject([{
+    type: TYPE_WRITE,
+    principals: [ PRINCIPAL_AUTHED ],
+  }, {
+    type: TYPE_READ,
+    principals: [PRINCIPAL_ALL],
+  }]);
+}
+
 export function authedCreateAndRead() {
   return getPermissionsObject([{
     type: TYPE_CREATE_RECORD,

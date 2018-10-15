@@ -7,7 +7,6 @@ import {
 } from './db/permissions';
 import User from './db/collections/user';
 import Sentences from './db/collections/sentences';
-import SentencesMeta from './db/collections/sentences-meta';
 
 export const BUCKET_NAME = 'App';
 
@@ -30,7 +29,6 @@ export default class DB {
     this.server = new KintoClient(remote, defaultOptions);
     this.user = new User(this.server, username);
     this.sentences = new Sentences(this.server, username);
-    this.meta = new SentencesMeta(this.server, this.sentences, username);
   }
 
   async getBucket() {
@@ -48,7 +46,6 @@ export default class DB {
     // Create collections.
     await bucket.createCollection(User.NAME, authedCreateNoRead());
     await this.sentences.createAllCollections(bucket);
-    await this.meta.createAllCollections(bucket);
   }
 
   async getUsers() {
@@ -67,6 +64,10 @@ export default class DB {
     return this.sentences.getAll(language);
   }
 
+  async getSentencesNotVoted(language) {
+    return this.sentences.getNotVoted(language);
+  }
+
   async submitSentences(language, sentences) {
     return this.sentences.submitSentences(language, sentences);
   }
@@ -76,7 +77,7 @@ export default class DB {
   }
 
   async vote(language, validated, invalidated) {
-    return this.meta.vote(language, validated, invalidated);
+    return this.sentences.vote(language, validated, invalidated);
   }
 }
 

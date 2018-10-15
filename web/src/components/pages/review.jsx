@@ -100,8 +100,9 @@ export default class Review extends React.Component {
       loading: true,
     });
 
+    const lang = this.getLanguageFromParams();
     const db = new WebDB(this.props.username, this.props.password);
-    const sentences = await db.getSentences(this.getLanguageFromParams());
+    const sentences = await db.getSentencesNotVoted(lang);
     this.setState({
       loading: false,
       sentences,
