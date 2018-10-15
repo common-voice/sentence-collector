@@ -37,10 +37,20 @@ export default class SentencesMeta {
 
   async createAllCollections(bucket) {
     const languages = getAllLanguages();
-    for (let i = 0; i < languages.length; i++) {
-      const code = languages[i].code;
-      const name = this.getCollectionName(code);
-      await bucket.createCollection(name, authedCreateReadAndWrite());
+    const results = await bucket.batch(b => {
+      for (let i = 0; i < languages.length; i++) {
+        const code = languages[i].code;
+        const name = this.getCollectionName(code);
+        b.createCollection(name, authedCreateReadAndWrite());
+      }
+    });
+
+    const { successes, errors } = parseBatchResults(results);
+    if (errors.length > 0) {
+      throw new Error('Failed: create meta collections' + errors.join(','));
+    }
+    if (successes.length !== languages.length) {
+      throw new Error('Failed: missing meta collections');
     }
   }
 

@@ -29,11 +29,21 @@ export default class Sentences {
 
   async createAllCollections(bucket) {
     const languages = getAllLanguages();
-    for (let i = 0; i < languages.length; i++) {
-      const code = languages[i].code;
-      const name = this.getCollectionName(code);
-      await bucket.createCollection(name, authedCreateAndRead());
+    const results = await bucket.batch(b => {
+      for (let i = 0; i < languages.length; i++) {
+        const code = languages[i].code;
+        const name = this.getCollectionName(code);
+        b.createCollection(name, authedCreateAndRead());
+      }
+    });
+    const { successes, errors } = parseBatchResults(results);
+    if (errors.length > 0) {
+      throw new Error('Failed: create sentence collections' + errors.join(','));
     }
+    if (successes.length !== languages.length) {
+      throw new Error('Failed: missing sentence collections');
+    }
+
     await this.meta.createAllCollections(bucket);
   }
 
