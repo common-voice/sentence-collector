@@ -69,7 +69,10 @@ export default class SentencesMeta {
     const results = await collection.batch(batch => {
       for (let i = 0; i < sentences.length; i++) {
         const record = this.getDefaultRecord(sentences[i].sentence);
-        batch.createRecord(record, authedReadAndWrite);
+        batch.createRecord(record, {
+          ...authedReadAndWrite(),
+          safe: true,
+        });
       }
     });
 
