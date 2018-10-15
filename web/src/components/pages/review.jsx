@@ -122,8 +122,11 @@ export default class Review extends React.Component {
     const db = new WebDB(this.props.username, this.props.password);
     const { votes, errors } = await db.vote(lang, validated, invalidated);
     this.setState({
-      message: `${votes.length} sentences reviewed. Thank you!`
+      message: `${votes.length} sentences reviewed. Thank you!`,
+      sentences: null,
     });
+
+    this.fetchSentences();
   }
 
   renderContent() {
