@@ -49,7 +49,7 @@ export default class ReviewForm extends React.Component {
         { this.props.sentences.map((sentence, i) => (
           <section id={`sentence-${i}`} key={i} className="validator">
             <div className="sentence-box">
-              {sentence.sentence}
+              {sentence.sentence || sentence}
             </div>
             <input id={`yes-${i}`} type="radio" name={`validate-${i}`} />
             <label htmlFor={`yes-${i}`}>Yes</label>
