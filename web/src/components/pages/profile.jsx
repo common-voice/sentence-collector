@@ -44,7 +44,6 @@ export default class Profile extends React.Component {
 
       const db = new WebDB(this.props.username, this.props.password);
       const metas = await db.getLanguagesMetaForMe(this.props.languages);
-      console.log('got metas', metas);
 
       // Transform array of language data into langauge info state.
       const languageInfo = metas.reduce((accum, languageMeta) => {
@@ -123,23 +122,9 @@ export default class Profile extends React.Component {
         <section>
           <p>Your languages:</p>
           { this.props.languages && this.props.languages.length > 0 ? (
-            <ul>
-              { this.props.languages.map((language, i) => (
-                <li key={i}>
-                  { getLanguageName(language) }
-                  <button className="remove-lang" data-lang={language}
-                          onClick={this.onRemove} disabled={this.props.pending}>
-                    remove
-                  </button>
-                  { this.state.languageInfo && this.state.languageInfo[language] && (
-                    <ul>
-                      <li>{this.state.languageInfo[language].submitted.length} submitted by you.</li>
-                      <li>{this.state.languageInfo[language].validated.length} validated by you.</li>
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <LanguageInfo languageInfo={this.state.languageInfo}
+                          languages={this.props.languages} 
+                          onRemove={this.onRemove} />
           ) : (
             <p>You have not added any languages yet</p>
           )}
@@ -158,3 +143,23 @@ export default class Profile extends React.Component {
     );
   }
 }
+
+const LanguageInfo = (props) => (
+  <ul>
+  { props.languages.map((language, i) => (
+    <li key={i}>
+      { getLanguageName(language) }
+      <button className="remove-lang" data-lang={language}
+              onClick={props.onRemove} disabled={props.pending}>
+        remove
+      </button>
+      { props.languageInfo && props.languageInfo[language] && (
+        <ul>
+        <li>{props.languageInfo[language].submitted.length} submitted by you.</li>
+        <li>{props.languageInfo[language].validated.length} validated by you.</li>
+        </ul>
+      )}
+    </li>
+  ))}
+  </ul>
+);

@@ -16,6 +16,9 @@ export default class LanguageInfo extends React.Component {
     super(props);
     this.state = DEFAULT_STATE;
 
+  }
+
+  componentDidMount() {
     this.load();
   }
 
