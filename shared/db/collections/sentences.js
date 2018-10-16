@@ -62,6 +62,20 @@ export default class Sentences {
     return this.meta.getNotVoted(language);
   }
 
+  async getMySentences(language) {
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        username: this.username,
+      },
+    });
+    return result.data;
+  }
+
+  async getMyVotes(language) {
+    return this.meta.getMyVotes(language);
+  }
+
   async submitSentences(language, sentences) {
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {

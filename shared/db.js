@@ -79,6 +79,24 @@ export default class DB {
   async vote(language, validated, invalidated) {
     return this.sentences.vote(language, validated, invalidated);
   }
+
+  async getLanguageInfoForMe(language) {
+    const [ submitted, validated ] = await Promise.all([
+      this.sentences.getMySentences(language),
+      this.sentences.getMyVotes(language),
+    ]);
+    return {
+      language,
+      submitted,
+      validated,
+    };
+  }
+
+  async getLanguagesMetaForMe(languages) {
+    return Promise.all(languages.map(language => {
+      return this.getLanguageInfoForMe(language);
+    }));
+  }
 }
 
 DB.BUCKET_NAME = BUCKET_NAME;

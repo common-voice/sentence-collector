@@ -93,6 +93,14 @@ export default class SentencesMeta {
     };
   }
 
+  async getMyVotes(language) {
+    const collection = await this.getCollection(language);
+    const filters = {};
+    filters['has_' + this.getUserKey(this.username)] = true;
+    const result = await collection.listRecords({ filters });
+    return result.data;
+  }
+
   getVoteRecords(isValid, sentences, existing) {
     return sentences.map(sentence => {
       let record = existing[sentence.id] ?

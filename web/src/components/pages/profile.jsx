@@ -1,13 +1,23 @@
 import React from 'react';
 
 import '../../../css/profile.css';
+import WebDB from '../../web-db';
 import { getLanguageName } from '../../../../shared/languages';
 import LanguageSelector from '../language-selector';
+
+const DEFAULT_STATE = {
+  languageInfo: {},
+  loading: false,
+}
+
+const arrayCompare = (a1, a2) => (
+  a1.length == a2.length && a1.every((v,i) => (v === a2[i]))
+);
 
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = DEFAULT_STATE;
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
   }
@@ -18,6 +28,56 @@ export default class Profile extends React.Component {
 
   setError(error) {
     this.setState({ error });
+  }
+
+  async loadUserLanguageInfo() {
+    // No need to load langauge meta data if user hasn't added any languages.
+    if (!this.props.languages || this.props.languages.length < 1) {
+      return;
+    }
+
+    try {
+      this.setState({
+        loading: true,
+        languageInfo: DEFAULT_STATE.languageInfo,
+      });
+
+      const db = new WebDB(this.props.username, this.props.password);
+      const metas = await db.getLanguagesMetaForMe(this.props.languages);
+      console.log('got metas', metas);
+
+      // Transform array of language data into langauge info state.
+      const languageInfo = metas.reduce((accum, languageMeta) => {
+        const { language, submitted, validated } = languageMeta;
+        accum[language] = {
+          submitted,
+          validated,
+        };
+        return accum;
+      }, this.state.languageInfo);
+
+      this.setState({
+        loading: false,
+        languageInfo,
+      });
+
+    } catch (err) {
+      console.error('failed loading language meta in profile', err);
+      this.setState({
+        loading: false,
+      });
+      this.setError(err);
+    }
+  }
+
+  componentDidMount() {
+    this.loadUserLanguageInfo();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!arrayCompare(prevProps.languages, this.props.languages)) {
+      this.loadUserLanguageInfo();
+    }
   }
 
   async onAdd(evt) {
@@ -70,7 +130,13 @@ export default class Profile extends React.Component {
                   <button className="remove-lang" data-lang={language}
                           onClick={this.onRemove} disabled={this.props.pending}>
                     remove
-                </button>
+                  </button>
+                  { this.state.languageInfo && this.state.languageInfo[language] && (
+                    <ul>
+                      <li>{this.state.languageInfo[language].submitted.length} submitted by you.</li>
+                      <li>{this.state.languageInfo[language].validated.length} validated by you.</li>
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
