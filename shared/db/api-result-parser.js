@@ -7,6 +7,8 @@ export const parseBatchResults = (results) => {
       successes.push(result.body.data);
     } else if (result.status === 403) {
       errors.push(new Error('item already submitted by another user'));
+    } else if (result.status === 412) {
+      errors.push(new Error('last modified precondition failed'));
     } else {
       console.error('unrecognized result status', result.status, result);
       errors.push(new Error(`status ${result.status}, ${result.body.message}`));
