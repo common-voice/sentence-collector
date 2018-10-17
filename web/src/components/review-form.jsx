@@ -102,7 +102,7 @@ export default class ReviewForm extends React.Component {
 }
 
 const Pager = (props) => (
-  <section>{
+  <section className="pager-container">{
     [
       [0, '1'],
       [props.page - 1, '<'],
