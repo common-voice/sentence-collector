@@ -7,6 +7,8 @@ import LanguageSelector from '../language-selector';
 import { arrayCompare } from '../../util';
 
 const DEFAULT_STATE = {
+  totalSubmitted: 0,
+  totalValidated: 0,
   languageInfo: {},
   loading: false,
 }
@@ -43,8 +45,14 @@ export default class Profile extends React.Component {
       const metas = await db.getLanguagesMetaForMe(this.props.languages);
 
       // Transform array of language data into langauge info state.
+      let totalSubmitted = 0;
+      let totalValidated = 0;
       const languageInfo = metas.reduce((accum, languageMeta) => {
         const { language, submitted, validated } = languageMeta;
+
+        totalSubmitted += submitted.length;
+        totalValidated += validated.length;
+
         accum[language] = {
           submitted,
           validated,
@@ -55,6 +63,8 @@ export default class Profile extends React.Component {
       this.setState({
         loading: false,
         languageInfo,
+        totalSubmitted,
+        totalValidated,
       });
 
     } catch (err) {
@@ -114,6 +124,13 @@ export default class Profile extends React.Component {
     return (
       <form>
         <h2>Profile: { this.props.username }</h2>
+        { (this.state.totalSubmitted || this.state.totalValidated) && (
+          <ul>
+            <li><b>{this.state.totalSubmitted}</b> sentences submitted</li>
+            <li><b>{this.state.totalValidated}</b> sentences reviewed</li>
+            <li>...across <b>{this.props.languages.length}</b> language(s)</li>
+          </ul>
+        )}
         { this.state.message && ( <p>{this.state.message}</p> ) }
         { this.state.error && ( <p style={ { color: 'red' } }>{this.state.error}</p> ) }
         <section>
