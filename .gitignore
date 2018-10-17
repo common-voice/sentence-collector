@@ -3,3 +3,4 @@ dist
 .cache
 .env
 docker-compose.prod.yml
+.ignored_files
