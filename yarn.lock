@@ -4535,7 +4535,7 @@ pandemonium@^1.0.2:
   resolved "https://registry.yarnpkg.com/pandemonium/-/pandemonium-1.4.1.tgz#61f4fb0df843a9282b5f7bce7a467ed05857961d"
   integrity sha512-KhwY9xv8tZGQE8L7FfzaTHrLH+JnarUsDlsa8mqfisjtU3J00P362IL52Ei/EhDp025yBDzPuES/zMdWvvAR5g==
 
-parcel-bundler@^1.10.2, parcel-bundler@^1.8.1:
+parcel-bundler@^1.10.2, parcel-bundler@^1.10.3, parcel-bundler@^1.8.1:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/parcel-bundler/-/parcel-bundler-1.10.3.tgz#8502b40d3f23139093b25e82658f6060f025c024"
   integrity sha512-Lj31fr5o2AZFbazghL/MrubzvJEXLwx24rd3MiR3lncmqCXbd5q0hgl1kpV6X+vRaN9/cSDR8G0lotmgl5OyZg==
@@ -4614,6 +4614,13 @@ parcel-plugin-markdown@mikehenrty/parcel-plugin-markdown#upgrade-asset:
   dependencies:
     marked "^0.4.0"
     parcel-bundler "^1.8.1"
+
+parcel-plugin-txt@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/parcel-plugin-txt/-/parcel-plugin-txt-1.0.2.tgz#1befb31282ec8e08099abca9977924680d998bfb"
+  integrity sha512-ilDERI7nhPcWEUsX+zWwE2PRN5TmPtbvkG5bEsREF/kYXdSwyAyqCEX3Kmy3ZyxpxZnQ1rVQGI9TQhH5A+B4jg==
+  dependencies:
+    parcel-bundler "^1.10.3"
 
 parse-asn1@^5.0.0:
   version "5.1.1"

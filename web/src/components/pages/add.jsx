@@ -1,7 +1,12 @@
 import React from 'react';
 import tokenizeSentences from 'talisman/tokenizers/sentences';
 import tokenizeWords from 'talisman/tokenizers/words';
+import {
+  PunktTrainer,
+  PunktSentenceTokenizer
+} from 'talisman/tokenizers/sentences/punkt';
 
+import { arrayCompare } from '../../util';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import '../../../css/add.css';
@@ -14,6 +19,12 @@ const SENTENCE_STATE_REVIEWING = 'reviewing';
 const SENTENCE_STATE_VALIDATED = 'validated';
 const SENTENCE_STATE_INVALIDATED = 'invalidated';
 const SENTENCE_STATE_FILTERED = 'filtered';
+
+const REGEX_BOUNDARY_PIPE = /([.?!])\s*[\n\|]/g;
+const REGEX_ALL_PIPE = /[\n\|]/g;
+
+// Use a collection of English text from common voice to train punkt.
+import TRAINING_TEXT from '../../../all_en.txt';
 
 const DEFAULT_STATE = {
   message: '',
@@ -36,6 +47,11 @@ export default class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
+    this.trainer = new PunktTrainer();
+    this.trainer.INCLUDE_ALL_COLLOCS = true;
+
+    this.trainer.train(TRAINING_TEXT);
+    this.tokenizer = new PunktSentenceTokenizer(this.trainer.getParams());
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
@@ -105,9 +121,22 @@ export default class Add extends React.Component {
   }
 
   parseSentences(language, text) {
-    const submitted = tokenizeSentences(text);
+    // This next section is for dealing with the | (pipe) character from:
+    // https://docs.google.com/spreadsheets/d/15HK8boTLejnOK5UuOkNQ3OLphEL8H4rOy_QtOBQbcks/
+    //
+    // First replace the pipe on sentences that have ending punctuation already.
+    let updatedText = text.replace(REGEX_BOUNDARY_PIPE, '$1 ');
+    // Then add a period to any sentences that don't have ending punctuation.
+    updatedText = updatedText.replace(REGEX_ALL_PIPE, '. ');
+    const submitted = tokenizeSentences(updatedText);
+    const punktSentences = this.tokenizer.tokenize(updatedText);
+
+    if (!arrayCompare(punktSentences, submitted)) {
+      console.warn('talisman and punkt did not agree', punktSentences, submitted);
+    }
+
     let valid, filtered;
-    ({ valid, filtered } = this.filterSentences(submitted));
+    ({ valid, filtered } = this.filterSentences(punktSentences));
 
     this.setState({
       language,
