@@ -78,18 +78,20 @@ export default class ReviewForm extends React.Component {
         { this.props.message && ( <p>{ this.props.message }</p> ) }
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${i}`} key={i} className="validator">
+            <div className="button-group small">
+              <input id={`fix-${i}`} type="radio" name={`validate-${i}`} />
+              <label style={ {display: "none"} } htmlFor={`fix-${i}`}>Fix</label>
+              <input type="radio" id={`skip-${i}`} name={`validate-${i}`} />
+              <label htmlFor={`skip-${i}`}>skip</label>
+            </div>
             <div className="sentence-box">
               {sentence.sentence || sentence}
             </div>
-            <input id={`yes-${i}`} type="radio" name={`validate-${i}`} />
-            <label htmlFor={`yes-${i}`}>Yes</label>
-            <input type="radio" id={`no-${i}`} name={`validate-${i}`} />
-            <label htmlFor={`no-${i}`}>No</label>
             <div className="button-group">
-              <input id={`fix-${i}`} type="radio" name={`validate-${i}`} />
-              <label htmlFor={`fix-${i}`}>Fix</label>
-              <input type="radio" id={`skip-${i}`} name={`validate-${i}`} />
-              <label htmlFor={`skip-${i}`}>Skip</label>
+              <input id={`yes-${i}`} type="radio" name={`validate-${i}`} />
+              <label className="yes-button" htmlFor={`yes-${i}`}>Yes</label>
+              <input type="radio" id={`no-${i}`} name={`validate-${i}`} />
+              <label className="no-button" htmlFor={`no-${i}`}>No</label>
             </div>
           </section>
         )) }

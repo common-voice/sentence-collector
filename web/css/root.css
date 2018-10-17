@@ -8,7 +8,10 @@
   --second-font-family: 'Zilla Slab', serif;
   --deactive-color: #d7d7db;
   --warning-color: #ff4f5e;
+  --success-color: #54ffbd;
   --base-font-size: 19px;
+  --big-box-shadow: 6px 6px 0px 0px rgba(0,0,0,0.75);
+  --button-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 html {
@@ -51,7 +54,7 @@ button {
   background-color: var(--second-bg-color);
   border-radius: 2px;
   border: 2px solid var(--second-bg-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--button-box-shadow);
   color: var(--second-font-color);
   cursor: pointer;
   display: inline-block;
