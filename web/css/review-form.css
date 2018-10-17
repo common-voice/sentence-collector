@@ -55,3 +55,33 @@
 .validator .button-group input[type="radio"]:checked + label {
   background-color: var(--deactive-color);
 }
+
+.pager {
+  padding: 0.5rem 0.5rem;
+  margin: 0 1rem;
+  width: 2rem;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid var(--main-font-color);
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--main-font-color);
+}
+
+.pager:hover {
+  background-color: gray;
+}
+
+.pager:active {
+  background-color: red;
+}
+
+.pager.active {
+  opacity: 0.8;
+  pointer-events: none;
+  text-decoration: none;
+  border-color: var(--deactive-color);
+  box-shadow: none;
+}
+

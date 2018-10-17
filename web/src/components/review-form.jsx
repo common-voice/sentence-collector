@@ -2,12 +2,30 @@ import React from 'react';
 
 import '../../css/review-form.css';
 
+const PAGE_SIZE = 3;
+const DEFAULT_STATE = {
+  page: 0,
+}
+
 export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = DEFAULT_STATE;
     this.onSubmit = this.onSubmit.bind(this);
+    this.setPage = this.setPage.bind(this);
   }
 
+  getTotalPages() {
+    return Math.ceil(this.props.sentences.length / PAGE_SIZE);
+  }
+
+  getLastPage() {
+    return this.getTotalPages() - 1;
+  }
+
+  getOffset() {
+    return this.state.page * PAGE_SIZE;
+  }
   onSubmit(evt) {
     evt.preventDefault();
     let validated = [];
@@ -37,16 +55,28 @@ export default class ReviewForm extends React.Component {
     });
   }
 
+  setPage(page) {
+    this.setState({
+      page,
+    });
+  }
+
   render() {
     if (!this.props.sentences && this.props.sentences.length < 1) {
       return <h2>nothing to review</h2>;
     }
 
+    const offset = this.getOffset();
+    const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
+
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
         <h2>Review Sentences</h2>
+        <p>Page {this.state.page + 1} of {this.getTotalPages()}.</p>
+        <Pager page={this.state.page} lastPage={this.getLastPage()}
+               onPage={this.setPage} />
         { this.props.message && ( <p>{ this.props.message }</p> ) }
-        { this.props.sentences.map((sentence, i) => (
+        { curSentences.map((sentence, i) => (
           <section id={`sentence-${i}`} key={i} className="validator">
             <div className="sentence-box">
               {sentence.sentence || sentence}
@@ -63,8 +93,36 @@ export default class ReviewForm extends React.Component {
             </div>
           </section>
         )) }
+        <Pager page={this.state.page} lastPage={this.getLastPage()}
+               onPage={this.setPage} />
         <button type="submit">Submit</button>
       </form>
     );
   }
 }
+
+const Pager = (props) => (
+  <section>{
+    [
+      [0, '1'],
+      [props.page - 1, '<'],
+      [props.page, props.page + 1],
+      [props.page + 1, '>'],
+      [props.lastPage, props.lastPage + 1],
+    ].map(([ page, text ]) => (
+      <span>{
+        (page >= 0 && page <= props.lastPage) ? (
+          <button className={ props.page === page ? 'active pager' : 'pager' }
+            onClick={evt => {
+              evt.preventDefault();
+              props.onPage && props.onPage(page);
+            }} key={`page-link-${page}`}>
+          {text}
+          </button>
+        ) : (
+          <button key={`page-link-${page}`} className="active pager">{text}</button>
+        )
+      }</span>
+    ))
+  }</section>
+);

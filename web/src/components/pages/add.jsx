@@ -135,12 +135,13 @@ export default class Add extends React.Component {
       console.warn('talisman and punkt did not agree', punktSentences, submitted);
     }
 
-    let valid, filtered;
-    ({ valid, filtered } = this.filterSentences(punktSentences));
+    // Always trim, and for now we use punkt.
+    const trimmed = punktSentences.map(s => s.trim());
+    const { valid, filtered } = this.filterSentences(trimmed);
 
     this.setState({
       language,
-      submitted,
+      submitted: trimmed,
       unreviewed: valid,
       filtered,
     });
