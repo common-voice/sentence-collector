@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
+  "engines" : {
+    "node" : ">=10.12.0"
+  },
   "scripts": {
     "env": "env $(grep -v '^#' .env | xargs)",
     "clean": "rm -rf dist .cache",
