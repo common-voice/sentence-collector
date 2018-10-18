@@ -1,5 +1,7 @@
 import KintoTestServer from "kinto-node-test-server";
 import DB from '../shared/db';
+import { fail } from './util';
+import generate from './generate-cv-metadata';
 
 // Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');
@@ -13,11 +15,6 @@ const username = process.env.KINTO_USER;
 const password = process.env.KINTO_PASSWORD;
 
 const action = process.argv[2];
-
-function fail(message) {
-  console.error(message);
-  process.exit(1);
-}
 
 async function run() {
   if (!remote && !username && !password) {
@@ -42,12 +39,15 @@ async function run() {
   }
 
   try {
-    let db, server, users, authed;
+    let db, server, users, authed, metadata;
 
     switch (action) {
       case ACTION_INIT:
         db = new DB(remote, username, password);
         await db.initDB();
+
+        metadata = await generate();
+        await db.initCV(metadata);
 
         authed = await db.auth();
         if (!authed) {

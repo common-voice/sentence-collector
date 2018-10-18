@@ -1,4 +1,5 @@
 node_modules
+voice-web
 dist
 .cache
 .env

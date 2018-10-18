@@ -20,3 +20,20 @@ export const parseBatchResults = (results) => {
     errors,
   };
 };
+
+export const checkResultForErrors = (results, expected) => {
+  const { successes, errors } = parseBatchResults(results);
+  if (errors.length > 0) {
+    throw new Error('Failed: create sentence collections' + errors.join(','));
+  }
+  if (successes.length !== expected.length) {
+    throw new Error('Failed: missing sentence collections');
+  }
+
+  return {
+    successes,
+    errors,
+  };
+};
+
+
