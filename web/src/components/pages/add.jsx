@@ -6,6 +6,7 @@ import {
   PunktSentenceTokenizer
 } from 'talisman/tokenizers/sentences/punkt';
 
+import WebDB from '../../web-db';
 import { arrayCompare } from '../../util';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
@@ -35,6 +36,7 @@ const DEFAULT_STATE = {
   validated: [],
   invalidated: [],
   filtered: [],
+  existing: [],
 };
 
 function merge(arr1, arr2) {
@@ -60,7 +62,7 @@ export default class Add extends React.Component {
     this.onReviewed = this.onReviewed.bind(this);
   }
 
-  filterSentences(sentences) {
+  async filterSentences(language, sentences) {
     let filtered = [];
 
     // Remove sentences that are more than MAX_WORDS.
@@ -74,7 +76,15 @@ export default class Add extends React.Component {
       return true;
     });
 
+    // Remove sentences that are already defined.
+    const db = new WebDB(this.props.username, this.props.password);
+    const existing = await db.validateSentences(language, sentences);
+    const existingSentences = existing.map(s => s.sentence);
+
+    valid = valid.filter(s => existingSentences.indexOf(s) === -1);
+
     return {
+      existing: existingSentences,
       valid,
       filtered,
     };
@@ -120,7 +130,7 @@ export default class Add extends React.Component {
     return true;
   }
 
-  parseSentences(language, text) {
+  async parseSentences(language, text) {
     // This next section is for dealing with the | (pipe) character from:
     // https://docs.google.com/spreadsheets/d/15HK8boTLejnOK5UuOkNQ3OLphEL8H4rOy_QtOBQbcks/
     //
@@ -137,10 +147,11 @@ export default class Add extends React.Component {
 
     // Always trim, and for now we use punkt.
     const trimmed = punktSentences.map(s => s.trim());
-    const { valid, filtered } = this.filterSentences(trimmed);
+    const { valid, filtered, existing } = await this.filterSentences(language, trimmed);
 
     this.setState({
       language,
+      existing,
       submitted: trimmed,
       unreviewed: valid,
       filtered,
@@ -226,6 +237,7 @@ export default class Add extends React.Component {
                           validated={this.state.validated}
                           invalidated={this.state.invalidated}
                           filtered={this.state.filtered}
+                          existing={this.state.existing}
                           ready={this.getReadySentences()} />;
 
     } else {
@@ -253,6 +265,11 @@ const ConfirmForm = (props) => (
     <p>
       {`${props.submitted.length} sentences found.`}
     </p>
+    {(props.existing && props.existing.length > 0) && (
+      <p>
+        {`${props.existing.length} sentences were previously submitted.`}
+      </p>
+    )}
     {props.invalidated.length + props.filtered.length > 0 && (
       <p style={{color: 'red'}}>
         {

@@ -27,6 +27,18 @@ export default class Sentences {
     };
   }
 
+  async validateSentences(language, sentences) {
+    const idList = sentences.map(s => hash(s));
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        in_id: idList,
+      },
+    });
+
+    return result.data;
+  }
+
   async createAllCollections(bucket) {
     const languages = getAllLanguages();
     const results = await bucket.batch(b => {

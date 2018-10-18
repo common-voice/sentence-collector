@@ -76,6 +76,10 @@ export default class DB {
     return this.sentences.count(language);
   }
 
+  async validateSentences(language, sentences) {
+    return this.sentences.validateSentences(language, sentences);
+  }
+
   async vote(language, validated, invalidated) {
     return this.sentences.vote(language, validated, invalidated);
   }

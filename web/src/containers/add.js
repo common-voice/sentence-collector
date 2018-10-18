@@ -6,6 +6,8 @@ import { submitSentences } from '../actions';
 function mapStateToProps(state) {
   return {
     languages: state.languages,
+    username: state.username,
+    password: state.password,
   };
 }
 
