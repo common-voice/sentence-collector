@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import CommonVoiceInfo from '../cv-info';
 import LanguageInfo from '../language-info';
 import { getLanguages } from '../../../../shared/languages';
 
@@ -10,12 +11,12 @@ export default class Home extends React.Component {
     return (
       <div>
         <h1>Welcome { this.props.authed ? ' back' : '' } to the Sentence Collector</h1>
-        { !this.props.authed ? (
-          <p>
-            This is a website where we collect and review sentences
-            for <a href="https://voice.mozilla.org/">Common Voice</a>.
-          </p>
-        ) : (
+        <p>
+          This is a website where we collect and review sentences
+          for <a href="https://voice.mozilla.org/">Common Voice</a>.
+        </p>
+        <CommonVoiceInfo />
+        { this.props.authed && (
           <LanguageStats languages={fullLangs}
            username={this.props.username} password={this.props.password} />
         )}

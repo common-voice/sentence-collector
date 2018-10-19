@@ -55,6 +55,16 @@ export default class DB {
     return this.cvSentences.createFromMeta(bucket, metadata);
   }
 
+  async getCVMetadata() {
+    const bucket = await this.getBucket();
+    const languages = await this.cvSentences.getLanguages(bucket);
+    console.log('languages', languages);
+    return {
+      languages: languages.length,
+      sentences: 0,
+    };
+  }
+
   async getUsers() {
     return this.user.getAllUsers();
   }

@@ -52,6 +52,17 @@ export default class Sentences {
     };
   }
 
+  async getLanguages(bucket) {
+    const result = await bucket.listCollections({
+      filters: {
+        like_id: PREFIX,
+      },
+    });
+
+    console.log('result', result);
+    return result.data.map(c => c.Name);
+  }
+
   async getCollection(language) {
     return this.server.bucket(BUCKET_NAME)
       .collection(this.getCollectionName(language));
