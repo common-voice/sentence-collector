@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import '../../../css/profile.css';
 import WebDB from '../../web-db';
@@ -124,12 +125,17 @@ export default class Profile extends React.Component {
     return (
       <form>
         <h2>Profile: { this.props.username }</h2>
-        { (this.state.totalSubmitted || this.state.totalValidated) && (
+        { (this.state.totalSubmitted || this.state.totalValidated) ? (
           <ul>
             <li><b>{this.state.totalSubmitted}</b> sentences submitted</li>
             <li><b>{this.state.totalValidated}</b> sentences reviewed</li>
             <li>...across <b>{this.props.languages.length}</b> language(s)</li>
           </ul>
+        ): (
+          <p>
+            No sentences submitted or validated,
+            Try <Link to="/review">reviewing</Link> some sentences now?
+          </p>
         )}
         { this.state.message && ( <p>{this.state.message}</p> ) }
         { this.state.error && ( <p style={ { color: 'red' } }>{this.state.error}</p> ) }
