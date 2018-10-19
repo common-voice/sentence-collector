@@ -85,9 +85,19 @@ export default class Sentences {
         like_id: PREFIX,
       },
     });
+    return result.data.map(c => c.id.replace(PREFIX, ''));
+  }
 
-    console.log('result', result);
-    return result.data.map(c => c.Name);
+  async getLanguageAndSentenceCounts(bucket) {
+    const languages = await this.getLanguages(bucket);
+    const sentences = await Promise.all(
+      languages.map(l => this.count(l))
+    );
+
+    return {
+      languages: languages.length,
+      sentences: sentences.reduce((accum, s) => accum + s, 0)
+    };
   }
 
   async getCollection(language) {

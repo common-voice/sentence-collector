@@ -57,12 +57,7 @@ export default class DB {
 
   async getCVMetadata() {
     const bucket = await this.getBucket();
-    const languages = await this.cvSentences.getLanguages(bucket);
-    console.log('languages', languages);
-    return {
-      languages: languages.length,
-      sentences: 0,
-    };
+    return this.cvSentences.getLanguageAndSentenceCounts(bucket)
   }
 
   async getUsers() {
