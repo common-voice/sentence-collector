@@ -34,15 +34,22 @@ export default class Sentences {
         b.createCollection(name, lockDown());
       });
     });
-    checkResultForErrors(collectionResults, languages);
+    const { successes } = checkResultForErrors(collectionResults, languages);
 
     // Now create all the sentences.
+    let submitted = [];
     for (let i = 0; i < metadata.length; i++) {
       const language = metadata[i].language;
       const sentences = metadata[i].sentences;
       const sentResult = await this.submitSentences(language, sentences);
-      checkResultForErrors(sentResult, sentences);
+      const { successes: S } = checkResultForErrors(sentResult, sentences);
+      submitted = submitted.concat(S);
     }
+
+    return {
+      languages: successes,
+      sentences: submitted,
+    };
   }
 
   async getCollection(language) {

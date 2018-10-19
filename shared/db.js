@@ -52,7 +52,7 @@ export default class DB {
 
   async initCV(metadata) {
     const bucket = await this.getBucket();
-    await this.cvSentences.createFromMeta(bucket, metadata);
+    return this.cvSentences.createFromMeta(bucket, metadata);
   }
 
   async getUsers() {

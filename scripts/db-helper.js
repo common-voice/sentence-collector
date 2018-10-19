@@ -16,6 +16,35 @@ const password = process.env.KINTO_PASSWORD;
 
 const action = process.argv[2];
 
+async function flushKinto() {
+  const server = new KintoTestServer(remote);
+  await server.flush();
+}
+
+async function listUsers() {
+  const db = new DB(remote, username, password);
+  const users = await db.getUsers();
+  console.log('users', users);
+  return users;
+}
+
+async function initDB() {
+  const db = new DB(remote, username, password);
+  await db.initDB();
+  //TODO: log something back from init, similar to like we did with cv data below
+
+  const metadata = await generate();
+
+  // TODO: REMOVE SLicE, this is just for testing!!
+  const { languages, sentences } = await db.initCV(metadata.slice(0, 1));
+  console.log(`Common Voice: ${sentences.length} sentences in ${languages.length} languages`);
+
+  const authed = await db.auth();
+  if (!authed) {
+    fail('db admin must be authed user');
+  }
+}
+
 async function run() {
   if (!remote && !username && !password) {
     fail('No KINTO environment variables found. ' +
@@ -39,33 +68,19 @@ async function run() {
   }
 
   try {
-    let db, server, users, authed, metadata;
-
     switch (action) {
       case ACTION_INIT:
-        db = new DB(remote, username, password);
-        await db.initDB();
-
-        metadata = await generate();
-        await db.initCV(metadata);
-
-        authed = await db.auth();
-        if (!authed) {
-          fail('db admin must be authed user');
-        }
+        await initDB();
         console.log('database initialized');
         break;
 
       case ACTION_FLUSH:
-        server = new KintoTestServer(remote);
-        await server.flush();
+        await flushKinto();
         console.log('database flushed');
         break;
 
       case ACTION_LIST_USERS:
-        db = new DB(remote, username, password);
-        users = await db.getUsers();
-        console.log('users', users);
+        await listUsers();
         break;
 
       default:
