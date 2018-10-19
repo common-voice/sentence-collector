@@ -88,6 +88,17 @@ export default class Sentences {
     return result.data.map(c => c.id.replace(PREFIX, ''));
   }
 
+  async getCollection(language) {
+    return this.server.bucket(BUCKET_NAME)
+      .collection(this.getCollectionName(language));
+  }
+
+  async getAll(language) {
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords();
+    return result.data;
+  }
+
   async getLanguageAndSentenceCounts(bucket) {
     const languages = await this.getLanguages(bucket);
     const sentences = await Promise.all(
@@ -98,17 +109,6 @@ export default class Sentences {
       languages: languages.length,
       sentences: sentences.reduce((accum, s) => accum + s, 0)
     };
-  }
-
-  async getCollection(language) {
-    return this.server.bucket(BUCKET_NAME)
-      .collection(this.getCollectionName(language));
-  }
-
-  async getAll(language) {
-    const collection = await this.getCollection(language);
-    const result = await collection.listRecords();
-    return result.data;
   }
 
   async submitSentencesBatcher(language, sentences, bar) {

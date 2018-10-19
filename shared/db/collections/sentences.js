@@ -64,6 +64,10 @@ export default class Sentences {
       .collection(this.getCollectionName(language));
   }
 
+  async getLanguageAndSentenceCounts(bucket) {
+    return this.meta.getLanguageAndSentenceCounts(bucket);
+  }
+
   async getAll(language) {
     const collection = await this.getCollection(language);
     const result = await collection.listRecords();

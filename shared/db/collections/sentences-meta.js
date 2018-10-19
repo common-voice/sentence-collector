@@ -54,6 +54,15 @@ export default class SentencesMeta {
     }
   }
 
+  async getLanguages(bucket) {
+    const result = await bucket.listCollections({
+      filters: {
+        like_id: PREFIX,
+      },
+    });
+    return result.data.map(c => c.id.replace(PREFIX, ''));
+  }
+
   async getCollection(language) {
     return this.server.bucket(BUCKET_NAME)
       .collection(this.getCollectionName(language));
@@ -63,6 +72,18 @@ export default class SentencesMeta {
     const collection = await this.getCollection(language);
     const result = await collection.listRecords();
     return result.data;
+  }
+
+  async getLanguageAndSentenceCounts(bucket) {
+    const languages = await this.getLanguages(bucket);
+    const sentences = await Promise.all(
+      languages.map(l => this.count(l))
+    );
+
+    return {
+      languages: languages.filter((l, i) => sentences[i] > 0).length,
+      sentences: sentences.reduce((accum, s) => accum + s, 0)
+    };
   }
 
   async getNotVoted(language) {
@@ -160,6 +181,11 @@ export default class SentencesMeta {
       votes,
       errors,
     };
+  }
+
+  async count(language) {
+    let collection = await this.getCollection(language);
+    return collection.getTotalRecords();
   }
 }
 

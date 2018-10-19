@@ -60,6 +60,11 @@ export default class DB {
     return this.cvSentences.getLanguageAndSentenceCounts(bucket)
   }
 
+  async getSiteMetadata() {
+    const bucket = await this.getBucket();
+    return this.sentences.getLanguageAndSentenceCounts(bucket)
+  }
+
   async getUsers() {
     return this.user.getAllUsers();
   }
