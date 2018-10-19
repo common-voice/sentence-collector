@@ -25,6 +25,12 @@ export function lockDown() {
   });
 }
 
+export function allRead() {
+  return getPermissionsObject({
+    type: TYPE_READ,
+    principals: [ PRINCIPAL_ALL ],
+  });
+}
 
 export function authedRead() {
   return getPermissionsObject({
