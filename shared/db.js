@@ -57,12 +57,12 @@ export default class DB {
 
   async getCVMetadata() {
     const bucket = await this.getBucket();
-    return this.cvSentences.getLanguageAndSentenceCounts(bucket)
+    return this.cvSentences.getLanguageAndSentenceCounts(bucket);
   }
 
   async getSiteMetadata() {
     const bucket = await this.getBucket();
-    return this.sentences.getLanguageAndSentenceCounts(bucket)
+    return this.sentences.getLanguageAndSentenceCounts(bucket);
   }
 
   async getUsers() {
