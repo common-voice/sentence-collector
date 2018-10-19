@@ -4,4 +4,4 @@ export const arrayCompare = (a1, a2) => (
 
 export const flat = (arrOfArrays) => (
   [].concat.apply([], arrOfArrays)
-)
+);
