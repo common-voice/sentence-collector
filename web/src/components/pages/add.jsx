@@ -7,7 +7,7 @@ import {
 } from 'talisman/tokenizers/sentences/punkt';
 
 import WebDB from '../../web-db';
-import { arrayCompare } from '../../util';
+import { arrayCompare } from '../../../../shared/util';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import '../../../css/add.css';

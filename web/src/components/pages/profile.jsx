@@ -4,7 +4,7 @@ import '../../../css/profile.css';
 import WebDB from '../../web-db';
 import { getLanguageName } from '../../../../shared/languages';
 import LanguageSelector from '../language-selector';
-import { arrayCompare } from '../../util';
+import { arrayCompare } from '../../../../shared/util';
 
 const DEFAULT_STATE = {
   totalSubmitted: 0,

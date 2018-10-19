@@ -7,6 +7,7 @@ import {
   getSentencesFromFile,
   getTextFiles,
 } from './util';
+import { flat } from '../shared/util';
 
 const CV_PATH = process.env.COMMON_VOICE_PATH;
 const CV_TEXT_DIR = CV_PATH + '/server/data/';
@@ -24,7 +25,7 @@ async function getSentencesForLanguage(language) {
   }));
 
   // Flatten the result arrays into a single array.
-  return ([].concat.apply([], results));
+  return flat(results);
 }
 
 const main = async () => {
