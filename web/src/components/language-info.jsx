@@ -50,7 +50,7 @@ export default class LanguageInfo extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? <p>Loading language data...</p> : (
       <section>
         <h3>{getLanguageName(this.props.language)}</h3>
         { this.state.loading && ( <p>Loading</p> ) }
