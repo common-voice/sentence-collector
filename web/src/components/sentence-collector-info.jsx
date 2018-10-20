@@ -38,7 +38,6 @@ export default class SentenceCollectorInfo extends React.Component {
   async fillCounts() {
     const db = new WebDB(this.props.username, this.props.password);
     const { languages, sentences } = await db.getSiteMetadata();
-    console.log('--', languages, sentences);
     this.setState({
       languages,
       sentences,
@@ -46,7 +45,7 @@ export default class SentenceCollectorInfo extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading ? <p>Loading sentence collector data...</p> : (
       <p>
        This website (Sentence Collector) has collected
        <b>{this.state.sentences}</b> sentences in
