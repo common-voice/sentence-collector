@@ -9,6 +9,7 @@
 ## Local Development
 
 ```
+cp .env_template .env
 docker-compose up
 yarn
 yarn start
