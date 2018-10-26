@@ -21,9 +21,11 @@ const Options = (props) => {
   // For convenience, move English to the top of the list since
   // for now the website is localized in English only.
   const englishLang = languages.find(lang => lang.code === ENGLISH_CODE);
-  const englishIndex = languages.indexOf(englishLang);
-  languages.splice(englishIndex, 1);
-  languages.unshift(englishLang);
+  if (englishLang) {
+    const englishIndex = languages.indexOf(englishLang);
+    languages.splice(englishIndex, 1);
+    languages.unshift(englishLang);
+  }
 
   if (props.filters) {
     languages = languages.filter(
