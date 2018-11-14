@@ -3,8 +3,6 @@
 
 ## Review Sentences
 
-For the Global Sprint, we are using a web tool called Crowdin to help us proofread sentences submitted by volunteers. Ordinarily Crowdin is used for localization, but in this case we are only using the “sentence review” functionality.
-
 ### Make sure the sentence meets the following criteria:
 
 1. The sentence must be spelled correctly.
