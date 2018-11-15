@@ -296,7 +296,7 @@ const ConfirmForm = (props) => (
         sentences are already reviewed. Great job!
       </p>
     )}
-    <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
+    <p><b>{`${props.ready.length} sentences ready for submission! By submitting these sentences you grant a public domain license for self-written sentences, or declare that sentences from a third-party are under Public Domain License and can be used.`}</b></p>
     <section id="confirm-buttons">
       <button type="submit">Confirm</button>
       <button onClick={props.onCancel}>Cancel</button>
