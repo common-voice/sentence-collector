@@ -85,8 +85,8 @@ export default class DB {
     return this.sentences.getNotVoted(language);
   }
 
-  async submitSentences(language, sentences) {
-    return this.sentences.submitSentences(language, sentences);
+  async submitSentences(language, sentences, source) {
+    return this.sentences.submitSentences(language, sentences, source);
   }
 
   async getSentenceCount(language) {

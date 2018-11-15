@@ -26,10 +26,11 @@ export default class SentencesMeta {
     return USER_PREFIX + username;
   }
 
-  getDefaultRecord(sentence) {
+  getDefaultRecord(sentence, source = '') {
     return {
       id: hash(sentence),
       sentence,
+      source,
       valid: [],
       invalid: [],
     };
@@ -95,11 +96,11 @@ export default class SentencesMeta {
     return result.data;
   }
 
-  async submitSentences(language, sentences) {
+  async submitSentences(language, sentences, source) {
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {
       for (let i = 0; i < sentences.length; i++) {
-        const record = this.getDefaultRecord(sentences[i].sentence);
+        const record = this.getDefaultRecord(sentences[i].sentence, source);
         batch.createRecord(record, {
           ...authedReadAndWrite(),
           safe: true,
