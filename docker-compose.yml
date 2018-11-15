@@ -27,7 +27,7 @@ services:
       - KINTO_STORAGE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
       - KINTO_PERMISSION_BACKEND=kinto.core.permission.postgresql
       - KINTO_PERMISSION_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
-      - KINTO_INCLUDES=kinto.plugins.admin kinto.plugins.flush
+      - KINTO_INCLUDES=kinto.plugins.admin kinto.plugins.flush kinto.plugins.accounts
     networks:
       - backend-net
 
