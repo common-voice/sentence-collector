@@ -48,7 +48,7 @@ export default class LanguageInfo extends React.Component {
   render() {
     return this.state.loading ? <p>Loading Common Voice stats...</p> : (
       <p>
-        Common Voice has <b>{this.state.sentences}</b> sentences in
+        Common Voice has <b>{this.state.sentences}</b> sentences in 
         <b>{this.state.languages}</b> languages!
       </p>
     );

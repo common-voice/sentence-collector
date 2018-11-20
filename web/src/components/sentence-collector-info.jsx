@@ -47,8 +47,8 @@ export default class SentenceCollectorInfo extends React.Component {
   render() {
     return this.state.loading ? <p>Loading sentence collector data...</p> : (
       <p>
-       This website (Sentence Collector) has collected
-       <b>{this.state.sentences}</b> sentences in
+       This website (Sentence Collector) has collected 
+       <b>{this.state.sentences}</b> sentences in 
        <b>{this.state.languages}</b> languages!
       </p>
     );
