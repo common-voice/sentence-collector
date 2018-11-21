@@ -92,7 +92,7 @@ export default class Sentences {
     return this.meta.getMyVotes(language);
   }
 
-  async submitSentences(language, sentences) {
+  async submitSentences(language, sentences, source) {
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {
       for (let i = 0; i < sentences.length; i++) {
@@ -106,7 +106,7 @@ export default class Sentences {
     const {
       sentences: metas,
       errors: metaErrors,
-    } = await this.meta.submitSentences(language, successes);
+    } = await this.meta.submitSentences(language, successes, source);
 
     return {
       sentences: metas.map(data => data.sentences),

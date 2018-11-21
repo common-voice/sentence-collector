@@ -64,14 +64,14 @@ export function removeLanguage(language) {
   };
 }
 
-export function submitSentences(language, sentences) {
+export function submitSentences(language, sentences, source) {
   return async function(dispatch, getState) {
     try {
       dispatch(sendSubmitSentences());
 
       const state = getState();
       const db = new WebDB(state.username, state.password);
-      const results = await db.submitSentences(language, sentences);
+      const results = await db.submitSentences(language, sentences, source);
       dispatch(submitSentencesSuccess(results.sentences.slice(0)));
       return results;
     } catch (err) {
