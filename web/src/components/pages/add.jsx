@@ -266,10 +266,10 @@ export default class Add extends React.Component {
 
 const ReviewLink = (props) => {
   return props.sentences.length > 0 && (
-    <a onClick={evt => {
+    <a href="#" onClick={evt => {
       evt.preventDefault();
       props.onReview && props.onReview(props.type);
-    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'review' : 'fix'}</a>
+    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : 'Fix'}</a>
   );
 };
 
@@ -290,7 +290,7 @@ const ConfirmForm = (props) => (
           `${props.filtered.length} sentences were too long.` +
           (props.invalidated.length > 0 ?
             ` (${props.invalidated.length} more rejected by you) ` : '')
-        }
+        }&nbsp;
         <ReviewLink onReview={props.onReview}
                     sentences={props.filtered}
                     type={SENTENCE_STATE_FILTERED} />
@@ -298,7 +298,7 @@ const ConfirmForm = (props) => (
     )}
     {props.unreviewed.length > 0 && (
       <p>
-        {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}
+        {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}&nbsp;
         <ReviewLink onReview={props.onReview}
                     sentences={props.unreviewed}
                     type={SENTENCE_STATE_SUBMITTED} />

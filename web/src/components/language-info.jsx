@@ -57,7 +57,7 @@ export default class LanguageInfo extends React.Component {
         <ul>
           <li>{this.state.total} total sentences.</li>
           <li>
-           {this.state.unvoted} unreviewed sentences.
+           {this.state.unvoted} unreviewed sentences.&nbsp;
            { this.state.unvoted > 0 && (
              <Link to={getReviewUrl(this.props.language)}>Review now!</Link>
            ) }
