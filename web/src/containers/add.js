@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     submitSentences:
-      (language, sentences) => dispatch(submitSentences(language, sentences)),
+      (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
   };
 }
 

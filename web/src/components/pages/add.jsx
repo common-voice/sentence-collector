@@ -95,13 +95,18 @@ export default class Add extends React.Component {
   }
 
   getLanguageInput() {
-    const i = document.querySelector('#add-form select');
-    return i && i.value;
+    const input = document.querySelector('#add-form select');
+    return input && input.value;
   }
 
   getSentencesInput() {
-    const i = document.querySelector('#sentences-input');
-    return i && i.value;
+    const input = document.querySelector('#sentences-input');
+    return input && input.value;
+  }
+
+  getSourceInput() {
+    const input = document.querySelector('#source-input');
+    return input && input.value;
   }
 
   getReadySentences() {
@@ -118,7 +123,6 @@ export default class Add extends React.Component {
       return false;
     }
 
-
     let rawInput = this.getSentencesInput();
     if (!rawInput) {
       this.setState({
@@ -127,10 +131,18 @@ export default class Add extends React.Component {
       return false;
     }
 
+    let rawSourceInput = this.getSourceInput();
+    if (!rawSourceInput) {
+      this.setState({
+        message: 'Please add a source.',
+      });
+      return false;
+    }
+
     return true;
   }
 
-  async parseSentences(language, text) {
+  async parseSentences(language, text, source) {
     // This next section is for dealing with the | (pipe) character from:
     // https://docs.google.com/spreadsheets/d/15HK8boTLejnOK5UuOkNQ3OLphEL8H4rOy_QtOBQbcks/
     //
@@ -151,6 +163,7 @@ export default class Add extends React.Component {
 
     this.setState({
       language,
+      source,
       existing,
       submitted: trimmed,
       unreviewed: valid,
@@ -166,7 +179,7 @@ export default class Add extends React.Component {
     }
 
     this.resetState();
-    this.parseSentences(this.getLanguageInput(), this.getSentencesInput());
+    this.parseSentences(this.getLanguageInput(), this.getSentencesInput(), this.getSourceInput());
   }
 
   async onConfirm(evt) {
@@ -174,8 +187,9 @@ export default class Add extends React.Component {
       evt.preventDefault();
       const readySentences = this.getReadySentences();
       const language = this.state.language;
+      const source = this.state.source;
       const { sentences, errors } =
-        await this.props.submitSentences(language, readySentences);
+        await this.props.submitSentences(language, readySentences, source);
 
       let message = sentences.length > 0 ?
           `Submited ${sentences.length} sentences.` : ''
@@ -297,6 +311,7 @@ const ConfirmForm = (props) => (
       </p>
     )}
     <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
+    <p>By submitting these sentences you grant a <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> for self-written sentences, or declare that sentences from a third-party are under Public Domain License and can be used.</p>
     <section id="confirm-buttons">
       <button type="submit">Confirm</button>
       <button onClick={props.onCancel}>Cancel</button>
@@ -324,6 +339,10 @@ const SubmitForm = (props) => (
     <section>
       <label htmlFor="sentences-input">Enter sentences</label>
       <textarea id="sentences-input" />
+    </section>
+    <section>
+      <label htmlFor="source-input">Where did you get these sentences from?</label>
+      <input id="source-input" type="text" />
     </section>
     <section>
       <button>Submit</button>
