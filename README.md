@@ -50,6 +50,20 @@ yarn start
 
 The sentence collector is now accessible through `http://localhost:1234`.
 
+## Deployment
+
+The website is hosted on GitHub Pages. Contributors with write access to the repository can deploy to production by running the following command:
+
+```
+yarn run deploy
+```
+
+This assumes that your `origin` is pointing to this repository. If not, you can specify the remote name with:
+
+```
+yarn run deploy -- -o <remotename>
+```
+
 ## Adding a new user
 
 You can add as many users as you want. To do so, call the accounts endpoint again:
