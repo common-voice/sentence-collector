@@ -15,6 +15,20 @@ yarn
 yarn start
 ```
 
+## Deployment
+
+The website is hosted on GitHub Pages. Contributors with write access to the repository can deploy to production by running the following command:
+
+```
+yarn run deploy
+```
+
+This assumes that your `origin` is pointing to this repository. If not, you can specify the remote name with:
+
+```
+yarn run deploy -- -o <remotename>
+```
+
 ## Get involved
 
 - Fork the project and test that you can run the environment locally following the instructions.
