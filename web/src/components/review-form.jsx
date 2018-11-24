@@ -5,14 +5,22 @@ import '../../css/review-form.css';
 const PAGE_SIZE = 3;
 const DEFAULT_STATE = {
   page: 0,
-}
+  reviewed: [],
+};
 
 export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
+    this.state.reviewed = new Array(this.props.sentences.length);
     this.onSubmit = this.onSubmit.bind(this);
     this.setPage = this.setPage.bind(this);
+
+    this.state.sentences = this.props.sentences.map((sentence) => {
+      return {
+        sentence,
+      };
+    });
   }
 
   getTotalPages() {
@@ -32,21 +40,19 @@ export default class ReviewForm extends React.Component {
     let invalidated = [];
 
     // Extract sentence that have been voted on.
-    const unreviewed = this.props.sentences.filter((sen, i) => {
-      const no = document.querySelector(`#no-${i}`);
-      if (no && no.checked) {
-        invalidated.push(sen);
+    const unreviewed = this.state.sentences.filter((sentenceInfo) => {
+      if (sentenceInfo.reviewApproval) {
+        validated.push(sentenceInfo.sentence);
         return false;
       }
 
-      const yes = document.querySelector(`#yes-${i}`);
-      if (yes && yes.checked) {
-        validated.push(sen);
+      if (sentenceInfo.reviewApproval === false) {
+        invalidated.push(sentenceInfo.sentence);
         return false;
       }
 
       return true;
-    });
+    }).map((sentenceInfo) => sentenceInfo.sentence);
 
     this.props.onReviewed({
       validated,
@@ -59,6 +65,12 @@ export default class ReviewForm extends React.Component {
     this.setState({
       page,
     });
+  }
+
+  reviewSentence(index, approval) {
+    const sentences = this.state.sentences;
+    sentences[index].reviewApproval = approval;
+    this.setState({ sentences });
   }
 
   render() {
@@ -77,21 +89,23 @@ export default class ReviewForm extends React.Component {
                onPage={this.setPage} />
         { this.props.message && ( <p>{ this.props.message }</p> ) }
         { curSentences.map((sentence, i) => (
-          <section id={`sentence-${i}`} key={i} className="validator">
+          <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
             <div className="button-group small">
-              <input id={`fix-${i}`} type="radio" name={`validate-${i}`} />
-              <label style={ {display: "none"} } htmlFor={`fix-${i}`}>Fix</label>
-              <input type="radio" id={`skip-${i}`} name={`validate-${i}`} />
-              <label htmlFor={`skip-${i}`}>skip</label>
+              <input type="radio" id={`skip-${offset + i}`} name={`validate-${offset + i}`} />
+              <label htmlFor={`skip-${offset + i}`}>skip</label>
             </div>
             <div className="sentence-box">
-              {sentence.sentence || sentence}
+              {sentence.sentence}
             </div>
             <div className="button-group">
-              <input id={`yes-${i}`} type="radio" name={`validate-${i}`} />
-              <label className="yes-button" htmlFor={`yes-${i}`}>Yes</label>
-              <input type="radio" id={`no-${i}`} name={`validate-${i}`} />
-              <label className="no-button" htmlFor={`no-${i}`}>No</label>
+              <input id={`yes-${offset + i}`} checked={this.state.sentences[offset + i].reviewApproval}
+                     onChange={() => this.reviewSentence(offset + i, true)} type="radio"
+                     name={`validate-${offset + i}`} />
+              <label className="yes-button" htmlFor={`yes-${offset + i}`}>Yes</label>
+              <input id={`no-${offset + i}`} checked={this.state.sentences[offset + i].reviewApproval === false}
+                     onChange={() => this.reviewSentence(offset + i, false)} type="radio"
+                     name={`validate-${offset + i}`} />
+              <label className="no-button" htmlFor={`no-${offset + i}`}>No</label>
             </div>
           </section>
         )) }
