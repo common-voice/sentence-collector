@@ -161,6 +161,11 @@ export default class Add extends React.Component {
     const trimmed = punktSentences.map(s => s.trim());
     const { valid, filtered, existing } = await this.filterSentences(language, trimmed);
 
+    this.checkForNewSentences([
+      ...valid,
+      ...filtered,
+    ]);
+
     this.setState({
       language,
       source,
@@ -169,6 +174,14 @@ export default class Add extends React.Component {
       unreviewed: valid,
       filtered,
     });
+  }
+
+  checkForNewSentences(sentences) {
+    if (!sentences.length) {
+      this.setState({
+        error: 'The sentences you submitted already exist.',
+      });
+    }
   }
 
   onSubmit(evt) {
