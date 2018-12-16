@@ -88,13 +88,12 @@ export default class SentencesMeta {
         batch.collection(cid).getTotalRecords();
       }
     }, { bucket: "App" });
-    const results = await responses.reduce((info, response) => {
+
+    return responses.reduce((info, response) => {
       let numberOfSentences = 0;
       try {
         numberOfSentences = parseInt(response.headers['Total-Records'], 10);
-      } catch (err) {
-        /* ignore */
-      }
+      } catch (err) { /* ignore */ }
 
       info.sentences = info.sentences + numberOfSentences;
 
@@ -104,7 +103,6 @@ export default class SentencesMeta {
 
       return info;
     }, { languages: 0, sentences: 0 });
-    return results;
   }
 
   async getNotVoted(language) {
