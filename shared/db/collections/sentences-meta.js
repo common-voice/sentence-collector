@@ -91,6 +91,7 @@ export default class SentencesMeta {
     const filters = {};
     // filter current user from votes.
     filters['has_' + this.getUserKey(this.username)] = false;
+    filters['has_approved'] = false;
     const collection = await this.getCollection(language);
     const result = await collection.listRecords({ filters });
     return result.data;
