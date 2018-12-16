@@ -11,6 +11,11 @@ const USER_PREFIX = PREFIX + 'UserVote_';
 const VALID = true;
 const INVALID = false;
 
+// Two out of three votes need to be say the sentence is valid
+// for it to be approved.
+const APPROVAL_MIN_VALID_VOTES = 2;
+const APPROVAL_MIN_TOTAL_VOTES = 3;
+
 export default class SentencesMeta {
   constructor(kintoServer, sentences, username) {
     this.server = kintoServer;
@@ -134,8 +139,30 @@ export default class SentencesMeta {
         record.invalid.push(this.username);
         record[this.getUserKey(this.username)] = INVALID;
       }
+
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined') {
+        // We don't have any approval yet (not enough votes)
+        // therefore we leave the record as is
+        return record;
+      }
+
+      record.approved = isApproved;
+
       return record;
     });
+  }
+
+  checkIfApproved(record) {
+    const validVotes = record.valid.length;
+    const invalidVotes = record.invalid.length;
+    const totalVotes = validVotes + invalidVotes;
+
+    if (totalVotes < APPROVAL_MIN_TOTAL_VOTES) {
+      return;
+    }
+
+    return validVotes >= APPROVAL_MIN_VALID_VOTES;
   }
 
   async vote(language, validated, invalidated) {
