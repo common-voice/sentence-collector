@@ -56,12 +56,17 @@ export default class SentencesMeta {
   }
 
   async getLanguages(bucket) {
+    const result = await this.getLanguageTables(bucket);
+    return result.map(c => c.replace(PREFIX, ''));
+  }
+
+  async getLanguageTableNames(bucket) {
     const result = await bucket.listCollections({
       filters: {
         like_id: PREFIX,
       },
     });
-    return result.data.map(c => c.id.replace(PREFIX, ''));
+    return result.data.map(c => c.id);
   }
 
   async getCollection(language) {
@@ -76,15 +81,30 @@ export default class SentencesMeta {
   }
 
   async getLanguageAndSentenceCounts(bucket) {
-    const languages = await this.getLanguages(bucket);
-    const sentences = await Promise.all(
-      languages.map(l => this.count(l))
-    );
+    const languages = await this.getLanguageTableNames(bucket);
 
-    return {
-      languages: languages.filter((l, i) => sentences[i] > 0).length,
-      sentences: sentences.reduce((accum, s) => accum + s, 0)
-    };
+    const responses = await this.server.batch((batch) => {
+      for (const cid of languages) {
+        batch.collection(cid).getTotalRecords();
+      }
+    }, { bucket: "App" });
+    const results = await responses.reduce((info, response) => {
+      let numberOfSentences = 0;
+      try {
+        numberOfSentences = parseInt(response.headers['Total-Records'], 10);
+      } catch (err) {
+        /* ignore */
+      }
+
+      info.sentences = info.sentences + numberOfSentences;
+
+      if (numberOfSentences > 0) {
+        info.languages = info.languages + 1;
+      }
+
+      return info;
+    }, { languages: 0, sentences: 0 });
+    return results;
   }
 
   async getNotVoted(language) {
