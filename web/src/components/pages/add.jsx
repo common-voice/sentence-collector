@@ -15,10 +15,6 @@ import '../../../css/add.css';
 const MAX_WORDS = 14;
 
 const SENTENCE_STATE_SUBMITTED = 'submitted';
-const SENTENCE_STATE_UNREVIEWED = 'unreviewed';
-const SENTENCE_STATE_REVIEWING = 'reviewing';
-const SENTENCE_STATE_VALIDATED = 'validated';
-const SENTENCE_STATE_INVALIDATED = 'invalidated';
 const SENTENCE_STATE_FILTERED = 'filtered';
 
 const REGEX_BOUNDARY_PIPE = /([.?!])\s*[\n\|]/g;
@@ -300,7 +296,7 @@ const ConfirmForm = (props) => (
     {props.invalidated.length + props.filtered.length > 0 && (
       <p style={{color: 'red'}}>
         {
-          `${props.filtered.length} sentences were too long.` +
+          `${props.filtered.length} sentences were not matching the requirements.` +
           (props.invalidated.length > 0 ?
             ` (${props.invalidated.length} more rejected by you) ` : '')
         }&nbsp;
