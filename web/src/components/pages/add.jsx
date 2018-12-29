@@ -274,7 +274,7 @@ const ReviewLink = (props) => {
     <a href="#" onClick={evt => {
       evt.preventDefault();
       props.onReview && props.onReview(props.type);
-    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : 'Fix'}</a>
+    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : ''}</a>
   );
 };
 
@@ -321,6 +321,13 @@ const ConfirmForm = (props) => (
       <button type="submit" disabled={props.ready.length === 0}>Confirm</button>
       <button onClick={props.onCancel}>Cancel</button>
     </section>
+
+    {props.invalidated.length + props.filtered.length > 0 && (
+      <section>
+        <h2>Filtered sentences due to requirements failing:</h2>
+        {props.filtered.map(sentence => <p>{sentence}</p>)}
+      </section>
+    )}
   </form>
 );
 
