@@ -1,17 +1,15 @@
 import React from 'react';
-import tokenizeWords from 'talisman/tokenizers/words';
 import {
   PunktTrainer,
   PunktSentenceTokenizer
 } from 'talisman/tokenizers/sentences/punkt';
 
 import WebDB from '../../web-db';
-import { arrayCompare } from '../../../../shared/util';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import '../../../css/add.css';
 
-const MAX_WORDS = 14;
+import * as validation from '../../validation';
 
 const SENTENCE_STATE_SUBMITTED = 'submitted';
 const SENTENCE_STATE_FILTERED = 'filtered';
@@ -58,17 +56,11 @@ export default class Add extends React.Component {
   }
 
   async filterSentences(language, sentences) {
-    let filtered = [];
     const existingSentences = await this.getAlreadyDefinedSentences(language, sentences);
 
-    // Remove sentences that are more than MAX_WORDS.
-    let valid = sentences.filter(sentence => {
-      const words = tokenizeWords(sentence);
-      if (words.length > MAX_WORDS) {
-        filtered.push(sentencekl);
-        return false;
-      }
+    const { valid, filtered } = validation.validateSentences(language, sentences);
 
+    const validNonExisting = valid.filter(sentence => {
       const alreadyExisting = existingSentences.indexOf(sentence) !== -1;
       if (alreadyExisting) {
         return false;
@@ -79,7 +71,7 @@ export default class Add extends React.Component {
 
     return {
       existing: existingSentences,
-      valid,
+      valid: validNonExisting,
       filtered,
     };
   }
