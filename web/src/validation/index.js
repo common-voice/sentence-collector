@@ -10,12 +10,12 @@ const DEFAULT_VALIDATOR_LANGUAGE = 'en';
 const DEFAULT_VALIDATOR = VALIDATORS[DEFAULT_VALIDATOR_LANGUAGE];
 
 export function validateSentences(language, sentences) {
-  const { valid, filtered } = getSentencesWithCorrectLength(language, sentences);
+  const validator = getValidatorFor(language);
+  const { valid, filtered } = getSentencesWithCorrectLength(validator, sentences);
   return { valid, filtered };
 }
 
-function getSentencesWithCorrectLength(language, sentences) {
-  const validator = getValidatorFor(language);
+function getSentencesWithCorrectLength(validator, sentences) {
   let maxLength = 0;
 
   if (typeof validator.getMaxLength !== 'function') {
