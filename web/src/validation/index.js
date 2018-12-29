@@ -11,8 +11,43 @@ const DEFAULT_VALIDATOR = VALIDATORS[DEFAULT_VALIDATOR_LANGUAGE];
 
 export function validateSentences(language, sentences) {
   const validator = getValidatorFor(language);
-  const { valid, filtered } = getSentencesWithCorrectLength(validator, sentences);
-  return { valid, filtered };
+  let valid = new Set();
+  let filtered = new Set();
+
+  run([
+    getSentencesWithCorrectLength(validator, sentences),
+    getSentencesWithoutNumbers(validator, sentences),
+  ], valid, filtered);
+
+  return {
+    valid: [...valid],
+    filtered: [...filtered],
+  };
+}
+
+function run(actionResults, existingValid, existingFiltered) {
+  actionResults.map(actionResult => {
+    processInPlace(actionResult, existingValid, existingFiltered);
+  });
+}
+
+function processInPlace(processable, existingValid, existingFiltered) {
+  const { valid, filtered } = processable;
+  processValid(existingValid, valid);
+  removeFilteredFromValid(existingValid, filtered);
+  processFiltered(existingFiltered, filtered);
+}
+
+function processValid(existingValid, valid) {
+  valid.map(validSentence => existingValid.add(validSentence));
+}
+
+function removeFilteredFromValid(existingValid, filtered) {
+  filtered.map(filteredSentence => existingValid.delete(filteredSentence));
+}
+
+function processFiltered(existingFiltered, filtered) {
+  filtered.map(filteredSentence => existingFiltered.add(filteredSentence));
 }
 
 function getSentencesWithCorrectLength(validator, sentences) {
@@ -34,6 +69,15 @@ function getSentencesWithCorrectLength(validator, sentences) {
 
     return true;
   });
+
+  return { valid, filtered };
+}
+
+function getSentencesWithoutNumbers(validator, sentences) {
+  const { valid, filtered } =
+    typeof validator.filterNumbers !== 'function' ?
+      DEFAULT_VALIDATOR.filterNumbers(sentences) :
+      validator.filterNumbers(sentences);
 
   return { valid, filtered };
 }
