@@ -1,5 +1,9 @@
 const MAX_WORDS = 14;
 const NUMBERS_REGEX = /[0-9]+/;
+// The following symbols are disallowed, please update here as well and not just the regex
+// to make it easier to read:
+// < > + * \ # @ ^ [ ] ( ) /
+const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
@@ -28,6 +32,20 @@ export function filterAbbreviations(sentences) {
   const filtered = [];
   const valid = sentences.filter(sentence => {
     if (sentence.match(ABBREVIATION_REGEX)) {
+      filtered.push(sentence);
+      return false;
+    }
+
+    return true;
+  });
+
+  return { valid, filtered };
+}
+
+export function filterSymbols(sentences) {
+  const filtered = [];
+  const valid = sentences.filter(sentence => {
+    if (sentence.match(SYMBOL_REGEX)) {
       filtered.push(sentence);
       return false;
     }

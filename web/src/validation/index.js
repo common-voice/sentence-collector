@@ -18,6 +18,7 @@ export function validateSentences(language, sentences) {
     getSentencesWithCorrectLength(validator, sentences),
     getSentencesWithoutNumbers(validator, sentences),
     getSentencesWithoutAbbreviations(validator, sentences),
+    getSentencesWithoutSymbols(validator, sentences),
   ], valid, filtered);
 
   return {
@@ -88,6 +89,15 @@ function getSentencesWithoutAbbreviations(validator, sentences) {
     typeof validator.filterAbbreviations !== 'function' ?
       DEFAULT_VALIDATOR.filterAbbreviations(sentences) :
       validator.filterAbbreviations(sentences);
+
+  return { valid, filtered };
+}
+
+function getSentencesWithoutSymbols(validator, sentences) {
+  const { valid, filtered } =
+    typeof validator.filterSymbols !== 'function' ?
+      DEFAULT_VALIDATOR.filterSymbols(sentences) :
+      validator.filterSymbols(sentences);
 
   return { valid, filtered };
 }
