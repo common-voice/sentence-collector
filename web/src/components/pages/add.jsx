@@ -1,24 +1,17 @@
 import React from 'react';
-import tokenizeSentences from 'talisman/tokenizers/sentences';
-import tokenizeWords from 'talisman/tokenizers/words';
 import {
   PunktTrainer,
   PunktSentenceTokenizer
 } from 'talisman/tokenizers/sentences/punkt';
 
 import WebDB from '../../web-db';
-import { arrayCompare } from '../../../../shared/util';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import '../../../css/add.css';
 
-const MAX_WORDS = 14;
+import * as validation from '../../validation';
 
 const SENTENCE_STATE_SUBMITTED = 'submitted';
-const SENTENCE_STATE_UNREVIEWED = 'unreviewed';
-const SENTENCE_STATE_REVIEWING = 'reviewing';
-const SENTENCE_STATE_VALIDATED = 'validated';
-const SENTENCE_STATE_INVALIDATED = 'invalidated';
 const SENTENCE_STATE_FILTERED = 'filtered';
 
 const REGEX_BOUNDARY_PIPE = /([.?!])\s*[\n\|]/g;
@@ -63,31 +56,31 @@ export default class Add extends React.Component {
   }
 
   async filterSentences(language, sentences) {
-    let filtered = [];
+    const existingSentences = await this.getAlreadyDefinedSentences(language, sentences);
 
-    // Remove sentences that are more than MAX_WORDS.
-    let valid = sentences.filter(sen => {
-      const words = tokenizeWords(sen);
-      if (words.length > MAX_WORDS) {
-        filtered.push(sen);
+    const { valid, filtered } = validation.validateSentences(language, sentences);
+
+    const validNonExisting = valid.filter(sentence => {
+      const alreadyExisting = existingSentences.indexOf(sentence) !== -1;
+      if (alreadyExisting) {
         return false;
       }
 
       return true;
     });
 
-    // Remove sentences that are already defined.
+    return {
+      existing: existingSentences,
+      valid: validNonExisting,
+      filtered,
+    };
+  }
+
+  async getAlreadyDefinedSentences(language, sentences) {
     const db = new WebDB(this.props.username, this.props.password);
     const existing = await db.validateSentences(language, sentences);
     const existingSentences = existing.map(s => s.sentence);
-
-    valid = valid.filter(s => existingSentences.indexOf(s) === -1);
-
-    return {
-      existing: existingSentences,
-      valid,
-      filtered,
-    };
+    return existingSentences;
   }
 
   resetState() {
@@ -142,7 +135,7 @@ export default class Add extends React.Component {
     return true;
   }
 
-  async parseSentences(language, text, source) {
+  getPunktSentences(text) {
     // This next section is for dealing with the | (pipe) character from:
     // https://docs.google.com/spreadsheets/d/15HK8boTLejnOK5UuOkNQ3OLphEL8H4rOy_QtOBQbcks/
     //
@@ -150,14 +143,13 @@ export default class Add extends React.Component {
     let updatedText = text.replace(REGEX_BOUNDARY_PIPE, '$1 ');
     // Then add a period to any sentences that don't have ending punctuation.
     updatedText = updatedText.replace(REGEX_ALL_PIPE, '. ');
-    const submitted = tokenizeSentences(updatedText);
     const punktSentences = this.tokenizer.tokenize(updatedText);
+    return punktSentences;
+  }
 
-    if (!arrayCompare(punktSentences, submitted)) {
-      console.warn('talisman and punkt did not agree', punktSentences, submitted);
-    }
+  async parseSentences(language, text, source) {
+    const punktSentences = this.getPunktSentences(text);
 
-    // Always trim, and for now we use punkt.
     const trimmed = punktSentences.map(s => s.trim());
     const { valid, filtered, existing } = await this.filterSentences(language, trimmed);
 
@@ -282,7 +274,7 @@ const ReviewLink = (props) => {
     <a href="#" onClick={evt => {
       evt.preventDefault();
       props.onReview && props.onReview(props.type);
-    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : 'Fix'}</a>
+    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : ''}</a>
   );
 };
 
@@ -300,7 +292,7 @@ const ConfirmForm = (props) => (
     {props.invalidated.length + props.filtered.length > 0 && (
       <p style={{color: 'red'}}>
         {
-          `${props.filtered.length} sentences were too long.` +
+          `${props.filtered.length} sentences were not matching the requirements.` +
           (props.invalidated.length > 0 ?
             ` (${props.invalidated.length} more rejected by you) ` : '')
         }&nbsp;
@@ -326,9 +318,16 @@ const ConfirmForm = (props) => (
     <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
     <p>By submitting these sentences you grant a <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> for self-written sentences, or declare that sentences from a third-party are under Public Domain License and can be used.</p>
     <section id="confirm-buttons">
-      <button type="submit">Confirm</button>
+      <button type="submit" disabled={props.ready.length === 0}>Confirm</button>
       <button onClick={props.onCancel}>Cancel</button>
     </section>
+
+    {props.invalidated.length + props.filtered.length > 0 && (
+      <section>
+        <h2>Filtered sentences due to requirements failing:</h2>
+        {props.filtered.map(sentence => <p>{sentence}</p>)}
+      </section>
+    )}
   </form>
 );
 
