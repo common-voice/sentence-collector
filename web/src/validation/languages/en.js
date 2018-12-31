@@ -1,8 +1,10 @@
 const MAX_WORDS = 14;
 const NUMBERS_REGEX = /[0-9]+/;
+
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
 // < > + * \ # @ ^ [ ] ( ) /
+/* eslint-disable-next-line no-useless-escape */
 const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
