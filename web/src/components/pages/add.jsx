@@ -325,6 +325,7 @@ const ConfirmForm = (props) => (
     {props.invalidated.length + props.filtered.length > 0 && (
       <section>
         <h2>Filtered sentences due to requirements failing:</h2>
+        <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
         {props.filtered.map(sentence => <p>{sentence}</p>)}
       </section>
     )}
