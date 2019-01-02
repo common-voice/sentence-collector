@@ -170,7 +170,7 @@ export default class Review extends React.Component {
     return (
       <div>
         <section>
-          <h1>Review sentences</h1>
+          <h1>Review Sentences</h1>
           <label className="language-selector-label" htmlFor="language-selector-review">
             Language to review
           </label>

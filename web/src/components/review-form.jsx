@@ -83,8 +83,6 @@ export default class ReviewForm extends React.Component {
 
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
-        <h2>Review Sentences</h2>
-        <p>Page {this.state.page + 1} of {this.getTotalPages()}.</p>
         <Pager page={this.state.page} lastPage={this.getLastPage()}
                onPage={this.setPage} />
         { this.props.message && ( <p>{ this.props.message }</p> ) }
