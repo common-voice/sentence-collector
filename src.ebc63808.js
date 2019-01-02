@@ -504,6 +504,6 @@ var r=require("./bundle-url").getBundleURL;function e(r){Array.isArray(r)||(r=[r
 },{"./bundle-url":"3Fhe"}],"A3BY":[function(require,module,exports) {
 module.exports=function(t){return fetch(t).then(function(t){return t.text()})};
 },{}],0:[function(require,module,exports) {
-var b=require("21/1");b.register("html",require("A3BY"));b.load([["how-to.eb2ac932.html","c2QI"]]).then(function(){require("c2Qt");});
+var b=require("21/1");b.register("html",require("A3BY"));b.load([["how-to.2634be6c.html","c2QI"]]).then(function(){require("c2Qt");});
 },{}]},{},[0], null)
 //# sourceMappingURL=src.cc6c09b4.map
