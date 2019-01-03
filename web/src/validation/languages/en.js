@@ -16,44 +16,14 @@ export function getMaxLength() {
   return MAX_WORDS;
 }
 
-export function filterNumbers(sentences) {
-  const filtered = [];
-  const valid = sentences.filter(sentence => {
-    if (sentence.match(NUMBERS_REGEX)) {
-      filtered.push(sentence);
-      return false;
-    }
-
-    return true;
-  });
-
-  return { valid, filtered };
+export function filterNumbers(sentence) {
+  return !sentence.match(NUMBERS_REGEX);
 }
 
-export function filterAbbreviations(sentences) {
-  const filtered = [];
-  const valid = sentences.filter(sentence => {
-    if (sentence.match(ABBREVIATION_REGEX)) {
-      filtered.push(sentence);
-      return false;
-    }
-
-    return true;
-  });
-
-  return { valid, filtered };
+export function filterAbbreviations(sentence) {
+  return !sentence.match(ABBREVIATION_REGEX);
 }
 
-export function filterSymbols(sentences) {
-  const filtered = [];
-  const valid = sentences.filter(sentence => {
-    if (sentence.match(SYMBOL_REGEX)) {
-      filtered.push(sentence);
-      return false;
-    }
-
-    return true;
-  });
-
-  return { valid, filtered };
+export function filterSymbols(sentence) {
+  return !sentence.match(SYMBOL_REGEX);
 }
