@@ -73,6 +73,12 @@ export default class ReviewForm extends React.Component {
     this.setState({ sentences });
   }
 
+  skip(index) {
+    const sentences = this.state.sentences;
+    sentences[index].reviewApproval = undefined;
+    this.setState({ sentences });
+  }
+
   render() {
     if (!this.props.sentences && this.props.sentences.length < 1) {
       return <h2>nothing to review</h2>;
@@ -91,19 +97,26 @@ export default class ReviewForm extends React.Component {
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
             <div className="button-group small">
-              <input type="radio" id={`skip-${offset + i}`} name={`validate-${offset + i}`} />
+              <input type="radio"
+                     id={`skip-${offset + i}`}
+                     name={`validate-${offset + i}`}
+                     onChange={() => this.skip(offset + i)} />
               <label htmlFor={`skip-${offset + i}`}>skip</label>
             </div>
             <div className="sentence-box">
               {sentence.sentence}
             </div>
             <div className="button-group">
-              <input id={`yes-${offset + i}`} checked={this.state.sentences[offset + i].reviewApproval}
-                     onChange={() => this.reviewSentence(offset + i, true)} type="radio"
+              <input id={`yes-${offset + i}`}
+                     checked={this.state.sentences[offset + i].reviewApproval}
+                     onChange={() => this.reviewSentence(offset + i, true)}
+                     type="radio"
                      name={`validate-${offset + i}`} />
               <label className="yes-button" htmlFor={`yes-${offset + i}`}>Yes</label>
-              <input id={`no-${offset + i}`} checked={this.state.sentences[offset + i].reviewApproval === false}
-                     onChange={() => this.reviewSentence(offset + i, false)} type="radio"
+              <input id={`no-${offset + i}`}
+                     checked={this.state.sentences[offset + i].reviewApproval === false}
+                     onChange={() => this.reviewSentence(offset + i, false)}
+                     type="radio"
                      name={`validate-${offset + i}`} />
               <label className="no-button" htmlFor={`no-${offset + i}`}>No</label>
             </div>
