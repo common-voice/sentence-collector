@@ -45,15 +45,19 @@ function validateSentence(validator, sentence) {
 
 function validateCorrectLength(validator, sentence) {
   let maxLength = 0;
+  let minLength = 0;
 
   if (typeof validator.getMaxLength !== 'function') {
     maxLength = DEFAULT_VALIDATOR.getMaxLength();
+    minLength = DEFAULT_VALIDATOR.getMinLength();
   } else {
     maxLength = validator.getMaxLength();
+    minLength = validator.getMinLength();
   }
 
   const words = tokenizeWords(sentence);
-  return words.length < maxLength;
+  return words.length >= minLength &&
+    words.length <= maxLength;
 }
 
 function validateWithoutNumbers(validator, sentence) {
