@@ -11,48 +11,39 @@ const DEFAULT_VALIDATOR = VALIDATORS[DEFAULT_VALIDATOR_LANGUAGE];
 
 export function validateSentences(language, sentences) {
   const validator = getValidatorFor(language);
-  let valid = new Set();
-  let filtered = new Set();
 
-  run([
-    getSentencesWithCorrectLength(validator, sentences),
-    getSentencesWithoutNumbers(validator, sentences),
-    getSentencesWithoutAbbreviations(validator, sentences),
-    getSentencesWithoutSymbols(validator, sentences),
-  ], valid, filtered);
+  return runValidation(validator, sentences);
+}
+
+function runValidation(validator, sentences) {
+  let filtered = [];
+
+  const valid = sentences.reduce((validSentences, sentence) => {
+    const validationResult = validateSentence(validator, sentence);
+    if (!validationResult) {
+      filtered.push(sentence);
+      return validSentences;
+    }
+
+    validSentences.push(sentence);
+    return validSentences;
+  }, []);
 
   return {
-    valid: [...valid],
-    filtered: [...filtered],
+    valid,
+    filtered,
   };
 }
 
-function run(actionResults, existingValid, existingFiltered) {
-  actionResults.map(actionResult => {
-    processInPlace(actionResult, existingValid, existingFiltered);
-  });
+function validateSentence(validator, sentence) {
+  return validateCorrectLength(validator, sentence) &&
+    validateWithoutNumbers(validator, sentence) &&
+    validateWithoutAbbreviations(validator, sentence) &&
+    validateWithoutSymbols(validator, sentence)
+  ;
 }
 
-function processInPlace(processable, existingValid, existingFiltered) {
-  const { valid, filtered } = processable;
-  processValid(existingValid, valid);
-  removeFilteredFromValid(existingValid, filtered);
-  processFiltered(existingFiltered, filtered);
-}
-
-function processValid(existingValid, valid) {
-  valid.map(validSentence => existingValid.add(validSentence));
-}
-
-function removeFilteredFromValid(existingValid, filtered) {
-  filtered.map(filteredSentence => existingValid.delete(filteredSentence));
-}
-
-function processFiltered(existingFiltered, filtered) {
-  filtered.map(filteredSentence => existingFiltered.add(filteredSentence));
-}
-
-function getSentencesWithCorrectLength(validator, sentences) {
+function validateCorrectLength(validator, sentence) {
   let maxLength = 0;
 
   if (typeof validator.getMaxLength !== 'function') {
@@ -61,45 +52,35 @@ function getSentencesWithCorrectLength(validator, sentences) {
     maxLength = validator.getMaxLength();
   }
 
-  const filtered = [];
-  const valid = sentences.filter(sentence => {
-    const words = tokenizeWords(sentence);
-    if (words.length > maxLength) {
-      filtered.push(sentence);
-      return false;
-    }
-
-    return true;
-  });
-
-  return { valid, filtered };
+  const words = tokenizeWords(sentence);
+  return words.length < maxLength;
 }
 
-function getSentencesWithoutNumbers(validator, sentences) {
-  const { valid, filtered } =
+function validateWithoutNumbers(validator, sentence) {
+  const result =
     typeof validator.filterNumbers !== 'function' ?
-      DEFAULT_VALIDATOR.filterNumbers(sentences) :
-      validator.filterNumbers(sentences);
+      DEFAULT_VALIDATOR.filterNumbers(sentence) :
+      validator.filterNumbers(sentence);
 
-  return { valid, filtered };
+  return result;
 }
 
-function getSentencesWithoutAbbreviations(validator, sentences) {
-  const { valid, filtered } =
+function validateWithoutAbbreviations(validator, sentence) {
+  const result =
     typeof validator.filterAbbreviations !== 'function' ?
-      DEFAULT_VALIDATOR.filterAbbreviations(sentences) :
-      validator.filterAbbreviations(sentences);
+      DEFAULT_VALIDATOR.filterAbbreviations(sentence) :
+      validator.filterAbbreviations(sentence);
 
-  return { valid, filtered };
+  return result;
 }
 
-function getSentencesWithoutSymbols(validator, sentences) {
-  const { valid, filtered } =
+function validateWithoutSymbols(validator, sentence) {
+  const result =
     typeof validator.filterSymbols !== 'function' ?
-      DEFAULT_VALIDATOR.filterSymbols(sentences) :
-      validator.filterSymbols(sentences);
+      DEFAULT_VALIDATOR.filterSymbols(sentence) :
+      validator.filterSymbols(sentence);
 
-  return { valid, filtered };
+  return result;
 }
 
 function getValidatorFor(language) {
