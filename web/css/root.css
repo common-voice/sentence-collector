@@ -7,6 +7,7 @@
   --second-font-color: white;
   --second-font-family: 'Zilla Slab', serif;
   --deactive-color: #d7d7db;
+  --grey-color: #d7d7db;
   --warning-color: #ff4f5e;
   --success-color: #54ffbd;
   --base-font-size: 19px;
@@ -174,11 +175,6 @@ form input[type="text"] {
 form button {
   margin: 0.5rem auto;
   display: block;
-}
-
-select {
-  font-size: 1.1rem;
-  height: 2rem;
 }
 
 #form-message {
