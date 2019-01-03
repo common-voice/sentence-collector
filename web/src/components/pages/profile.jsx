@@ -125,30 +125,39 @@ export default class Profile extends React.Component {
     return (
       <form>
         <h2>Profile: { this.props.username }</h2>
-        { (this.state.totalSubmitted || this.state.totalValidated) ? (
-          <ul>
-            <li><b>{this.state.totalSubmitted}</b> sentences submitted</li>
-            <li><b>{this.state.totalValidated}</b> sentences reviewed</li>
-            <li>...across <b>{this.props.languages.length}</b> language(s)</li>
-          </ul>
-        ): (
-          <p>
-            No sentences submitted or validated,
-            Try <Link to="/review">reviewing</Link> some sentences now?
-          </p>
+
+        { this.props.languages && this.props.languages.length > 0 && (
+          <section>
+            { (this.state.totalSubmitted || this.state.totalValidated) ? (
+              <ul>
+                <li><b>{this.state.totalSubmitted}</b> sentences submitted</li>
+                <li><b>{this.state.totalValidated}</b> sentences reviewed</li>
+                <li>...across <b>{this.props.languages.length}</b> language(s)</li>
+              </ul>
+            ): (
+              <p>
+                No sentences submitted or validated,
+                try <Link to="/review">reviewing</Link> some sentences now?
+              </p>
+            )}
+          </section>
         )}
+
         { this.state.message && ( <p>{this.state.message}</p> ) }
+
         { this.state.error && ( <p style={ { color: 'red' } }>{this.state.error}</p> ) }
+
         <section>
           <p>Your languages:</p>
           { this.props.languages && this.props.languages.length > 0 ? (
             <LanguageInfo languageInfo={this.state.languageInfo}
-                          languages={this.props.languages} 
+                          languages={this.props.languages}
                           onRemove={this.onRemove} />
           ) : (
-            <p>You have not added any languages yet</p>
+            <p>You have not added any languages yet, please add at least one below.</p>
           )}
         </section>
+
         <section>
           <label className="language-selector-label" htmlFor="language-selector">
             Add a language
