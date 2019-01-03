@@ -85,7 +85,9 @@ export default class ReviewForm extends React.Component {
       <form id="add-form" onSubmit={this.onSubmit}>
         <Pager page={this.state.page} lastPage={this.getLastPage()}
                onPage={this.setPage} />
+
         { this.props.message && ( <p>{ this.props.message }</p> ) }
+
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
             <div className="sentence-box">
@@ -103,8 +105,7 @@ export default class ReviewForm extends React.Component {
             </div>
           </section>
         )) }
-        <Pager page={this.state.page} lastPage={this.getLastPage()}
-               onPage={this.setPage} />
+
         <button type="submit">Submit</button>
       </form>
     );
