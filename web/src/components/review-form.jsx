@@ -90,6 +90,10 @@ export default class ReviewForm extends React.Component {
 
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
+            <div className="button-group small">
+              <input type="radio" id={`skip-${offset + i}`} name={`validate-${offset + i}`} />
+              <label htmlFor={`skip-${offset + i}`}>skip</label>
+            </div>
             <div className="sentence-box">
               {sentence.sentence}
             </div>
