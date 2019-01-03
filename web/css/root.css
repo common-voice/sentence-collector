@@ -177,11 +177,6 @@ form button {
   display: block;
 }
 
-select {
-  font-size: 1.1rem;
-  height: 2rem;
-}
-
 #form-message {
   line-height: 1rem;
   text-align: center;
