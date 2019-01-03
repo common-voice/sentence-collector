@@ -132,7 +132,7 @@ export default class Profile extends React.Component {
               <ul>
                 <li><b>{this.state.totalSubmitted}</b> sentences submitted</li>
                 <li><b>{this.state.totalValidated}</b> sentences reviewed</li>
-                <li>...across <b>{this.props.languages.length}</b> language(s)</li>
+                <li>... across <b>{this.props.languages.length}</b> language(s)</li>
               </ul>
             ): (
               <p>
