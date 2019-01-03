@@ -10,14 +10,13 @@
 .sentence-box {
   margin: 0 1rem;
   padding: 0 1rem;
-  height: 4.5rem;
-  border: 2px solid black;
+  height: 5rem;
+  border: 1px solid black;
   flex-basis: 100%;
   line-height: 1rem;
   justify-content: center;
   align-items: center;
   display: flex;
-  box-shadow: var(--big-box-shadow);
 }
 
 .validator li {
