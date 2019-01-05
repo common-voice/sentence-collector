@@ -190,9 +190,9 @@ form button {
   font-weight: bold;
 }
 
-footer {
-  background-color: var(--second-bg-color);
-  color: var(--second-font-color);
-  text-align: center;
-  height: 2rem;
+#external-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.7rem;
 }
