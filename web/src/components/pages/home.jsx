@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import CommonVoiceInfo from '../cv-info';
 import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
 import { getLanguages } from '../../../../shared/languages';
@@ -19,7 +18,6 @@ export default class Home extends React.Component {
           This is a website where we collect and review sentences
           for <a href="https://voice.mozilla.org/">Common Voice</a>.
         </p>
-        <CommonVoiceInfo />
         <SentenceCollectorInfo />
         { this.props.authed && (
           <LanguageStats languages={fullLangs}
