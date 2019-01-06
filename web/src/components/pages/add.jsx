@@ -103,6 +103,7 @@ export default class Add extends React.Component {
     return {
       unreviewed: this.state.unreviewed,
       validated: this.state.validated,
+      count: this.state.unreviewed.length + this.state.validated.length,
     };
   }
 
@@ -255,7 +256,7 @@ export default class Add extends React.Component {
                           invalidated={this.state.invalidated}
                           filtered={this.state.filtered}
                           existing={this.state.existing}
-                          ready={this.getReadySentences()} />;
+                          readyCount={this.getReadySentences().count} />;
 
     } else {
       // The plain submission form allows copy & pasting
@@ -309,10 +310,15 @@ const ConfirmForm = (props) => (
         sentences are already reviewed. Great job!
       </p>
     )}
-    <p><b>{`${props.ready.length} sentences ready for submission!`}</b></p>
-    <p>By submitting these sentences you grant a <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> for self-written sentences, or declare that sentences from a third-party are under Public Domain License and can be used.</p>
+    <p><b>{`${props.readyCount} sentences ready for submission!`}</b></p>
+    <p>
+      By submitting these sentences you grant a
+      <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a>
+      for self-written sentences, or declare that sentences from a third-party are under Public Domain License
+      and can be used.
+    </p>
     <section id="confirm-buttons">
-      <button type="submit" disabled={props.ready.length === 0}>Confirm</button>
+      <button type="submit" disabled={props.readyCount === 0}>Confirm</button>
       <button onClick={props.onCancel}>Cancel</button>
     </section>
 
