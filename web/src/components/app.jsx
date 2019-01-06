@@ -35,7 +35,13 @@ export default class App extends React.Component {
               path="/review" component={Review} />
             <PrivateRoute authed={this.props.authed}
               path="/review/:language" component={Review} />
-            <Route render={() => (<div>Add 404 page here</div>)} />
+            <Route render={() => (
+              <Redirect
+                to={{
+                  pathname: "/",
+                }}
+              />
+            )} />
           </Switch>
         </Page>
       </ConnectedRouter>
