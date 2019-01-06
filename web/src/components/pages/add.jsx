@@ -197,7 +197,7 @@ export default class Add extends React.Component {
         await this.props.submitSentences(language, readySentences, source);
 
       let message = sentences.length > 0 ?
-          `Submited ${sentences.length} sentences.` : ''
+          `Submitted ${sentences.length} sentences.` : '';
       let error = errors.length > 0 ?
           `${errors.length} sentences failed` : '';
 
@@ -219,11 +219,9 @@ export default class Add extends React.Component {
     this.resetState();
   }
 
-  onReview(type) {
-    const sentences = type === SENTENCE_STATE_SUBMITTED ?
-                      this.state.unreviewed : this.state.filtered;
+  onReview() {
     this.setState({
-      reviewing: sentences,
+      reviewing: this.state.unreviewed,
     });
   }
 
@@ -273,8 +271,8 @@ const ReviewLink = (props) => {
   return props.sentences.length > 0 && (
     <a href="#" onClick={evt => {
       evt.preventDefault();
-      props.onReview && props.onReview(props.type);
-    }}>{ props.type === SENTENCE_STATE_SUBMITTED ? 'Review' : ''}</a>
+      props.onReview && props.onReview();
+    }}>Review</a>
   );
 };
 
@@ -295,18 +293,14 @@ const ConfirmForm = (props) => (
           `${props.filtered.length} sentences were not matching the requirements.` +
           (props.invalidated.length > 0 ?
             ` (${props.invalidated.length} more rejected by you) ` : '')
-        }&nbsp;
-        <ReviewLink onReview={props.onReview}
-                    sentences={props.filtered}
-                    type={SENTENCE_STATE_FILTERED} />
+        }
       </p>
     )}
     {props.unreviewed.length > 0 && (
       <p>
         {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}&nbsp;
         <ReviewLink onReview={props.onReview}
-                    sentences={props.unreviewed}
-                    type={SENTENCE_STATE_SUBMITTED} />
+                    sentences={props.unreviewed} />
       </p>
     )}
     {props.validated.length + props.invalidated.length > 0 && (
