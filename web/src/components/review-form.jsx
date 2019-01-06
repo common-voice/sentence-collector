@@ -34,6 +34,7 @@ export default class ReviewForm extends React.Component {
   getOffset() {
     return this.state.page * PAGE_SIZE;
   }
+
   onSubmit(evt) {
     evt.preventDefault();
     let validated = [];
@@ -98,7 +99,7 @@ export default class ReviewForm extends React.Component {
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
             <div className="sentence-box">
-              {sentence.sentence}
+              { sentence.sentence || sentence }
             </div>
             <div className="button-group">
               <button type="button"

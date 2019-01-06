@@ -6,7 +6,7 @@ import {
   authedCreateNoRead
 } from './db/permissions';
 import User from './db/collections/user';
-import Sentences from './db/collections/sentences';
+import Sentences from './db/collections/sentences-meta';
 import CVSentences from './db/collections/cv-sentences';
 
 export const BUCKET_NAME = 'App';
@@ -93,8 +93,8 @@ export default class DB {
     return this.sentences.count(language);
   }
 
-  async validateSentences(language, sentences) {
-    return this.sentences.validateSentences(language, sentences);
+  async getAlreadyExistingSubset(language, sentences) {
+    return this.sentences.getAlreadyExistingSubset(language, sentences);
   }
 
   async vote(language, validated, invalidated) {

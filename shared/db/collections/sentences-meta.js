@@ -17,9 +17,8 @@ const APPROVAL_MIN_VALID_VOTES = 2;
 const APPROVAL_MIN_TOTAL_VOTES = 3;
 
 export default class SentencesMeta {
-  constructor(kintoServer, sentences, username) {
+  constructor(kintoServer, username) {
     this.server = kintoServer;
-    this.sentences = sentences;
     this.username = username;
   }
 
@@ -31,13 +30,14 @@ export default class SentencesMeta {
     return USER_PREFIX + username;
   }
 
-  getDefaultRecord(sentence, source = '') {
+  getPreparedRecord({ sentence, reviewed, source }) {
     return {
       id: hash(sentence),
       sentence,
       source,
-      valid: [],
+      valid: reviewed ? [this.username] : [],
       invalid: [],
+      username: this.username,
     };
   }
 
@@ -120,11 +120,28 @@ export default class SentencesMeta {
     return result.data;
   }
 
-  async submitSentences(language, sentences, source) {
+  prepareForSubmission(sentences) {
+    const allUnreviewedSentences = sentences.unreviewed.map((sentence) => {
+      return { sentence, reviewed: false };
+    });
+
+    const allValidatedSentences = sentences.validated.map((sentence) => {
+      return { sentence, reviewed: true };
+    });
+
+    return allUnreviewedSentences.concat(allValidatedSentences);
+  }
+
+  async submitSentences(language, sentences, source = '') {
+    const allSentences = this.prepareForSubmission(sentences);
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {
-      for (let i = 0; i < sentences.length; i++) {
-        const record = this.getDefaultRecord(sentences[i].sentence, source);
+      for (let i = 0; i < allSentences.length; i++) {
+        const record = this.getPreparedRecord({
+          sentence: allSentences[i].sentence,
+          reviewed: allSentences[i].reviewed,
+          source,
+        });
         batch.createRecord(record, {
           ...authedReadAndWrite(),
           safe: true,
@@ -150,7 +167,10 @@ export default class SentencesMeta {
   getVoteRecords(isValid, sentences, existing) {
     return sentences.map(sentence => {
       let record = existing[sentence.id] ?
-        existing[sentence.id] : this.getDefaultRecord(sentence.sentence);
+        existing[sentence.id] : this.getPreparedRecord({
+          sentence: sentence.sentence,
+          reviewed: false,
+        });
       if (isValid) {
         record.valid.push(this.username);
         record[this.getUserKey(this.username)] = VALID;
@@ -233,6 +253,28 @@ export default class SentencesMeta {
   async count(language) {
     let collection = await this.getCollection(language);
     return collection.getTotalRecords();
+  }
+
+  async getAlreadyExistingSubset(language, sentences) {
+    const idList = sentences.map(s => hash(s));
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        in_id: idList,
+      },
+    });
+
+    return result.data;
+  }
+
+  async getMySentences(language) {
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        username: this.username,
+      },
+    });
+    return result.data;
   }
 }
 
