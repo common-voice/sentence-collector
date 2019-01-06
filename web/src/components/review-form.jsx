@@ -69,13 +69,14 @@ export default class ReviewForm extends React.Component {
 
   reviewSentence(index, approval) {
     const sentences = this.state.sentences;
-    sentences[index].reviewApproval = approval;
-    this.setState({ sentences });
-  }
 
-  skip(index) {
-    const sentences = this.state.sentences;
-    sentences[index].reviewApproval = undefined;
+    if (sentences[index].reviewApproval === approval) {
+      // already set before, deselecting now
+      sentences[index].reviewApproval = undefined;
+    } else {
+      sentences[index].reviewApproval = approval;
+    }
+
     this.setState({ sentences });
   }
 
@@ -96,29 +97,24 @@ export default class ReviewForm extends React.Component {
 
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
-            <div className="button-group small">
-              <input type="radio"
-                     id={`skip-${offset + i}`}
-                     name={`validate-${offset + i}`}
-                     onChange={() => this.skip(offset + i)} />
-              <label htmlFor={`skip-${offset + i}`}>skip</label>
-            </div>
             <div className="sentence-box">
               {sentence.sentence}
             </div>
             <div className="button-group">
-              <input id={`yes-${offset + i}`}
-                     checked={this.state.sentences[offset + i].reviewApproval}
-                     onChange={() => this.reviewSentence(offset + i, true)}
-                     type="radio"
-                     name={`validate-${offset + i}`} />
-              <label className="yes-button" htmlFor={`yes-${offset + i}`}>Yes</label>
-              <input id={`no-${offset + i}`}
-                     checked={this.state.sentences[offset + i].reviewApproval === false}
-                     onChange={() => this.reviewSentence(offset + i, false)}
-                     type="radio"
-                     name={`validate-${offset + i}`} />
-              <label className="no-button" htmlFor={`no-${offset + i}`}>No</label>
+              <button type="button"
+                      className={`secondary ${this.state.sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
+                      aria-pressed={this.state.sentences[offset + i].reviewApproval}
+                      onClick={() => this.reviewSentence(offset + i, true)}
+                      name={`validate-${offset + i}`}>
+                👍
+              </button>
+              <button type="button"
+                      className={`secondary ${this.state.sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
+                      aria-pressed={this.state.sentences[offset + i].reviewApproval === false}
+                      onClick={() => this.reviewSentence(offset + i, false)}
+                      name={`validate-${offset + i}`}>
+                👎
+              </button>
             </div>
           </section>
         )) }

@@ -32,47 +32,15 @@
   width: 2.5rem;
 }
 
-.validator label {
-  box-sizing: border-box;
-  width: 100%;
-  height: 2.3rem;
-  line-height: 2.3rem;
+.validator .button-group button {
+  border: 1px solid var(--grey-color);
 }
 
-.validator input[type="radio"] {
-  transform: scale(1.75);
-  margin: 0 0.5rem;
-}
-
-.validator .button-group input[type="radio"] {
-  display: none;
-}
-
-.validator .button-group input[type="radio"] + label {
-  border: 1px solid;
-  margin: 0.2rem 0;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: var(--button-box-shadow);
-}
-
-.validator .yes-button {
-  border-color: var(--deactive-color);
-}
-
-.validator .yes-button {
-  border-color: var(--deactive-color);
-}
-
-.validator .button-group input[type="radio"]:checked + label {
-  background-color: var(--deactive-color);
-}
-
-.validator .button-group input[type="radio"]:checked + label.yes-button {
+.validator .button-group button.secondary.yes {
   background-color: var(--success-color);
 }
 
-.validator .button-group input[type="radio"]:checked + label.no-button {
+.validator .button-group button.secondary.no {
   background-color: var(--warning-color);
 }
 
