@@ -17,9 +17,8 @@ const APPROVAL_MIN_VALID_VOTES = 2;
 const APPROVAL_MIN_TOTAL_VOTES = 3;
 
 export default class SentencesMeta {
-  constructor(kintoServer, sentences, username) {
+  constructor(kintoServer, username) {
     this.server = kintoServer;
-    this.sentences = sentences;
     this.username = username;
   }
 
@@ -38,6 +37,7 @@ export default class SentencesMeta {
       source,
       valid: [],
       invalid: [],
+      username: this.username,
     };
   }
 
@@ -121,10 +121,12 @@ export default class SentencesMeta {
   }
 
   async submitSentences(language, sentences, source) {
+    console.log('submitting?', sentences);
     const collection = await this.getCollection(language);
     const results = await collection.batch(batch => {
       for (let i = 0; i < sentences.length; i++) {
-        const record = this.getDefaultRecord(sentences[i].sentence, source);
+        const record = this.getDefaultRecord(sentences[i], source);
+        console.log('got record..', record);
         batch.createRecord(record, {
           ...authedReadAndWrite(),
           safe: true,
@@ -233,6 +235,28 @@ export default class SentencesMeta {
   async count(language) {
     let collection = await this.getCollection(language);
     return collection.getTotalRecords();
+  }
+
+  async getAlreadyExistingSubset(language, sentences) {
+    const idList = sentences.map(s => hash(s));
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        in_id: idList,
+      },
+    });
+
+    return result.data;
+  }
+
+  async getMySentences(language) {
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        username: this.username,
+      },
+    });
+    return result.data;
   }
 }
 

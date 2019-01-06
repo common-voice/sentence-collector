@@ -11,9 +11,6 @@ import '../../../css/add.css';
 
 import * as validation from '../../validation';
 
-const SENTENCE_STATE_SUBMITTED = 'submitted';
-const SENTENCE_STATE_FILTERED = 'filtered';
-
 const REGEX_BOUNDARY_PIPE = /([.?!])\s*[\n\|]/g;
 const REGEX_ALL_PIPE = /[\n\|]/g;
 
@@ -78,7 +75,7 @@ export default class Add extends React.Component {
 
   async getAlreadyDefinedSentences(language, sentences) {
     const db = new WebDB(this.props.username, this.props.password);
-    const existing = await db.validateSentences(language, sentences);
+    const existing = await db.getAlreadyExistingSubset(language, sentences);
     const existingSentences = existing.map(s => s.sentence);
     return existingSentences;
   }
