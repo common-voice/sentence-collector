@@ -100,7 +100,10 @@ export default class Add extends React.Component {
   }
 
   getReadySentences() {
-    return [...this.state.unreviewed, ...this.state.validated];
+    return {
+      unreviewed: this.state.unreviewed,
+      validated: this.state.validated,
+    };
   }
 
   validateForm() {
