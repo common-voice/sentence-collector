@@ -1,7 +1,6 @@
 import React from 'react';
 
 import WebDB from '../web-db';
-import { getLanguageName } from '../../../shared/languages';
 
 const DEFAULT_STATE = {
   loading: false,
