@@ -43,9 +43,11 @@ export default class LanguageInfo extends React.Component {
     const db = new WebDB(this.props.username, this.props.password);
     const count = await db.getSentenceCount(this.props.language);
     const unreviewed = await db.getSentencesNotVoted(this.props.language);
+    const validated = await db.getValidatedSentences(this.props.language);
     this.setState({
       total: count,
       unvoted: unreviewed.length,
+      validated: validated.length,
     });
   }
 
@@ -62,6 +64,7 @@ export default class LanguageInfo extends React.Component {
              <Link to={getReviewUrl(this.props.language)}>Review now!</Link>
            ) }
           </li>
+          <li>{this.state.validated} validated sentences.</li>
         </ul>
       </section>
     );
