@@ -25,3 +25,19 @@ You can login by entering any available username and choosing a password, that w
 1. If the sentence does not meet the above criteria, click the "no" button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.
 1. If you run out of sentences to review, please help us collect more sentences!
 
+## Finding existing sentences in the Public Domain
+
+### Search for them on the internet
+Remember that we need permission to publish those sentences, so always ensure that the text belongs to the [public domain](https://en.wikipedia.org/wiki/Public_domain). If there is not an indication, reach out to the person that the text belongs to and ask if you can use their text. 
+
+Here are some tips to find sentences:
+- The best sources you can look for are podcasts, transcripts, movie scripts and anything that potential can contain everyday conversations.
+- Government proceedings, books and articles are also great however since the text tends to be a little more formal they are less of a priority.
+- Unfortunately we can’t have Wikimedia articles yet. So do not copy paste from there.
+- Two great resources to look into are: [Common Crawl](https://commoncrawl.org/) and [Open Subtitles](https://www.opensubtitles.org/).
+
+### Partner with local organizations or individuals
+
+There are a lot of public organizations that might want to collaborate and already have a lot of texts they can donate as public domain. Reach out to local Universities, Governments and open source organizations to talk about the project and ask for their help.
+
+Expert linguists can also help, try to reach out to local linguistic Universities (both teachers and students) and see if they can help to gather a diverse set of sound-diverse sentences in your language.
