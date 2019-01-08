@@ -271,13 +271,6 @@ const ConfirmForm = (props) => (
         }
       </p>
     )}
-    {props.unreviewed.length > 0 && (
-      <p>
-        {`-- ${props.unreviewed.length} of these sentences are unreviewed.`}&nbsp;
-        <ReviewLink onReview={props.onReview}
-                    sentences={props.unreviewed} />
-      </p>
-    )}
     {props.validated.length + props.invalidated.length > 0 && (
       <p>
         {`-- ${props.validated.length + props.invalidated.length}`}&nbsp;
@@ -285,6 +278,13 @@ const ConfirmForm = (props) => (
       </p>
     )}
     <p><b>{`${props.readyCount} sentences ready for submission!`}</b></p>
+    {props.unreviewed.length > 0 && (
+      <p>
+        {`-- ${props.unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}&nbsp;
+        <ReviewLink onReview={props.onReview}
+                    sentences={props.unreviewed} />
+      </p>
+    )}
     <p>
       By submitting these sentences you grant a {}
       <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> {}
