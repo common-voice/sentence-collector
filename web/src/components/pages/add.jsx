@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  PunktTrainer,
-  PunktSentenceTokenizer
-} from 'talisman/tokenizers/sentences/punkt';
 
 import WebDB from '../../web-db';
 import LanguageSelector from '../language-selector';
@@ -11,11 +7,7 @@ import '../../../css/add.css';
 
 import * as validation from '../../validation';
 
-const REGEX_BOUNDARY_PIPE = /([.?!])\s*[\n\|]/g;
-const REGEX_ALL_PIPE = /[\n\|]/g;
-
-// Use a collection of English text from common voice to train punkt.
-import TRAINING_TEXT from '../../../all_en.txt';
+const SPLIT_ON = '\n';
 
 const DEFAULT_STATE = {
   message: '',
@@ -39,11 +31,6 @@ export default class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
-    this.trainer = new PunktTrainer();
-    this.trainer.INCLUDE_ALL_COLLOCS = true;
-
-    this.trainer.train(TRAINING_TEXT);
-    this.tokenizer = new PunktSentenceTokenizer(this.trainer.getParams());
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
@@ -136,23 +123,10 @@ export default class Add extends React.Component {
     return true;
   }
 
-  getPunktSentences(text) {
-    // This next section is for dealing with the | (pipe) character from:
-    // https://docs.google.com/spreadsheets/d/15HK8boTLejnOK5UuOkNQ3OLphEL8H4rOy_QtOBQbcks/
-    //
-    // First replace the pipe on sentences that have ending punctuation already.
-    let updatedText = text.replace(REGEX_BOUNDARY_PIPE, '$1 ');
-    // Then add a period to any sentences that don't have ending punctuation.
-    updatedText = updatedText.replace(REGEX_ALL_PIPE, '. ');
-    const punktSentences = this.tokenizer.tokenize(updatedText);
-    return punktSentences;
-  }
-
   async parseSentences(language, text, source) {
-    const punktSentences = this.getPunktSentences(text);
+    const sentences = text.split(SPLIT_ON).map(s => s.trim());
 
-    const trimmed = punktSentences.map(s => s.trim());
-    const { valid, filtered, existing } = await this.filterSentences(language, trimmed);
+    const { valid, filtered, existing } = await this.filterSentences(language, sentences);
 
     this.checkForNewSentences([
       ...valid,
@@ -163,7 +137,7 @@ export default class Add extends React.Component {
       language,
       source,
       existing,
-      submitted: trimmed,
+      submitted: sentences,
       unreviewed: valid,
       filtered,
     });
@@ -336,7 +310,7 @@ const ConfirmForm = (props) => (
 const SubmitForm = (props) => (
   <form id="add-form" onSubmit={props.onSubmit}>
     <h2>Add Sentences</h2>
-    <p>Please add your sentences by typing or copy & pasting them below.</p>
+    <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
     <section id="form-message">
       {props.message}
     </section>
@@ -350,7 +324,7 @@ const SubmitForm = (props) => (
       <LanguageSelector name="language-selector" only={props.languages}/>
     </section>
     <section>
-      <label htmlFor="sentences-input">Enter sentences</label>
+      <label htmlFor="sentences-input">Enter sentences (one per line)</label>
       <textarea id="sentences-input" />
     </section>
     <section>
