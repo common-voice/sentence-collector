@@ -120,7 +120,7 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        <button type="submit">Submit</button>
+        <button type="submit">Finish Review</button>
       </form>
     );
   }
