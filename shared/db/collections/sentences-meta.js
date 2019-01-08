@@ -31,14 +31,21 @@ export default class SentencesMeta {
   }
 
   getPreparedRecord({ sentence, reviewed, source }) {
-    return {
+    const preparedRecord = {
       id: hash(sentence),
       sentence,
       source,
-      valid: reviewed ? [this.username] : [],
+      valid: [],
       invalid: [],
       username: this.username,
     };
+
+    if (reviewed) {
+      preparedRecord.valid = [this.username];
+      preparedRecord[`${USER_PREFIX}${this.username}`] = true;
+    }
+
+    return preparedRecord;
   }
 
   async createAllCollections(bucket) {
