@@ -312,8 +312,8 @@ const ConfirmForm = (props) => (
     )}
     <p><b>{`${props.readyCount} sentences ready for submission!`}</b></p>
     <p>
-      By submitting these sentences you grant a 
-      <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> 
+      By submitting these sentences you grant a {}
+      <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> {}
       for self-written sentences, or declare that sentences from a third-party are under Public Domain License
       and can be used.
     </p>
