@@ -129,13 +129,13 @@ export default class ReviewForm extends React.Component {
 const Pager = (props) => (
   <section className="pager-container">{
     [
-      ['idx1', 0, '1'],
-      ['idx2', props.page - 1, '<'],
-      ['idx3', props.page, props.page + 1],
-      ['idx4', props.page + 1, '>'],
-      ['idx5', props.lastPage, props.lastPage + 1],
-    ].map(([ idx, page, text ]) => (
-      <span key={idx}>{
+      [0, '1'],
+      [props.page - 1, '<'],
+      [props.page, props.page + 1],
+      [props.page + 1, '>'],
+      [props.lastPage, props.lastPage + 1],
+    ].map(([ page, text ], index) => (
+      <span key={`idx${index+1}`}>{
         (page >= 0 && page <= props.lastPage) ? (
           <button className={ props.page === page ? 'active pager' : 'pager' }
             onClick={evt => {
