@@ -1,15 +1,10 @@
 import React from 'react';
 
-import WebDB from '../../web-db';
 import SubmitForm from '../submit-form';
 import ConfirmForm from '../confirm-form';
 import ReviewForm from '../review-form';
 
 import '../../../css/add.css';
-
-import * as validation from '../../validation';
-
-const SPLIT_ON = '\n';
 
 const DEFAULT_STATE = {
   message: '',
@@ -39,34 +34,6 @@ export default class Add extends React.Component {
     this.onCancel = this.onCancel.bind(this);
     this.onReview = this.onReview.bind(this);
     this.onReviewed = this.onReviewed.bind(this);
-  }
-
-  async filterSentences(language, sentences) {
-    const existingSentences = await this.getAlreadyDefinedSentences(language, sentences);
-
-    const { valid, filtered } = validation.validateSentences(language, sentences);
-
-    const validNonExisting = valid.filter(sentence => {
-      const alreadyExisting = existingSentences.indexOf(sentence) !== -1;
-      if (alreadyExisting) {
-        return false;
-      }
-
-      return true;
-    });
-
-    return {
-      existing: existingSentences,
-      valid: validNonExisting,
-      filtered,
-    };
-  }
-
-  async getAlreadyDefinedSentences(language, sentences) {
-    const db = new WebDB(this.props.username, this.props.password);
-    const existing = await db.getAlreadyExistingSubset(language, sentences);
-    const existingSentences = existing.map(s => s.sentence);
-    return existingSentences;
   }
 
   resetState() {
@@ -125,15 +92,8 @@ export default class Add extends React.Component {
     return true;
   }
 
-  async parseSentences(language, text, source) {
-    const sentences = text.split(SPLIT_ON).map(s => s.trim());
-
-    const { valid, filtered, existing } = await this.filterSentences(language, sentences);
-
-    this.checkForNewSentences([
-      ...valid,
-      ...filtered,
-    ]);
+  async startParsingSentences(language, text, source) {
+    const { valid, filtered, existing, sentences } = await this.props.parseSentences(language, text);
 
     this.setState({
       language,
@@ -145,14 +105,6 @@ export default class Add extends React.Component {
     });
   }
 
-  checkForNewSentences(sentences) {
-    if (!sentences.length) {
-      this.setState({
-        error: 'The sentences you submitted already exist.',
-      });
-    }
-  }
-
   onSubmit(evt) {
     evt.preventDefault();
 
@@ -161,7 +113,7 @@ export default class Add extends React.Component {
     }
 
     this.resetState();
-    this.parseSentences(this.getLanguageInput(), this.getSentencesInput(), this.getSourceInput());
+    this.startParsingSentences(this.getLanguageInput(), this.getSentencesInput(), this.getSourceInput());
   }
 
   async onConfirm(evt) {

@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
 
 import Add from '../components/pages/add';
-import { submitSentences } from '../actions';
+
+import {
+  submitSentences,
+} from '../actions';
+
+import {
+  parseSentences,
+} from '../actions/parsing';
 
 function mapStateToProps(state) {
   return {
@@ -15,6 +22,7 @@ function mapDispatchToProps(dispatch) {
   return {
     submitSentences:
       (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
+    parseSentences: (language, text) => dispatch(parseSentences(language, text)),
   };
 }
 
