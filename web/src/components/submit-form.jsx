@@ -10,10 +10,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps() {
-  return {};
-}
-
 class SubmitForm extends React.Component {
   constructor(props) {
     super(props);
@@ -35,12 +31,9 @@ class SubmitForm extends React.Component {
         <h2>Add Sentences</h2>
         <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
 
-        <section id="form-message">
-          { message }
-        </section>
-        <section id="form-error">
-          { error || errorMessage }
-        </section>
+        { message && (<section id="form-message">{ message }</section>)}
+        { error && (<section id="form-error">{ error }</section>)}
+        { errorMessage && (<section id="form-error">{ errorMessage }</section>)}
 
         <section>
           <label className="language-selector-label" htmlFor="language-selector">
@@ -60,7 +53,7 @@ class SubmitForm extends React.Component {
         <section>
           { parsingSentences && (
             <p>
-              <b>Sentences are being validated. This can take a few seconds depending on the number of sentences added.</b>
+              <strong>Sentences are being validated. This can take a few seconds depending on the number of sentences added.</strong>
             </p>
           )}
           <button disabled={parsingSentences}>Submit</button>
@@ -70,4 +63,4 @@ class SubmitForm extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitForm);
+export default connect(mapStateToProps)(SubmitForm);

@@ -48,12 +48,8 @@ async function filterSentences(language, sentences, credentials) {
   const { valid, filtered } = validation.validateSentences(language, sentences);
 
   const validNonExisting = valid.filter(sentence => {
-    const alreadyExisting = existingSentences.indexOf(sentence) !== -1;
-    if (alreadyExisting) {
-      return false;
-    }
-
-    return true;
+    const alreadyExisting = existingSentences.includes(sentence);
+    return !alreadyExisting;
   });
 
   return {

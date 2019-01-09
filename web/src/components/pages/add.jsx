@@ -40,6 +40,11 @@ export default class Add extends React.Component {
     this.setState(DEFAULT_STATE);
   }
 
+  resetFullState() {
+    this.resetState();
+    this.props.resetFullState();
+  }
+
   getLanguageInput() {
     const input = document.querySelector('#add-form select');
     return input && input.value;
@@ -145,7 +150,7 @@ export default class Add extends React.Component {
 
   onCancel(evt) {
     evt.preventDefault();
-    this.resetState();
+    this.resetFullState();
   }
 
   onReview() {

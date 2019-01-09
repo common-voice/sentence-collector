@@ -12,6 +12,7 @@ import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE,
+  ACTION_RESET_STATE,
 } from '../actions';
 
 import {
@@ -126,6 +127,9 @@ export default function reducer(state = INITIAL_STATE, action) {
       return copyInto(state, {
         errorMessage: action.error.message,
       });
+
+    case ACTION_RESET_STATE:
+      return copyInto(state, INITIAL_STATE);
 
     default:
       return state;

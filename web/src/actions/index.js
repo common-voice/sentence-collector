@@ -17,6 +17,8 @@ export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
 export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 
+export const ACTION_RESET_STATE = 'ACTION_RESET_STATE';
+
 export function login(username, password) {
   return async function(dispatch) {
     try {
@@ -162,6 +164,12 @@ export function submitSentencesSuccess(sentences) {
 export function submitSentencesFailure() {
   return {
     type: ACTION_SUBMIT_SENTENCES_FAILURE,
+  };
+}
+
+export function resetFullState() {
+  return {
+    type: ACTION_RESET_STATE,
   };
 }
 

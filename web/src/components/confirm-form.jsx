@@ -9,9 +9,6 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps() {
-  return {};
-}
 class ConfirmForm extends React.Component {
   constructor(props) {
     super(props);
@@ -19,6 +16,15 @@ class ConfirmForm extends React.Component {
     this.onSubmit = this.props.onSubmit.bind(this);
     this.onReview = this.props.onReview.bind(this);
     this.onCancel = this.props.onCancel.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('beforeunload', (event) => {
+      if (this.props.pendingSentences) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    });
   }
 
   render() {
@@ -63,7 +69,7 @@ class ConfirmForm extends React.Component {
           </p>
         )}
 
-        <p><b>{`${readyCount} sentences ready for submission!`}</b></p>
+        <p><strong>{`${readyCount} sentences ready for submission!`}</strong></p>
 
         {unreviewed.length > 0 && (
           <p>
@@ -82,8 +88,8 @@ class ConfirmForm extends React.Component {
         <section id="confirm-buttons">
           { pendingSentences && (
             <p>
-              <b>Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
-              Please don't close this website.</b>
+              <strong>Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
+              Please don't close this website.</strong>
             </p>
           )}
           <button type="submit" disabled={pendingSentences || readyCount === 0}>Confirm</button>
@@ -103,4 +109,4 @@ class ConfirmForm extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmForm);
+export default connect(mapStateToProps)(ConfirmForm);

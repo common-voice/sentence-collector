@@ -4,6 +4,7 @@ import Add from '../components/pages/add';
 
 import {
   submitSentences,
+  resetFullState,
 } from '../actions';
 
 import {
@@ -23,6 +24,7 @@ function mapDispatchToProps(dispatch) {
     submitSentences:
       (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
     parseSentences: (language, text) => dispatch(parseSentences(language, text)),
+    resetFullState: () => dispatch(resetFullState()),
   };
 }
 
