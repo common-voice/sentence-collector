@@ -272,14 +272,11 @@ export default class SentencesMeta {
 
   async getAlreadyExistingSubset(language, sentences) {
     const idList = sentences.map(s => hash(s));
-    const collection = await this.getCollection(language);
-    const result = await collection.listRecords({
-      filters: {
-        in_id: idList,
-      },
-    });
+    const result = await this.getAll(language);
+    const existingIDs = result.map((existingSentence) => existingSentence.id);
 
-    return result.data;
+    const existingSubmittedSentencesIDs = idList.filter((id) => existingIDs.includes(id));
+    return result.filter((existingSentence) => existingSubmittedSentencesIDs.includes(existingSentence.id));
   }
 
   async getMySentences(language) {
