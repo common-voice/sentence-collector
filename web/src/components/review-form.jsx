@@ -134,8 +134,8 @@ const Pager = (props) => (
       [props.page, props.page + 1],
       [props.page + 1, '>'],
       [props.lastPage, props.lastPage + 1],
-    ].map(([ page, text ]) => (
-      <span>{
+    ].map(([ page, text ], index) => (
+      <span key={`idx${index+1}`}>{
         (page >= 0 && page <= props.lastPage) ? (
           <button className={ props.page === page ? 'active pager' : 'pager' }
             onClick={evt => {

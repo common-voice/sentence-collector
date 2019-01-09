@@ -8,7 +8,7 @@ import WebDB from '../../web-db';
 const DEFAULT_STATE = {
   message: '',
   loading: false,
-}
+};
 
 export const getReviewUrl = (language) => {
   return `/review/${language || ''}`;
@@ -22,7 +22,7 @@ export const getLanguageFromMatch = (match) => {
     lang = '';
   }
   return lang;
-}
+};
 
 export default class Review extends React.Component {
   constructor(props) {
