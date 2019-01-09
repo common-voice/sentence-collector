@@ -1,8 +1,10 @@
 import React from 'react';
 
 import WebDB from '../../web-db';
-import LanguageSelector from '../language-selector';
+import SubmitForm from '../submit-form';
+import ConfirmForm from '../confirm-form';
 import ReviewForm from '../review-form';
+
 import '../../../css/add.css';
 
 import * as validation from '../../validation';
@@ -241,98 +243,3 @@ export default class Add extends React.Component {
     }
   }
 }
-
-const ReviewLink = (props) => {
-  return props.sentences.length > 0 && (
-    <a href="#" onClick={evt => {
-      evt.preventDefault();
-      props.onReview && props.onReview();
-    }}>Review</a>
-  );
-};
-
-const ConfirmForm = (props) => (
-  <form onSubmit={props.onSubmit}>
-    <h2>Confirm New Sentences</h2>
-    <p>
-      {`${props.submitted.length} sentences found.`}
-    </p>
-    {(props.existing && props.existing.length > 0) && (
-      <p>
-        {`${props.existing.length} sentences were previously submitted.`}
-      </p>
-    )}
-    {props.invalidated.length + props.filtered.length > 0 && (
-      <p style={{color: 'red'}}>
-        {
-          `${props.filtered.length} sentences were not matching the requirements.` +
-          (props.invalidated.length > 0 ?
-            ` (${props.invalidated.length} more rejected by you) ` : '')
-        }
-      </p>
-    )}
-    {props.validated.length + props.invalidated.length > 0 && (
-      <p>
-        {`-- ${props.validated.length + props.invalidated.length}`}&nbsp;
-        sentences are already reviewed. Great job!
-      </p>
-    )}
-    <p><b>{`${props.readyCount} sentences ready for submission!`}</b></p>
-    {props.unreviewed.length > 0 && (
-      <p>
-        {`-- ${props.unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}&nbsp;
-        <ReviewLink onReview={props.onReview}
-                    sentences={props.unreviewed} />
-      </p>
-    )}
-    <p>
-      By submitting these sentences you grant a {}
-      <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> {}
-      for self-written sentences, or declare that sentences from a third-party are under Public Domain License
-      and can be used.
-    </p>
-    <section id="confirm-buttons">
-      <button type="submit" disabled={props.readyCount === 0}>Confirm</button>
-      <button onClick={props.onCancel}>Cancel</button>
-    </section>
-
-    {props.invalidated.length + props.filtered.length > 0 && (
-      <section>
-        <h2>Filtered sentences due to requirements failing:</h2>
-        <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
-        {props.filtered.map(sentence => <p key={sentence}>{sentence}</p>)}
-      </section>
-    )}
-  </form>
-);
-
-
-const SubmitForm = (props) => (
-  <form id="add-form" onSubmit={props.onSubmit}>
-    <h2>Add Sentences</h2>
-    <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
-    <section id="form-message">
-      {props.message}
-    </section>
-    <section id="form-error">
-      {props.error}
-    </section>
-    <section>
-      <label className="language-selector-label" htmlFor="language-selector">
-        Select Language
-      </label>
-      <LanguageSelector name="language-selector" only={props.languages}/>
-    </section>
-    <section>
-      <label htmlFor="sentences-input">Enter sentences (one per line)</label>
-      <textarea id="sentences-input" />
-    </section>
-    <section>
-      <label htmlFor="source-input">Where did you get these sentences from?</label>
-      <input id="source-input" type="text" />
-    </section>
-    <section>
-      <button>Submit</button>
-    </section>
-  </form>
-);
