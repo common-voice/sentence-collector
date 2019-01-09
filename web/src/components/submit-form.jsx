@@ -63,7 +63,7 @@ class SubmitForm extends React.Component {
               <b>Sentences are being validated. This can take a few seconds depending on the number of sentences added.</b>
             </p>
           )}
-          <button>Submit</button>
+          <button disabled={parsingSentences}>Submit</button>
         </section>
       </form>
     );
