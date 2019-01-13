@@ -4,6 +4,7 @@ import Login from '../components/pages/login';
 import {
   login,
   logout,
+  checkUsername,
 } from '../actions';
 
 function mapStateToProps(state) {
@@ -11,6 +12,7 @@ function mapStateToProps(state) {
     pending: state.pendingAuth,
     authed: state.authed,
     username: state.username,
+    errorMessage: state.errorMessage,
   };
 }
 
@@ -20,6 +22,7 @@ function mapDispatchToProps(dispatch) {
       return dispatch(login(username, password));
     },
     logout: () => dispatch(logout()),
+    checkUsername: (username) => dispatch(checkUsername(username)),
   };
 }
 
