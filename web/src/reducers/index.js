@@ -137,7 +137,12 @@ export default function reducer(state = INITIAL_STATE, action) {
       });
 
     case ACTION_RESET_STATE:
-      return copyInto(state, INITIAL_STATE);
+      return Object.assign({}, state, INITIAL_STATE, {
+        username: state.username,
+        password: state.password,
+        authed: state.authed,
+        languages: state.languages,
+      });
 
     default:
       return state;
