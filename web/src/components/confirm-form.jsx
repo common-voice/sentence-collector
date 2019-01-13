@@ -18,15 +18,6 @@ class ConfirmForm extends React.Component {
     this.onCancel = this.props.onCancel.bind(this);
   }
 
-  componentDidMount() {
-    window.addEventListener('beforeunload', (event) => {
-      if (this.props.pendingSentences) {
-        event.preventDefault();
-        event.returnValue = '';
-      }
-    });
-  }
-
   render() {
     const {
       submitted,
