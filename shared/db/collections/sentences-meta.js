@@ -38,6 +38,7 @@ export default class SentencesMeta {
       valid: [],
       invalid: [],
       username: this.username,
+      createdAt: Date.now(),
     };
 
     if (reviewed) {
@@ -123,7 +124,7 @@ export default class SentencesMeta {
     filters['has_' + this.getUserKey(this.username)] = false;
     filters['has_approved'] = false;
     const collection = await this.getCollection(language);
-    const result = await collection.listRecords({ filters });
+    const result = await collection.listRecords({ filters, sort: 'createdAt' });
     return result.data;
   }
 
