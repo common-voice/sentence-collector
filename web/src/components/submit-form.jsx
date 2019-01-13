@@ -7,6 +7,7 @@ function mapStateToProps(state) {
   return {
     parsingSentences: state.parsingSentences,
     errorMessage: state.errorMessage,
+    sentenceSubmissionFailures: state.sentenceSubmissionFailures,
   };
 }
 
@@ -24,6 +25,7 @@ class SubmitForm extends React.Component {
       errorMessage,
       languages,
       parsingSentences,
+      sentenceSubmissionFailures,
     } = this.props;
 
     return (
@@ -31,9 +33,20 @@ class SubmitForm extends React.Component {
         <h2>Add Sentences</h2>
         <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
 
-        { message && (<section class="form-message">{ message }</section>)}
-        { error && (<section class="form-error">{ error }</section>)}
-        { errorMessage && (<section class="form-error">{ errorMessage }</section>)}
+        { message && (<section className="form-message">{ message }</section>)}
+        { error && (<section className="form-error">{ error }</section>)}
+        { errorMessage && (<section className="form-error">{ errorMessage }</section>)}
+
+        { sentenceSubmissionFailures.length > 0 && (
+          <section>
+            <h3>Failed sentences:</h3>
+            <ul>
+              { sentenceSubmissionFailures.map((failure) => (
+                <li key={failure.sentence}>{failure.sentence}</li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section>
           <label className="language-selector-label" htmlFor="language-selector">

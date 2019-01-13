@@ -12,6 +12,7 @@ import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE,
+  ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
   ACTION_RESET_STATE,
 } from '../actions';
 
@@ -32,6 +33,7 @@ export const INITIAL_STATE = {
   pendingSentences: false,
   parsingSentences: false,
   errorMessage: null,
+  sentenceSubmissionFailures: [],
 };
 
 function copyInto(oldObj, newObj) {
@@ -99,6 +101,12 @@ export default function reducer(state = INITIAL_STATE, action) {
     case ACTION_SUBMIT_SENTENCES_REQUEST:
       return copyInto(state, {
         pendingSentences: true,
+        sentenceSubmissionFailures: [],
+      });
+
+    case ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE:
+      return copyInto(state, {
+        sentenceSubmissionFailures: action.errors,
       });
 
     case ACTION_SUBMIT_SENTENCES_SUCCESS:
