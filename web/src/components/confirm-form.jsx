@@ -87,7 +87,7 @@ class ConfirmForm extends React.Component {
           <button onClick={this.onCancel}>Cancel</button>
         </section>
 
-        {invalidated.length + filtered.length > 0 && (
+        {filtered.length > 0 && (
           <section>
             <h2>Filtered sentences due to requirements failing:</h2>
             <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
