@@ -21,6 +21,7 @@ const Header = (props) => {
       </nav>
       <ProfileWidget />
       <section id="external-links">
+        <a target="_blank" rel="noopener" href="https://discourse.mozilla.org/tags/c/voice/sentence-collection">Discourse</a>
         <a target="_blank" rel="noopener" href="https://github.com/Common-Voice/sentence-collector/issues">Report Bugs (GitHub)</a>
         <a target="_blank" rel="noopener" href="https://voice.mozilla.org/en/privacy">Privacy</a>
         <a target="_blank" rel="noopener" href="https://voice.mozilla.org/en/terms">Terms</a>
