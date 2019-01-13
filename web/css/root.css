@@ -183,13 +183,13 @@ form button {
   display: block;
 }
 
-#form-message {
+.form-message {
   line-height: 1rem;
   text-align: center;
   font-weight: bold;
 }
 
-#form-error {
+.form-error {
   line-height: 1rem;
   color: var(--warning-color);
   text-align: center;

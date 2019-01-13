@@ -36,7 +36,7 @@ export default class Login extends React.Component {
       <form id="login" onSubmit={this.onSubmit}>
         <h2>Log in</h2>
         <p>Choose your username and password to sign up. If you already have a username, please sign in with the existing password. Please only use alphanumeric usernames.</p>
-        <section id="form-message">{this.state.message}</section>
+        <section class="form-message">{this.state.message}</section>
         <section>
           <label htmlFor="username">username</label>
           <input type="text" id="username" disabled={this.props.pending} />

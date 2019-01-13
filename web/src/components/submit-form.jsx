@@ -1,8 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import LanguageSelector from './language-selector';
 
-export default class SubmitForm extends React.Component {
+function mapStateToProps(state) {
+  return {
+    parsingSentences: state.parsingSentences,
+    errorMessage: state.errorMessage,
+  };
+}
+
+class SubmitForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -13,7 +21,9 @@ export default class SubmitForm extends React.Component {
     const {
       message,
       error,
+      errorMessage,
       languages,
+      parsingSentences,
     } = this.props;
 
     return (
@@ -21,12 +31,9 @@ export default class SubmitForm extends React.Component {
         <h2>Add Sentences</h2>
         <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
 
-        <section id="form-message">
-          {message}
-        </section>
-        <section id="form-error">
-          {error}
-        </section>
+        { message && (<section class="form-message">{ message }</section>)}
+        { error && (<section class="form-error">{ error }</section>)}
+        { errorMessage && (<section class="form-error">{ errorMessage }</section>)}
 
         <section>
           <label className="language-selector-label" htmlFor="language-selector">
@@ -44,9 +51,16 @@ export default class SubmitForm extends React.Component {
         </section>
 
         <section>
-          <button>Submit</button>
+          { parsingSentences && (
+            <p>
+              <strong>Sentences are being validated. This can take a few seconds depending on the number of sentences added.</strong>
+            </p>
+          )}
+          <button disabled={parsingSentences}>Submit</button>
         </section>
       </form>
     );
   }
 }
+
+export default connect(mapStateToProps)(SubmitForm);

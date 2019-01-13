@@ -1,8 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ReviewLink from './review-link';
 
-export default class ConfirmForm extends React.Component {
+function mapStateToProps(state) {
+  return {
+    pendingSentences: state.pendingSentences,
+  };
+}
+
+class ConfirmForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -20,6 +27,7 @@ export default class ConfirmForm extends React.Component {
       validated,
       unreviewed,
       readyCount,
+      pendingSentences,
     } = this.props;
 
     return (
@@ -52,7 +60,7 @@ export default class ConfirmForm extends React.Component {
           </p>
         )}
 
-        <p><b>{`${readyCount} sentences ready for submission!`}</b></p>
+        <p><strong>{`${readyCount} sentences ready for submission!`}</strong></p>
 
         {unreviewed.length > 0 && (
           <p>
@@ -69,7 +77,13 @@ export default class ConfirmForm extends React.Component {
           and can be used.
         </p>
         <section id="confirm-buttons">
-          <button type="submit" disabled={readyCount === 0}>Confirm</button>
+          { pendingSentences && (
+            <p>
+              <strong>Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
+              Please don't close this website.</strong>
+            </p>
+          )}
+          <button type="submit" disabled={pendingSentences || readyCount === 0}>Confirm</button>
           <button onClick={this.onCancel}>Cancel</button>
         </section>
 
@@ -85,3 +99,5 @@ export default class ConfirmForm extends React.Component {
     );
   }
 }
+
+export default connect(mapStateToProps)(ConfirmForm);

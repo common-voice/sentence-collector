@@ -11,8 +11,15 @@ import {
   ACTION_REMOVE_LANGUAGE_FAILURE,
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
-  ACTION_SUBMIT_SENTENCES_FAILURE
+  ACTION_SUBMIT_SENTENCES_FAILURE,
+  ACTION_RESET_STATE,
 } from '../actions';
+
+import {
+  ACTION_PARSE_SENTENCES_STARTED,
+  ACTION_PARSE_SENTENCES_FINISHED,
+  ACTION_PARSE_SENTENCES_FAILURE,
+} from '../actions/parsing';
 
 export const INITIAL_STATE = {
   authed: false,
@@ -23,6 +30,8 @@ export const INITIAL_STATE = {
   pendingLanguages: false,
   sentences: [],
   pendingSentences: false,
+  parsingSentences: false,
+  errorMessage: null,
 };
 
 function copyInto(oldObj, newObj) {
@@ -102,6 +111,25 @@ export default function reducer(state = INITIAL_STATE, action) {
       return copyInto(state, {
         pendingSentences: false,
       });
+
+    case ACTION_PARSE_SENTENCES_STARTED:
+      return copyInto(state, {
+        parsingSentences: true,
+        errorMessage: null,
+      });
+
+    case ACTION_PARSE_SENTENCES_FINISHED:
+      return copyInto(state, {
+        parsingSentences: false,
+      });
+
+    case ACTION_PARSE_SENTENCES_FAILURE:
+      return copyInto(state, {
+        errorMessage: action.error.message,
+      });
+
+    case ACTION_RESET_STATE:
+      return copyInto(state, INITIAL_STATE);
 
     default:
       return state;
