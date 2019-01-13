@@ -52,17 +52,19 @@ The sentence collector is now accessible through `http://localhost:1234`.
 
 ## Deployment
 
-The website is hosted on GitHub Pages. Contributors with write access to the repository can deploy to production by running the following command:
+The website is hosted on GitHub Pages. Contributors with write access to the repository can deploy to production by running the following command. Please note that you will need to provide a GitHub token for the release notes. [Read more about tokens on GitHub.](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
 
 ```
-yarn run deploy
+GITHUB_TOKEN=... yarn run deploy
 ```
 
 This assumes that your `origin` is pointing to this repository. If not, you can specify the remote name with:
 
 ```
-yarn run deploy -- -o <remotename>
+GITHUB_TOKEN=... yarn run deploy -- -o <remotename>
 ```
+
+This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
 
 ## Adding a new user
 
