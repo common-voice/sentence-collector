@@ -3,6 +3,8 @@ import {
   ACTION_LOGIN_REQUEST,
   ACTION_LOGIN_SUCCESS,
   ACTION_LOGIN_FAILURE,
+  ACTION_LOGIN_CHECK_USERNAME_FAILED,
+  ACTION_LOGIN_CHECK_USERNAME_SUCCESS,
   ACTION_ADD_LANGUAGE_REQUEST,
   ACTION_ADD_LANGUAGE_SUCCESS,
   ACTION_ADD_LANGUAGE_FAILURE,
@@ -48,8 +50,22 @@ function mergeArray(arr1, arr2) {
 export default function reducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case ACTION_LOGOUT:
-    case ACTION_LOGIN_FAILURE:
       return copyInto(state, INITIAL_STATE);
+
+    case ACTION_LOGIN_FAILURE:
+      return Object.assign({}, state, INITIAL_STATE, {
+        errorMessage: 'Login failed.',
+      });
+
+    case ACTION_LOGIN_CHECK_USERNAME_SUCCESS:
+      return copyInto(state, {
+        errorMessage: null,
+      });
+
+    case ACTION_LOGIN_CHECK_USERNAME_FAILED:
+      return Object.assign({}, state, INITIAL_STATE, {
+        errorMessage: 'Please only use alphanumeric usernames.',
+      });
 
     case ACTION_LOGIN_SUCCESS:
       return  copyInto(state, {
@@ -58,6 +74,7 @@ export default function reducer(state = INITIAL_STATE, action) {
         username: action.username,
         password: action.password,
         languages: action.languages,
+        errorMessage: null,
       });
 
     case ACTION_LOGIN_REQUEST:

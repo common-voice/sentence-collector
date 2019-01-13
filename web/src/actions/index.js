@@ -4,6 +4,8 @@ export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const ACTION_LOGIN_CHECK_USERNAME_FAILED = 'ACTION_LOGIN_CHECK_USERNAME_FAILED';
+export const ACTION_LOGIN_CHECK_USERNAME_SUCCESS = 'ACTION_LOGIN_CHECK_USERNAME_SUCCESS';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -20,6 +22,8 @@ export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_
 
 export const ACTION_RESET_STATE = 'ACTION_RESET_STATE';
 
+const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
+
 export function login(username, password) {
   return async function(dispatch) {
     try {
@@ -30,8 +34,16 @@ export function login(username, password) {
       dispatch(loginSuccess(username, password, user.languages));
     } catch (err) {
       dispatch(loginFailure());
-      throw err;
     }
+  };
+}
+
+export function checkUsername(username) {
+  return async function(dispatch) {
+    const isAllowed = VALID_USERNAME_CHARACTERS.test(username);
+
+    const action = isAllowed ? usernameSuccess() : usernameFailure();
+    return dispatch(action);
   };
 }
 
@@ -83,6 +95,18 @@ export function submitSentences(language, sentences, source) {
       dispatch(submitSentencesFailure());
       throw err;
     }
+  };
+}
+
+export function usernameSuccess() {
+  return {
+    type: ACTION_LOGIN_CHECK_USERNAME_SUCCESS,
+  };
+}
+
+export function usernameFailure() {
+  return {
+    type: ACTION_LOGIN_CHECK_USERNAME_FAILED,
   };
 }
 
