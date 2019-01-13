@@ -42,7 +42,7 @@ class SubmitForm extends React.Component {
             <h3>Failed sentences:</h3>
             <ul>
               { sentenceSubmissionFailures.map((failure) => (
-                <li key={failure.sentence}>{failure.sentence}</li>
+                <li key={failure.sentence}>{failure.sentence}: {failure.error.message}</li>
               ))}
             </ul>
           </section>

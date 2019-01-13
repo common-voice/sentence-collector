@@ -76,7 +76,8 @@ export function submitSentences(language, sentences, source) {
       const db = new WebDB(state.username, state.password);
       const results = await db.submitSentences(language, sentences, source);
       dispatch(submitSentencesSuccess(results.sentences.slice(0)));
-      dispatch(submitSentencesFailureSingle(results.errors));
+      const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
+      dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
       return results;
     } catch (err) {
       dispatch(submitSentencesFailure());
