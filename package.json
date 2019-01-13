@@ -22,6 +22,7 @@
     "generate-cv": "yarn build:generator && yarn env node dist/generate-cv-metadata.js",
     "release": "semantic-release",
     "deploy": "yarn release && yarn build && gh-pages -d dist",
+    "deploy:only": "yarn build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test": "yarn lint && yarn build"
   },
