@@ -1,6 +1,6 @@
 {
   "name": "sentence-collector",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "engines": {
@@ -20,7 +20,8 @@
     "flush-db": "yarn db-helper flush",
     "list-db": "yarn db-helper list",
     "generate-cv": "yarn build:generator && yarn env node dist/generate-cv-metadata.js",
-    "deploy": "yarn build && gh-pages -d dist",
+    "release": "semantic-release",
+    "deploy": "yarn release && yarn build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test": "yarn lint && yarn build"
   },
@@ -49,6 +50,11 @@
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-transform-runtime": "^7.1.0",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.7",
+    "@semantic-release/github": "^5.2.9",
+    "@semantic-release/npm": "^5.1.3",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "babel-eslint": "^10.0.1",
     "btoa": "^1.2.1",
     "eslint": "5.6.1",
@@ -58,6 +64,37 @@
     "parcel-bundler": "^1.10.2",
     "parcel-plugin-eslint": "^1.0.4",
     "parcel-plugin-markdown": "mikehenrty/parcel-plugin-markdown#upgrade-asset",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "semantic-release": "^15.13.3"
+  },
+  "release": {
+    "ci": false,
+    "repositoryUrl": "git@github.com:Common-Voice/sentence-collector.git",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json"
+          ]
+        }
+      ],
+      [
+        "@semantic-release/github",
+        {
+          "failComment": false,
+          "failTitle": false,
+          "releasedLabels": false
+        }
+      ]
+    ]
   }
 }
