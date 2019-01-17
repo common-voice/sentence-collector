@@ -19,7 +19,7 @@ export function parseSentences(language, text) {
       };
 
       const sentences = text.split(SPLIT_ON).map(s => s.trim());
-      const { valid, filtered, existing } = await filterSentences(language, sentences, credentials);
+      const { valid, filtered, existing, submitted } = await filterSentences(language, sentences, credentials);
 
       checkForNewSentences([
         ...valid,
@@ -29,7 +29,7 @@ export function parseSentences(language, text) {
       dispatch(parseSentencesFinished());
 
       return {
-        sentences,
+        sentences: submitted,
         valid,
         filtered,
         existing,
@@ -43,9 +43,10 @@ export function parseSentences(language, text) {
 }
 
 async function filterSentences(language, sentences, credentials) {
-  const existingSentences = await getAlreadyDefinedSentences(language, sentences, credentials);
+  const dedupedSentences = Array.from(new Set(sentences));
+  const existingSentences = await getAlreadyDefinedSentences(language, dedupedSentences, credentials);
 
-  const { valid, filtered } = validation.validateSentences(language, sentences);
+  const { valid, filtered } = validation.validateSentences(language, dedupedSentences);
 
   const validNonExisting = valid.filter(sentence => {
     const alreadyExisting = existingSentences.includes(sentence);
@@ -56,6 +57,7 @@ async function filterSentences(language, sentences, credentials) {
     existing: existingSentences,
     valid: validNonExisting,
     filtered,
+    submitted: dedupedSentences,
   };
 }
 
