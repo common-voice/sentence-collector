@@ -4,6 +4,8 @@ export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const ACTION_LOGIN_ENABLE = 'ACTION_LOGIN_ENABLE';
+export const ACTION_LOGIN_DISABLE = 'ACTION_LOGIN_DISABLE';
 export const ACTION_LOGIN_CHECK_USERNAME_FAILED = 'ACTION_LOGIN_CHECK_USERNAME_FAILED';
 export const ACTION_LOGIN_CHECK_USERNAME_SUCCESS = 'ACTION_LOGIN_CHECK_USERNAME_SUCCESS';
 
@@ -38,13 +40,28 @@ export function login(username, password) {
   };
 }
 
-export function checkUsername(username) {
+export function checkLoginInput(username, password) {
   return async function(dispatch) {
-    const isAllowed = VALID_USERNAME_CHARACTERS.test(username);
+    const validUsername = checkUsername(username);
+    const validPassword = checkPassword(password);
 
-    const action = isAllowed ? usernameSuccess() : usernameFailure();
-    return dispatch(action);
+    const usernameAction = validUsername ? usernameSuccess() : usernameFailure();
+    dispatch(usernameAction);
+
+    if (!validUsername || !validPassword) {
+      return dispatch(disableLogin());
+    }
+
+    return dispatch(enableLogin());
   };
+}
+
+function checkUsername(username) {
+  return VALID_USERNAME_CHARACTERS.test(username);
+}
+
+function checkPassword(password) {
+  return password !== '';
 }
 
 export function addLanguage(language) {
@@ -107,6 +124,18 @@ export function usernameSuccess() {
 export function usernameFailure() {
   return {
     type: ACTION_LOGIN_CHECK_USERNAME_FAILED,
+  };
+}
+
+export function disableLogin() {
+  return {
+    type: ACTION_LOGIN_DISABLE,
+  };
+}
+
+export function enableLogin() {
+  return {
+    type: ACTION_LOGIN_ENABLE,
   };
 }
 
