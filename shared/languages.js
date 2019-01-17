@@ -26,7 +26,8 @@ const LANGUAGES_TO_REMOVE = [
 
 export const getAllLanguages = () => {
   const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
-  const allLanguages = changeLanguages(isoLanguages);
+  const languagesWithoutRemoved = removeLanguages(isoLanguages);
+  const allLanguages = addAdditionalLanguages(languagesWithoutRemoved);
   return allLanguages;
 };
 
@@ -45,11 +46,12 @@ export const getLanguageName = (code) => {
   return language.nativeName;
 };
 
-function changeLanguages(isoLanguages) {
-  const languagesWithoutRemoved = isoLanguages.filter((language) => {
+function removeLanguages(languages) {
+  return languages.filter((language) => {
     return !LANGUAGES_TO_REMOVE.includes(language.code);
   });
+}
 
-  const allLanguages = languagesWithoutRemoved.concat(ADDITIONAL_LANGUAGES);
-  return allLanguages;
+function addAdditionalLanguages(languages) {
+  return languages.concat(ADDITIONAL_LANGUAGES);
 }
