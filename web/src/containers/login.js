@@ -4,15 +4,15 @@ import Login from '../components/pages/login';
 import {
   login,
   logout,
-  checkUsername,
+  checkLoginInput,
 } from '../actions';
 
 function mapStateToProps(state) {
   return {
-    pending: state.pendingAuth,
     authed: state.authed,
     username: state.username,
     errorMessage: state.errorMessage,
+    loginDisabled: state.loginDisabled,
   };
 }
 
@@ -22,7 +22,7 @@ function mapDispatchToProps(dispatch) {
       return dispatch(login(username, password));
     },
     logout: () => dispatch(logout()),
-    checkUsername: (username) => dispatch(checkUsername(username)),
+    checkLoginInput: (username, password) => dispatch(checkLoginInput(username, password)),
   };
 }
 

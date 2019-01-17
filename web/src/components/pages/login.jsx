@@ -5,7 +5,7 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
-    this.checkUsername = this.checkUsername.bind(this);
+    this.checkInput = this.checkInput.bind(this);
     this.state = {};
   }
 
@@ -20,9 +20,10 @@ export default class Login extends React.Component {
     this.tryAuth(username, password);
   }
 
-  checkUsername() {
+  checkInput() {
     const username = document.getElementById('username').value;
-    this.props.checkUsername(username);
+    const password = document.getElementById('password').value;
+    this.props.checkLoginInput(username, password);
   }
 
   render() {
@@ -40,10 +41,10 @@ export default class Login extends React.Component {
         <section className="form-message">{this.props.errorMessage}</section>
         <section>
           <label htmlFor="username">username (alphanumeric, no email)</label>
-          <input type="text" id="username" onChange={this.checkUsername} disabled={this.props.pending} />
+          <input type="text" id="username" onChange={this.checkInput} disabled={this.props.pending} />
           <label htmlFor="password">password</label>
-          <input type="password" id="password" disabled={this.props.pending} />
-          <button disabled={this.props.pending || this.props.errorMessage}>Submit</button>
+          <input type="password" id="password" onChange={this.checkInput} disabled={this.props.pending} />
+          <button disabled={this.props.pending || this.props.loginDisabled}>Submit</button>
         </section>
       </form>
     );

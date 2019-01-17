@@ -4,6 +4,8 @@ import {
   ACTION_LOGIN_SUCCESS,
   ACTION_LOGIN_FAILURE,
   ACTION_LOGIN_CHECK_USERNAME_FAILED,
+  ACTION_LOGIN_ENABLE,
+  ACTION_LOGIN_DISABLE,
   ACTION_LOGIN_CHECK_USERNAME_SUCCESS,
   ACTION_ADD_LANGUAGE_REQUEST,
   ACTION_ADD_LANGUAGE_SUCCESS,
@@ -26,9 +28,9 @@ import {
 
 export const INITIAL_STATE = {
   authed: false,
-  pendingAuth: false,
   username: null,
   password: null,
+  loginDisabled: true,
   languages: [],
   pendingLanguages: false,
   sentences: [],
@@ -52,11 +54,6 @@ export default function reducer(state = INITIAL_STATE, action) {
     case ACTION_LOGOUT:
       return copyInto(state, INITIAL_STATE);
 
-    case ACTION_LOGIN_FAILURE:
-      return Object.assign({}, state, INITIAL_STATE, {
-        errorMessage: 'Login failed.',
-      });
-
     case ACTION_LOGIN_CHECK_USERNAME_SUCCESS:
       return copyInto(state, {
         errorMessage: null,
@@ -67,20 +64,36 @@ export default function reducer(state = INITIAL_STATE, action) {
         errorMessage: 'Please only use alphanumeric usernames.',
       });
 
+    case ACTION_LOGIN_DISABLE:
+      return copyInto(state, {
+        loginDisabled: true,
+      });
+
+    case ACTION_LOGIN_ENABLE:
+      return copyInto(state, {
+        loginDisabled: false,
+      });
+
     case ACTION_LOGIN_SUCCESS:
       return  copyInto(state, {
         authed: true,
-        pendingAuth: false,
+        loginDisabled: false,
         username: action.username,
         password: action.password,
         languages: action.languages,
         errorMessage: null,
       });
 
+    case ACTION_LOGIN_FAILURE:
+      return Object.assign({}, state, INITIAL_STATE, {
+        errorMessage: 'Login failed.',
+        loginDisabled: true,
+      });
+
     case ACTION_LOGIN_REQUEST:
       return copyInto(state, {
         authed: false,
-        pendingAuth: true,
+        loginDisabled: true,
       });
 
     case ACTION_ADD_LANGUAGE_REQUEST:
