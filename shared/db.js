@@ -106,15 +106,23 @@ export default class DB {
   }
 
   async getLanguageInfoForMe(language) {
-    const [ submitted, validated ] = await Promise.all([
-      this.sentences.getMySentences(language),
-      this.sentences.getMyVotes(language),
-    ]);
-    return {
-      language,
-      submitted,
-      validated,
-    };
+    try {
+      const [ submitted, validated ] = await Promise.all([
+        this.sentences.getMySentences(language),
+        this.sentences.getMyVotes(language),
+      ]);
+      return {
+        language,
+        submitted,
+        validated,
+      };
+    } catch(err) {
+      return {
+        language,
+        submitted: [],
+        validated: [],
+      };
+    }
   }
 
   async getLanguagesMetaForMe(languages) {
