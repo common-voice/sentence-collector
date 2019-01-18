@@ -7,6 +7,7 @@ import hash from '../../hash';
 const NAME = 'Sentences_Meta';
 const PREFIX = NAME + '_';
 const USER_PREFIX = PREFIX + 'UserVote_';
+const USER_DATE_PREFIX = PREFIX + 'UserVoteDate_';
 
 const VALID = true;
 const INVALID = false;
@@ -28,6 +29,10 @@ export default class SentencesMeta {
 
   getUserKey(username) {
     return USER_PREFIX + username;
+  }
+
+  getUserDateKey(username) {
+    return USER_DATE_PREFIX + username;
   }
 
   getPreparedRecord({ sentence, reviewed, source }) {
@@ -195,6 +200,8 @@ export default class SentencesMeta {
         record[this.getUserKey(this.username)] = INVALID;
       }
 
+      record[this.getUserDateKey(this.username)] = Date.now();
+
       const isApproved = this.checkIfApproved(record);
       if (typeof isApproved === 'undefined') {
         // We don't have any approval yet (not enough votes)
@@ -203,6 +210,7 @@ export default class SentencesMeta {
       }
 
       record.approved = isApproved;
+      record.approvalDate = Date.now();
 
       return record;
     });
