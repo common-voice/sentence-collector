@@ -60,6 +60,11 @@ export default class Add extends React.Component {
     return input && input.value;
   }
 
+  getConfirmInput() {
+    const input = document.querySelector('#agree');
+    return input && input.checked;
+  }
+
   getReadySentences() {
     return {
       unreviewed: this.state.unreviewed,
@@ -73,7 +78,7 @@ export default class Add extends React.Component {
     if (!lang) {
       this.resetState();
       this.setState({
-        message: 'Please select a langauge.',
+        message: 'Please select a language.',
       });
       return false;
     }
@@ -90,6 +95,14 @@ export default class Add extends React.Component {
     if (!rawSourceInput) {
       this.setState({
         message: 'Please add a source.',
+      });
+      return false;
+    }
+
+    let confirmInput = this.getConfirmInput();
+    if (!confirmInput) {
+      this.setState({
+        message: 'Please confirm that these sentences are public domain.',
       });
       return false;
     }
