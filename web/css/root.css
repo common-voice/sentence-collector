@@ -44,7 +44,6 @@ input {
   border-radius: var(--main-border-radius);
   border: 1px solid #959595;
   padding: 0.2rem;
-  font-size: 1.1rem;
 }
 
 button {
@@ -170,6 +169,13 @@ form section {
 form label {
   display: inline-block;
   font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+form input[type="checkbox"] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
 }
 
 form input[type="password"],

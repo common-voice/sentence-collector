@@ -70,12 +70,6 @@ class ConfirmForm extends React.Component {
           </p>
         )}
 
-        <p>
-          By submitting these sentences you grant a {}
-          <a href="https://en.wikipedia.org/wiki/Public_domain" target="_blank">Public Domain License</a> {}
-          for self-written sentences, or declare that sentences from a third-party are under Public Domain License
-          and can be used.
-        </p>
         <section id="confirm-buttons">
           { pendingSentences && (
             <p>

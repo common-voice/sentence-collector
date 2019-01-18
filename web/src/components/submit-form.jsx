@@ -31,7 +31,6 @@ class SubmitForm extends React.Component {
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
         <h2>Add Sentences</h2>
-        <p>Please add your sentences by typing or copy & pasting them below. <strong>Please make sure to add one sentence per line.</strong></p>
 
         { message && (<section className="form-message">{ message }</section>)}
         { error && (<section className="form-error">{ error }</section>)}
@@ -55,12 +54,24 @@ class SubmitForm extends React.Component {
           <LanguageSelector name="language-selector" only={languages}/>
         </section>
         <section>
-          <label htmlFor="sentences-input">Enter sentences (one per line)</label>
-          <textarea id="sentences-input" />
+          <label htmlFor="sentences-input">
+            Add <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> sentences
+          </label>
+          <textarea id="sentences-input" placeholder="One sentence per line" />
         </section>
         <section>
-          <label htmlFor="source-input">Where did you get these sentences from?</label>
-          <input id="source-input" type="text" />
+          <label htmlFor="source-input">
+            Where are these <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> sentences from?
+          </label>
+          <input id="source-input" type="text" placeholder="Read our How-to if unsure how to attribute" />
+        </section>
+        <section>
+          <input id="agree" type="checkbox" />
+          <label htmlFor="agree">
+            I confirm that these sentences are {}
+            <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> {}
+            and I have permission to upload them.
+          </label>
         </section>
 
         <section>
