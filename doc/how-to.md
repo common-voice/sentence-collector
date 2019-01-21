@@ -12,6 +12,7 @@ You can login by entering any available username and choosing a password, that w
 - Abbreviations and Acronyms. Abbreviations and acronyms like “USA” or “ICE” should be avoided in the source text because they may be read in a way that does not coincide with their spelling. Additionally, there may be multiple accurate readings for a single abbreviation. For example, the acronym “ICE” could be pronounced “I-C-E” or as a single word.
 - Punctuation. Special symbols and punctuation should only be included when absolutely necessary. For example, an apostrophe is included in English words like “don’t” and “we’re” and should be included in the source text, but it’s unlikely you’ll ever need a special symbol like “@” or “#.”
 - Foreign letters. Letters must be valid in the language being spoken. For example, “ж” is a letter in the Russian alphabet but is never used in English and so should never appear in any English source text.
+- Length. Sentences must be 14 words or less.
 
 
 ## Review Sentences
