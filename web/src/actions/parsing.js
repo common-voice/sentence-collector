@@ -18,7 +18,7 @@ export function parseSentences(language, text) {
         password: state.password,
       };
 
-      const sentences = text.split(SPLIT_ON).map(s => s.trim());
+      const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
       const { valid, filtered, existing, submitted } = await filterSentences(language, sentences, credentials);
 
       checkForNewSentences([
