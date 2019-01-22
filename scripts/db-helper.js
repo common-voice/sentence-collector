@@ -1,6 +1,7 @@
 import KintoTestServer from "kinto-node-test-server";
 import DB from '../shared/db';
 import { fail } from './util';
+import { startExport } from './exporter';
 import generate from './generate-cv-metadata';
 
 // Kinto http needs fetch on the global scope.
@@ -9,10 +10,13 @@ global.fetch = require('node-fetch');
 const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 const ACTION_LIST_USERS = 'list';
+const ACTION_EXPORT = 'export';
 
 const remote = process.env.KINTO_URL_LOCAL;
+const prodRemote = process.env.KINTO_URL_PROD;
 const username = process.env.KINTO_USER;
 const password = process.env.KINTO_PASSWORD;
+const exportPath = process.env.COMMON_VOICE_PATH + '/server/data';
 
 const action = process.argv[2];
 
@@ -26,6 +30,11 @@ async function listUsers() {
   const users = await db.getUsers();
   console.log('users', users);
   return users;
+}
+
+async function exportDB() {
+  const db = new DB(prodRemote, username, password);
+  await startExport(db, exportPath);
 }
 
 async function initDB() {
@@ -81,6 +90,10 @@ async function run() {
 
       case ACTION_LIST_USERS:
         await listUsers();
+        break;
+
+      case ACTION_EXPORT:
+        await exportDB();
         break;
 
       default:
