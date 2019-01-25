@@ -66,6 +66,18 @@ GITHUB_TOKEN=... yarn run deploy -- -o <remotename>
 
 This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
 
+## Export
+
+Anyone with a locally working setup can export sentences to be added to Common Voice. Make sure to have your `.env` file correctly set up, including the correct path to the Common Voice (voice-web) repository.
+
+```
+yarn run export
+```
+
+This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository. After the script ran, you might verify the output by  running `git status` in the Common Voice repository.
+
+For now a new PR to the voice-web repo needs to be created manually.
+
 ## Adding a new user
 
 You can add as many users as you want. To do so, call the accounts endpoint again:

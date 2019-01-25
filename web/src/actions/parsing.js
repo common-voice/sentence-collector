@@ -1,5 +1,5 @@
 import WebDB from '../web-db';
-import * as validation from '../validation';
+import * as validation from '../../../shared/validation';
 
 export const ACTION_PARSE_SENTENCES_STARTED = 'PARSE_SENTENCES_STARTED';
 export const ACTION_PARSE_SENTENCES_FINISHED = 'PARSE_SENTENCES_FINISHED';
