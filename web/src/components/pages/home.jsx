@@ -12,7 +12,7 @@ export default class Home extends React.Component {
       <div>
         <h1>
           Welcome { this.props.authed ? 'back ' : '' }
-          to the Sentence Collector
+          to the Common Voice Sentence Collector
         </h1>
         <p>
           This is a website where we collect and review sentences
