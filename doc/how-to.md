@@ -14,6 +14,7 @@ You can login by entering any available username and choosing a password, that w
 - Foreign letters. Letters must be valid in the language being spoken. For example, “ж” is a letter in the Russian alphabet but is never used in English and so should never appear in any English source text.
 - Length. Sentences must be 14 words or less.
 
+We prefer natural/conversational sentences. While phonetic diversity and different words in sentences is important, we are trying to make recording sentences as much fun as possible. Therefore it would be great if you could try to keep your sentences as natural/engaging as possible.
 
 ## Review Sentences
 
@@ -29,7 +30,7 @@ You can login by entering any available username and choosing a password, that w
 ## Finding existing sentences in the Public Domain
 
 ### Search for them on the internet
-Remember that we need permission to publish those sentences, so always ensure that the text belongs to the [public domain](https://en.wikipedia.org/wiki/Public_domain). If there is not an indication, reach out to the person that the text belongs to and ask if you can use their text. 
+Remember that we need permission to publish those sentences, so always ensure that the text belongs to the [public domain](https://en.wikipedia.org/wiki/Public_domain). If there is not an indication, reach out to the person that the text belongs to and ask if you can use their text.
 
 Here are some tips to find sentences:
 - The best sources you can look for are podcasts, transcripts, movie scripts and anything that potential can contain everyday conversations.
