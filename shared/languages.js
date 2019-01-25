@@ -4,6 +4,126 @@ export const ENGLISH_CODE = 'en';
 
 const ADDITIONAL_LANGUAGES = [
   {
+    code: 'ace',
+    name: 'Achinese',
+    nativeName: 'بهسا اچيه',
+  },
+  {
+    code: 'ady',
+    name: 'Adyghe',
+    nativeName: 'Адыгабзэ',
+  },
+  {
+    code: 'ast',
+    name: 'Asturian',
+    nativeName: 'asturianu',
+  },
+  {
+    code: 'bxr',
+    name: 'Russia Buriat',
+    nativeName: 'буряад хэлэн',
+  },
+  {
+    code: 'cak',
+    name: 'Kaqchikel',
+    nativeName: 'Kaqchikel',
+  },
+  {
+    code: 'cnh',
+    name: 'Hakha Chin',
+    nativeName: 'Lai',
+  },
+  {
+    code: 'dsb',
+    name: 'Lower Sorbian',
+    nativeName: 'dolnoserbšćina',
+  },
+  {
+    code: 'fy-NL',
+    name: 'Frisian',
+    nativeName: 'Frysk',
+  },
+  {
+    code: 'ga-IE',
+    name: 'Irish',
+    nativeName: 'Irish',
+  },
+  {
+    code: 'hsb',
+    name: 'Upper Sorbian',
+    nativeName: 'Hornjoserbšćina',
+  },
+  {
+    code: 'kab',
+    name: 'Kabyle',
+    nativeName: 'Taqbaylit',
+  },
+  {
+    code: 'kpv',
+    name: 'Komi-Zyrian',
+    nativeName: 'Коми кыв',
+  },
+  {
+    code: 'mdf',
+    name: 'Moksha',
+    nativeName: 'мокшень кяль',
+  },
+  {
+    code: 'mhr',
+    name: 'Eastern Mari',
+    nativeName: 'Eastern Mari',
+  },
+  {
+    code: 'mrj',
+    name: 'Western Mari',
+    nativeName: 'Western Mari',
+  },
+  {
+    code: 'myv',
+    name: 'Erzya',
+    nativeName: 'эрзянь кель',
+  },
+  {
+    code: 'nb-NO',
+    name: 'Norwegian Bokmål',
+    nativeName: 'Bokmål',
+  },
+  {
+    code: 'ne-NP',
+    name: 'Nepali',
+    nativeName: 'नेपाली',
+  },
+  {
+    code: 'nn-NO',
+    name: 'Norwegian',
+    nativeName: 'norsk',
+  },
+  {
+    code: 'rm-sursilv',
+    name: 'Romansh Sursilvan',
+    nativeName: 'romontsch sursilvan',
+  },
+  {
+    code: 'sv-SE',
+    name: 'Swedish Sweden',
+    nativeName: 'svenska',
+  },
+  {
+    code: 'uby',
+    name: 'Ubykh',
+    nativeName: 'Ubykh',
+  },
+  {
+    code: 'udm',
+    name: 'Udmurt',
+    nativeName: 'удмурт кыл',
+  },
+  {
+    code: 'vot',
+    name: 'Votic',
+    nativeName: 'maaceeli',
+  },
+  {
     code: 'zh-CN',
     name: 'Chinese - China',
     nativeName: '中文 (中国)',
@@ -28,12 +148,18 @@ export const getAllLanguages = () => {
   const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
   const languagesWithoutRemoved = removeLanguages(isoLanguages);
   const allLanguages = addAdditionalLanguages(languagesWithoutRemoved);
-  return allLanguages;
+  const allLanguagesSorted = allLanguages.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+  return allLanguagesSorted;
 };
 
 export const getLanguages = (codes) => {
-  const languages = ISO6391.getLanguages(codes);
-  return languages;
+  const allLanguages = getAllLanguages();
+  const filteredLangauges = allLanguages.filter((lang) => codes.includes(lang.code));
+  return filteredLangauges;
 };
 
 export const getLanguageName = (code) => {
