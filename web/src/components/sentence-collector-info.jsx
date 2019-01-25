@@ -47,7 +47,7 @@ export default class SentenceCollectorInfo extends React.Component {
   render() {
     return this.state.loading ? <p>Loading sentence collector data...</p> : (
       <p>
-       This website (Sentence Collector) has
+       The Common Voice Sentence Collector has
        collected <strong>{this.state.sentences}</strong> sentences
        in <strong>{this.state.languages}</strong> languages!
       </p>

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import ProfileWidget from '../containers/profile-widget';
-import logoURL from '../../img/white-mozilla.svg';
+import logoURL from '../../img/cv-logo-one-color-white.svg';
 
 const Header = (props) => {
   return (
