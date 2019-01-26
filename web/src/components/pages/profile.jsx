@@ -130,13 +130,13 @@ export default class Profile extends React.Component {
           <section>
             { (this.state.totalSubmitted || this.state.totalValidated) ? (
               <ul>
-                <li><strong>{this.state.totalSubmitted}</strong> sentences submitted</li>
+                <li><strong>{this.state.totalSubmitted}</strong> sentences added</li>
                 <li><strong>{this.state.totalValidated}</strong> sentences reviewed</li>
                 <li>... across <strong>{this.props.languages.length}</strong> language(s)</li>
               </ul>
             ): (
               <p>
-                No sentences submitted or reviewed,
+                No sentences added or reviewed,
                 try <Link to="/review">reviewing</Link> some sentences now?
               </p>
             )}
