@@ -136,7 +136,7 @@ export default class Profile extends React.Component {
               </ul>
             ): (
               <p>
-                No sentences submitted or validated,
+                No sentences submitted or reviewed,
                 try <Link to="/review">reviewing</Link> some sentences now?
               </p>
             )}
@@ -184,8 +184,8 @@ const LanguageInfo = (props) => (
       </button>
       { props.languageInfo && props.languageInfo[language] && (
         <ul>
-        <li>{props.languageInfo[language].submitted.length} submitted by you.</li>
-        <li>{props.languageInfo[language].validated.length} validated by you.</li>
+        <li>{props.languageInfo[language].submitted.length} added by you.</li>
+        <li>{props.languageInfo[language].validated.length} reviewed by you.</li>
         </ul>
       )}
     </li>
