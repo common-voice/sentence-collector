@@ -20,6 +20,7 @@
     "flush-db": "yarn db-helper flush",
     "list-db": "yarn db-helper list",
     "export": "yarn db-helper export",
+    "flush": "yarn db-helper delete",
     "generate-cv": "yarn build:generator && yarn env node dist/generate-cv-metadata.js",
     "release": "semantic-release",
     "deploy": "yarn release && yarn build && gh-pages -d dist",

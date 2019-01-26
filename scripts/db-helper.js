@@ -11,7 +11,9 @@ const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 const ACTION_LIST_USERS = 'list';
 const ACTION_EXPORT = 'export';
+const ACTION_DELETE = 'delete';
 
+const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
 const prodRemote = process.env.KINTO_URL_PROD;
 const username = process.env.KINTO_USER;
@@ -33,7 +35,8 @@ async function listUsers() {
 }
 
 async function exportDB() {
-  const db = new DB(prodRemote, username, password);
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
   await startExport(db, exportPath);
 }
 
@@ -52,6 +55,12 @@ async function initDB() {
   if (!authed) {
     fail('db admin must be authed user');
   }
+}
+
+async function deleteSentences() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  await db.deleteSentenceRecords();
 }
 
 async function run() {
@@ -94,6 +103,10 @@ async function run() {
 
       case ACTION_EXPORT:
         await exportDB();
+        break;
+
+      case ACTION_DELETE:
+        await deleteSentences();
         break;
 
       default:

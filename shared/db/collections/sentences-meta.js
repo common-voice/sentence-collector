@@ -1,3 +1,4 @@
+import { forEachSeries } from 'p-iteration';
 import { getAllLanguages } from '../../languages';
 import { BUCKET_NAME } from '../../db.js';
 import { parseBatchResults } from '../api-result-parser';
@@ -52,6 +53,20 @@ export default class SentencesMeta {
     }
 
     return preparedRecord;
+  }
+
+  async deleteSentenceRecords(bucket) {
+    const languages = getAllLanguages();
+    await forEachSeries(languages, async (language) => {
+      const records = await this.getAll(language.code);
+      const collectionName = await this.getCollectionName(language.code);
+      console.log(`Found ${records.length} records to delete for ${language.code}`);
+      await bucket.batch(b => {
+        for (let i = 0; i < records.length; i++) {
+          b.collection(collectionName).deleteRecord(records[i].id);
+        }
+      });
+    });
   }
 
   async createAllCollections(bucket) {
