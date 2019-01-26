@@ -42,11 +42,11 @@ async function initDB() {
   await db.initDB();
   //TODO: log something back from init, similar to like we did with cv data below
 
-  const metadata = await generate();
 
-  // TODO: REMOVE SLicE, this is just for testing!!
-  const { languages, sentences } = await db.initCV(metadata.slice(0, 1));
-  console.log(`Common Voice: ${sentences.length} sentences in ${languages.length} languages`);
+  // For now we're not importing any CV data
+  // const metadata = await generate();
+  // const { languages, sentences } = await db.initCV(metadata);
+  // console.log(`Common Voice: ${sentences.length} sentences in ${languages.length} languages`);
 
   const authed = await db.auth();
   if (!authed) {
