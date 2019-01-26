@@ -2,7 +2,7 @@ import KintoTestServer from "kinto-node-test-server";
 import DB from '../shared/db';
 import { fail } from './util';
 import { startExport } from './exporter';
-import generate from './generate-cv-metadata';
+// import generate from './generate-cv-metadata';
 
 // Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');
