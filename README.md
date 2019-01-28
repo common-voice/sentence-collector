@@ -68,10 +68,12 @@ This will also create [release notes on GitHub](https://github.com/Common-Voice/
 
 ## Export
 
-Anyone with a locally working setup can export sentences to be added to Common Voice. Make sure to have your `.env` file correctly set up, including the correct path to the Common Voice (voice-web) repository.
+Anyone with a locally working setup can export sentences to be added to Common Voice. Make sure to have your `.env` file correctly set up, including the correct path to the Common Voice (voice-web) repository as well as the Kinto credentials depending on the environment.
+
+If you want to run the export against the local instance, remove the `SC_SYSTEM` env variable below.
 
 ```
-yarn run export
+SC_SYSTEM=production yarn run export
 ```
 
 This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository. After the script ran, you might verify the output by  running `git status` in the Common Voice repository.

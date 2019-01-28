@@ -55,6 +55,11 @@ export default class DB {
     return this.cvSentences.createFromMeta(bucket, metadata);
   }
 
+  async deleteSentenceRecords() {
+    const bucket = await this.getBucket();
+    return this.sentences.deleteSentenceRecords(bucket);
+  }
+
   async getCVMetadata() {
     const bucket = await this.getBucket();
     return this.cvSentences.getLanguageAndSentenceCounts(bucket);
