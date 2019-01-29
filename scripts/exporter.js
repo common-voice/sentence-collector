@@ -5,7 +5,6 @@ import {
   existsSync,
   mkdirSync,
 } from 'fs';
-import { forEachSeries } from 'p-iteration';
 import * as validation from '../shared/validation';
 import * as cleanup from '../shared/cleanup';
 
@@ -18,9 +17,9 @@ export async function startExport(db, exportPath) {
   const cvResponse = await fetch(CV_LANGUAGES_URL);
   const allCVLanguages = await cvResponse.json();
 
-  await forEachSeries(allCVLanguages, async (languageCode) => {
+  for (const languageCode of allCVLanguages) {
     await exportLanguage(db, languageCode, exportPath);
-  });
+  }
 
   const endTime = Date.now();
   console.log('Duration to export everything (ms): ', endTime - startTime);
