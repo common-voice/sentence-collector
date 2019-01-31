@@ -35,7 +35,7 @@ export default class ReviewForm extends React.Component {
     return this.state.page * PAGE_SIZE;
   }
 
-  onSubmit(evt) {
+  async onSubmit(evt) {
     evt.preventDefault();
     let validated = [];
     let invalidated = [];
@@ -59,7 +59,7 @@ export default class ReviewForm extends React.Component {
       return true;
     }).map((sentenceInfo) => sentenceInfo.sentence);
 
-    this.props.onReviewed({
+    await this.props.onReviewed({
       validated,
       invalidated,
       unreviewed,
