@@ -256,13 +256,8 @@ export default class SentencesMeta {
   }
 
   async vote(language, validated, invalidated) {
-    const list = [...validated, ...invalidated].map(sentence => sentence.id);
     const collection = await this.getCollection(language);
-    const result = await collection.listRecords({
-      filters: {
-        in_id: list
-      },
-    });
+    const result = await collection.listRecords();
 
     const records = result.data;
     const existing = records.reduce((accum, record) => {
