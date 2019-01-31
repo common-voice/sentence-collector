@@ -40,6 +40,10 @@ export default class ReviewForm extends React.Component {
     let validated = [];
     let invalidated = [];
 
+    this.setState({
+      pendingSentences: true,
+    });
+
     // Extract sentence that have been voted on.
     const unreviewed = this.state.sentences.filter((sentenceInfo) => {
       if (sentenceInfo.reviewApproval) {
@@ -59,6 +63,10 @@ export default class ReviewForm extends React.Component {
       validated,
       invalidated,
       unreviewed,
+    });
+
+    this.setState({
+      pendingSentences: false,
     });
   }
 
@@ -120,7 +128,13 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        <button type="submit">Finish Review</button>
+        { this.state.pendingSentences && (
+          <p>
+            <strong>Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+            Please don't close this website.</strong>
+          </p>
+        )}
+        <button type="submit" disabled={this.state.pendingSentences}>Finish Review</button>
       </form>
     );
   }
