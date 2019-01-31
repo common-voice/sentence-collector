@@ -152,9 +152,7 @@ export default class SentencesMeta {
       const aVoteLength = a.valid.length;
       const bVoteLength = b.valid.length;
 
-      if (aVoteLength < bVoteLength) return 1;
-      if (aVoteLength > bVoteLength) return -1;
-      return 0;
+      return bVoteLength - aVoteLength;
     });
 
     return additionallySortedByApprovalVotes;
