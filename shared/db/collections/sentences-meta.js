@@ -144,7 +144,18 @@ export default class SentencesMeta {
     filters['has_approved'] = false;
     const collection = await this.getCollection(language);
     const result = await collection.listRecords({ filters, sort: 'createdAt' });
-    return result.data;
+    const sentences = result.data;
+    // This works as all modern browsers use a stable sorting algorithm
+    // if not, we're still fine..
+    // We always want to show sentences with more valid votes first
+    const additionallySortedByApprovalVotes = sentences.sort((a, b) => {
+      const aVoteLength = a.valid.length;
+      const bVoteLength = b.valid.length;
+
+      return bVoteLength - aVoteLength;
+    });
+
+    return additionallySortedByApprovalVotes;
   }
 
   async getValidatedSentences(language) {
@@ -243,13 +254,8 @@ export default class SentencesMeta {
   }
 
   async vote(language, validated, invalidated) {
-    const list = [...validated, ...invalidated].map(sentence => sentence.id);
     const collection = await this.getCollection(language);
-    const result = await collection.listRecords({
-      filters: {
-        in_id: list
-      },
-    });
+    const result = await collection.listRecords();
 
     const records = result.data;
     const existing = records.reduce((accum, record) => {
