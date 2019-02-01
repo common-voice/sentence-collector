@@ -255,10 +255,8 @@ export default class SentencesMeta {
 
   async vote(language, validated, invalidated) {
     const collection = await this.getCollection(language);
-    const result = await collection.listRecords();
-
-    const records = result.data;
-    const existing = records.reduce((accum, record) => {
+    const notVoted = await this.getNotVoted(language);
+    const existing = notVoted.reduce((accum, record) => {
       accum[record.id] = record;
       return accum;
     }, {});
