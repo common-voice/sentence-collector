@@ -176,6 +176,7 @@ export default class SentencesMeta {
       const result = await next();
       data = data.concat(result.data);
       hasNextPage = result.hasNextPage;
+      next = result.next;
     }
 
     return data;
