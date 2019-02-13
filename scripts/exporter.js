@@ -40,7 +40,7 @@ async function exportLanguage(db, languageCode, exportPath) {
 
   let approvedSentences = [];
   try {
-    approvedSentences = await db.getValidatedSentences(languageCode);
+    approvedSentences = await db.getAllValidatedSentences(languageCode);
   } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
 
   if (!approvedSentences || approvedSentences.length === 0) {

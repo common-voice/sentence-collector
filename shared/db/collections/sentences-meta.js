@@ -166,6 +166,29 @@ export default class SentencesMeta {
     return result.data;
   }
 
+  async getAllValidatedSentences(language) {
+    let allSentences = [];
+    const filters = {};
+    filters.approved = true;
+    const collection = await this.getCollection(language);
+    const result = await collection.listRecords({ filters });
+    allSentences = allSentences.concat(result.data);
+    let next = result.next;
+
+    while (next) {
+      const nextSentences = await next();
+      if (nextSentences && nextSentences.length > 0) {
+        allSentences = allSentences.concat(nextSentences.data);
+        next = nextSentences.next;
+        continue;
+      }
+
+      next = null;
+    }
+
+    return allSentences;
+  }
+
   prepareForSubmission(sentences) {
     const allUnreviewedSentences = sentences.unreviewed.map((sentence) => {
       return { sentence, reviewed: false };
