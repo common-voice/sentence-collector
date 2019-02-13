@@ -11,11 +11,16 @@ export function cleanupSentences(language, sentences) {
   const cleanup = getCleanupFor(language);
 
   const sorted = sortSentences(cleanup, sentences);
-  return sorted;
+  const spaceCleaned = cleanSpaces(cleanup, sorted);
+  return spaceCleaned;
 }
 
 function sortSentences(cleanup, sentences) {
   return cleanup.sortSentences(sentences);
+}
+
+function cleanSpaces(cleanup, sentences) {
+  return cleanup.cleanSpaces(sentences);
 }
 
 function getCleanupFor(language) {
