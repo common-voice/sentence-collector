@@ -28,9 +28,10 @@ async function flushKinto() {
 }
 
 async function listUsers() {
-  const db = new DB(remote, username, password);
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
   const users = await db.getUsers();
-  console.log('users', users);
+  console.log('number of users', users.length);
   return users;
 }
 
