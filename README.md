@@ -68,6 +68,12 @@ This will also create [release notes on GitHub](https://github.com/Common-Voice/
 
 ## Export
 
+### Locally
+
+Make sure you have voice-web repository cloned locally first.
+
+``git clone https://github.com/mozilla/voice-web.git``
+
 Anyone with a locally working setup can export sentences to be added to Common Voice. Make sure to have your `.env` file correctly set up, including the correct path to the Common Voice (voice-web) repository as well as the Kinto credentials depending on the environment.
 
 If you want to run the export against the local instance, remove the `SC_SYSTEM` env variable below.
@@ -76,9 +82,44 @@ If you want to run the export against the local instance, remove the `SC_SYSTEM`
 SC_SYSTEM=production yarn run export
 ```
 
-This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository. After the script ran, you might verify the output by  running `git status` in the Common Voice repository.
+This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository. After the script ran, you might verify the output by running `git status` in the voice-web repository.
 
-For now a new PR to the voice-web repo needs to be created manually.
+### Exporting to the official repository
+
+1. Make sure you have forked voice-web repo in your user.
+2. Clone voice-web locally and link your remote fork for exports
+
+```
+git clone https://github.com/mozilla/voice-web.git
+cd voice-web
+git remote add fork git@github.com:YOURUSERNAME/voice-web.git
+```
+
+All steps to do the export to our fork (you can repeat this each time you want to make an updated export)
+
+```
+cd  voice-web
+## Making sure our master branch is updated
+git checkout master
+git pull origin master
+git push fork master
+git push --delete fork sentence-collector-export
+git branch -D sentence-collector-export
+## Creating a new branch just for forks
+git checkout -b sentence-collector-export
+cd ..
+## Creating the export
+SC_SYSTEM=production yarn run export
+## Committing the export to our Fork
+cd voice-web
+git add .
+git commit -am "Sentence Collector - validated sentences export - 2019-02-13-13-28"
+git push fork sentence-collector-export
+```
+
+Now you will be able to create a manual pull request using the following URL:
+
+``https://github.com/YOURUSERNAME/voice-web/pull/new/sentence-collector-export``
 
 ## Adding a new user
 
