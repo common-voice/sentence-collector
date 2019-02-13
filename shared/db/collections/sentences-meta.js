@@ -167,26 +167,18 @@ export default class SentencesMeta {
   }
 
   async getAllValidatedSentences(language) {
-    let allSentences = [];
     const filters = {};
     filters.approved = true;
     const collection = await this.getCollection(language);
-    const result = await collection.listRecords({ filters });
-    allSentences = allSentences.concat(result.data);
-    let next = result.next;
 
-    while (next) {
-      const nextSentences = await next();
-      if (nextSentences && nextSentences.length > 0) {
-        allSentences = allSentences.concat(nextSentences.data);
-        next = nextSentences.next;
-        continue;
-      }
-
-      next = null;
+    let { data, hasNextPage, next } = await collection.listRecords({ filters });
+    while (hasNextPage) {
+      const result = await next();
+      data = data.concat(result.data);
+      hasNextPage = result.hasNextPage;
     }
 
-    return allSentences;
+    return data;
   }
 
   prepareForSubmission(sentences) {
