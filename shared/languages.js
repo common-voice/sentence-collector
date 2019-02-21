@@ -104,6 +104,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'romontsch sursilvan',
   },
   {
+    code: 'sah',
+    name: 'Sakha',
+    nativeName: 'Саха тыла',
+  },
+  {
     code: 'sv-SE',
     name: 'Swedish Sweden',
     nativeName: 'svenska',
