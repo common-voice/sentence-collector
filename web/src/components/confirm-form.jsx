@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ReviewLink from './review-link';
+import SpinnerButton from './spinner-button';
 
 function mapStateToProps(state) {
   return {
@@ -71,14 +72,22 @@ class ConfirmForm extends React.Component {
         )}
 
         <section id="confirm-buttons">
-          { pendingSentences && (
-            <p>
-              <strong>Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
-              Please don't close this website.</strong>
-            </p>
-          )}
-          <button type="submit" disabled={pendingSentences || readyCount === 0}>Confirm</button>
+
+          { pendingSentences ? 
+            <SpinnerButton></SpinnerButton> :
+            <button type="submit" disabled={readyCount === 0}>Confirm</button>
+          }
+
           <button onClick={this.onCancel}>Cancel</button>
+
+          { pendingSentences && (
+            <div>
+              <p className="loadingText">Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
+            Please don't close this website.
+              </p>
+            </div>
+          )}
+          
         </section>
 
         {filtered.length > 0 && (

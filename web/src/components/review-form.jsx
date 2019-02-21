@@ -1,6 +1,7 @@
 import React from 'react';
 
 import '../../css/review-form.css';
+import SpinnerButton from './spinner-button';
 
 const PAGE_SIZE = 3;
 const DEFAULT_STATE = {
@@ -128,13 +129,20 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        { this.state.pendingSentences && (
-          <p>
-            <strong>Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-            Please don't close this website.</strong>
-          </p>
-        )}
-        <button type="submit" disabled={this.state.pendingSentences}>Finish Review</button>
+        <section id="confirm-buttons" className="divCenter">
+          { this.state.pendingSentences ?
+            <SpinnerButton></SpinnerButton> :
+            <button type="submit">Finish Review</button>
+          }
+
+          { this.state.pendingSentences && (
+            <div>
+              <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+                Please don't close this website.</p>
+            </div>
+          )}
+        </section>
+
       </form>
     );
   }
