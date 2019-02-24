@@ -20,10 +20,11 @@ export function parseSentences(language, text) {
 
       const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
       const { valid, filtered, existing, submitted } = await filterSentences(language, sentences, credentials);
+      const filteredSentences = filtered.map((filteredResult) => filteredResult.sentence);
 
       checkForNewSentences([
         ...valid,
-        ...filtered,
+        ...filteredSentences,
       ]);
 
       dispatch(parseSentencesFinished());

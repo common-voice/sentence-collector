@@ -20,8 +20,8 @@ function runValidation(validator, sentences) {
 
   const valid = sentences.reduce((validSentences, sentence) => {
     const validationResult = validateSentence(validator, sentence);
-    if (!validationResult) {
-      filtered.push(sentence);
+    if (validationResult.error) {
+      filtered.push(validationResult);
       return validSentences;
     }
 
@@ -36,11 +36,31 @@ function runValidation(validator, sentences) {
 }
 
 function validateSentence(validator, sentence) {
-  return validateCorrectLength(validator, sentence) &&
-    validateWithoutNumbers(validator, sentence) &&
-    validateWithoutAbbreviations(validator, sentence) &&
-    validateWithoutSymbols(validator, sentence)
-  ;
+  const validationResult = {
+    sentence
+  };
+
+  if (!validateCorrectLength(validator, sentence)) {
+    validationResult.error = 'Sentence too long';
+    return validationResult;
+  }
+
+  if (!validateWithoutNumbers(validator, sentence)) {
+    validationResult.error = 'Contains numbers';
+    return validationResult;
+  }
+
+  if (!validateWithoutAbbreviations(validator, sentence)) {
+    validationResult.error = 'Contains abbreviations';
+    return validationResult;
+  }
+
+  if (!validateWithoutSymbols(validator, sentence)) {
+    validationResult.error = 'Contains symbols';
+    return validationResult;
+  }
+
+  return validationResult;
 }
 
 function validateCorrectLength(validator, sentence) {

@@ -192,6 +192,18 @@ export default class Add extends React.Component {
                this.state.invalidated.length > 0 ||
                this.state.filtered.length > 0) {
 
+      let groupedFilteredSentences = [];
+      if (this.state.filtered && this.state.filtered.length > 0) {
+        groupedFilteredSentences = this.state.filtered.reduce((groupedFiltered, filterResult) => {
+          if (!groupedFiltered[filterResult.error]) {
+            groupedFiltered[filterResult.error] = [];
+          }
+
+          groupedFiltered[filterResult.error].push(filterResult.sentence);
+          return groupedFiltered;
+        }, {});
+      }
+
       // The confirm form is a stats page where sentence submission happens.
       return <ConfirmForm onSubmit={this.onConfirm}
                           onReview={this.onReview}
@@ -200,7 +212,7 @@ export default class Add extends React.Component {
                           unreviewed={this.state.unreviewed}
                           validated={this.state.validated}
                           invalidated={this.state.invalidated}
-                          filtered={this.state.filtered}
+                          filtered={groupedFilteredSentences}
                           existing={this.state.existing}
                           readyCount={this.getReadySentences().count} />;
 
