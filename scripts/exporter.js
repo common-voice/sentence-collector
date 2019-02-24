@@ -71,10 +71,12 @@ async function exportLanguage(db, languageCode, exportPath) {
 function getValidatedSentences(languageCode, sentences) {
   const sentencesOnly = sentences.map((sentenceMeta) => sentenceMeta.sentence);
   const { filtered } = validation.validateSentences(languageCode, sentencesOnly);
-  filtered.length > 0 && console.log(`  - Filtered ${filtered.length} sentences`, filtered);
+  const filteredSentences = filtered.map((filteredResult) => filteredResult.sentence);
+  filteredSentences.length > 0 &&
+    console.log(`  - Filtered ${filteredSentences.length} sentences`, filteredSentences);
 
   const filteredSentenceMetas = sentences.filter((sentenceMeta) => {
-    return !filtered.includes(sentenceMeta.sentence);
+    return !filteredSentences.includes(sentenceMeta.sentence);
   });
   console.log(`  - Found ${filteredSentenceMetas.length} valid sentences`);
   return filteredSentenceMetas;

@@ -81,12 +81,23 @@ class ConfirmForm extends React.Component {
           <button onClick={this.onCancel}>Cancel</button>
         </section>
 
-        {filtered.length > 0 && (
+        { Object.keys(filtered).length > 0 && (
           <section>
             <h2>Filtered sentences due to requirements failing:</h2>
             <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
 
-            {filtered.map(sentence => <p key={sentence}>{sentence}</p>)}
+            {
+              Object.keys(filtered).map((filterKey) => (
+                <React.Fragment>
+                  <h3 key="{filterKey}">{ filterKey }</h3>
+                  {
+                    filtered[filterKey].map((filteredSentence) =>
+                      <p key={filteredSentence}>{filteredSentence}</p>
+                    )
+                  }
+                </React.Fragment>
+              ))
+            }
           </section>
         )}
       </form>
