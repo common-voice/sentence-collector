@@ -9,6 +9,8 @@ export function cleanSpaces(sentences) {
       .replace(' :', ':')
       .replace(' ,', ',')
       .replace(' .', '.')
+      .replace(' ?', '?')
+      .replace(' !', '!')
     ;
   });
 }
