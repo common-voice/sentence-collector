@@ -208,3 +208,15 @@ form button {
   align-items: center;
   font-size: 0.7rem;
 }
+
+.divCenter {
+  text-align: center;
+  margin: 1em 0;
+}
+
+.loadingText {
+  display: inline-block;
+  font-size: 80%;
+  font-weight: 800;
+  width: 40%;
+}

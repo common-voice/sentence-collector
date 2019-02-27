@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LanguageSelector from './language-selector';
+import SpinnerButton from './spinner-button';
+
 
 function mapStateToProps(state) {
   return {
@@ -14,7 +16,6 @@ function mapStateToProps(state) {
 class SubmitForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.onSubmit = this.props.onSubmit.bind(this);
   }
 
@@ -74,14 +75,19 @@ class SubmitForm extends React.Component {
           </label>
         </section>
 
-        <section>
+        <section id="confirm-buttons" className="divCenter">
+          { parsingSentences ?
+            <SpinnerButton></SpinnerButton> :
+            <button>Submit</button>
+          } 
+
           { parsingSentences && (
-            <p>
-              <strong>Sentences are being validated. This can take a few seconds depending on the number of sentences added.</strong>
-            </p>
+            <div>
+              <p className="loadingText">Sentences are being validated. This can take a few seconds depending on the number of sentences added.</p>
+            </div> 
           )}
-          <button disabled={parsingSentences}>Submit</button>
         </section>
+
       </form>
     );
   }

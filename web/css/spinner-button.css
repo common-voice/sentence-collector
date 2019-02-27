@@ -1,0 +1,39 @@
+.spinnerButton {
+  display: inline-block;
+  background: black;
+  color: white;
+  position: relative;
+  transition: padding-right .3s ease;
+  font-weight: 700;
+}
+
+.spinnerButton.spinning {
+  padding-right: 40px;
+  cursor: not-allowed;
+}
+
+.spinnerButton.spinning:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  right: 6px;
+  top: 50%;
+  position: absolute;
+  border-right: 3px solid #2795ae;
+  animation: rotate360 .5s infinite linear, exist .1s forwards ease ;
+}
+
+@keyframes rotate360 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes exist {
+  100% {
+    width: 15px;
+    height: 15px;
+    margin: -8px 5px 0 0;
+  }
+}
