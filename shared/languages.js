@@ -49,6 +49,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Irish',
   },
   {
+    code: 'gsw',
+    name: 'Swiss German',
+    nativeName: 'Schwizerdütsch',
+  },
+  {
     code: 'hsb',
     name: 'Upper Sorbian',
     nativeName: 'Hornjoserbšćina',
