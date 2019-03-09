@@ -11,7 +11,7 @@ export function cleanupSentences(language, sentences) {
   const cleanup = getCleanupFor(language);
 
   const sorted = sortSentences(cleanup, sentences);
-  const spaceCleaned = cleanSpaces(cleanup, sorted);
+  const spaceCleaned = clean(cleanup, sorted);
   return spaceCleaned;
 }
 
@@ -19,8 +19,8 @@ function sortSentences(cleanup, sentences) {
   return cleanup.sortSentences(sentences);
 }
 
-function cleanSpaces(cleanup, sentences) {
-  return cleanup.cleanSpaces(sentences);
+function clean(cleanup, sentences) {
+  return cleanup.clean(sentences);
 }
 
 function getCleanupFor(language) {
