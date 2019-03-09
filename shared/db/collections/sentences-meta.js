@@ -166,6 +166,22 @@ export default class SentencesMeta {
     return result.data;
   }
 
+  async getAllValidatedSentences(language) {
+    const filters = {};
+    filters.approved = true;
+    const collection = await this.getCollection(language);
+
+    let { data, hasNextPage, next } = await collection.listRecords({ filters });
+    while (hasNextPage) {
+      const result = await next();
+      data = data.concat(result.data);
+      hasNextPage = result.hasNextPage;
+      next = result.next;
+    }
+
+    return data;
+  }
+
   prepareForSubmission(sentences) {
     const allUnreviewedSentences = sentences.unreviewed.map((sentence) => {
       return { sentence, reviewed: false };

@@ -94,6 +94,10 @@ export default class DB {
     return this.sentences.getValidatedSentences(language);
   }
 
+  async getAllValidatedSentences(language) {
+    return this.sentences.getAllValidatedSentences(language);
+  }
+
   async submitSentences(language, sentences, source) {
     return this.sentences.submitSentences(language, sentences, source);
   }
