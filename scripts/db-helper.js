@@ -16,6 +16,7 @@ const ACTION_DELETE = 'delete';
 const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
 const prodRemote = process.env.KINTO_URL_PROD;
+const prodRemoteIP = process.env.KINTO_IP_PROD;
 const username = process.env.KINTO_USER;
 const password = process.env.KINTO_PASSWORD;
 const exportPath = process.env.COMMON_VOICE_PATH + '/server/data';
@@ -36,7 +37,7 @@ async function listUsers() {
 }
 
 async function exportDB() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   await startExport(db, exportPath);
 }
