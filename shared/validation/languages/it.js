@@ -13,12 +13,12 @@ const MAX_WORDS = 17;
 // Italian: Simboli non permessi, aggiungere anche qui sotto oltre che nella regex:
 // “ ” ‘ ’ ( ) É 
 //doppio " " e più di un "." nella stessa frase.
-const SYMBOL_REGEX = /[“”‘’\(\)É(\..*\.)(  )]/       //  original:   /[<>\+\*\\#@\^\[\]\(\)\/]/;
+const SYMBOL_REGEX = /[“”‘’\(\)(\..*\.)(  )]/       //  original:   /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
 // as users wouldn't know how to pronounce the uppercase letters.
-const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/;
+const ABBREVIATION_REGEX = /[A-Z][a-z]{2,}|[A-Z][a-z]+\.*[A-Z][a-z]+/;
 
 
 export function getMaxLength() {
