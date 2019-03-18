@@ -18,6 +18,7 @@ const SYMBOL_REGEX = /[“”‘’\(\)É]| {2,}|\..*\./       //  original:   /
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
 // as users wouldn't know how to pronounce the uppercase letters.
+//Versione italiana: dag7dev
 const ABBREVIATION_REGEX = /[A-Z][a-z]{2,}|[A-Z][a-z]+\.*[A-Z][a-z]+/;
 
 
