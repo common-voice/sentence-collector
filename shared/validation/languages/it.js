@@ -13,12 +13,12 @@ const NUMBERS_REGEX = /[0-9]+/;
 // Italian: Simboli non permessi, aggiungere anche qui sotto oltre che nella regex:
 // “ ” ‘ ’ ( ) É 
 //doppio " " e più di un "." nella stessa frase.
-const SYMBOL_REGEX = /[“”‘’()É]| {2,}|\..*\./;       //  original:   /[<>\+\*\\#@\^\[\]\(\)\/]/;
+const SYMBOL_REGEX = /[<>\+\*\\#@\^“”‘’()É\[\]\/]|\s{2,}|\..*\./;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
 // as users wouldn't know how to pronounce the uppercase letters.
-//Versione italiana: dag7dev
+// Versione italiana: dag7dev (da fixare)
 const ABBREVIATION_REGEX = /[A-Z][a-z]{2,}|[A-Z][a-z]+\.*[A-Z][a-z]+/;
 
 
@@ -31,15 +31,11 @@ export function getMinLength() {
 }
 
 export function filterNumbers(sentence) {
-  //Italian: all numbers are allowed
-  var filter = !sentence.match(NUMBERS_REGEX);
-  return true || filter;
+  return !sentence.match(NUMBERS_REGEX);
 }
 
 export function filterAbbreviations(sentence) {
-  //Italian: non abbiamo regole particolari sulle abbreviazioni
-  var filter = !sentence.match(ABBREVIATION_REGEX);
-  return true || filter;
+  return !sentence.match(ABBREVIATION_REGEX);
 }
 
 export function filterSymbols(sentence) {
