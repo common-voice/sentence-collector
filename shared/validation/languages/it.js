@@ -5,8 +5,7 @@ const MIN_WORDS = 1;
 // Italian: finché non abbiamo il controllo sui caratteri, o quello che tiene conto della presenza di numeri, metto 17 parole che dovrebbero essere salvo rarissimi casi sempre entro il limite di 125 caratteri. 
 const MAX_WORDS = 17;
 
-// Numbers that are not allowed in a sentence depending on the language. For
-// Italian: tutti i numeri sono consentiti ma se e quando avremo la possibilità di fare regole personalizzate metteremo una condizione ulteriore sulla lunghezza se vi sono dei numeri nella frase.
+// Numbers that are not allowed in a sentence depending on the language.
 const NUMBERS_REGEX = /[0-9]+/;
 
 /* eslint-disable-next-line no-useless-escape */
