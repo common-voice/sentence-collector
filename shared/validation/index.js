@@ -1,9 +1,11 @@
 import tokenizeWords from 'talisman/tokenizers/words';
 
 import * as en from './languages/en';
+import * as it from './languages/it';
 
 const VALIDATORS = {
   en,
+  it,
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
