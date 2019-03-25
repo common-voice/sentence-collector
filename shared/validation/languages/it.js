@@ -12,7 +12,7 @@ const NUMBERS_REGEX = /[0-9]+/;
 // Italian: Simboli non permessi, aggiungere anche qui sotto oltre che nella regex:
 // < > + * \ # @ ^ “ ” ‘ ’ ( ) É [ ] / { }
 //doppio " " e più di un "." nella stessa frase.
-const SYMBOL_REGEX = /[<>+*\\#@^“”‘’()É[\]/]|\s{2,}|\..*\./{};
+const SYMBOL_REGEX = /[<>+*\\#@^“”‘’(){}É[\]/]|\s{2,}|\..*\./;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
