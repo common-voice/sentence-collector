@@ -11,7 +11,7 @@
     "clean": "rm -rf dist .cache",
     "reset": "yarn clean && rm -rf node_modules yarn.lock && yarn",
     "start": "yarn clean && yarn env parcel web/index.pug",
-    "build": "yarn clean && parcel build --no-cache web/index.pug --public-url .",
+    "build": "yarn clean && parcel build --no-cache web/index.pug --public-url dist",
     "build:server": "yarn clean && parcel build -t \"node\" scripts/db-helper.js",
     "build:generator": "yarn clean && parcel build -t \"node\" scripts/generate-cv-metadata.js",
     "lint": "eslint shared web scripts",
