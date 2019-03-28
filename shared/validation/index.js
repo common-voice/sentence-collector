@@ -66,8 +66,8 @@ function validateSentence(validator, sentence) {
 function validateCorrectLength(validator, sentence) {
   const result =
     typeof validator.filterNumbers !== 'function' ?
-      DEFAULT_VALIDATOR.filterNumbers(sentence) :
-      validator.filterNumbers(sentence);
+      DEFAULT_VALIDATOR.filterLength(sentence) :
+      validator.filterLength(sentence);
 
   return result;
 }
