@@ -1,5 +1,3 @@
-import tokenizeWords from 'talisman/tokenizers/words';
-
 import * as en from './languages/en';
 import * as it from './languages/it';
 
@@ -66,20 +64,12 @@ function validateSentence(validator, sentence) {
 }
 
 function validateCorrectLength(validator, sentence) {
-  let maxLength = 0;
-  let minLength = 0;
+  const result =
+    typeof validator.filterNumbers !== 'function' ?
+      DEFAULT_VALIDATOR.filterLength(sentence) :
+      validator.filterLength(sentence);
 
-  if (typeof validator.getMaxLength !== 'function') {
-    maxLength = DEFAULT_VALIDATOR.getMaxLength();
-    minLength = DEFAULT_VALIDATOR.getMinLength();
-  } else {
-    maxLength = validator.getMaxLength();
-    minLength = validator.getMinLength();
-  }
-
-  const words = tokenizeWords(sentence);
-  return words.length >= minLength &&
-    words.length <= maxLength;
+  return result;
 }
 
 function validateWithoutNumbers(validator, sentence) {
