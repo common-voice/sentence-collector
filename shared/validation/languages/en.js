@@ -1,3 +1,5 @@
+import tokenizeWords from 'talisman/tokenizers/words';
+
 // Minimum of words that qualify as a sentence.
 const MIN_WORDS = 1;
 
@@ -19,14 +21,6 @@ const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // as users wouldn't know how to pronounce the uppercase letters.
 const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/;
 
-export function getMaxLength() {
-  return MAX_WORDS;
-}
-
-export function getMinLength() {
-  return MIN_WORDS;
-}
-
 export function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
 }
@@ -37,4 +31,10 @@ export function filterAbbreviations(sentence) {
 
 export function filterSymbols(sentence) {
   return !sentence.match(SYMBOL_REGEX);
+}
+
+export function filterLength(sentence) {
+  const words = tokenizeWords(sentence);
+  return words.length >= MIN_WORDS &&
+    words.length <= MAX_WORDS;
 }

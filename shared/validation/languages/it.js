@@ -1,9 +1,6 @@
-// Minimum of words that qualify as a sentence.
-const MIN_WORDS = 1;
-
-// Maximum of words allowed per sentence to keep recordings in a manageable duration. 
-// Italian: finché non abbiamo il controllo sui caratteri, o quello che tiene conto della presenza di numeri, metto 17 parole che dovrebbero essere salvo rarissimi casi sempre entro il limite di 125 caratteri. 
-const MAX_WORDS = 17;
+// According to Mozilla Italia guidelines, we count chars to validate instead of words.
+const MIN_LENGTH = 1;
+const MAX_LENGTH = 125;
 
 // Numbers that are not allowed in a sentence depending on the language.
 const NUMBERS_REGEX = /[0-9]+/;
@@ -20,15 +17,6 @@ const SYMBOL_REGEX = /[<>+*\\#@^“”‘’(){}É[\]/]|\s{2,}|\..*\./;
 // Versione italiana: dag7dev
 const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z][a-z]+\.*[A-Z]+/;
 
-
-export function getMaxLength() {
-  return MAX_WORDS;
-}
-
-export function getMinLength() {
-  return MIN_WORDS;
-}
-
 export function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
 }
@@ -39,4 +27,8 @@ export function filterAbbreviations(sentence) {
 
 export function filterSymbols(sentence) {
   return !sentence.match(SYMBOL_REGEX);
+}
+
+export function filterLength(sentence) {
+  return sentence.length >= MIN_LENGTH && sentence.length <= MAX_LENGTH;
 }
