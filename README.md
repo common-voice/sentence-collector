@@ -61,7 +61,7 @@ GITHUB_TOKEN=... yarn run deploy
 This assumes that your `origin` is pointing to this repository. If not, you can specify the remote name with:
 
 ```
-GITHUB_TOKEN=... yarn run deploy -- -o <remotename>
+GITHUB_TOKEN=... yarn run deploy -o <remotename>
 ```
 
 This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
