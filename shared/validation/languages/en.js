@@ -10,6 +10,10 @@ const MAX_WORDS = 14;
 // English this is 0-9 once or multiple times after each other.
 const NUMBERS_REGEX = /[0-9]+/;
 
+// Checks whether the sentence has a ? or ! character in the middle, as it could mean 
+// more sentences per line.
+const STRUCTURE_REGEX = /[?!].+/;
+
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
 // < > + * \ # @ ^ [ ] ( ) /
@@ -31,6 +35,10 @@ export function filterAbbreviations(sentence) {
 
 export function filterSymbols(sentence) {
   return !sentence.match(SYMBOL_REGEX);
+}
+
+export function filterStructure(sentence) {
+  return !sentence.match(STRUCTURE_REGEX);
 }
 
 export function filterLength(sentence) {

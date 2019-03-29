@@ -60,6 +60,11 @@ function validateSentence(validator, sentence) {
     return validationResult;
   }
 
+  if (!validateStructure(validator, sentence)) {
+    validationResult.error = 'Contains multiple sentences';
+    return validationResult;
+  }
+
   return validationResult;
 }
 
@@ -95,6 +100,15 @@ function validateWithoutSymbols(validator, sentence) {
     typeof validator.filterSymbols !== 'function' ?
       DEFAULT_VALIDATOR.filterSymbols(sentence) :
       validator.filterSymbols(sentence);
+
+  return result;
+}
+
+function validateStructure(validator, sentence) {
+  const result =
+    typeof validator.filterStructure !== 'function' ?
+      DEFAULT_VALIDATOR.filterStructure(sentence) :
+      validator.filterStructure(sentence);
 
   return result;
 }
