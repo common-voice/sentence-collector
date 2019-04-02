@@ -392,7 +392,7 @@ var r=require("./_asciiWords"),e=require("./_hasUnicodeWord"),i=require("./toStr
 },{"lodash/words":"y4UJ"}],"2lNN":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0});var e=require("./naive"),t=r(e);function r(e){return e&&e.__esModule?e:{default:e}}exports.default=t.default,module.exports=exports.default;
 },{"./naive":"1FJO"}],"Nb7X":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.filterNumbers=f,exports.filterAbbreviations=l,exports.filterSymbols=a,exports.filterStructure=c,exports.filterLength=h;var t=e(require("talisman/tokenizers/words"));function e(t){return t&&t.__esModule?t:{default:t}}var r=1,n=14,u=/[0-9]+/,o=/[?!].+/,i=/[<>\+\*\\#@\^\[\]\(\)\/]/,s=/[A-Z]{2,}|[A-Z]+\.*[A-Z]+/;function f(t){return!t.match(u)}function l(t){return!t.match(s)}function a(t){return!t.match(i)}function c(t){return!t.match(o)}function h(e){var u=(0,t.default)(e);return u.length>=r&&u.length<=n}
+"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.filterNumbers=f,exports.filterAbbreviations=l,exports.filterSymbols=a,exports.filterStructure=c,exports.filterLength=d;var t=e(require("talisman/tokenizers/words"));function e(t){return t&&t.__esModule?t:{default:t}}var r=1,n=14,u=/[0-9]+/,o=void 0,i=/[<>\+\*\\#@\^\[\]\(\)\/]/,s=/[A-Z]{2,}|[A-Z]+\.*[A-Z]+/;function f(t){return!t.match(u)}function l(t){return!t.match(s)}function a(t){return!t.match(i)}function c(t){return!0}function d(e){var u=(0,t.default)(e);return u.length>=r&&u.length<=n}
 },{"talisman/tokenizers/words":"2lNN"}],"079E":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.filterNumbers=i,exports.filterAbbreviations=s,exports.filterSymbols=c,exports.filterStructure=f,exports.filterLength=l;var t=1,e=125,r=/[0-9]+/,n=/[?!.].+/,u=/[<>+*\\#@^“”‘’(){}É[\]\/]|\s{2,}|!{2,}/,o=/[A-Z]{2,}|[A-Z][a-z]+\.*[A-Z]+/;function i(t){return!t.match(r)}function s(t){return!t.match(o)}function c(t){return!t.match(u)}function f(t){return!t.match(n)}function l(r){return r.length>=t&&r.length<=e}
 },{}],"jvms":[function(require,module,exports) {
@@ -502,4 +502,4 @@ module.exports=function(t){return fetch(t).then(function(t){return t.text()})};
 },{}],0:[function(require,module,exports) {
 var b=require("21/1");b.register("html",require("A3BY"));b.load([["how-to.49d067f9.html","c2QI"]]).then(function(){require("c2Qt");});
 },{}]},{},[0], null)
-//# sourceMappingURL=src.25475790.map
+//# sourceMappingURL=src.b3add665.map
