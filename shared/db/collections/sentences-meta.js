@@ -81,6 +81,19 @@ export default class SentencesMeta {
     });
   }
 
+  async forceDeleteSpecificSentenceRecords(bucket, locale, username) {
+    const collectionName = await this.getCollectionName(locale);
+    const records = await this.getAllByUsername(locale, username);
+    const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
+    console.log(`Found ${minifiedRecords.length} records to delete for ${locale} with username ${username}`);
+    await bucket.batch(b => {
+      for (let i = 0; i < minifiedRecords.length; i++) {
+        console.log('Deleting', minifiedRecords[i]);
+        b.collection(collectionName).deleteRecord(minifiedRecords[i].id);
+      }
+    });
+  }
+
   async createAllCollections(bucket) {
     const languages = getAllLanguages();
     const results = await bucket.batch(b => {
@@ -130,6 +143,15 @@ export default class SentencesMeta {
     const filters = {
       username,
       approved: false,
+    };
+    const result = await collection.listRecords({ filters });
+    return result.data;
+  }
+
+  async getAllByUsername(language, username) {
+    const collection = await this.getCollection(language);
+    const filters = {
+      username,
     };
     const result = await collection.listRecords({ filters });
     return result.data;

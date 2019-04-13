@@ -13,6 +13,7 @@ const ACTION_LIST_USERS = 'list';
 const ACTION_EXPORT = 'export';
 const ACTION_DELETE = 'delete';
 const ACTION_DELETE_SPECIFIC = 'delete-specific';
+const ACTION_FORCE_DELETE_SPECIFIC = 'force-delete-specific';
 
 const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
@@ -78,6 +79,16 @@ async function deleteSpecificSentences() {
   await db.deleteSpecificSentenceRecords(deleteLocale, deleteUsername);
 }
 
+async function forceDeleteSpecificSentences() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  if (!deleteLocale || !deleteUsername) {
+    fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
+  }
+
+  await db.forceDeleteSpecificSentenceRecords(deleteLocale, deleteUsername);
+}
+
 async function run() {
   if (!remote && !username && !password) {
     fail('No KINTO environment variables found. ' +
@@ -126,6 +137,10 @@ async function run() {
 
       case ACTION_DELETE_SPECIFIC:
         await deleteSpecificSentences();
+        break;
+
+      case ACTION_FORCE_DELETE_SPECIFIC:
+        await forceDeleteSpecificSentences();
         break;
 
       default:
