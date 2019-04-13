@@ -70,7 +70,7 @@ export default class SentencesMeta {
 
   async deleteSpecificSentenceRecords(bucket, locale, username) {
     const collectionName = await this.getCollectionName(locale);
-    const records = await this.getAllByUsername(locale, username);
+    const records = await this.getAllUnapprovedByUsername(locale, username);
     const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
     console.log(`Found ${minifiedRecords.length} records to delete for ${locale} with username ${username}`);
     await bucket.batch(b => {
@@ -125,10 +125,11 @@ export default class SentencesMeta {
     return result.data;
   }
 
-  async getAllByUsername(language, username) {
+  async getAllUnapprovedByUsername(language, username) {
     const collection = await this.getCollection(language);
     const filters = {
       username,
+      approved: false,
     };
     const result = await collection.listRecords({ filters });
     return result.data;
