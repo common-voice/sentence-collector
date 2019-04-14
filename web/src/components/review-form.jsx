@@ -99,10 +99,7 @@ export default class ReviewForm extends React.Component {
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
 
     return (
-      <form id="add-form" onSubmit={this.onSubmit}>
-        <Pager page={this.state.page} lastPage={this.getLastPage()}
-               onPage={this.setPage} />
-
+      <form id="review-form" onSubmit={this.onSubmit}>
         { this.props.message && ( <p>{ this.props.message }</p> ) }
 
         { curSentences.map((sentence, i) => (
@@ -129,20 +126,24 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        <section id="confirm-buttons" className="divCenter">
-          { this.state.pendingSentences ?
-            <SpinnerButton></SpinnerButton> :
-            <button type="submit">Finish Review</button>
-          }
+        <section class="review-footer">
+          <section id="confirm-buttons" className="divCenter">
+            { this.state.pendingSentences ?
+              <SpinnerButton></SpinnerButton> :
+              <button type="submit">Finish Review</button>
+            }
 
-          { this.state.pendingSentences && (
-            <div>
-              <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-                Please don't close this website.</p>
-            </div>
-          )}
+            { this.state.pendingSentences && (
+              <div>
+                <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+                  Please don't close this website.</p>
+              </div>
+            )}
+          </section>
+
+          <Pager page={this.state.page} lastPage={this.getLastPage()}
+                 onPage={this.setPage} />
         </section>
-
       </form>
     );
   }
