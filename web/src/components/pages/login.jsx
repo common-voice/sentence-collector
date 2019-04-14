@@ -37,7 +37,7 @@ export default class Login extends React.Component {
     return (
       <form id="login" onSubmit={this.onSubmit}>
         <h2>Log in</h2>
-        <p>Choose your username and password to sign up. If you already have a username, please sign in with the existing password.</p>
+        <p>Choose your username and password to sign up. If you already have a username, please sign in with the existing password. This login is separate from the main Common Voice site.</p>
         <section className="form-message">{this.props.errorMessage}</section>
         <section>
           <label htmlFor="username">username (alphanumeric, no email)</label>
