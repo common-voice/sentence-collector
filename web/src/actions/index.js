@@ -19,7 +19,6 @@ export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
-export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
 
 export const ACTION_RESET_STATE = 'ACTION_RESET_STATE';
@@ -109,7 +108,6 @@ export function submitSentences(language, sentences, source) {
       dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
       return results;
     } catch (err) {
-      dispatch(submitSentencesFailure());
       throw err;
     }
   };
@@ -214,12 +212,6 @@ export function submitSentencesSuccess(sentences) {
   return {
     type: ACTION_SUBMIT_SENTENCES_SUCCESS,
     sentences,
-  };
-}
-
-export function submitSentencesFailure() {
-  return {
-    type: ACTION_SUBMIT_SENTENCES_FAILURE,
   };
 }
 

@@ -1,8 +1,6 @@
 import WebDB from '../web-db';
 import * as validation from '../../../shared/validation';
 
-export const ACTION_PARSE_SENTENCES_STARTED = 'PARSE_SENTENCES_STARTED';
-export const ACTION_PARSE_SENTENCES_FINISHED = 'PARSE_SENTENCES_FINISHED';
 export const ACTION_PARSE_SENTENCES_FAILURE = 'PARSE_SENTENCES_FAILURE';
 
 const SPLIT_ON = '\n';
@@ -10,8 +8,6 @@ const SPLIT_ON = '\n';
 export function parseSentences(language, text) {
   return async function(dispatch, getState) {
     try {
-      dispatch(parseSentencesStarted());
-
       const state = getState();
       const credentials = {
         username: state.username,
@@ -27,8 +23,6 @@ export function parseSentences(language, text) {
         ...filteredSentences,
       ]);
 
-      dispatch(parseSentencesFinished());
-
       return {
         sentences: submitted,
         valid,
@@ -37,7 +31,6 @@ export function parseSentences(language, text) {
       };
     } catch (err) {
       dispatch(parseSentencesFailure(err));
-      dispatch(parseSentencesFinished());
       throw err;
     }
   };
@@ -73,18 +66,6 @@ function checkForNewSentences(sentences) {
   if (!sentences.length) {
     throw new Error('The sentences you submitted already exist.');
   }
-}
-
-export function parseSentencesStarted() {
-  return {
-    type: ACTION_PARSE_SENTENCES_STARTED,
-  };
-}
-
-export function parseSentencesFinished() {
-  return {
-    type: ACTION_PARSE_SENTENCES_FINISHED,
-  };
 }
 
 export function parseSentencesFailure(error) {
