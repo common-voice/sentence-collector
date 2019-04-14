@@ -176,9 +176,6 @@ export default class Review extends React.Component {
       <div>
         <section>
           <h1>Review Sentences</h1>
-          <label className="language-selector-label" htmlFor="language-selector-review">
-            Language to review
-          </label>
           <LanguageSelector name="language-selector-review" only={this.props.languages}
             selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>

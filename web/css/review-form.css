@@ -1,5 +1,5 @@
 .validator {
-  --validator-height: 8rem;
+  --validator-height: 5.8rem;
   height: var(--validator-height);
   display: flex;
   flex-direction: row;

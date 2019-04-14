@@ -3,7 +3,7 @@ import React from 'react';
 import '../../css/review-form.css';
 import SpinnerButton from './spinner-button';
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
   reviewed: [],
