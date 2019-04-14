@@ -16,7 +16,6 @@ import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
-  ACTION_RESET_STATE,
 } from '../actions';
 
 import {
@@ -141,14 +140,6 @@ export default function reducer(state = INITIAL_STATE, action) {
     case ACTION_PARSE_SENTENCES_FAILURE:
       return copyInto(state, {
         errorMessage: action.error.message,
-      });
-
-    case ACTION_RESET_STATE:
-      return Object.assign({}, state, INITIAL_STATE, {
-        username: state.username,
-        password: state.password,
-        authed: state.authed,
-        languages: state.languages,
       });
 
     default:

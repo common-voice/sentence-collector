@@ -10,7 +10,6 @@ class ConfirmForm extends React.Component {
     this.state = {};
     this.onSubmit = this.onSubmit.bind(this);
     this.onReview = this.props.onReview.bind(this);
-    this.onCancel = this.props.onCancel.bind(this);
   }
 
   onSubmit(evt) {
@@ -79,8 +78,6 @@ class ConfirmForm extends React.Component {
             <button type="submit" disabled={readyCount === 0}>Confirm</button>
           }
 
-          <button onClick={this.onCancel}>Cancel</button>
-
           { this.state.pendingSentences && (
             <div>
               <p className="loadingText">Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
@@ -93,7 +90,7 @@ class ConfirmForm extends React.Component {
 
         { Object.keys(filtered).length > 0 && (
           <section>
-            <h2>Filtered sentences due to requirements failing:</h2>
+            <h2>Filtered sentences due to requirements failing (please submit fixed versions as new sentences):</h2>
             <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
 
             {

@@ -21,8 +21,6 @@ export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
 export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
 
-export const ACTION_RESET_STATE = 'ACTION_RESET_STATE';
-
 const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
 
 export function login(username, password) {
@@ -221,10 +219,3 @@ export function submitSentencesFailureSingle(errors) {
     errors,
   };
 }
-
-export function resetFullState() {
-  return {
-    type: ACTION_RESET_STATE,
-  };
-}
-
