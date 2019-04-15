@@ -36,6 +36,8 @@ class SubmitForm extends React.Component {
       sentenceSubmissionFailures,
     } = this.props;
 
+    const notError = !message && !error && !errorMessage;
+
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
         <h2>Add Sentences</h2>
@@ -83,12 +85,12 @@ class SubmitForm extends React.Component {
         </section>
 
         <section id="confirm-buttons" className="divCenter">
-          { this.state.parsingSentences ?
+          { notError && this.state.parsingSentences ?
             <SpinnerButton></SpinnerButton> :
             <button>Submit</button>
           }
 
-          { this.state.parsingSentences && (
+          { notError && this.state.parsingSentences && (
             <div>
               <p className="loadingText">Sentences are being validated. This can take a few seconds depending on the number of sentences added.</p>
             </div>
