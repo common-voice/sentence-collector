@@ -110,7 +110,7 @@ export default class ReviewForm extends React.Component {
             <div className="button-group">
               <button type="button"
                       className={`secondary ${this.state.sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
-                      aria-pressed={this.state.sentences[offset + i].reviewApproval}
+                      aria-pressed={this.state.sentences[offset + i].reviewApproval === true}
                       onClick={() => this.reviewSentence(offset + i, true)}
                       name={`validate-${offset + i}`}>
                 👍
