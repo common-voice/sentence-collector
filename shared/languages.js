@@ -89,6 +89,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Bokmål',
   },
   {
+    code: 'ne-NP',
+    name: 'Nepali',
+    nativeName: 'नेपाली',
+  },
+  {
     code: 'rm-sursilv',
     name: 'Romansh Sursilvan',
     nativeName: 'romontsch sursilvan',
