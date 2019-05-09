@@ -44,7 +44,7 @@ const Options = (props) => {
 
 const Option = (props) => (
   <option value={props.lang.code}>
-    {`${props.lang.nativeName} (${props.lang.name})`}
+    {`${props.lang.name} (${props.lang.nativeName})`}
   </option>
 );
 
