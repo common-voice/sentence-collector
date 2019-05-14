@@ -65,9 +65,11 @@ function validateSentence(validator, sentence) {
     validationResult.error = 'Contains multiple sentences';
     return validationResult;
   }
-  if (!validateWithoutEnglishCharacters(validator, sentence)) {
-    validationResult.error = 'Contains english characters';
-    return validationResult;
+  if (validator.filterEnglishCharacters) {
+    if (!validateWithoutEnglishCharacters(validator, sentence)) {
+      validationResult.error = 'Contains english characters';
+      return validationResult;
+    }
   }
 
   return validationResult;
