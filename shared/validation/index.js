@@ -65,12 +65,12 @@ function validateSentence(validator, sentence) {
     validationResult.error = 'Contains multiple sentences';
     return validationResult;
   }
-  if (validator.filterEnglishCharacters) {
-    if (!validateWithoutEnglishCharacters(validator, sentence)) {
-      validationResult.error = 'Contains english characters';
-      return validationResult;
-    }
+  
+  if (!validateWithoutEnglishCharacters(validator, sentence)) {
+    validationResult.error = 'Contains english characters';
+    return validationResult;
   }
+  
 
   return validationResult;
 }
@@ -122,8 +122,8 @@ function validateStructure(validator, sentence) {
 
 function validateWithoutEnglishCharacters(validator, sentence) {
   const result =
-    typeof validator.filterStructure !== 'function'
-      ? DEFAULT_VALIDATOR.filterEnglishCharacters(sentence)
+    typeof validator.filterEnglishCharacters !== 'function'
+      ? true
       : validator.filterEnglishCharacters(sentence);
 
   return result;
