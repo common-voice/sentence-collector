@@ -25,7 +25,7 @@ const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // as users wouldn't know how to pronounce the uppercase letters.
 const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/;
 
-const ENGLISH_ALPHABETS_REGEX = /^[a-zA-Z]+$/;
+const ENGLISH_ALPHABETS_REGEX = /[a-zA-Z]/;
 
 export function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
