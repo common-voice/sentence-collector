@@ -1,9 +1,10 @@
 import * as en from './languages/en';
 import * as it from './languages/it';
-
+import * as ne from './languages/ne';
 const VALIDATORS = {
   en,
   it,
+  ne
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
@@ -64,6 +65,12 @@ function validateSentence(validator, sentence) {
     validationResult.error = 'Contains multiple sentences';
     return validationResult;
   }
+  
+  if (!validateWithoutEnglishCharacters(validator, sentence)) {
+    validationResult.error = 'Contains english characters';
+    return validationResult;
+  }
+  
 
   return validationResult;
 }
@@ -109,6 +116,15 @@ function validateStructure(validator, sentence) {
     typeof validator.filterStructure !== 'function' ?
       DEFAULT_VALIDATOR.filterStructure(sentence) :
       validator.filterStructure(sentence);
+
+  return result;
+}
+
+function validateWithoutEnglishCharacters(validator, sentence) {
+  const result =
+    typeof validator.filterEnglishCharacters !== 'function'
+      ? true
+      : validator.filterEnglishCharacters(sentence);
 
   return result;
 }
