@@ -95,7 +95,7 @@ class ConfirmForm extends React.Component {
 
             {
               Object.keys(filtered).map((filterKey) => (
-                <React.Fragment>
+                <React.Fragment key={'fragment-' + filterKey}>
                   <h3 key="{filterKey}">{ filterKey }</h3>
                   {
                     filtered[filterKey].map((filteredSentence) =>
