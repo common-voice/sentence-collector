@@ -70,6 +70,11 @@ export default class DB {
     return this.sentences.forceDeleteSpecificSentenceRecords(bucket, locale, username);
   }
 
+  async forceDeleteSentences(locale, sentences) {
+    const bucket = await this.getBucket();
+    return this.sentences.forceDeleteSentences(bucket, locale, sentences);
+  }
+
   async getCVMetadata() {
     const bucket = await this.getBucket();
     return this.cvSentences.getLanguageAndSentenceCounts(bucket);

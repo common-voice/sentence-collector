@@ -81,6 +81,33 @@ export default class SentencesMeta {
     });
   }
 
+  async forceDeleteSentences(bucket, locale, sentences) {
+    const collectionName = await this.getCollectionName(locale);
+    const records = await this.getAll(locale);
+    const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
+    const { foundSentences, errorSentences } = sentences.reduce((acc, sentence) => {
+      const foundSentence = minifiedRecords.find((record) => record.sentence === sentence);
+      if (!foundSentence) {
+        acc.errorSentences.push(sentence);
+        return acc;
+      }
+
+      acc.foundSentences.push(foundSentence);
+      return acc;
+    }, { foundSentences: [], errorSentences: [] });
+    console.log(`Found ${foundSentences.length} records to delete for ${locale}`);
+
+    await bucket.batch(b => {
+      for (let i = 0; i < foundSentences.length; i++) {
+        console.log('Deleting', foundSentences[i]);
+        b.collection(collectionName).deleteRecord(foundSentences[i].id);
+      }
+    });
+
+    console.log('All deleted, except the following sentences which could not be found:');
+    errorSentences.forEach((sentence) => console.error(sentence));
+  }
+
   async forceDeleteSpecificSentenceRecords(bucket, locale, username) {
     const collectionName = await this.getCollectionName(locale);
     const records = await this.getAllByUsername(locale, username);
