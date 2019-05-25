@@ -4,9 +4,9 @@ import Rejected from '../components/pages/rejected';
 
 function mapStateToProps(state) {
   return {
-    username: state.username,
-    password: state.password,
-    languages: state.languages,
+    username: state.app.username,
+    password: state.app.password,
+    languages: state.app.languages,
   };
 }
 

@@ -4,9 +4,9 @@ import Review from '../components/pages/review';
 
 function mapStateToProps(state) {
   return {
-    languages: state.languages,
-    username: state.username,
-    password: state.password,
+    languages: state.app.languages,
+    username: state.app.username,
+    password: state.app.password,
   };
 }
 

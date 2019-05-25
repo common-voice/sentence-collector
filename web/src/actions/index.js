@@ -67,7 +67,7 @@ export function addLanguage(language) {
       dispatch(sendAddLanguage());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const updatedLanguages = await db.addLanguage(language);
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -83,7 +83,7 @@ export function removeLanguage(language) {
       dispatch(sendRemoveLanguage());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const updatedLanguages = await db.removeLanguage(language);
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -99,7 +99,7 @@ export function submitSentences(language, sentences, source) {
       dispatch(sendSubmitSentences());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const results = await db.submitSentences(language, sentences, source);
       dispatch(submitSentencesSuccess(results.sentences.slice(0)));
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);

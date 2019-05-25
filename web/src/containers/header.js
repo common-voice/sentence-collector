@@ -6,7 +6,7 @@ function mapStateToProps(state) {
   return {
     // force a re-render of header active links on location change.
     location: state.router.location,
-    authed: state.authed,
+    authed: state.app.authed,
   };
 }
 

@@ -4,10 +4,10 @@ import Home from '../components/pages/home';
 
 function mapStateToProps(state) {
   return {
-    languages: state.languages,
-    authed: state.authed,
-    username: state.username,
-    password: state.password,
+    languages: state.app.languages,
+    authed: state.app.authed,
+    username: state.app.username,
+    password: state.app.password,
   };
 }
 

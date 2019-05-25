@@ -1,3 +1,6 @@
+import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
+
 import {
   ACTION_LOGOUT,
   ACTION_LOGIN_REQUEST,
@@ -43,7 +46,14 @@ function mergeArray(arr1, arr2) {
   return arr2;
 }
 
-export default function reducer(state = INITIAL_STATE, action) {
+export default function(history) {
+  return combineReducers({
+    router: connectRouter(history),
+    app: reducer,
+  });
+}
+
+function reducer(state = INITIAL_STATE, action) {
   switch(action.type) {
     case ACTION_LOGOUT:
       return copyInto(state, INITIAL_STATE);

@@ -5,10 +5,10 @@ import Profile from '../components/pages/profile';
 
 function mapStateToProps(state) {
   return {
-    username: state.username,
-    password: state.password,
-    languages: state.languages,
-    pending: state.pendingLanguages,
+    username: state.app.username,
+    password: state.app.password,
+    languages: state.app.languages,
+    pending: state.app.pendingLanguages,
   };
 }
 

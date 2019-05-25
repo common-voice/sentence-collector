@@ -4,9 +4,9 @@ import CommonVoiceInfo from '../components/cv-info';
 
 function mapStateToProps(state) {
   return {
-    authed: state.authed,
-    username: state.username,
-    password: state.password,
+    authed: state.app.authed,
+    username: state.app.username,
+    password: state.app.password,
   };
 }
 
