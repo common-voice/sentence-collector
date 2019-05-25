@@ -11,6 +11,7 @@ import Home from '../containers/home';
 import HowTo from './pages/how-to';
 import Login from '../containers/login';
 import Profile from '../containers/profile';
+import Rejected from '../containers/rejected';
 import Add from '../containers/add';
 import Review from '../containers/review';
 
@@ -35,6 +36,8 @@ export default class App extends React.Component {
               path="/review" component={Review} />
             <PrivateRoute authed={this.props.authed}
               path="/review/:language" component={Review} />
+            <PrivateRoute authed={this.props.authed}
+              path="/rejected" component={Rejected} />
             <Route render={() => (
               <Redirect
                 to={{

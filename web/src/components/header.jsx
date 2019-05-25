@@ -13,6 +13,7 @@ const Header = (props) => {
         <NavLink to="/how-to" exact>How-to</NavLink>
         <NavLink to="/add" exact key="add">Add</NavLink>
         <NavLink to="/review" key="review">Review</NavLink>
+        <NavLink to="/rejected" key="rejected">Rejected Sentences</NavLink>
         { props.authed ? (
           <NavLink to="/profile" exact key="profile">Profile</NavLink>
         ) : (

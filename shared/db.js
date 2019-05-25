@@ -129,6 +129,10 @@ export default class DB {
     return this.sentences.vote(language, validated, invalidated);
   }
 
+  async getAllRejectedByUsername(languages, username) {
+    return this.sentences.getAllRejectedByUsername(languages, username);
+  }
+
   async getLanguageInfoForMe(language) {
     try {
       const [ submitted, validated ] = await Promise.all([
