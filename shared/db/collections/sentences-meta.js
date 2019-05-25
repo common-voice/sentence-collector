@@ -166,8 +166,6 @@ export default class SentencesMeta {
   }
 
   getAllRejectedByUsername(languages, username) {
-    const rejectedSentences = {};
-
     const promises = languages.map((language) => this.getAllUnapprovedByUsername(language, username));
 
     return Promise.all(promises)
