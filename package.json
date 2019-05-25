@@ -35,13 +35,13 @@
     "connected-react-router": "^4.4.1",
     "es6-promisify": "^6.0.1",
     "hash.js": "^1.1.7",
-    "iso-639-1": "^2.0.3",
+    "iso-639-1": "^2.0.5",
     "kinto": "^12.3.0",
     "kinto-http": "^4.5.3",
     "parcel-plugin-txt": "^1.0.3",
     "progress": "^2.0.3",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-redux": "^4.4.8 || ^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
@@ -58,7 +58,7 @@
     "@semantic-release/commit-analyzer": "^6.1.0",
     "@semantic-release/git": "^7.0.8",
     "@semantic-release/github": "^5.2.10",
-    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/npm": "^5.1.7",
     "@semantic-release/release-notes-generator": "^7.1.4",
     "babel-eslint": "^10.0.1",
     "btoa": "^1.2.1",
@@ -71,7 +71,7 @@
     "parcel-plugin-eslint": "^1.0.7",
     "parcel-plugin-markdown": "mikehenrty/parcel-plugin-markdown#upgrade-asset",
     "pug": "^2.0.3",
-    "semantic-release": "^15.13.3"
+    "semantic-release": "^15.13.12"
   },
   "husky": {
     "hooks": {
