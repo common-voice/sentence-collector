@@ -126,7 +126,7 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        <section class="review-footer">
+        <section className="review-footer">
           <section id="confirm-buttons" className="divCenter">
             { this.state.pendingSentences ?
               <SpinnerButton></SpinnerButton> :

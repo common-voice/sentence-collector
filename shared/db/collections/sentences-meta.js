@@ -165,6 +165,25 @@ export default class SentencesMeta {
     return result.data;
   }
 
+  getAllRejectedByUsername(languages, username) {
+    const rejectedSentences = {};
+
+    const promises = languages.map((language) => this.getAllUnapprovedByUsername(language, username));
+
+    return Promise.all(promises)
+      .then((unapprovedPerLanguage) => {
+        return unapprovedPerLanguage.reduce((rejectedSentences, unapproved, index) => {
+          if (unapproved) {
+            // we can use the index here, as Promise.all guarantees that its
+            // resolved values will be in the same order
+            rejectedSentences[languages[index]] = unapproved;
+          }
+
+          return rejectedSentences;
+        }, {});
+      });
+  }
+
   async getAllUnapprovedByUsername(language, username) {
     const collection = await this.getCollection(language);
     const filters = {
@@ -172,7 +191,8 @@ export default class SentencesMeta {
       approved: false,
     };
     const result = await collection.listRecords({ filters });
-    return result.data;
+    const unapprovedSentencesWithoutDetail = result.data.map((record) => record.sentence);
+    return unapprovedSentencesWithoutDetail;
   }
 
   async getAllByUsername(language, username) {
