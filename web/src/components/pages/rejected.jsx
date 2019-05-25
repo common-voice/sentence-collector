@@ -44,10 +44,10 @@ export default class Rejected extends React.Component {
         )}
 
         { Object.keys(rejectedSentences).map((language) => (
-          <section>
+          <section key={'section-' + language}>
             <h2 key={language}>{language}</h2>
 
-            <ul className="no-bullets">
+            <ul key={'list-' + language} className="no-bullets">
               { rejectedSentences[language].map((sentence) => (
                 <li key={sentence}>{sentence}</li>
               ))}

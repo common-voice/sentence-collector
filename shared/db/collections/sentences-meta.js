@@ -171,7 +171,7 @@ export default class SentencesMeta {
     return Promise.all(promises)
       .then((unapprovedPerLanguage) => {
         return unapprovedPerLanguage.reduce((rejectedSentences, unapproved, index) => {
-          if (unapproved) {
+          if (unapproved && unapproved.length > 0) {
             // we can use the index here, as Promise.all guarantees that its
             // resolved values will be in the same order
             rejectedSentences[languages[index]] = unapproved;
