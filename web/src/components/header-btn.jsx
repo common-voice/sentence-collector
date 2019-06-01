@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HeaderBtn = (props) => {
-  return(
+  return (
     <button id="header-btn" onClick={props.handleClick.bind(this)}>
       <div className={props.arrow}></div>
     </button>

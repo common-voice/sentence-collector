@@ -14,9 +14,9 @@ export default class Page extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick () {
+  handleClick() {
     this.setState((prevState) => {
-      return {headerIsOpen : !prevState.headerIsOpen}
+      return { headerIsOpen: !prevState.headerIsOpen }
     });
   }
 
@@ -25,7 +25,7 @@ export default class Page extends React.Component {
       return [
         <Header key="header" />,
         <div id="page" key="page">
-          <HeaderBtn arrow="header-btn-arrow-left" handleClick={this.handleClick}/>
+          <HeaderBtn arrow="header-btn-arrow-left" handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>
@@ -35,7 +35,7 @@ export default class Page extends React.Component {
     } else {
       return [
         <div id="page" key="page">
-          <HeaderBtn arrow="header-btn-arrow-right" handleClick={this.handleClick}/>
+          <HeaderBtn arrow="header-btn-arrow-right" handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>

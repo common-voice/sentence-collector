@@ -14,11 +14,11 @@ const Header = (props) => {
         <NavLink to="/add" exact key="add">Add</NavLink>
         <NavLink to="/review" key="review">Review</NavLink>
         <NavLink to="/rejected" key="rejected">Rejected Sentences</NavLink>
-        { props.authed ? (
+        {props.authed ? (
           <NavLink to="/profile" exact key="profile">Profile</NavLink>
         ) : (
-          <NavLink to="/login" exact>Login</NavLink>
-        )}
+            <NavLink to="/login" exact>Login</NavLink>
+          )}
       </nav>
       <ProfileWidget />
       <section id="external-links">

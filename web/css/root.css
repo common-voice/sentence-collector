@@ -129,13 +129,11 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: none;
   border-radius: 0;
   padding: 0;
   color: var(--second-font-color);
   background-color: var(--second-bg-color);
   position: fixed;
-  top: 0;
 }
 
 #header-btn:not(:disabled):hover {
@@ -171,11 +169,17 @@ nav {
 }
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
-  #header-btn { display: block; }  /* show it on small screens */
+  #header-btn {
+    display: block;
+  }
+  /* show it on small screens */
 }
 
 @media screen and (min-width: 601px) {
-  #header-btn{ display: none; }   /* hide it elsewhere */
+  #header-btn {
+    display: none;
+  }
+  /* hide it elsewhere */
 }
 
 nav>a {
