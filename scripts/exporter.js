@@ -5,7 +5,6 @@ import {
   existsSync,
   mkdirSync,
 } from 'fs';
-import { forEachSeries } from 'p-iteration';
 import * as validation from '../shared/validation';
 import * as cleanup from '../shared/cleanup';
 
@@ -13,14 +12,20 @@ const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/ma
 const OUTPUT_JSON = 'sentence-collector.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
+// Mapping from PONTOON locale -> database locale code
+const LANGUAGE_MAPPING = {
+  'ne-NP': 'ne',
+  'sv-SE': 'sv',
+};
+
 export async function startExport(db, exportPath) {
   const startTime = Date.now();
   const cvResponse = await fetch(CV_LANGUAGES_URL);
   const allCVLanguages = await cvResponse.json();
 
-  await forEachSeries(allCVLanguages, async (languageCode) => {
+  for (const languageCode of allCVLanguages) {
     await exportLanguage(db, languageCode, exportPath);
-  });
+  }
 
   const endTime = Date.now();
   console.log('Duration to export everything (ms): ', endTime - startTime);
@@ -29,6 +34,7 @@ export async function startExport(db, exportPath) {
 async function exportLanguage(db, languageCode, exportPath) {
   console.log(`Starting export for ${languageCode}..`);
   const cvPath = `${exportPath}/${languageCode}`;
+  const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
 
   const pathExists = existsSync(cvPath);
 
@@ -41,7 +47,7 @@ async function exportLanguage(db, languageCode, exportPath) {
 
   let approvedSentences = [];
   try {
-    approvedSentences = await db.getValidatedSentences(languageCode);
+    approvedSentences = await db.getAllValidatedSentences(dbLanguageCode);
   } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
 
   if (!approvedSentences || approvedSentences.length === 0) {
@@ -50,7 +56,7 @@ async function exportLanguage(db, languageCode, exportPath) {
 
   console.log(`  - Found ${approvedSentences.length} approved sentences`);
 
-  const validatedSentences = getValidatedSentences(languageCode, approvedSentences);
+  const validatedSentences = getValidatedSentences(dbLanguageCode, approvedSentences);
 
   if (!validatedSentences) {
     console.log(`  - Found no valid sentences, not writing any output..`);
@@ -62,8 +68,8 @@ async function exportLanguage(db, languageCode, exportPath) {
 
   console.log(`  - Cleaning up sentences`);
   const sentencesOnly = validatedSentences.map((sentenceMeta) => sentenceMeta.sentence);
-  const cleanedUpSentences = cleanup.cleanupSentences(languageCode, sentencesOnly);
-  const dedupedSentences = dedupeSentences(languageCode, cleanedUpSentences, cvPath);
+  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, sentencesOnly);
+  const dedupedSentences = dedupeSentences(dbLanguageCode, cleanedUpSentences, cvPath);
 
   console.log(`  - Writing all sentences to ${dataPath}..`);
   writeFileSync(dataPath, dedupedSentences.join('\n'));
@@ -72,10 +78,12 @@ async function exportLanguage(db, languageCode, exportPath) {
 function getValidatedSentences(languageCode, sentences) {
   const sentencesOnly = sentences.map((sentenceMeta) => sentenceMeta.sentence);
   const { filtered } = validation.validateSentences(languageCode, sentencesOnly);
-  filtered.length > 0 && console.log(`  - Filtered ${filtered.length} sentences`, filtered);
+  const filteredSentences = filtered.map((filteredResult) => filteredResult.sentence);
+  filteredSentences.length > 0 &&
+    console.log(`  - Filtered ${filteredSentences.length} sentences`, filteredSentences);
 
   const filteredSentenceMetas = sentences.filter((sentenceMeta) => {
-    return !filtered.includes(sentenceMeta.sentence);
+    return !filteredSentences.includes(sentenceMeta.sentence);
   });
   console.log(`  - Found ${filteredSentenceMetas.length} valid sentences`);
   return filteredSentenceMetas;

@@ -5,8 +5,8 @@ import ProfileWidget from '../components/profile-widget';
 
 function mapStateToProps(state) {
   return {
-    authed: state.authed,
-    username: state.username,
+    authed: state.app.authed,
+    username: state.app.username,
   };
 }
 

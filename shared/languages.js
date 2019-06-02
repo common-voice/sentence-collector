@@ -89,24 +89,14 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Bokmål',
   },
   {
-    code: 'ne-NP',
-    name: 'Nepali',
-    nativeName: 'नेपाली',
-  },
-  {
-    code: 'nn-NO',
-    name: 'Norwegian',
-    nativeName: 'norsk',
-  },
-  {
     code: 'rm-sursilv',
     name: 'Romansh Sursilvan',
     nativeName: 'romontsch sursilvan',
   },
   {
-    code: 'sv-SE',
-    name: 'Swedish Sweden',
-    nativeName: 'svenska',
+    code: 'sah',
+    name: 'Sakha',
+    nativeName: 'Саха тыла',
   },
   {
     code: 'uby',
@@ -142,6 +132,7 @@ const ADDITIONAL_LANGUAGES = [
 
 const LANGUAGES_TO_REMOVE = [
   'zh',
+  'nn' // coverted by nn-NO
 ];
 
 export const getAllLanguages = () => {

@@ -1,5 +1,5 @@
 .validator {
-  --validator-height: 8rem;
+  --validator-height: 5.8rem;
   height: var(--validator-height);
   display: flex;
   flex-direction: row;
@@ -44,8 +44,31 @@
   background-color: var(--warning-color);
 }
 
+#review-form #confirm-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#review-form .loadingText {
+  min-width: 100px;
+}
+
+#review-form .review-footer button {
+  max-height: 50px;
+}
+
+.review-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .pager-container {
   text-align: center;
+  min-width: 350px;
 }
 
 .pager {

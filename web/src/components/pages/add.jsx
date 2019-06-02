@@ -31,18 +31,12 @@ export default class Add extends React.Component {
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onConfirm = this.onConfirm.bind(this);
-    this.onCancel = this.onCancel.bind(this);
     this.onReview = this.onReview.bind(this);
     this.onReviewed = this.onReviewed.bind(this);
   }
 
   resetState() {
     this.setState(DEFAULT_STATE);
-  }
-
-  resetFullState() {
-    this.resetState();
-    this.props.resetFullState();
   }
 
   getLanguageInput() {
@@ -161,11 +155,6 @@ export default class Add extends React.Component {
     }
   }
 
-  onCancel(evt) {
-    evt.preventDefault();
-    this.resetFullState();
-  }
-
   onReview() {
     this.setState({
       reviewing: this.state.unreviewed,
@@ -192,15 +181,26 @@ export default class Add extends React.Component {
                this.state.invalidated.length > 0 ||
                this.state.filtered.length > 0) {
 
+      let groupedFilteredSentences = [];
+      if (this.state.filtered && this.state.filtered.length > 0) {
+        groupedFilteredSentences = this.state.filtered.reduce((groupedFiltered, filterResult) => {
+          if (!groupedFiltered[filterResult.error]) {
+            groupedFiltered[filterResult.error] = [];
+          }
+
+          groupedFiltered[filterResult.error].push(filterResult.sentence);
+          return groupedFiltered;
+        }, {});
+      }
+
       // The confirm form is a stats page where sentence submission happens.
       return <ConfirmForm onSubmit={this.onConfirm}
                           onReview={this.onReview}
-                          onCancel={this.onCancel}
                           submitted={this.state.submitted}
                           unreviewed={this.state.unreviewed}
                           validated={this.state.validated}
                           invalidated={this.state.invalidated}
-                          filtered={this.state.filtered}
+                          filtered={groupedFilteredSentences}
                           existing={this.state.existing}
                           readyCount={this.getReadySentences().count} />;
 

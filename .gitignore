@@ -5,3 +5,5 @@ dist
 .env
 docker-compose.prod.yml
 .ignored_files
+.vscode
+.DS_Store

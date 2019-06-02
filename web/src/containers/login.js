@@ -9,10 +9,10 @@ import {
 
 function mapStateToProps(state) {
   return {
-    authed: state.authed,
-    username: state.username,
-    errorMessage: state.errorMessage,
-    loginDisabled: state.loginDisabled,
+    authed: state.app.authed,
+    username: state.app.username,
+    errorMessage: state.app.errorMessage,
+    loginDisabled: state.app.loginDisabled,
   };
 }
 

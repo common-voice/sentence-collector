@@ -1,8 +1,9 @@
 import React from 'react';
 
 import '../../css/review-form.css';
+import SpinnerButton from './spinner-button';
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
   reviewed: [],
@@ -35,10 +36,14 @@ export default class ReviewForm extends React.Component {
     return this.state.page * PAGE_SIZE;
   }
 
-  onSubmit(evt) {
+  async onSubmit(evt) {
     evt.preventDefault();
     let validated = [];
     let invalidated = [];
+
+    this.setState({
+      pendingSentences: true,
+    });
 
     // Extract sentence that have been voted on.
     const unreviewed = this.state.sentences.filter((sentenceInfo) => {
@@ -55,10 +60,14 @@ export default class ReviewForm extends React.Component {
       return true;
     }).map((sentenceInfo) => sentenceInfo.sentence);
 
-    this.props.onReviewed({
+    await this.props.onReviewed({
       validated,
       invalidated,
       unreviewed,
+    });
+
+    this.setState({
+      pendingSentences: false,
     });
   }
 
@@ -90,10 +99,7 @@ export default class ReviewForm extends React.Component {
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
 
     return (
-      <form id="add-form" onSubmit={this.onSubmit}>
-        <Pager page={this.state.page} lastPage={this.getLastPage()}
-               onPage={this.setPage} />
-
+      <form id="review-form" onSubmit={this.onSubmit}>
         { this.props.message && ( <p>{ this.props.message }</p> ) }
 
         { curSentences.map((sentence, i) => (
@@ -104,7 +110,7 @@ export default class ReviewForm extends React.Component {
             <div className="button-group">
               <button type="button"
                       className={`secondary ${this.state.sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
-                      aria-pressed={this.state.sentences[offset + i].reviewApproval}
+                      aria-pressed={this.state.sentences[offset + i].reviewApproval === true}
                       onClick={() => this.reviewSentence(offset + i, true)}
                       name={`validate-${offset + i}`}>
                 👍
@@ -120,7 +126,24 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
-        <button type="submit">Finish Review</button>
+        <section className="review-footer">
+          <section id="confirm-buttons" className="divCenter">
+            { this.state.pendingSentences ?
+              <SpinnerButton></SpinnerButton> :
+              <button type="submit">Finish Review</button>
+            }
+
+            { this.state.pendingSentences && (
+              <div>
+                <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+                  Please don't close this website.</p>
+              </div>
+            )}
+          </section>
+
+          <Pager page={this.state.page} lastPage={this.getLastPage()}
+                 onPage={this.setPage} />
+        </section>
       </form>
     );
   }

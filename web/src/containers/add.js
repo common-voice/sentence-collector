@@ -4,7 +4,6 @@ import Add from '../components/pages/add';
 
 import {
   submitSentences,
-  resetFullState,
 } from '../actions';
 
 import {
@@ -13,9 +12,9 @@ import {
 
 function mapStateToProps(state) {
   return {
-    languages: state.languages,
-    username: state.username,
-    password: state.password,
+    languages: state.app.languages,
+    username: state.app.username,
+    password: state.app.password,
   };
 }
 
@@ -24,7 +23,6 @@ function mapDispatchToProps(dispatch) {
     submitSentences:
       (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
     parseSentences: (language, text) => dispatch(parseSentences(language, text)),
-    resetFullState: () => dispatch(resetFullState()),
   };
 }
 

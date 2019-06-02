@@ -55,6 +55,26 @@ export default class DB {
     return this.cvSentences.createFromMeta(bucket, metadata);
   }
 
+  async deleteSentenceRecords() {
+    const bucket = await this.getBucket();
+    return this.sentences.deleteSentenceRecords(bucket);
+  }
+
+  async deleteSpecificSentenceRecords(locale, username) {
+    const bucket = await this.getBucket();
+    return this.sentences.deleteSpecificSentenceRecords(bucket, locale, username);
+  }
+
+  async forceDeleteSpecificSentenceRecords(locale, username) {
+    const bucket = await this.getBucket();
+    return this.sentences.forceDeleteSpecificSentenceRecords(bucket, locale, username);
+  }
+
+  async forceDeleteSentences(locale, sentences) {
+    const bucket = await this.getBucket();
+    return this.sentences.forceDeleteSentences(bucket, locale, sentences);
+  }
+
   async getCVMetadata() {
     const bucket = await this.getBucket();
     return this.cvSentences.getLanguageAndSentenceCounts(bucket);
@@ -89,6 +109,10 @@ export default class DB {
     return this.sentences.getValidatedSentences(language);
   }
 
+  async getAllValidatedSentences(language) {
+    return this.sentences.getAllValidatedSentences(language);
+  }
+
   async submitSentences(language, sentences, source) {
     return this.sentences.submitSentences(language, sentences, source);
   }
@@ -103,6 +127,10 @@ export default class DB {
 
   async vote(language, validated, invalidated) {
     return this.sentences.vote(language, validated, invalidated);
+  }
+
+  async getAllRejectedByUsername(languages, username) {
+    return this.sentences.getAllRejectedByUsername(languages, username);
   }
 
   async getLanguageInfoForMe(language) {

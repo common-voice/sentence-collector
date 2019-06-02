@@ -19,10 +19,7 @@ export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
-export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
-
-export const ACTION_RESET_STATE = 'ACTION_RESET_STATE';
 
 const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
 
@@ -70,7 +67,7 @@ export function addLanguage(language) {
       dispatch(sendAddLanguage());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const updatedLanguages = await db.addLanguage(language);
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -86,7 +83,7 @@ export function removeLanguage(language) {
       dispatch(sendRemoveLanguage());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const updatedLanguages = await db.removeLanguage(language);
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -102,14 +99,13 @@ export function submitSentences(language, sentences, source) {
       dispatch(sendSubmitSentences());
 
       const state = getState();
-      const db = new WebDB(state.username, state.password);
+      const db = new WebDB(state.app.username, state.app.password);
       const results = await db.submitSentences(language, sentences, source);
       dispatch(submitSentencesSuccess(results.sentences.slice(0)));
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
       dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
       return results;
     } catch (err) {
-      dispatch(submitSentencesFailure());
       throw err;
     }
   };
@@ -217,22 +213,9 @@ export function submitSentencesSuccess(sentences) {
   };
 }
 
-export function submitSentencesFailure() {
-  return {
-    type: ACTION_SUBMIT_SENTENCES_FAILURE,
-  };
-}
-
 export function submitSentencesFailureSingle(errors) {
   return {
     type: ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
     errors,
   };
 }
-
-export function resetFullState() {
-  return {
-    type: ACTION_RESET_STATE,
-  };
-}
-

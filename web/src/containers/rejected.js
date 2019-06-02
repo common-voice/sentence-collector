@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 
-import CommonVoiceInfo from '../components/cv-info';
+import Rejected from '../components/pages/rejected';
 
 function mapStateToProps(state) {
   return {
-    authed: state.app.authed,
     username: state.app.username,
     password: state.app.password,
+    languages: state.app.languages,
   };
 }
 
-export default connect(mapStateToProps)(CommonVoiceInfo);
+export default connect(mapStateToProps)(Rejected);

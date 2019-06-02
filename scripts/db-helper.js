@@ -1,4 +1,5 @@
-import KintoTestServer from "kinto-node-test-server";
+import KintoTestServer from 'kinto-node-test-server';
+import { readFileSync } from 'fs';
 import DB from '../shared/db';
 import { fail } from './util';
 import { startExport } from './exporter';
@@ -11,12 +12,21 @@ const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 const ACTION_LIST_USERS = 'list';
 const ACTION_EXPORT = 'export';
+const ACTION_DELETE = 'delete';
+const ACTION_DELETE_SPECIFIC = 'delete-specific';
+const ACTION_FORCE_DELETE_SPECIFIC = 'force-delete-specific';
+const ACTION_FORCE_DELETE_FILE = 'force-delete-file';
 
+const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
 const prodRemote = process.env.KINTO_URL_PROD;
+const prodRemoteIP = process.env.KINTO_IP_PROD;
 const username = process.env.KINTO_USER;
 const password = process.env.KINTO_PASSWORD;
 const exportPath = process.env.COMMON_VOICE_PATH + '/server/data';
+const deleteLocale = process.env.DELETE_SPECIFIC_LOCALE;
+const deleteUsername = process.env.DELETE_SPECIFIC_USERNAME;
+const deleteFile = process.env.DELETE_SPECIFIC_SENTENCES_FILE;
 
 const action = process.argv[2];
 
@@ -26,14 +36,16 @@ async function flushKinto() {
 }
 
 async function listUsers() {
-  const db = new DB(remote, username, password);
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
   const users = await db.getUsers();
-  console.log('users', users);
+  console.log('number of users', users.length);
   return users;
 }
 
 async function exportDB() {
-  const db = new DB(prodRemote, username, password);
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
+  const db = new DB(remoteHost, username, password);
   await startExport(db, exportPath);
 }
 
@@ -52,6 +64,51 @@ async function initDB() {
   if (!authed) {
     fail('db admin must be authed user');
   }
+}
+
+async function deleteSentences() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  await db.deleteSentenceRecords();
+}
+
+async function deleteSpecificSentences() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  if (!deleteLocale || !deleteUsername) {
+    fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
+  }
+
+
+
+  await db.deleteSpecificSentenceRecords(deleteLocale, deleteUsername);
+}
+
+async function forceDeleteFile() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  if (!deleteLocale || !deleteFile) {
+    fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_SENTENCES_FILE are required');
+  }
+
+  const sentencesFileContent = readFileSync(deleteFile, 'utf8');
+  const sentences = sentencesFileContent.split('\n').filter(Boolean);
+  if (!sentences) {
+    console.error('NO_SENTENCES_SPECIFIED');
+    return;
+  }
+
+  await db.forceDeleteSentences(deleteLocale, sentences);
+}
+
+async function forceDeleteSpecificSentences() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  if (!deleteLocale || !deleteUsername) {
+    fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
+  }
+
+  await db.forceDeleteSpecificSentenceRecords(deleteLocale, deleteUsername);
 }
 
 async function run() {
@@ -94,6 +151,22 @@ async function run() {
 
       case ACTION_EXPORT:
         await exportDB();
+        break;
+
+      case ACTION_DELETE:
+        await deleteSentences();
+        break;
+
+      case ACTION_DELETE_SPECIFIC:
+        await deleteSpecificSentences();
+        break;
+
+      case ACTION_FORCE_DELETE_SPECIFIC:
+        await forceDeleteSpecificSentences();
+        break;
+
+      case ACTION_FORCE_DELETE_FILE:
+        await forceDeleteFile();
         break;
 
       default:

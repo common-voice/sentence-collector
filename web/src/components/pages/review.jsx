@@ -135,7 +135,12 @@ export default class Review extends React.Component {
     } else if (!this.getLanguageFromParams()) {
       return <p>Please select a language to review sentences.</p>;
     } else if (!this.state.sentences || this.state.sentences.length < 1) {
-      return <p>No sentences to review</p>;
+      return (
+        <p>
+          No sentences to review.&nbsp;
+          <Link to={'/add'}>Add more sentences now!</Link>
+        </p>
+      );
     } else {
       return <ReviewForm message={this.state.message} onReviewed={this.onReviewed}
         sentences={this.state.sentences} />;
@@ -171,9 +176,6 @@ export default class Review extends React.Component {
       <div>
         <section>
           <h1>Review Sentences</h1>
-          <label className="language-selector-label" htmlFor="language-selector-review">
-            Language to review
-          </label>
           <LanguageSelector name="language-selector-review" only={this.props.languages}
             selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>
