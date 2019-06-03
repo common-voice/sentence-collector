@@ -122,7 +122,7 @@ nav {
   flex-direction: column;
 }
 
-#header-btn {
+.header-btn {
   min-height: 28px;
   width: 28px;
   cursor: pointer;
@@ -136,7 +136,7 @@ nav {
   position: fixed;
 }
 
-#header-btn:not(:disabled):hover {
+.header-btn:not(:disabled):hover {
   background-color: var(--second-bg-color);
 }
 
@@ -168,18 +168,20 @@ nav {
   outline: none;
 }
 
+/* show header button on small screens */
+
 @media screen and (min-width: 0px) and (max-width: 480px) {
-  #header-btn {
+  .header-btn-open .header-btn-closed {
     display: block;
   }
-  /* show it on small screens */
 }
 
+/* hide header button elsewhere */
+
 @media screen and (min-width: 601px) {
-  #header-btn {
+  .header-btn-open {
     display: none;
   }
-  /* hide it elsewhere */
 }
 
 nav>a {

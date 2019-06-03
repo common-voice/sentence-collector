@@ -25,7 +25,7 @@ export default class Page extends React.Component {
       return [
         <Header key="header" />,
         <div id="page" key="page">
-          <HeaderBtn arrow="header-btn-arrow-left" handleClick={this.handleClick} />
+          <HeaderBtn arrow="header-btn-arrow-left" isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>
