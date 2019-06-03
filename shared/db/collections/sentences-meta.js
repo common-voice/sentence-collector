@@ -352,11 +352,13 @@ export default class SentencesMeta {
     const invalidVotes = record.invalid.length;
     const totalVotes = validVotes + invalidVotes;
 
-    if (totalVotes < APPROVAL_MIN_TOTAL_VOTES) {
-      return;
+    if(validVotes >= APPROVAL_MIN_VALID_VOTES) {
+      return true;
+    } else if(totalVotes >= APPROVAL_MIN_TOTAL_VOTES) {
+      return false;
     }
 
-    return validVotes >= APPROVAL_MIN_VALID_VOTES;
+    return;
   }
 
   async vote(language, validated, invalidated) {
