@@ -8,7 +8,8 @@ import {
 import * as validation from '../shared/validation';
 import * as cleanup from '../shared/cleanup';
 
-const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
+import { getAllLanguages } from '../shared/languages';
+// const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
 const OUTPUT_JSON = 'sentence-collector.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
@@ -20,8 +21,9 @@ const LANGUAGE_MAPPING = {
 
 export async function startExport(db, exportPath) {
   const startTime = Date.now();
-  const cvResponse = await fetch(CV_LANGUAGES_URL);
-  const allCVLanguages = await cvResponse.json();
+  // const cvResponse = await fetch(CV_LANGUAGES_URL);
+  // const allCVLanguages = await cvResponse.json();
+  const allCVLanguages = getAllLanguages().map((lang) => lang.code);
 
   for (const languageCode of allCVLanguages) {
     await exportLanguage(db, languageCode, exportPath);
