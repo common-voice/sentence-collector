@@ -258,7 +258,7 @@ export default class SentencesMeta {
 
   async getAllValidatedSentences(language) {
     const filters = {};
-    // filters.approved = true;
+    filters.approved = true;
     const collection = await this.getCollection(language);
 
     let { data, hasNextPage, next } = await collection.listRecords({ filters });
