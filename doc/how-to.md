@@ -36,7 +36,6 @@ Here are some tips to find sentences:
 - The best sources you can look for are podcasts, transcripts, movie scripts and anything that potential can contain everyday conversations.
 - Government proceedings, books and articles are also great however since the text tends to be a little more formal they are less of a priority.
 - Unfortunately we can’t have Wikimedia articles yet. So do not copy paste from there.
-- Two great resources to look into are: [Common Crawl](https://commoncrawl.org/) and [Open Subtitles](https://www.opensubtitles.org/). Not all of the content on these websites are Public Domain, so please check before using them (for examples movie scripts might still be copyrighted and couldn't be used in Common Voice).
 
 ### Partner with local organizations or individuals
 
