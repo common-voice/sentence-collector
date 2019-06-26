@@ -1,10 +1,13 @@
 import * as en from './languages/en';
 import * as it from './languages/it';
 import * as ne from './languages/ne';
+import * as kab from './languages/kab';
 const VALIDATORS = {
   en,
   it,
+  kab,
   ne
+  
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
