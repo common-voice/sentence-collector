@@ -2,12 +2,14 @@ import * as en from './languages/en';
 import * as it from './languages/it';
 import * as ne from './languages/ne';
 import * as kab from './languages/kab';
+import * as ru from './languages/ru';
+
 const VALIDATORS = {
   en,
   it,
   kab,
-  ne
-  
+  ne,
+  ru
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
