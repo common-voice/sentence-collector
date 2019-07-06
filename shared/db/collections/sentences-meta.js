@@ -121,6 +121,81 @@ export default class SentencesMeta {
     });
   }
 
+  async deleteVotes(locale, username, approvalOnly) {
+    const collection = await this.getCollection(locale);
+    const records = await this.getAll(locale);
+
+    const foundSentences = records.filter((record) => {
+      return record.valid.includes(username) || record.invalid.includes(username);
+    });
+
+    console.log(`Found ${foundSentences.length} to analyze`);
+
+    const adjustedSentences = foundSentences.map((record) => {
+      if (approvalOnly && !record.valid.includes(username)) {
+        // Nothing to do for this sentence as there is no approval
+        return;
+      }
+
+      if (record.valid.includes(username)) {
+        const index = record.valid.indexOf(username);
+        record.valid.splice(index, 1);
+        delete record[`Sentences_Meta_UserVote_${username}`];
+        delete record[`Sentences_Meta_UserVoteDate_${username}`];
+      }
+
+      if (!approvalOnly && record.invalid.includes(username)) {
+        const index = record.invalid.indexOf(username);
+        record.invalid.splice(index, 1);
+        delete record[`Sentences_Meta_UserVote_${username}`];
+        delete record[`Sentences_Meta_UserVoteDate_${username}`];
+      }
+
+      // Given that we manipulate votes, we need to re-write the
+      // approval.
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined') {
+        delete record.approved;
+        delete record.approvalDate;
+      } else {
+        record.approved = isApproved;
+        record.approvalDate = Date.now();
+      }
+
+      return record;
+    }).filter(Boolean);
+
+    console.log(`Found ${adjustedSentences.length} records to delete votes in ${locale} for ${username}`);
+
+    if (adjustedSentences.length === 0) {
+      return;
+    }
+
+    const results = await collection.batch(c => {
+      adjustedSentences.forEach(record => {
+        c.updateRecord(record, {
+          safe: true,
+          last_modified: record.last_modified,
+        });
+      });
+    });
+
+    const adjustedResults = [];
+    const errors = [];
+    results.forEach(result => {
+      if (result.status === 200 || result === 201) {
+        adjustedResults.push(result.body.data);
+      } else {
+        console.error('Voting deletion error', result.status, result.body);
+        errors.push(result);
+      }
+    });
+
+    console.log('All votes adjusted:');
+    console.log(`Updated ${adjustedResults.length} records`);
+    console.log(`Errors updating ${errors.length} records!`);
+  }
+
   async createAllCollections(bucket) {
     const languages = getAllLanguages();
     const results = await bucket.batch(b => {

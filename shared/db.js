@@ -75,6 +75,10 @@ export default class DB {
     return this.sentences.forceDeleteSentences(bucket, locale, sentences);
   }
 
+  async deleteVotes(locale, username, approvalOnly) {
+    return this.sentences.deleteVotes(locale, username, approvalOnly);
+  }
+
   async getCVMetadata() {
     const bucket = await this.getBucket();
     return this.cvSentences.getLanguageAndSentenceCounts(bucket);
