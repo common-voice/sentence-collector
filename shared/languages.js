@@ -94,6 +94,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'romontsch sursilvan',
   },
   {
+    code: 'rm-vallader',
+    name: 'Romansh Vallader',
+    nativeName: 'romontsch vallader',
+  },
+  {
     code: 'sah',
     name: 'Sakha',
     nativeName: 'Саха тыла',
