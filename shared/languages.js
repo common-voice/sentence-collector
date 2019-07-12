@@ -96,7 +96,7 @@ const ADDITIONAL_LANGUAGES = [
   {
     code: 'rm-vallader',
     name: 'Romansh Vallader',
-    nativeName: 'romontsch vallader',
+    nativeName: 'rumantsch vallader',
   },
   {
     code: 'sah',
