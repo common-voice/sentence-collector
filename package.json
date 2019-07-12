@@ -1,6 +1,6 @@
 {
   "name": "sentence-collector",
-  "version": "1.10.7",
+  "version": "1.11.0",
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "engines": {
