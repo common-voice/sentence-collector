@@ -16,6 +16,7 @@ const ACTION_DELETE = 'delete';
 const ACTION_DELETE_SPECIFIC = 'delete-specific';
 const ACTION_FORCE_DELETE_SPECIFIC = 'force-delete-specific';
 const ACTION_FORCE_DELETE_FILE = 'force-delete-file';
+const ACTION_DELETE_VOTES = 'delete-votes';
 
 const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
@@ -27,6 +28,7 @@ const exportPath = process.env.COMMON_VOICE_PATH + '/server/data';
 const deleteLocale = process.env.DELETE_SPECIFIC_LOCALE;
 const deleteUsername = process.env.DELETE_SPECIFIC_USERNAME;
 const deleteFile = process.env.DELETE_SPECIFIC_SENTENCES_FILE;
+const approvalOnly = /true/.test(process.env.DELETE_APPROVAL_ONLY);
 
 const action = process.argv[2];
 
@@ -111,6 +113,16 @@ async function forceDeleteSpecificSentences() {
   await db.forceDeleteSpecificSentenceRecords(deleteLocale, deleteUsername);
 }
 
+async function deleteVotes() {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  if (!deleteLocale || !deleteUsername) {
+    fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
+  }
+
+  await db.deleteVotes(deleteLocale, deleteUsername, approvalOnly);
+}
+
 async function run() {
   if (!remote && !username && !password) {
     fail('No KINTO environment variables found. ' +
@@ -167,6 +179,10 @@ async function run() {
 
       case ACTION_FORCE_DELETE_FILE:
         await forceDeleteFile();
+        break;
+
+      case ACTION_DELETE_VOTES:
+        await deleteVotes();
         break;
 
       default:

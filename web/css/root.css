@@ -9,7 +9,8 @@
   --deactive-color: #d7d7db;
   --grey-color: #d7d7db;
   --warning-color: #ff4f5e;
-  --success-color: #54ffbd;
+  --review-selected-color: #000000;
+  --review-unselected-color: #ffffff;
   --base-font-size: 19px;
   --button-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -215,10 +216,7 @@ main {
 }
 
 form {
-  margin: 2rem auto;
-  padding: 0.7rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 2rem;
 }
 
 form#login {
@@ -287,4 +285,13 @@ form button {
   list-style: none;
   margin-left: 0;
   padding-left: 0;
+}
+
+.notice {
+  padding: 10px;
+}
+
+.notice.error {
+  background-color: red;
+  color: #fff;
 }

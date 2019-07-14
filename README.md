@@ -65,6 +65,10 @@ GITHUB_TOKEN=... npm run deploy -o <remotename>
 
 This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
 
+### In case of a crash
+
+In the past we've experienced a couple of crashes with Kinto. It's recommended to only restart the database container. If that doesn't do the trick and the `docker-compose` process mentions authorization errors, you might have to `docker exec` a bash on the database machine and recreate the postgres role `CREATE ROLE <POSTGRES_USER> WITH LOGIN PASSWORD '<POSTGRES_PASSWORD>;
+
 ## Export
 
 ### Locally
