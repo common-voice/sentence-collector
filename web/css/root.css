@@ -123,8 +123,8 @@ nav {
 }
 
 .header-btn {
-  min-height: 28px;
-  width: 28px;
+  min-height: 32px;
+  width: 32px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -133,14 +133,13 @@ nav {
   padding: 0;
   color: var(--second-font-color);
   background-color: var(--second-bg-color);
-  position: fixed;
 }
 
 .header-btn:not(:disabled):hover {
   background-color: var(--second-bg-color);
 }
 
-.header-btn-arrow-left {
+.header-btn-arrow {
   border: solid white;
   border-width: 0 3px 3px 0;
   display: inline-block;
@@ -153,32 +152,14 @@ nav {
 }
 
 .header-btn-arrow-right {
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  width: 0px;
-  margin: auto;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
   color: var(--second-font-color);
 }
 
-.header-btn-toggle {
-  outline: none;
-}
+/* hide header button on large screens */
 
-/* show header button on small screens */
-
-@media screen and (min-width: 0px) and (max-width: 480px) {
-  .header-btn-open .header-btn-closed {
-    display: block;
-  }
-}
-
-/* hide header button elsewhere */
-
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 1025px) {
   .header-btn-open {
     display: none;
   }
@@ -189,7 +170,7 @@ nav>a {
   text-decoration: none;
 }
 
-nav>.active {
+nav > .active {
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
 }
@@ -241,7 +222,8 @@ form input[type="checkbox"] {
   bottom: 1px;
 }
 
-form input[type="password"], form input[type="text"] {
+form input[type="password"], 
+form input[type="text"] {
   width: 100%;
   margin-bottom: 0.5rem;
 }
