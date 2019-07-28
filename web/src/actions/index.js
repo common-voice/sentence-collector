@@ -95,19 +95,15 @@ export function removeLanguage(language) {
 
 export function submitSentences(language, sentences, source) {
   return async function(dispatch, getState) {
-    try {
-      dispatch(sendSubmitSentences());
+    dispatch(sendSubmitSentences());
 
-      const state = getState();
-      const db = new WebDB(state.app.username, state.app.password);
-      const results = await db.submitSentences(language, sentences, source);
-      dispatch(submitSentencesSuccess(results.sentences.slice(0)));
-      const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
-      dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
-      return results;
-    } catch (err) {
-      throw err;
-    }
+    const state = getState();
+    const db = new WebDB(state.app.username, state.app.password);
+    const results = await db.submitSentences(language, sentences, source);
+    dispatch(submitSentencesSuccess(results.sentences.slice(0)));
+    const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
+    dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
+    return results;
   };
 }
 
