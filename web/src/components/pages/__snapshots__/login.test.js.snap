@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login button is disabled without input values 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Connect(Login)>
+    <Login
+      authed={false}
+      checkLoginInput={[Function]}
+      login={[Function]}
+      loginDisabled={true}
+      logout={[Function]}
+      username={null}
+    >
+      <form
+        id="login"
+        onSubmit={[Function]}
+      >
+        <h2>
+          Log in
+        </h2>
+        <p>
+          Choose your username and password to sign up. If you already have a username, please sign in with the existing password. This login is separate from the main Common Voice site.
+        </p>
+        <section
+          className="form-message"
+        />
+        <section>
+          <label
+            htmlFor="username"
+          >
+            username (alphanumeric, no email)
+          </label>
+          <input
+            id="username"
+            onChange={[Function]}
+            type="text"
+          />
+          <label
+            htmlFor="password"
+          >
+            password
+          </label>
+          <input
+            id="password"
+            onChange={[Function]}
+            type="password"
+          />
+          <button
+            disabled={true}
+          >
+            Submit
+          </button>
+        </section>
+      </form>
+    </Login>
+  </Connect(Login)>
+</Provider>
+`;

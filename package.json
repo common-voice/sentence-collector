@@ -26,12 +26,10 @@
     "deploy": "npm run release && npm run build && gh-pages -d dist",
     "deploy:only": "npm run build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
-    "test": "npm run lint && npm run build"
+    "test:frontend": "jest",
+    "test": "npm run lint && npm run build && npm run test:frontend"
   },
   "dependencies": {
-    "@babel/preset-react": "^7.0.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-runtime": "^6.26.0",
     "connected-react-router": "^6.5.2",
     "es6-promisify": "^6.0.1",
     "hash.js": "^1.1.7",
@@ -53,6 +51,9 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.5.5",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@semantic-release/commit-analyzer": "^6.2.0",
@@ -61,17 +62,26 @@
     "@semantic-release/npm": "^5.1.13",
     "@semantic-release/release-notes-generator": "^7.2.1",
     "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.8.0",
     "btoa": "^1.2.1",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^6.1.0",
+    "eslint-plugin-enzyme": "^0.1.1",
+    "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.0.1",
     "husky": "^3.0.1",
+    "jest": "^24.8.0",
     "kinto-node-test-server": "^1.0.3",
     "node-fetch": "^2.6.0",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-eslint": "^1.0.7",
     "parcel-plugin-markdown": "mikehenrty/parcel-plugin-markdown#upgrade-asset",
     "pug": "^2.0.4",
-    "semantic-release": "^15.13.18"
+    "react-test-renderer": "^16.8.6",
+    "redux-mock-store": "^1.5.3",
+    "semantic-release": "^15.13.19"
   },
   "husky": {
     "hooks": {
@@ -81,6 +91,14 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
+    ]
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/web/src/tests/testSetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
     ]
   },
   "release": {
