@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '../containers/header';
 import HeaderBtn from './header-btn';
 
-let DEFAULT_STATE = {
+const DEFAULT_STATE = {
   headerIsOpen: true,
 }
 
@@ -25,7 +25,7 @@ export default class Page extends React.Component {
       return [
         <Header key="header" />,
         <div id="page" key="page">
-          <HeaderBtn arrow="header-btn-arrow" isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
+          <HeaderBtn  isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>
@@ -35,7 +35,7 @@ export default class Page extends React.Component {
     } else {
       return [
         <div id="page" key="page">
-          <HeaderBtn arrow="header-btn-arrow header-btn-arrow-right" handleClick={this.handleClick} />
+          <HeaderBtn handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>

@@ -8,13 +8,14 @@
 }
 
 .sentence-box {
-  height: 6rem;
+  height: 9.25rem;
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
   line-height: 1rem;
   justify-content: center;
   align-items: center;
   display: flex;
+  font-size: 1.5rem;
 }
 
 .validator li {
@@ -34,6 +35,7 @@
   border: 1px solid var(--grey-color);
   font-size: 1.3em;
   margin: 0.2em;
+  padding: 1.5rem;
 }
 
 .validator .button-group button.secondary.yes {
