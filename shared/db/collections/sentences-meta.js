@@ -332,11 +332,9 @@ export default class SentencesMeta {
   }
 
   async getAllValidatedSentences(language) {
-    const filters = {};
-    filters.approved = true;
     const collection = await this.getCollection(language);
 
-    let { data, hasNextPage, next } = await collection.listRecords({ filters });
+    let { data, hasNextPage, next } = await collection.listRecords({});
     while (hasNextPage) {
       const result = await next();
       data = data.concat(result.data);
@@ -344,7 +342,9 @@ export default class SentencesMeta {
       next = result.next;
     }
 
-    return data;
+    const approvedRecords = data.filter((record) => this.checkIfApproved(record));
+
+    return approvedRecords;
   }
 
   prepareForSubmission(sentences) {
