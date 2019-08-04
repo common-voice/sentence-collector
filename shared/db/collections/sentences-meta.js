@@ -121,6 +121,56 @@ export default class SentencesMeta {
     });
   }
 
+  async correctApprovals(locale) {
+    const collection = await this.getCollection(locale);
+    const records = await this.getAllPaginated(locale);
+    console.log(`Found ${records.length} records to analyze for ${locale}`);
+
+    const adjustedSentences = records.map((record) => {
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined' || isApproved === record.approved) {
+        // nothing to do here
+        return;
+      }
+
+      record.approved = isApproved;
+      record.approvalDate = Date.now();
+
+      return record;
+    }).filter(Boolean);
+
+    console.log(`Found ${adjustedSentences.length} to adjust`);
+
+    const results = await collection.batch(c => {
+      adjustedSentences.forEach(record => {
+        c.updateRecord(record, {
+          safe: true,
+          last_modified: record.last_modified,
+        });
+      });
+    });
+
+    const adjustedResults = [];
+    const errors = [];
+    results.forEach(result => {
+      if (result.status === 200 || result === 201) {
+        adjustedResults.push(result.body.data);
+      } else {
+        console.error('Approval adjustment error', result.status, result.body);
+        errors.push(result);
+      }
+    });
+
+    if (adjustedResults.length > 0) {
+      console.log('All approvals adjusted:');
+      console.log(`Updated ${adjustedResults.length} records`);
+    }
+
+    if (errors.length > 0) {
+      console.log(`Errors updating ${errors.length} records!`);
+    }
+  }
+
   async deleteVotes(locale, username, approvalOnly) {
     const collection = await this.getCollection(locale);
     const records = await this.getAll(locale);
@@ -238,6 +288,20 @@ export default class SentencesMeta {
     const collection = await this.getCollection(language);
     const result = await collection.listRecords();
     return result.data;
+  }
+
+  async getAllPaginated(language) {
+    const collection = await this.getCollection(language);
+
+    let { data, hasNextPage, next } = await collection.listRecords({});
+    while (hasNextPage) {
+      const result = await next();
+      data = data.concat(result.data);
+      hasNextPage = result.hasNextPage;
+      next = result.next;
+    }
+
+    return data;
   }
 
   getAllRejectedByUsername(languages, username) {

@@ -17,6 +17,7 @@ const ACTION_DELETE_SPECIFIC = 'delete-specific';
 const ACTION_FORCE_DELETE_SPECIFIC = 'force-delete-specific';
 const ACTION_FORCE_DELETE_FILE = 'force-delete-file';
 const ACTION_DELETE_VOTES = 'delete-votes';
+const ACTION_APPROVAL_CHECK = 'correct-approvals';
 
 const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
@@ -31,6 +32,7 @@ const deleteFile = process.env.DELETE_SPECIFIC_SENTENCES_FILE;
 const approvalOnly = /true/.test(process.env.DELETE_APPROVAL_ONLY);
 
 const action = process.argv[2];
+const locale = process.argv[3];
 
 async function flushKinto() {
   const server = new KintoTestServer(remote);
@@ -113,6 +115,12 @@ async function forceDeleteSpecificSentences() {
   await db.forceDeleteSpecificSentenceRecords(deleteLocale, deleteUsername);
 }
 
+async function correctApprovals(locale) {
+  const remoteHost = system === 'production' ? prodRemote : remote;
+  const db = new DB(remoteHost, username, password);
+  await db.correctApprovals(locale);
+}
+
 async function deleteVotes() {
   const remoteHost = system === 'production' ? prodRemote : remote;
   const db = new DB(remoteHost, username, password);
@@ -183,6 +191,14 @@ async function run() {
 
       case ACTION_DELETE_VOTES:
         await deleteVotes();
+        break;
+
+      case ACTION_APPROVAL_CHECK:
+        if (!locale) {
+          throw new Error('NO_LOCALE_SPECIFIED');
+        }
+
+        await correctApprovals(locale);
         break;
 
       default:
