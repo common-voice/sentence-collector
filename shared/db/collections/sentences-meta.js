@@ -57,7 +57,7 @@ export default class SentencesMeta {
   async deleteSentenceRecords(bucket) {
     const languages = getAllLanguages();
     for (const language of languages) {
-      const records = await this.getAll(language.code);
+      const records = await this.getAllPaginated(language.code);
       const collectionName = await this.getCollectionName(language.code);
       console.log(`Found ${records.length} records to delete for ${language.code}`);
       await bucket.batch(b => {
@@ -83,7 +83,7 @@ export default class SentencesMeta {
 
   async forceDeleteSentences(bucket, locale, sentences) {
     const collectionName = await this.getCollectionName(locale);
-    const records = await this.getAll(locale);
+    const records = await this.getAllPaginated(locale);
     const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
     const { foundSentences, errorSentences } = sentences.reduce((acc, sentence) => {
       const foundSentence = minifiedRecords.find((record) => record.sentence === sentence);
@@ -153,7 +153,7 @@ export default class SentencesMeta {
     const adjustedResults = [];
     const errors = [];
     results.forEach(result => {
-      if (result.status === 200 || result === 201) {
+      if (result.status === 200) {
         adjustedResults.push(result.body.data);
       } else {
         console.error('Approval adjustment error', result.status, result.body);
@@ -173,7 +173,7 @@ export default class SentencesMeta {
 
   async deleteVotes(locale, username, approvalOnly) {
     const collection = await this.getCollection(locale);
-    const records = await this.getAll(locale);
+    const records = await this.getAllPaginated(locale);
 
     const foundSentences = records.filter((record) => {
       return record.valid.includes(username) || record.invalid.includes(username);
@@ -290,10 +290,10 @@ export default class SentencesMeta {
     return result.data;
   }
 
-  async getAllPaginated(language) {
+  async getAllPaginated(language, filters = {}) {
     const collection = await this.getCollection(language);
 
-    let { data, hasNextPage, next } = await collection.listRecords({});
+    let { data, hasNextPage, next } = await collection.listRecords(filters);
     while (hasNextPage) {
       const result = await next();
       data = data.concat(result.data);
@@ -333,12 +333,11 @@ export default class SentencesMeta {
   }
 
   async getAllByUsername(language, username) {
-    const collection = await this.getCollection(language);
     const filters = {
       username,
     };
-    const result = await collection.listRecords({ filters });
-    return result.data;
+
+    return this.getAllPaginated(language, filters);
   }
 
   async getLanguageAndSentenceCounts(bucket) {
@@ -398,17 +397,8 @@ export default class SentencesMeta {
   async getAllValidatedSentences(language) {
     const filters = {};
     filters.approved = true;
-    const collection = await this.getCollection(language);
 
-    let { data, hasNextPage, next } = await collection.listRecords({ filters });
-    while (hasNextPage) {
-      const result = await next();
-      data = data.concat(result.data);
-      hasNextPage = result.hasNextPage;
-      next = result.next;
-    }
-
-    return data;
+    return this.getAllPaginated(language, filters);
   }
 
   prepareForSubmission(sentences) {
