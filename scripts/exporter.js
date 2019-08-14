@@ -90,10 +90,14 @@ function getValidatedSentences(languageCode, sentences) {
 }
 
 function dedupeSentences(languageCode, sentences, path) {
-  const alreadyExistingSentences = getCVSentencesFor(languageCode, path);
-  const nonDupes = sentences.filter((sentence) => !alreadyExistingSentences.includes(sentence));
-  console.log(`  - Got ${nonDupes.length} sentences not already existing in CV..`);
-  return nonDupes;
+  const alreadyExistingCVSentences = getCVSentencesFor(languageCode, path);
+  const dedupedSentences = Array.from(new Set(sentences));
+  const numberOfDupes = sentences.length - dedupedSentences.length;
+  console.log(`  - Got ${numberOfDupes} duplicated sentences in Sentence Collector..`);
+
+  const notAlreadyExistingInCV = dedupedSentences.filter((sentence) => !alreadyExistingCVSentences.includes(sentence));
+  console.log(`  - Got ${notAlreadyExistingInCV.length} sentences not already existing in CV..`);
+  return notAlreadyExistingInCV;
 }
 
 function getCVSentencesFor(languageCode, path) {

@@ -398,7 +398,10 @@ export default class SentencesMeta {
     const filters = {};
     filters.approved = true;
 
-    return this.getAllPaginated(language, filters);
+    const allRecords = await this.getAllPaginated(language, filters);
+    const approvedRecords = allRecords.filter((record) => this.checkIfApproved(record));
+
+    return approvedRecords;
   }
 
   prepareForSubmission(sentences) {
