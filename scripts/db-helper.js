@@ -71,13 +71,13 @@ async function initDB() {
 }
 
 async function deleteSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   await db.deleteSentenceRecords();
 }
 
 async function deleteSpecificSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
@@ -89,7 +89,7 @@ async function deleteSpecificSentences() {
 }
 
 async function forceDeleteFile() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteFile) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_SENTENCES_FILE are required');
@@ -106,7 +106,7 @@ async function forceDeleteFile() {
 }
 
 async function forceDeleteSpecificSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
@@ -116,13 +116,13 @@ async function forceDeleteSpecificSentences() {
 }
 
 async function correctApprovals(locale) {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   await db.correctApprovals(locale);
 }
 
 async function deleteVotes() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
