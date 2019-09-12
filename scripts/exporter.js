@@ -99,7 +99,7 @@ function dedupeSentences(languageCode, sentences, path) {
     acc[sentence] = true;
     return acc;
   }, {});
-  const notAlreadyExistingInCV = dedupedSentences.filter((sentence) => !cvSentences[sentence]);
+  const notAlreadyExistingInCV = dedupedSentences.filter((sentence) => !cvSentences.hasOwnProperty(sentence));
   console.log(`  - Got ${notAlreadyExistingInCV.length} sentences not already existing in CV..`);
   return notAlreadyExistingInCV;
 }
