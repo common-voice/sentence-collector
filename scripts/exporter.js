@@ -95,7 +95,11 @@ function dedupeSentences(languageCode, sentences, path) {
   const numberOfDupes = sentences.length - dedupedSentences.length;
   console.log(`  - Got ${numberOfDupes} duplicated sentences in Sentence Collector..`);
 
-  const notAlreadyExistingInCV = dedupedSentences.filter((sentence) => !alreadyExistingCVSentences.includes(sentence));
+  const cvSentences = alreadyExistingCVSentences.reduce((acc, sentence) => {
+    acc[sentence] = true;
+    return acc;
+  }, {});
+  const notAlreadyExistingInCV = dedupedSentences.filter((sentence) => !cvSentences.hasOwnProperty(sentence));
   console.log(`  - Got ${notAlreadyExistingInCV.length} sentences not already existing in CV..`);
   return notAlreadyExistingInCV;
 }
