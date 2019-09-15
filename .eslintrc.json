@@ -21,7 +21,8 @@
   ],
   "rules": {
     "no-console": "off",
-    "semi": "error"
+    "semi": "error",
+    "no-prototype-builtins": "off"
   },
   "plugins": [
     "react",
