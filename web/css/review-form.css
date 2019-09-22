@@ -1,5 +1,36 @@
+/* media queries */
+
+@media screen and (min-width: 1025px) {
+  .validator{
+   --validator-height: 6.6rem;
+  }
+
+ .sentence-box{
+   --sentence-box-height: 6rem;
+   --sentence-box-font-size: var(--base-font-size);
+ }
+
+ .validator .button-group button {
+  --button-padding: .7rem 1.3rem;
+}
+}
+
+@media screen and (max-width: 1024px) {
+  .validator{
+    --validator-height: 10.5rem;
+   }
+
+  .sentence-box{
+    --sentence-box-height: 10.25rem;
+    --sentence-box-font-size: 1.5rem;
+  }
+
+   .validator .button-group button {
+    --button-padding: 1.75rem;
+  }
+ }
+
 .validator {
-  --validator-height: 9.5rem;
   height: var(--validator-height);
   display: flex;
   flex-direction: row;
@@ -8,14 +39,14 @@
 }
 
 .sentence-box {
-  height: 9.25rem;
+  height: var(--sentence-box-height);
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
   line-height: 1rem;
   justify-content: center;
   align-items: center;
   display: flex;
-  font-size: 1.5rem;
+  font-size: var(--sentence-box-font-size)
 }
 
 .validator li {
@@ -35,7 +66,7 @@
   border: 1px solid var(--grey-color);
   font-size: 1.3em;
   margin: 0.2em;
-  padding: 1.5rem;
+  padding: var(--button-padding);
 }
 
 .validator .button-group button.secondary.yes {
