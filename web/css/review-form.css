@@ -1,26 +1,10 @@
-/* media queries */
-
-@media screen and (min-width: 1025px) {
-  .validator{
-   --validator-height: 6.6rem;
-  }
-
- .sentence-box{
-   --sentence-box-height: 6rem;
-   --sentence-box-font-size: var(--base-font-size);
- }
-
- .validator .button-group button {
-  --button-padding: .7rem 1.3rem;
-}
-}
-
+/* media query */
 @media screen and (max-width: 1024px) {
-  .validator{
+  .validator {
     --validator-height: 10.5rem;
    }
 
-  .sentence-box{
+  .sentence-box {
     --sentence-box-height: 10.25rem;
     --sentence-box-font-size: 1.5rem;
   }
@@ -31,6 +15,7 @@
  }
 
 .validator {
+  --validator-height: 6.6rem;
   height: var(--validator-height);
   display: flex;
   flex-direction: row;
@@ -39,6 +24,8 @@
 }
 
 .sentence-box {
+  --sentence-box-height: 6rem;
+  --sentence-box-font-size: var(--base-font-size);
   height: var(--sentence-box-height);
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
@@ -63,6 +50,7 @@
 }
 
 .validator .button-group button {
+  --button-padding: .7rem 1.3rem;
   border: 1px solid var(--grey-color);
   font-size: 1.3em;
   margin: 0.2em;
