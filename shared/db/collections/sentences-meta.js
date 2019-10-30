@@ -81,7 +81,7 @@ export default class SentencesMeta {
     });
   }
 
-  async forceDeleteSentences(bucket, locale, sentences) {
+  async forceDeleteSentences(bucket, locale, sentences, dryRun) {
     const collectionName = await this.getCollectionName(locale);
     const records = await this.getAllPaginated(locale);
     const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
@@ -96,6 +96,11 @@ export default class SentencesMeta {
       return acc;
     }, { foundSentences: [], errorSentences: [] });
     console.log(`Found ${foundSentences.length} records to delete for ${locale}`);
+
+    if (dryRun) {
+      console.log('Aborting due to only being dry run..');
+      return;
+    }
 
     await bucket.batch(b => {
       for (let i = 0; i < foundSentences.length; i++) {
