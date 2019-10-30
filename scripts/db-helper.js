@@ -30,6 +30,7 @@ const deleteLocale = process.env.DELETE_SPECIFIC_LOCALE;
 const deleteUsername = process.env.DELETE_SPECIFIC_USERNAME;
 const deleteFile = process.env.DELETE_SPECIFIC_SENTENCES_FILE;
 const approvalOnly = /true/.test(process.env.DELETE_APPROVAL_ONLY);
+const DRY_RUN = /true/.test(process.env.DRY_RUN);
 
 const action = process.argv[2];
 const locale = process.argv[3];
@@ -102,7 +103,7 @@ async function forceDeleteFile() {
     return;
   }
 
-  await db.forceDeleteSentences(deleteLocale, sentences);
+  await db.forceDeleteSentences(deleteLocale, sentences, DRY_RUN);
 }
 
 async function forceDeleteSpecificSentences() {
