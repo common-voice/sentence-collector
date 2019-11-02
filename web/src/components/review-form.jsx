@@ -3,11 +3,15 @@ import React from 'react';
 import '../../css/review-form.css';
 import SpinnerButton from './spinner-button';
 
+import Cards from './swipecard/Cards';
+import Card from "./swipecard/CardSwitcher";
+
 const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
   reviewed: [],
 };
+let mobileUI = true;
 
 export default class ReviewForm extends React.Component {
   constructor(props) {
@@ -38,6 +42,7 @@ export default class ReviewForm extends React.Component {
 
   async onSubmit(evt) {
     evt.preventDefault();
+    console.log("DDDDDD")
     let validated = [];
     let invalidated = [];
 
@@ -97,6 +102,24 @@ export default class ReviewForm extends React.Component {
 
     const offset = this.getOffset();
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
+
+    if (mobileUI) {
+      return (
+        <Cards onEnd={() => this.onSubmit({'preventDefault': function () {}})} className="master-root">
+          {curSentences.map((sentence, i) => (
+            <Card
+              key={offset + i}
+              onSwipeLeft={() => this.reviewSentence(offset + i, false)}
+              onSwipeRight={() => this.reviewSentence(offset + i, true)}
+            >
+              <div className="card-sentence-box">
+                {sentence.sentence || sentence}
+              </div>
+            </Card>
+          ))}
+        </Cards>
+      );
+    }
 
     return (
       <form id="review-form" onSubmit={this.onSubmit}>
