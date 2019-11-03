@@ -1,3 +1,19 @@
+/* media query */
+@media screen and (max-width: 1024px) {
+  .validator {
+    --validator-height: 10.5rem;
+   }
+
+  .sentence-box {
+    --sentence-box-height: 10.25rem;
+    --sentence-box-font-size: 1.5rem;
+  }
+
+   .validator .button-group button {
+    --button-padding: 1.75rem;
+  }
+ }
+
 .validator {
   --validator-height: 6.6rem;
   height: var(--validator-height);
@@ -8,13 +24,16 @@
 }
 
 .sentence-box, .card-sentence-box {
-  height: 6rem;
+  --sentence-box-height: 6rem;
+  --sentence-box-font-size: var(--base-font-size);
+  height: var(--sentence-box-height);
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
   line-height: 1rem;
   justify-content: center;
   align-items: center;
   display: flex;
+  font-size: var(--sentence-box-font-size)
 }
 
 .validator li {
@@ -31,9 +50,11 @@
 }
 
 .validator .button-group button {
+  --button-padding: .7rem 1.3rem;
   border: 1px solid var(--grey-color);
   font-size: 1.3em;
   margin: 0.2em;
+  padding: var(--button-padding);
 }
 
 .validator .button-group button.secondary.yes {
