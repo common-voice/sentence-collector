@@ -9,7 +9,6 @@ import Card from "./swipecard/CardSwitcher";
 const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
-  reviewed: [],
 };
 let mobileUI = true;
 
@@ -17,9 +16,9 @@ export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
-    this.state.reviewed = new Array(this.props.sentences.length);
     this.onSubmit = this.onSubmit.bind(this);
     this.setPage = this.setPage.bind(this);
+    this.cardsRef = React.createRef();
 
     this.state.sentences = this.props.sentences.map((sentence) => {
       return {
@@ -42,7 +41,6 @@ export default class ReviewForm extends React.Component {
 
   async onSubmit(evt) {
     evt.preventDefault();
-    console.log("DDDDDD")
     let validated = [];
     let invalidated = [];
 
@@ -104,8 +102,22 @@ export default class ReviewForm extends React.Component {
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
 
     if (mobileUI) {
+      let message = (<p>Swipe right to approve sentencee, swipe left to reject it.</p>);
+      if (this.state.page !== 0) {
+        message = (<p>You have succesfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>)
+      }
+
       return (
-        <Cards onEnd={() => this.onSubmit({'preventDefault': function () {}})} className="master-root">
+        <form id="review-form" onSubmit={this.onSubmit}>
+          {message}
+        <Cards onEnd={() => {
+          if (this.state.page === this.getLastPage()) {
+            this.onSubmit({preventDefault: ()=>{}});
+          } else {
+            this.setPage(this.state.page + 1);
+            this.cardsRef.current.setState({index: -1});//cardsRef.state.index modified due to Cards' inner card removal handling.
+          }
+        }} className="master-root" ref={this.cardsRef}>
           {curSentences.map((sentence, i) => (
             <Card
               key={offset + i}
@@ -118,6 +130,22 @@ export default class ReviewForm extends React.Component {
             </Card>
           ))}
         </Cards>
+          <section className="review-footer">
+          <section id="confirm-buttons" className="divCenter">
+            { this.state.pendingSentences ?
+              <SpinnerButton></SpinnerButton> :
+              <button type="submit">Finish Review</button>
+            }
+
+            { this.state.pendingSentences && (
+              <div>
+                <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+                  Please don't close this website.</p>
+              </div>
+            )}
+          </section>
+          </section>
+        </form>
       );
     }
 
