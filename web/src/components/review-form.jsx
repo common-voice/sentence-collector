@@ -132,7 +132,7 @@ export default class ReviewForm extends React.Component {
             ))}
           </Cards>
           <section className="review-footer">
-          <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
+            <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
           </section>
         </form>
       );
