@@ -7,6 +7,7 @@ function mapStateToProps(state) {
     languages: state.app.languages,
     username: state.app.username,
     password: state.app.password,
+    useSwipeReview: state.app.settings && state.app.settings.useSwipeReview,
   };
 }
 

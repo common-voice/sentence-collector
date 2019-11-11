@@ -10,7 +10,6 @@ const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
 };
-let mobileUI = false;
 
 export default class ReviewForm extends React.Component {
   constructor(props) {
@@ -101,7 +100,7 @@ export default class ReviewForm extends React.Component {
     const offset = this.getOffset();
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
 
-    if (mobileUI) {
+    if (this.props.useSwipeReview) {
       let message = (<p>You have not reviewed any sentences yet!</p>);
       if (this.state.page !== 0) {
         message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>)

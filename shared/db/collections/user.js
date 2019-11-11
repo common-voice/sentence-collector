@@ -70,6 +70,20 @@ export default class User {
     }
   }
 
+  async setSetting(key, value) {
+    const collection = await this.getCollection();
+    const record = await collection.getRecord(this.username);
+    const user = record.data;
+
+    if (!user.settings) {
+      user.settings = {};
+    }
+
+    user.settings[key] = value;
+    const updatedUser = await collection.updateRecord(user);
+    return updatedUser.data.languages;
+  }
+
   async addLanguage(language) {
     const collection = await this.getCollection();
     const record = await collection.getRecord(this.username);

@@ -19,6 +19,7 @@ import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
+  ACTION_SETTINGS_CHANGED,
 } from '../actions';
 
 import {
@@ -85,6 +86,7 @@ function reducer(state = INITIAL_STATE, action) {
         username: action.username,
         password: action.password,
         languages: action.languages,
+        settings: action.settings,
         errorMessage: null,
       });
 
@@ -151,6 +153,14 @@ function reducer(state = INITIAL_STATE, action) {
       return copyInto(state, {
         errorMessage: action.error.message,
       });
+
+    case ACTION_SETTINGS_CHANGED:
+      return copyInto(
+        state,
+        {
+          settings: copyInto(state.settings, action.newSettings),
+        },
+      );
 
     default:
       return state;
