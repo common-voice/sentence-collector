@@ -3,19 +3,22 @@ import React from 'react';
 import '../../css/review-form.css';
 import SpinnerButton from './spinner-button';
 
+import Cards from './swipecard/Cards';
+import Card from "./swipecard/CardSwitcher";
+
 const PAGE_SIZE = 5;
 const DEFAULT_STATE = {
   page: 0,
-  reviewed: [],
 };
+let mobileUI = false;
 
 export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
-    this.state.reviewed = new Array(this.props.sentences.length);
     this.onSubmit = this.onSubmit.bind(this);
     this.setPage = this.setPage.bind(this);
+    this.cardsRef = React.createRef();
 
     this.state.sentences = this.props.sentences.map((sentence) => {
       return {
@@ -98,6 +101,43 @@ export default class ReviewForm extends React.Component {
     const offset = this.getOffset();
     const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
 
+    if (mobileUI) {
+      let message = (<p>You have not reviewed any sentences yet!</p>);
+      if (this.state.page !== 0) {
+        message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>)
+      }
+
+      return (
+        <form id="review-form" onSubmit={this.onSubmit}>
+          <p>Swipe right to approve sentence, swipe left to reject it.</p>
+          {message}
+          <Cards onEnd={() => {
+            if (this.state.page === this.getLastPage()) {
+              this.onSubmit({preventDefault: ()=>{}});
+            } else {
+              this.setPage(this.state.page + 1);
+              this.cardsRef.current.setState({index: -1});//cardsRef.state.index modified due to Cards' inner card removal handling.
+            }
+          }} className="master-root" ref={this.cardsRef}>
+            {curSentences.map((sentence, i) => (
+              <Card
+                key={offset + i}
+                onSwipeLeft={() => this.reviewSentence(offset + i, false)}
+                onSwipeRight={() => this.reviewSentence(offset + i, true)}
+              >
+                <div className="card-sentence-box">
+                  {sentence.sentence || sentence}
+                </div>
+              </Card>
+            ))}
+          </Cards>
+          <section className="review-footer">
+            <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
+          </section>
+        </form>
+      );
+    }
+
     return (
       <form id="review-form" onSubmit={this.onSubmit}>
         { this.props.message && ( <p>{ this.props.message }</p> ) }
@@ -127,20 +167,7 @@ export default class ReviewForm extends React.Component {
         )) }
 
         <section className="review-footer">
-          <section id="confirm-buttons" className="divCenter">
-            { this.state.pendingSentences ?
-              <SpinnerButton></SpinnerButton> :
-              <button type="submit">Finish Review</button>
-            }
-
-            { this.state.pendingSentences && (
-              <div>
-                <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-                  Please don't close this website.</p>
-              </div>
-            )}
-          </section>
-
+          <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
           <Pager page={this.state.page} lastPage={this.getLastPage()}
                  onPage={this.setPage} />
         </section>
@@ -173,4 +200,20 @@ const Pager = (props) => (
       }</span>
     ))
   }</section>
+);
+
+const ConfirmButtons = (props) => (
+  <section id="confirm-buttons" className="divCenter">
+    { props.pendingSentences ?
+      <SpinnerButton></SpinnerButton> :
+      <button type="submit">Finish Review</button>
+    }
+
+    { props.pendingSentences && (
+      <div>
+        <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+          Please don&apos;t close this website.</p>
+      </div>
+    )}
+  </section>
 );
