@@ -12,7 +12,7 @@ const DEFAULT_STATE = {
   totalValidated: 0,
   languageInfo: {},
   loading: false,
-}
+};
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -20,6 +20,8 @@ export default class Profile extends React.Component {
     this.state = DEFAULT_STATE;
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
+    this.activateSwipeReview = this.activateSwipeReview.bind(this);
+    this.deactivateSwipeReview = this.deactivateSwipeReview.bind(this);
   }
 
   setMessage(message) {
@@ -31,8 +33,10 @@ export default class Profile extends React.Component {
   }
 
   async loadUserLanguageInfo() {
+    const { username, password, languages } = this.props;
+
     // No need to load langauge meta data if user hasn't added any languages.
-    if (!this.props.languages || this.props.languages.length < 1) {
+    if (!languages || languages.length < 1) {
       return;
     }
 
@@ -42,8 +46,8 @@ export default class Profile extends React.Component {
         languageInfo: DEFAULT_STATE.languageInfo,
       });
 
-      const db = new WebDB(this.props.username, this.props.password);
-      const metas = await db.getLanguagesMetaForMe(this.props.languages);
+      const db = new WebDB(username, password);
+      const metas = await db.getLanguagesMetaForMe(languages);
 
       // Transform array of language data into langauge info state.
       let totalSubmitted = 0;
@@ -121,12 +125,29 @@ export default class Profile extends React.Component {
     }
   }
 
+  activateSwipeReview() {
+    this.props.setSetting('useSwipeReview', true);
+  }
+
+  deactivateSwipeReview() {
+    this.props.setSetting('useSwipeReview', false);
+  }
+
   render() {
+    const {
+      username,
+      languages,
+      pending,
+      settings = {},
+      settingsChangedFailureMessage,
+    } = this.props;
+    const { useSwipeReview } = settings;
+
     return (
       <form>
-        <h2>Profile: { this.props.username }</h2>
+        <h2>Profile: { username }</h2>
 
-        { this.props.languages && this.props.languages.length > 0 && (
+        { languages && languages.length > 0 && (
           <section>
             { (this.state.totalSubmitted || this.state.totalValidated) ? (
               <ul>
@@ -149,9 +170,9 @@ export default class Profile extends React.Component {
 
         <section>
           <p>Your languages:</p>
-          { this.props.languages && this.props.languages.length > 0 ? (
+          { languages && languages.length > 0 ? (
             <LanguageInfo languageInfo={this.state.languageInfo}
-                          languages={this.props.languages}
+                          languages={languages}
                           onRemove={this.onRemove} />
           ) : (
             <p>You have not added any languages yet, please add at least one below.</p>
@@ -162,11 +183,30 @@ export default class Profile extends React.Component {
           <label className="language-selector-label" htmlFor="language-selector">
             Add a language you want to contribute to
           </label>
-          <LanguageSelector disabled={this.props.pending}
+          <LanguageSelector disabled={pending}
                             name="language-selector"
-                            filters={this.props.languages} />
-          <button disabled={this.props.pending}
+                            filters={languages} />
+          <button disabled={pending}
                   onClick={this.onAdd} className="add-language">Add</button>
+        </section>
+
+        <section>
+          <h2>Settings</h2>
+          {settingsChangedFailureMessage && (
+            <p className="form-error">{settingsChangedFailureMessage}</p>
+          )}
+          <p>
+            Experimental: There are two different tools with which you can review sentences. The normal tool lists 5 sentences per page
+            and has an approval and rejection button each. The Swiping tool displays one card at a time where you can swipe right
+            or left to approve and reject sentences. Both work on Desktop, for touch interfaces we would suggest to try out
+            the swiping tool.
+          </p>
+          {!useSwipeReview && (
+            <button onClick={this.activateSwipeReview}>Use Swiping Review Tool</button>
+          )}
+          {useSwipeReview && (
+            <button onClick={this.deactivateSwipeReview}>Use Normal Review Tool</button>
+          )}
         </section>
       </form>
     );

@@ -143,7 +143,7 @@ export default class Review extends React.Component {
       );
     } else {
       return <ReviewForm message={this.state.message} onReviewed={this.onReviewed}
-        sentences={this.state.sentences} />;
+        sentences={this.state.sentences} useSwipeReview={this.props.useSwipeReview} />;
     }
   }
 

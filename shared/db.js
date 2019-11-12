@@ -93,6 +93,10 @@ export default class DB {
     return this.user.getAllUsers();
   }
 
+  async setSetting(key, value) {
+    return this.user.setSetting(key, value);
+  }
+
   async addLanguage(language) {
     return this.user.addLanguage(language);
   }
