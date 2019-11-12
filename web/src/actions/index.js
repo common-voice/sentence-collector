@@ -22,6 +22,7 @@ export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
 export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
+export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
 
 const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
 
@@ -73,7 +74,7 @@ export function setSetting(key, value) {
         [key]: value,
       }));
     } catch (err) {
-      dispatch(addLanguageFailure());
+      dispatch(settingsChangedFailure());
       throw err;
     }
   };
@@ -181,6 +182,12 @@ export function settingsChanged(newSettings) {
   return {
     type: ACTION_SETTINGS_CHANGED,
     newSettings,
+  };
+}
+
+export function settingsChangedFailure() {
+  return {
+    type: ACTION_SETTINGS_CHANGED_FAILURE,
   };
 }
 

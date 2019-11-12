@@ -139,6 +139,7 @@ export default class Profile extends React.Component {
       languages,
       pending,
       settings = {},
+      settingsChangedFailureMessage,
     } = this.props;
     const { useSwipeReview } = settings;
 
@@ -191,10 +192,15 @@ export default class Profile extends React.Component {
 
         <section>
           <h2>Settings</h2>
-          <p>Experimental: There are two different tools with which you can review sentences. The normal tool lists 5 sentences per page
-          and has an approval and rejection button each. The Swiping tool displays one card at a time and you can swipe left
-          and right to approve and reject sentences. Both work on Desktop, for touch interfaces we would suggest to try out
-          the swiping tool.</p>
+          {settingsChangedFailureMessage && (
+            <p className="form-error">{settingsChangedFailureMessage}</p>
+          )}
+          <p>
+            Experimental: There are two different tools with which you can review sentences. The normal tool lists 5 sentences per page
+            and has an approval and rejection button each. The Swiping tool displays one card at a time where you can swipe right
+            or left to approve and reject sentences. Both work on Desktop, for touch interfaces we would suggest to try out
+            the swiping tool.
+          </p>
           {!useSwipeReview && (
             <button onClick={this.activateSwipeReview}>Use Swiping Review Tool</button>
           )}

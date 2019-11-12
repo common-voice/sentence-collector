@@ -20,6 +20,7 @@ import {
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
   ACTION_SETTINGS_CHANGED,
+  ACTION_SETTINGS_CHANGED_FAILURE,
 } from '../actions';
 
 import {
@@ -161,6 +162,11 @@ function reducer(state = INITIAL_STATE, action) {
           settings: copyInto(state.settings, action.newSettings),
         },
       );
+
+    case ACTION_SETTINGS_CHANGED_FAILURE:
+      return copyInto(state, {
+        settingsChangedFailureMessage: 'Could not change settings. Please try again.',
+      });
 
     default:
       return state;

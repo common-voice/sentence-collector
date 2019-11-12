@@ -81,7 +81,7 @@ export default class User {
 
     user.settings[key] = value;
     const updatedUser = await collection.updateRecord(user);
-    return updatedUser.data.languages;
+    return updatedUser.settings;
   }
 
   async addLanguage(language) {

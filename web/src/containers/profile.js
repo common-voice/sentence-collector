@@ -10,6 +10,7 @@ function mapStateToProps(state) {
     languages: state.app.languages,
     pending: state.app.pendingLanguages,
     settings: state.app.settings,
+    settingsChangedFailureMessage: state.app.settingsChangedFailureMessage,
   };
 }
 
