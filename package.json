@@ -20,6 +20,7 @@
     "flush-db": "npm run db-helper flush",
     "list-db": "npm run db-helper list",
     "export": "npm run db-helper export",
+    "backup": "npm run db-helper backup",
     "flush": "npm run db-helper delete",
     "generate-cv": "npm run build:generator && npm run env node dist/generate-cv-metadata.js",
     "release": "semantic-release",

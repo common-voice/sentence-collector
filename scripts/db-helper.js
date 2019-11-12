@@ -2,7 +2,7 @@ import KintoTestServer from 'kinto-node-test-server';
 import { readFileSync } from 'fs';
 import DB from '../shared/db';
 import { fail } from './util';
-import { startExport } from './exporter';
+import { startExport, startBackup } from './exporter';
 // import generate from './generate-cv-metadata';
 
 // Kinto http needs fetch on the global scope.
@@ -11,6 +11,7 @@ global.fetch = require('node-fetch');
 const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 const ACTION_LIST_USERS = 'list';
+const ACTION_BACKUP = 'backup';
 const ACTION_EXPORT = 'export';
 const ACTION_DELETE = 'delete';
 const ACTION_DELETE_SPECIFIC = 'delete-specific';
@@ -52,6 +53,12 @@ async function exportDB() {
   const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   await startExport(db, exportPath);
+}
+
+async function backupDB() {
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
+  const db = new DB(remoteHost, username, password);
+  await startBackup(db, exportPath);
 }
 
 async function initDB() {
@@ -168,6 +175,10 @@ async function run() {
 
       case ACTION_LIST_USERS:
         await listUsers();
+        break;
+
+      case ACTION_BACKUP:
+        await backupDB();
         break;
 
       case ACTION_EXPORT:
