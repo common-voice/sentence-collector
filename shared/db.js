@@ -7,7 +7,6 @@ import {
 } from './db/permissions';
 import User from './db/collections/user';
 import Sentences from './db/collections/sentences-meta';
-import CVSentences from './db/collections/cv-sentences';
 
 export const BUCKET_NAME = 'App';
 
@@ -30,7 +29,6 @@ export default class DB {
     this.server = new KintoClient(remote, defaultOptions);
     this.user = new User(this.server, username);
     this.sentences = new Sentences(this.server, username);
-    this.cvSentences = new CVSentences(this.server, username);
   }
 
   async getBucket() {
@@ -48,11 +46,6 @@ export default class DB {
     // Create collections.
     await bucket.createCollection(User.NAME, authedCreateNoRead());
     await this.sentences.createAllCollections(bucket);
-  }
-
-  async initCV(metadata) {
-    const bucket = await this.getBucket();
-    return this.cvSentences.createFromMeta(bucket, metadata);
   }
 
   async deleteSentenceRecords() {
@@ -77,11 +70,6 @@ export default class DB {
 
   async deleteVotes(locale, username, approvalOnly) {
     return this.sentences.deleteVotes(locale, username, approvalOnly);
-  }
-
-  async getCVMetadata() {
-    const bucket = await this.getBucket();
-    return this.cvSentences.getLanguageAndSentenceCounts(bucket);
   }
 
   async getSiteMetadata() {
