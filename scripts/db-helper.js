@@ -3,7 +3,6 @@ import { readFileSync } from 'fs';
 import DB from '../shared/db';
 import { fail } from './util';
 import { startExport, startBackup } from './exporter';
-// import generate from './generate-cv-metadata';
 
 // Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');
@@ -64,13 +63,6 @@ async function backupDB() {
 async function initDB() {
   const db = new DB(remote, username, password);
   await db.initDB();
-  //TODO: log something back from init, similar to like we did with cv data below
-
-
-  // For now we're not importing any CV data
-  // const metadata = await generate();
-  // const { languages, sentences } = await db.initCV(metadata);
-  // console.log(`Common Voice: ${sentences.length} sentences in ${languages.length} languages`);
 
   const authed = await db.auth();
   if (!authed) {
