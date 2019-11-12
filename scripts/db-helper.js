@@ -1,7 +1,6 @@
 import KintoTestServer from 'kinto-node-test-server';
 import { readFileSync } from 'fs';
 import DB from '../shared/db';
-import { fail } from './util';
 import { startExport, startBackup } from './exporter';
 
 // Kinto http needs fetch on the global scope.
@@ -34,6 +33,11 @@ const DRY_RUN = /true/.test(process.env.DRY_RUN);
 
 const action = process.argv[2];
 const locale = process.argv[3];
+
+function fail(message) {
+  console.error(message);
+  process.exit(1);
+}
 
 async function flushKinto() {
   const server = new KintoTestServer(remote);
