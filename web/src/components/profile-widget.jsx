@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-export default class ProfileWidget extends React.Component {
+import { logout } from '../actions';
+
+class ProfileWidget extends React.Component {
   constructor(props) {
     super(props);
     this.onLogout = this.onLogout.bind(this);
@@ -24,3 +27,18 @@ export default class ProfileWidget extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authed: state.app.authed,
+    username: state.app.username,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => dispatch(logout()),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileWidget);

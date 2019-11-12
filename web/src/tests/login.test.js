@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import ConnectedLogin from '../containers/login';
+import ConnectedLogin from '../components/login';
 import { getStore } from './testUtils';
 
 test('Login button is disabled without input values', () => {

@@ -3,7 +3,7 @@ import { createHashHistory } from 'history';
 
 import '../../css/root.css';
 import Store from './store';
-import App from '../containers/app';
+import App from '../components/app';
 
 export default class Root extends React.Component {
   constructor(props) {

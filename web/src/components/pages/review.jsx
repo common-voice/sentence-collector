@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
 import LanguageSelector from '../language-selector';
@@ -24,7 +25,7 @@ export const getLanguageFromMatch = (match) => {
   return lang;
 };
 
-export default class Review extends React.Component {
+class Review extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
@@ -184,3 +185,14 @@ export default class Review extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    languages: state.app.languages,
+    username: state.app.username,
+    password: state.app.password,
+    useSwipeReview: state.app.settings && state.app.settings.useSwipeReview,
+  };
+}
+
+export default connect(mapStateToProps)(Review);

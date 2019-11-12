@@ -1,11 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import '../../../css/profile.css';
-import WebDB from '../../web-db';
 import { getLanguageName } from '../../../../shared/languages';
-import LanguageSelector from '../language-selector';
 import { arrayCompare } from '../../../../shared/util';
+import WebDB from '../../web-db';
+import { addLanguage, removeLanguage, setSetting } from '../../actions';
+import LanguageSelector from '../language-selector';
+
+import '../../../css/profile.css';
 
 const DEFAULT_STATE = {
   totalSubmitted: 0,
@@ -14,7 +17,7 @@ const DEFAULT_STATE = {
   loading: false,
 };
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
@@ -232,3 +235,24 @@ const LanguageInfo = (props) => (
   ))}
   </ul>
 );
+
+function mapStateToProps(state) {
+  return {
+    username: state.app.username,
+    password: state.app.password,
+    languages: state.app.languages,
+    pending: state.app.pendingLanguages,
+    settings: state.app.settings,
+    settingsChangedFailureMessage: state.app.settingsChangedFailureMessage,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addLanguage: (language) => dispatch(addLanguage(language)),
+    removeLanguage: (language) => dispatch(removeLanguage(language)),
+    setSetting: (key, value) => dispatch(setSetting(key, value)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

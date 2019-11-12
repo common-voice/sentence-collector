@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from '../containers/header';
+import Header from './header';
 import HeaderBtn from './header-btn';
 
 const DEFAULT_STATE = {

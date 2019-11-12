@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { submitSentences } from '../../actions';
+import { parseSentences } from '../../actions/parsing';
 
 import SubmitForm from '../submit-form';
 import ConfirmForm from '../confirm-form';
@@ -24,7 +28,7 @@ function merge(arr1, arr2) {
   }, arr2);
 }
 
-export default class Add extends React.Component {
+class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
@@ -232,3 +236,21 @@ export default class Add extends React.Component {
     }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    languages: state.app.languages,
+    username: state.app.username,
+    password: state.app.password,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    submitSentences:
+      (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
+    parseSentences: (language, text) => dispatch(parseSentences(language, text)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Add);
