@@ -37,7 +37,7 @@ export default class Add extends React.Component {
 
   componentDidMount() {
     if (this.props.history) {
-      this.historyUnblock = this.props.history.block((nextLocation) => {
+      this.historyUnblock = this.props.history.block(() => {
         if (this.needsConfirmation()) {
           return "Your sentences have not been added. Are you sure you want to leave?";
         }
@@ -124,7 +124,7 @@ export default class Add extends React.Component {
     return (this.state.unreviewed.length > 0 ||
            this.state.validated.length > 0 ||
            this.state.invalidated.length > 0 ||
-           this.state.filtered.length > 0)
+           this.state.filtered.length > 0);
   }
 
   async startParsingSentences(language, text, source) {
@@ -200,7 +200,6 @@ export default class Add extends React.Component {
                          sentences={this.state.reviewing} />;
 
     } else if (this.needsConfirmation()) {
-
       let groupedFilteredSentences = [];
       if (this.state.filtered && this.state.filtered.length > 0) {
         groupedFilteredSentences = this.state.filtered.reduce((groupedFiltered, filterResult) => {
