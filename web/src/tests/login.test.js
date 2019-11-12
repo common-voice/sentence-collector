@@ -2,8 +2,8 @@ import { mount } from 'enzyme';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import ConnectedLogin from '../../containers/login';
-import { getStore } from '../../tests/testUtils';
+import ConnectedLogin from '../containers/login';
+import { getStore } from './testUtils';
 
 test('Login button is disabled without input values', () => {
   const initialState = {
