@@ -144,6 +144,7 @@ class Profile extends React.Component {
       settings = {},
       settingsChangedFailureMessage,
     } = this.props;
+    console.log('settings changed?', settingsChangedFailureMessage);
     const { useSwipeReview } = settings;
 
     return (

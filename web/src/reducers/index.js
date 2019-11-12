@@ -37,6 +37,7 @@ export const INITIAL_STATE = {
   sentences: [],
   errorMessage: null,
   sentenceSubmissionFailures: [],
+  settingsChangedFailureMessage: '',
 };
 
 function copyInto(oldObj, newObj) {
@@ -148,6 +149,7 @@ function reducer(state = INITIAL_STATE, action) {
     case ACTION_SUBMIT_SENTENCES_SUCCESS:
       return copyInto(state, {
         sentences: mergeArray(state.sentences, action.sentences),
+        errorMessage: '',
       });
 
     case ACTION_PARSE_SENTENCES_FAILURE:
@@ -160,6 +162,7 @@ function reducer(state = INITIAL_STATE, action) {
         state,
         {
           settings: copyInto(state.settings, action.newSettings),
+          settingsChangedFailureMessage: '',
         },
       );
 
