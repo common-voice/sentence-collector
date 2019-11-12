@@ -117,6 +117,10 @@ export default class DB {
     return this.sentences.getAllValidatedSentences(language);
   }
 
+  async getAllSentences(language) {
+    return this.sentences.getAllPaginated(language);
+  }
+
   async correctApprovals(language) {
     return this.sentences.correctApprovals(language);
   }
@@ -165,6 +169,11 @@ export default class DB {
     return Promise.all(languages.map(language => {
       return this.getLanguageInfoForMe(language);
     }));
+  }
+
+  async getLanguages() {
+    const bucket = await this.getBucket();
+    return this.sentences.getLanguages(bucket);
   }
 }
 

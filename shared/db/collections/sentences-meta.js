@@ -271,7 +271,7 @@ export default class SentencesMeta {
   }
 
   async getLanguages(bucket) {
-    const result = await this.getLanguageTables(bucket);
+    const result = await this.getLanguageTableNames(bucket);
     return result.map(c => c.replace(PREFIX, ''));
   }
 
