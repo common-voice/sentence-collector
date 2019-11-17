@@ -94,6 +94,21 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'romontsch sursilvan',
   },
   {
+    code: 'rm-sutsilv',
+    name: 'Romansh Sutsilvan',
+    nativeName: 'rumàntsch sutsilvan',
+  },
+  {
+    code: 'rm-surmiran',
+    name: 'Romansh Surmiran',
+    nativeName: 'rumantsch surmiran',
+  },
+  {
+    code: 'rm-puter',
+    name: 'Romansh Puter',
+    nativeName: 'rumauntsch puter',
+  },
+  {
     code: 'rm-vallader',
     name: 'Romansh Vallader',
     nativeName: 'rumantsch vallader',
