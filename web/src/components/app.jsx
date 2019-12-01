@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   Switch,
   Redirect,
@@ -7,15 +8,15 @@ import {
 import { ConnectedRouter } from 'connected-react-router';
 
 import Page from './page';
-import Home from '../containers/home';
+import Home from './pages/home';
 import HowTo from './pages/how-to';
-import Login from '../containers/login';
-import Profile from '../containers/profile';
-import Rejected from '../containers/rejected';
-import Add from '../containers/add';
-import Review from '../containers/review';
+import Login from './pages/login';
+import Profile from './pages/profile';
+import Rejected from './pages/rejected';
+import Add from './pages/add.jsx';
+import Review from './pages/review';
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -71,3 +72,11 @@ const PrivateRoute = (props) => {
     }
   />;
 }
+
+function mapStateToProps(state) {
+  return {
+    authed: state.app.authed,
+  };
+}
+
+export default connect(mapStateToProps)(App);

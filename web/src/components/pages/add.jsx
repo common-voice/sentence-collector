@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { submitSentences } from '../../actions';
+import { parseSentences } from '../../actions/parsing';
 
 import SubmitForm from '../submit-form';
 import ConfirmForm from '../confirm-form';
@@ -24,7 +28,7 @@ function merge(arr1, arr2) {
   }, arr2);
 }
 
-export default class Add extends React.Component {
+class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
@@ -33,6 +37,22 @@ export default class Add extends React.Component {
     this.onConfirm = this.onConfirm.bind(this);
     this.onReview = this.onReview.bind(this);
     this.onReviewed = this.onReviewed.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.history) {
+      this.historyUnblock = this.props.history.block(() => {
+        if (this.needsConfirmation()) {
+          return "Your sentences have not been added. Are you sure you want to leave?";
+        }
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.history) {
+      this.historyUnblock();
+    }
   }
 
   resetState() {
@@ -104,6 +124,13 @@ export default class Add extends React.Component {
     return true;
   }
 
+  needsConfirmation() {
+    return (this.state.unreviewed.length > 0 ||
+           this.state.validated.length > 0 ||
+           this.state.invalidated.length > 0 ||
+           this.state.filtered.length > 0);
+  }
+
   async startParsingSentences(language, text, source) {
     const { valid, filtered, existing, sentences } = await this.props.parseSentences(language, text);
 
@@ -119,7 +146,6 @@ export default class Add extends React.Component {
 
   onSubmit(evt) {
     evt.preventDefault();
-
     if (!this.validateForm()) {
       return false;
     }
@@ -142,6 +168,7 @@ export default class Add extends React.Component {
       let error = errors.length > 0 ?
           `${errors.length} sentences failed` : '';
 
+      this.historyUnblock();
       this.resetState();
       this.setState({
         message,
@@ -176,11 +203,7 @@ export default class Add extends React.Component {
       return <ReviewForm onReviewed={this.onReviewed}
                          sentences={this.state.reviewing} />;
 
-    } else if (this.state.unreviewed.length > 0 ||
-               this.state.validated.length > 0 ||
-               this.state.invalidated.length > 0 ||
-               this.state.filtered.length > 0) {
-
+    } else if (this.needsConfirmation()) {
       let groupedFilteredSentences = [];
       if (this.state.filtered && this.state.filtered.length > 0) {
         groupedFilteredSentences = this.state.filtered.reduce((groupedFiltered, filterResult) => {
@@ -213,3 +236,21 @@ export default class Add extends React.Component {
     }
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    languages: state.app.languages,
+    username: state.app.username,
+    password: state.app.password,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    submitSentences:
+      (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
+    parseSentences: (language, text) => dispatch(parseSentences(language, text)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Add);

@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-export default class Login extends React.Component {
+import {
+  login,
+  logout,
+  checkLoginInput,
+} from '../../actions';
+
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -50,3 +57,24 @@ export default class Login extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    authed: state.app.authed,
+    username: state.app.username,
+    errorMessage: state.app.errorMessage,
+    loginDisabled: state.app.loginDisabled,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    login: async (username, password) => {
+      return dispatch(login(username, password));
+    },
+    logout: () => dispatch(logout()),
+    checkLoginInput: (username, password) => dispatch(checkLoginInput(username, password)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
