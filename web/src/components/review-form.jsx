@@ -93,7 +93,6 @@ export default class ReviewForm extends React.Component {
   }
 
   render() {
-    console.log('Here I am');
     if (!this.props.sentences && this.props.sentences.length < 1) {
       return <h2>nothing to review</h2>;
     }
