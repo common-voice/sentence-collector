@@ -130,7 +130,7 @@ export default class ReviewForm extends React.Component {
           <section id="confirm-buttons" className="divCenter">
             { this.state.pendingSentences ?
               <SpinnerButton></SpinnerButton> :
-              <button type="submit">Finish Review</button>
+              <button type="submit">Finish&nbsp;Review</button>
             }
 
             { this.state.pendingSentences && (
