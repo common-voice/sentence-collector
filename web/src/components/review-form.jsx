@@ -165,6 +165,13 @@ export default class ReviewForm extends React.Component {
           </section>
         )) }
 
+        <section>
+          { this.state.pendingSentences && (
+            <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+              Please don&apos;t close this website.</p>
+          )}
+        </section>
+        
         <section className="review-footer">
           <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
           <Pager page={this.state.page} lastPage={this.getLastPage()}
@@ -205,14 +212,7 @@ const ConfirmButtons = (props) => (
   <section id="confirm-buttons" className="divCenter">
     { props.pendingSentences ?
       <SpinnerButton></SpinnerButton> :
-      <button type="submit">Finish Review</button>
+      <button type="submit">Finish&nbsp;Review</button>
     }
-
-    { props.pendingSentences && (
-      <div>
-        <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-          Please don&apos;t close this website.</p>
-      </div>
-    )}
   </section>
 );
