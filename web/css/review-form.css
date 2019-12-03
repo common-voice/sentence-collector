@@ -73,7 +73,8 @@
 }
 
 #review-form .loadingText {
-  min-width: 100px;
+  width: 100%;
+  text-align: center;
 }
 
 #review-form .review-footer button {
@@ -89,7 +90,7 @@
 
 .pager-container {
   text-align: center;
-  min-width: 375px;
+  display: flex;
 }
 
 .pager {
