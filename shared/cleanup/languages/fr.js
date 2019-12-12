@@ -23,6 +23,9 @@ export function clean(sentences) {
       .replace(/^,+/g, '') // we do not want commas at the beginning of the sentence
       .replace(/,+$/g, '') // we do not want commas at the end of the sentence
 
+      // Normalize three consecutive dots into unicode elipsis
+      .replace(/\.{3}/g, '…')
+
       // In fr-FR, those should have a no space before
       .replace(/\s+,/g, ',')
       .replace(/\s+\./g, '.')
