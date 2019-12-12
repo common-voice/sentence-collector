@@ -73,7 +73,7 @@ async function exportLanguage(db, languageCode, exportPath) {
   const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, sentencesOnly);
   const dedupedSentences = dedupeSentences(dbLanguageCode, cleanedUpSentences, cvPath);
 
-  writeExport(cvPath, validatedSentences, dedupedSentences);
+  writeExport(cvPath, dedupedSentences);
 }
 
 async function prepareExport(cvPath) {
@@ -84,12 +84,14 @@ async function prepareExport(cvPath) {
   }
 }
 
-async function writeExport(cvPath, metaData, sentences = []) {
+async function writeExport(cvPath, sentences, metaData) {
   const metaDataPath = `${cvPath}/${OUTPUT_JSON}`;
   const dataPath = `${cvPath}/${OUTPUT_TXT}`;
 
-  console.log(`  - Writing all meta data to ${metaDataPath}..`);
-  writeFileSync(metaDataPath, JSON.stringify(metaData));
+  if (metaData) {
+    console.log(`  - Writing all meta data to ${metaDataPath}..`);
+    writeFileSync(metaDataPath, JSON.stringify(metaData));
+  }
 
   if (!sentences || sentences.length === 0) {
     return;
@@ -116,7 +118,7 @@ async function backupAllLanguage(db, languageCode, exportPath) {
   console.log(`  - Found ${sentences.length} sentences`);
 
   prepareExport(cvPath);
-  writeExport(cvPath, sentences);
+  writeExport(cvPath, [], sentences);
 }
 
 function getValidatedSentences(languageCode, sentences) {
