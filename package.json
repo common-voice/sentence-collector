@@ -26,7 +26,8 @@
     "deploy:only": "npm run build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test:frontend": "jest",
-    "test": "npm run lint && npm run build && npm run test:frontend && ava"
+    "test:shared": "ava",
+    "test": "npm run lint && npm run build && npm run test:frontend && npm run test:shared"
   },
   "dependencies": {
     "connected-react-router": "^6.6.1",
