@@ -9,7 +9,6 @@ import * as validation from '../shared/validation';
 import * as cleanup from '../shared/cleanup';
 
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
-const OUTPUT_JSON = 'sentence-collector.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
 // Mapping from PONTOON locale -> database locale code
@@ -85,11 +84,7 @@ async function prepareExport(cvPath) {
 }
 
 async function writeExport(cvPath, metaData, sentences = []) {
-  const metaDataPath = `${cvPath}/${OUTPUT_JSON}`;
   const dataPath = `${cvPath}/${OUTPUT_TXT}`;
-
-  console.log(`  - Writing all meta data to ${metaDataPath}..`);
-  writeFileSync(metaDataPath, JSON.stringify(metaData));
 
   if (!sentences || sentences.length === 0) {
     return;
