@@ -1,0 +1,24 @@
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  padding: 1em;
+  height: 20em;
+  min-width: 60%;
+  max-width: 70%;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+  outline: transparent;
+  overflow:scroll
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0,0,0,.4);
+}
+
