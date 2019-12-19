@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 
-import ProfileWidget from '../containers/profile-widget';
+import ProfileWidget from './profile-widget';
 import logoURL from '../../img/cv-logo-one-color-white.svg';
 
 const Header = (props) => {
@@ -32,4 +33,12 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+function mapStateToProps(state) {
+  return {
+    // force a re-render of header active links on location change.
+    location: state.router.location,
+    authed: state.app.authed,
+  };
+}
+
+export default connect(mapStateToProps)(Header);

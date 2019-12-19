@@ -21,6 +21,9 @@ export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
 export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
 
+export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
+export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
+
 const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
 
 export function login(username, password) {
@@ -30,7 +33,7 @@ export function login(username, password) {
 
       const db = new WebDB(username, password);
       const user = await db.auth();
-      dispatch(loginSuccess(username, password, user.languages));
+      dispatch(loginSuccess(username, password, user.languages, user.settings));
     } catch (err) {
       dispatch(loginFailure());
     }
@@ -59,6 +62,22 @@ function checkUsername(username) {
 
 function checkPassword(password) {
   return password !== '';
+}
+
+export function setSetting(key, value) {
+  return async function(dispatch, getState) {
+    try {
+      const state = getState();
+      const db = new WebDB(state.app.username, state.app.password);
+      await db.setSetting(key, value);
+      dispatch(settingsChanged({
+        [key]: value,
+      }));
+    } catch (err) {
+      dispatch(settingsChangedFailure());
+      throw err;
+    }
+  };
 }
 
 export function addLanguage(language) {
@@ -95,19 +114,15 @@ export function removeLanguage(language) {
 
 export function submitSentences(language, sentences, source) {
   return async function(dispatch, getState) {
-    try {
-      dispatch(sendSubmitSentences());
+    dispatch(sendSubmitSentences());
 
-      const state = getState();
-      const db = new WebDB(state.app.username, state.app.password);
-      const results = await db.submitSentences(language, sentences, source);
-      dispatch(submitSentencesSuccess(results.sentences.slice(0)));
-      const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
-      dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
-      return results;
-    } catch (err) {
-      throw err;
-    }
+    const state = getState();
+    const db = new WebDB(state.app.username, state.app.password);
+    const results = await db.submitSentences(language, sentences, source);
+    dispatch(submitSentencesSuccess(results.sentences.slice(0)));
+    const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
+    dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
+    return results;
   };
 }
 
@@ -147,18 +162,32 @@ export function sendLoginRequest() {
   };
 }
 
-export function loginSuccess(username, password, languages) {
+export function loginSuccess(username, password, languages, settings) {
   return {
     type: ACTION_LOGIN_SUCCESS,
     username,
     password,
     languages,
+    settings,
   };
 }
 
 export function loginFailure() {
   return {
     type: ACTION_LOGIN_FAILURE,
+  };
+}
+
+export function settingsChanged(newSettings) {
+  return {
+    type: ACTION_SETTINGS_CHANGED,
+    newSettings,
+  };
+}
+
+export function settingsChangedFailure() {
+  return {
+    type: ACTION_SETTINGS_CHANGED_FAILURE,
   };
 }
 

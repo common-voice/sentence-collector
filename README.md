@@ -4,9 +4,8 @@
 
 - Fork the project and test that you can run the environment locally following the instructions below.
 - Is everything working as expected? If not, submit [a new issue](https://github.com/Common-Voice/sentence-collector/issues/new).
-- Review the pending issues on the [MVP milestone](https://github.com/Common-Voice/sentence-collector/milestone/1).
-- Create a [new PR](https://github.com/Common-Voice/sentence-collector/compare) to fix any of the existing issues in the MVP milestone.
-- Get involved in the [development discussion topic](https://discourse.mozilla.org/t/sentence-collection-tool-development-topic/33390/2) and ask any questions.
+- Review the pending issues in the [v2.0 project](https://github.com/Common-Voice/sentence-collector/projects/2).
+- Create a [new PR](https://github.com/Common-Voice/sentence-collector/compare) to fix any of the existing issues in the project.
 
 ## Prerequisites
 

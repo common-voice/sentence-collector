@@ -1,9 +1,7 @@
 import KintoTestServer from 'kinto-node-test-server';
 import { readFileSync } from 'fs';
 import DB from '../shared/db';
-import { fail } from './util';
-import { startExport } from './exporter';
-// import generate from './generate-cv-metadata';
+import { startExport, startBackup } from './exporter';
 
 // Kinto http needs fetch on the global scope.
 global.fetch = require('node-fetch');
@@ -11,12 +9,14 @@ global.fetch = require('node-fetch');
 const ACTION_INIT = 'init';
 const ACTION_FLUSH = 'flush';
 const ACTION_LIST_USERS = 'list';
+const ACTION_BACKUP = 'backup';
 const ACTION_EXPORT = 'export';
 const ACTION_DELETE = 'delete';
 const ACTION_DELETE_SPECIFIC = 'delete-specific';
 const ACTION_FORCE_DELETE_SPECIFIC = 'force-delete-specific';
 const ACTION_FORCE_DELETE_FILE = 'force-delete-file';
 const ACTION_DELETE_VOTES = 'delete-votes';
+const ACTION_APPROVAL_CHECK = 'correct-approvals';
 
 const system = process.env.SC_SYSTEM;
 const remote = process.env.KINTO_URL_LOCAL;
@@ -29,8 +29,15 @@ const deleteLocale = process.env.DELETE_SPECIFIC_LOCALE;
 const deleteUsername = process.env.DELETE_SPECIFIC_USERNAME;
 const deleteFile = process.env.DELETE_SPECIFIC_SENTENCES_FILE;
 const approvalOnly = /true/.test(process.env.DELETE_APPROVAL_ONLY);
+const DRY_RUN = /true/.test(process.env.DRY_RUN);
 
 const action = process.argv[2];
+const locale = process.argv[3];
+
+function fail(message) {
+  console.error(message);
+  process.exit(1);
+}
 
 async function flushKinto() {
   const server = new KintoTestServer(remote);
@@ -51,16 +58,15 @@ async function exportDB() {
   await startExport(db, exportPath);
 }
 
+async function backupDB() {
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
+  const db = new DB(remoteHost, username, password);
+  await startBackup(db, exportPath);
+}
+
 async function initDB() {
   const db = new DB(remote, username, password);
   await db.initDB();
-  //TODO: log something back from init, similar to like we did with cv data below
-
-
-  // For now we're not importing any CV data
-  // const metadata = await generate();
-  // const { languages, sentences } = await db.initCV(metadata);
-  // console.log(`Common Voice: ${sentences.length} sentences in ${languages.length} languages`);
 
   const authed = await db.auth();
   if (!authed) {
@@ -69,13 +75,13 @@ async function initDB() {
 }
 
 async function deleteSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   await db.deleteSentenceRecords();
 }
 
 async function deleteSpecificSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
@@ -87,7 +93,7 @@ async function deleteSpecificSentences() {
 }
 
 async function forceDeleteFile() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteFile) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_SENTENCES_FILE are required');
@@ -100,11 +106,11 @@ async function forceDeleteFile() {
     return;
   }
 
-  await db.forceDeleteSentences(deleteLocale, sentences);
+  await db.forceDeleteSentences(deleteLocale, sentences, DRY_RUN);
 }
 
 async function forceDeleteSpecificSentences() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
@@ -113,8 +119,14 @@ async function forceDeleteSpecificSentences() {
   await db.forceDeleteSpecificSentenceRecords(deleteLocale, deleteUsername);
 }
 
+async function correctApprovals(locale) {
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
+  const db = new DB(remoteHost, username, password);
+  await db.correctApprovals(locale);
+}
+
 async function deleteVotes() {
-  const remoteHost = system === 'production' ? prodRemote : remote;
+  const remoteHost = system === 'production' ? prodRemoteIP : remote;
   const db = new DB(remoteHost, username, password);
   if (!deleteLocale || !deleteUsername) {
     fail('DELETE_SPECIFIC_LOCALE and DELETE_SPECIFIC_USERNAME are required');
@@ -161,6 +173,10 @@ async function run() {
         await listUsers();
         break;
 
+      case ACTION_BACKUP:
+        await backupDB();
+        break;
+
       case ACTION_EXPORT:
         await exportDB();
         break;
@@ -183,6 +199,14 @@ async function run() {
 
       case ACTION_DELETE_VOTES:
         await deleteVotes();
+        break;
+
+      case ACTION_APPROVAL_CHECK:
+        if (!locale) {
+          throw new Error('NO_LOCALE_SPECIFIED');
+        }
+
+        await correctApprovals(locale);
         break;
 
       default:

@@ -19,6 +19,8 @@ import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_SUCCESS,
   ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
+  ACTION_SETTINGS_CHANGED,
+  ACTION_SETTINGS_CHANGED_FAILURE,
 } from '../actions';
 
 import {
@@ -35,6 +37,7 @@ export const INITIAL_STATE = {
   sentences: [],
   errorMessage: null,
   sentenceSubmissionFailures: [],
+  settingsChangedFailureMessage: '',
 };
 
 function copyInto(oldObj, newObj) {
@@ -85,6 +88,7 @@ function reducer(state = INITIAL_STATE, action) {
         username: action.username,
         password: action.password,
         languages: action.languages,
+        settings: action.settings,
         errorMessage: null,
       });
 
@@ -145,11 +149,26 @@ function reducer(state = INITIAL_STATE, action) {
     case ACTION_SUBMIT_SENTENCES_SUCCESS:
       return copyInto(state, {
         sentences: mergeArray(state.sentences, action.sentences),
+        errorMessage: '',
       });
 
     case ACTION_PARSE_SENTENCES_FAILURE:
       return copyInto(state, {
         errorMessage: action.error.message,
+      });
+
+    case ACTION_SETTINGS_CHANGED:
+      return copyInto(
+        state,
+        {
+          settings: copyInto(state.settings, action.newSettings),
+          settingsChangedFailureMessage: '',
+        },
+      );
+
+    case ACTION_SETTINGS_CHANGED_FAILURE:
+      return copyInto(state, {
+        settingsChangedFailureMessage: 'Could not change settings. Please try again.',
       });
 
     default:

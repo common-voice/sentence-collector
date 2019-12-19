@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
 import { getLanguages } from '../../../../shared/languages';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   render() {
     const fullLangs = getLanguages(this.props.languages);
     return (
@@ -43,3 +44,14 @@ const LanguageStats = (props) => {
       username={props.username} password={props.password} />
   ));
 };
+
+function mapStateToProps(state) {
+  return {
+    languages: state.app.languages,
+    authed: state.app.authed,
+    username: state.app.username,
+    password: state.app.password,
+  };
+}
+
+export default connect(mapStateToProps)(Home);

@@ -7,7 +7,6 @@ import {
 } from './db/permissions';
 import User from './db/collections/user';
 import Sentences from './db/collections/sentences-meta';
-import CVSentences from './db/collections/cv-sentences';
 
 export const BUCKET_NAME = 'App';
 
@@ -30,7 +29,6 @@ export default class DB {
     this.server = new KintoClient(remote, defaultOptions);
     this.user = new User(this.server, username);
     this.sentences = new Sentences(this.server, username);
-    this.cvSentences = new CVSentences(this.server, username);
   }
 
   async getBucket() {
@@ -50,11 +48,6 @@ export default class DB {
     await this.sentences.createAllCollections(bucket);
   }
 
-  async initCV(metadata) {
-    const bucket = await this.getBucket();
-    return this.cvSentences.createFromMeta(bucket, metadata);
-  }
-
   async deleteSentenceRecords() {
     const bucket = await this.getBucket();
     return this.sentences.deleteSentenceRecords(bucket);
@@ -70,18 +63,13 @@ export default class DB {
     return this.sentences.forceDeleteSpecificSentenceRecords(bucket, locale, username);
   }
 
-  async forceDeleteSentences(locale, sentences) {
+  async forceDeleteSentences(locale, sentences, dryRun) {
     const bucket = await this.getBucket();
-    return this.sentences.forceDeleteSentences(bucket, locale, sentences);
+    return this.sentences.forceDeleteSentences(bucket, locale, sentences, dryRun);
   }
 
   async deleteVotes(locale, username, approvalOnly) {
     return this.sentences.deleteVotes(locale, username, approvalOnly);
-  }
-
-  async getCVMetadata() {
-    const bucket = await this.getBucket();
-    return this.cvSentences.getLanguageAndSentenceCounts(bucket);
   }
 
   async getSiteMetadata() {
@@ -91,6 +79,10 @@ export default class DB {
 
   async getUsers() {
     return this.user.getAllUsers();
+  }
+
+  async setSetting(key, value) {
+    return this.user.setSetting(key, value);
   }
 
   async addLanguage(language) {
@@ -115,6 +107,14 @@ export default class DB {
 
   async getAllValidatedSentences(language) {
     return this.sentences.getAllValidatedSentences(language);
+  }
+
+  async getAllSentences(language) {
+    return this.sentences.getAllPaginated(language);
+  }
+
+  async correctApprovals(language) {
+    return this.sentences.correctApprovals(language);
   }
 
   async submitSentences(language, sentences, source) {
@@ -161,6 +161,11 @@ export default class DB {
     return Promise.all(languages.map(language => {
       return this.getLanguageInfoForMe(language);
     }));
+  }
+
+  async getLanguages() {
+    const bucket = await this.getBucket();
+    return this.sentences.getLanguages(bucket);
   }
 }
 

@@ -1,7 +1,9 @@
 import * as en from './languages/en';
+import * as fr from './languages/fr';
 
 const CLEANUPS = {
   en,
+  fr
 };
 
 const DEFAULT_CLEANUP_LANGUAGE = 'en';

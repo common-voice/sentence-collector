@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import WebDB from '../../web-db';
 
-export default class Rejected extends React.Component {
+class Rejected extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -58,3 +59,13 @@ export default class Rejected extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    username: state.app.username,
+    password: state.app.password,
+    languages: state.app.languages,
+  };
+}
+
+export default connect(mapStateToProps)(Rejected);
