@@ -58,12 +58,12 @@ export default class Review extends React.Component {
   // If user only has one language possible, redirect to it.
   needsRedirectToOnlyLang() {
     return (this.props.languages.length === 1 &&
-      this.props.languages[0] !== this.getLanguageFromParams());
+            this.props.languages[0] !== this.getLanguageFromParams());
   }
 
   isInvalidLanguageRequest() {
     return this.props.languages && this.getLanguageFromParams() &&
-      this.props.languages.indexOf(this.getLanguageFromParams()) === -1;
+           this.props.languages.indexOf(this.getLanguageFromParams()) === -1;
   }
 
   userHasNoLanguages() {
@@ -185,7 +185,7 @@ export default class Review extends React.Component {
           <LanguageSelector name="language-selector-review" only={this.props.languages}
             selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>
-        {this.renderContent()}
+        { this.renderContent() }
       </div>
     );
   }
