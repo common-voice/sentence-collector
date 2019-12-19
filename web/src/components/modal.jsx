@@ -5,16 +5,17 @@ import '../../css/modal.css'
 class Modal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
   }
   render() {
     return (
-      <div className="overlay">
-        <div className="modal-box">
-          {this.props.children}
-      </div>
+      <div className={this.props.isOpen ? "overlay" : "no-show"}>
+        <div className={this.props.isOpen ? "modal-box" : "no-show"}>
+          <div>
+          </div>
+          <div>
+            {this.props.children}
+          </div>
+        </div>
       </div>
     )
   }

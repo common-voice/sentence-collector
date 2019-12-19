@@ -10,6 +10,7 @@ import reviewSentences from '../../../../doc/review-sentences.md'
 const DEFAULT_STATE = {
   message: '',
   loading: false,
+  criteriaModalIsOpen: false,
 };
 
 export const getReviewUrl = (language) => {
@@ -149,6 +150,14 @@ export default class Review extends React.Component {
     }
   }
 
+  handleCriteriaModal(){
+    this.setState({
+      criteriaModalIsOpen: !this.state.criteriaModalIsOpen,
+      }
+    )
+    console.log('criteria modal')
+  }
+
   render() {
     // If user only has one language possible, redirect to it.
     if (this.needsRedirectToOnlyLang()) {
@@ -178,14 +187,15 @@ export default class Review extends React.Component {
       <div>
         <section>
           <h1>Review Sentences</h1>
-          <div>
-            <button>Review Criteria</button>
-            <Modal>
+          <button className="inverse" onClick={this.handleCriteriaModal.bind(this)}>ⓘ Review Criteria</button>
+          <LanguageSelector name="language-selector-review" only={this.props.languages}
+            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
+          {/* review criteria modal */}
+          <div onClick={this.handleCriteriaModal.bind(this)}>
+            <Modal isOpen={this.state.criteriaModalIsOpen}>
             <div dangerouslySetInnerHTML={{ __html: reviewSentences }} />
             </Modal>
           </div>
-          <LanguageSelector name="language-selector-review" only={this.props.languages}
-            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>
         {this.renderContent()}
       </div>

@@ -5,7 +5,7 @@
   display: block;
   padding: 1em;
   height: 20em;
-  min-width: 60%;
+  min-width: 50%;
   max-width: 70%;
   background-color: #fff;
   transform: translate(-50%, -50%);
@@ -20,5 +20,9 @@
   bottom: 0;
   left: 0;
   background-color: rgba(0,0,0,.4);
+}
+
+.no-show {
+  display: none;
 }
 
