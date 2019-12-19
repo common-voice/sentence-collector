@@ -5,12 +5,11 @@
   display: block;
   padding: 1em;
   height: 20em;
-  min-width: 50%;
-  max-width: 70%;
+  width: 70%;
   background-color: #fff;
   transform: translate(-50%, -50%);
   outline: transparent;
-  overflow:scroll
+  overflow: scroll;
 }
 
 .overlay {
@@ -19,10 +18,29 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0,0,0,.4);
+  background-color: rgba(0, 0, 0, .4);
+  overflow: scroll;
+}
+
+.close-modal {
+  position: absolute;
+  right: 0;
+  top:0;
+  box-shadow: none;
+  border-color: transparent;
+  color: black;
+  background-color: var(--main-bg-color);
 }
 
 .no-show {
   display: none;
 }
 
+.info-button{
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+  padding: 0.5rem 0;
+}
