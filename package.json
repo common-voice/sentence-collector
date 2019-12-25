@@ -62,6 +62,7 @@
     "ava": "^2.4.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
+    "babel-preset-env": "^1.7.0",
     "btoa": "^1.2.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",

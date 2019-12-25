@@ -179,12 +179,11 @@ class Review extends React.Component {
       <div>
         <section>
           <h1>Review Sentences</h1>
-          {/* review criteria modal */}
+          <LanguageSelector name="language-selector-review" only={this.props.languages}
+            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
           <Modal text="ⓘ Review Criteria">
             <div dangerouslySetInnerHTML={{ __html: reviewSentences }} />
           </Modal>
-          <LanguageSelector name="language-selector-review" only={this.props.languages}
-            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
         </section>
         { this.renderContent() }
       </div>

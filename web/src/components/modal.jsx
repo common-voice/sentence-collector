@@ -6,24 +6,23 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      modalIsOpen: false
-    })
+      modalIsOpen: false,
+    });
   }
 
   handleModalIsOpen() {
     this.setState({
       modalIsOpen: !this.state.modalIsOpen,
-    }
-    )
+    });
   }
   render() {
     const handleModal = this.handleModalIsOpen.bind(this);
     return (
-      <div>
-        <button className="info-button" onClick={handleModal}>{this.props.text}</button>
+      <span>
+        <button className="inverse" onClick={handleModal}>{this.props.text}</button>
         <div className={this.state.modalIsOpen ? "overlay" : "no-show"} onClick={handleModal}>
-          <div className={this.state.modalIsOpen ? "modal-box" : "no-show"}>
-            <button className="close-modal" onClick={handleModal}>
+          <div className="modal-box">
+            <button className="close-modal">
               x
             </button>
             <div>
@@ -31,7 +30,7 @@ class Modal extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </span>
     )
   }
 }
