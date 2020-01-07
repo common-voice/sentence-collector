@@ -16,6 +16,7 @@ const OUTPUT_TXT = 'sentence-collector.txt';
 const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',
+  'pa-IN': 'pa',
 };
 
 export async function startBackup(db, exportPath) {
