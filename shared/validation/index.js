@@ -3,13 +3,15 @@ import * as it from './languages/it';
 import * as ne from './languages/ne';
 import * as kab from './languages/kab';
 import * as ru from './languages/ru';
+import * as ur from './languages/ur';
 
 const VALIDATORS = {
   en,
   it,
   kab,
   ne,
-  ru
+  ru,
+  ur,
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
