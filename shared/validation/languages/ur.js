@@ -17,9 +17,9 @@ const STRUCTURE_REGEX = undefined;
 
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
-// < > + * \ # @ ^ [ ] ( ) ؄ ؃ ؂ ؏ ؆ ؇ ؈ ؁ ٪ ؉ ؊ ؔ ﷽ ؍ ؑ ؐ ﷺ ؒ ﷻ ۘ ۙ ۜ ۚ ۗ ۖ  ٝ ۢ !/ 
+// < > + * \ # @ ^ [ ] ( ) / 
 /* eslint-disable-next-line no-useless-escape */
-const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\؄\؃\؂\؏\؆\؇\؈\؁\٪\؉\؊\ؔ\﷽\؍\ؑ\ؐ\ﷺ\ؒ\ﷻ\ۘ\ۙ\ۜ\ۚ\ۗ\ۖ\٘\ٝ\ۢ\!\/]/;
+const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]/;
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.	
 // This currently also matches fooBAR but we most probably don't want that either
