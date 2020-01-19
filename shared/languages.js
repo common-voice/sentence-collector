@@ -104,6 +104,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Саха тыла',
   },
   {
+    code: 'scn',
+    name: 'Sicilian',
+    nativeName: 'sicilianu',
+  },
+  {
     code: 'uby',
     name: 'Ubykh',
     nativeName: 'Ubykh',
