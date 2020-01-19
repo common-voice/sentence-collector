@@ -149,6 +149,22 @@ test('[FR] space before/space after double punctuation', t => {
   t.deepEqual(computed, expected);
 });
 
+test('[FR] merge consecutive dots into unicode elipsis', t => {
+  const orig = [
+    'this is .. wrong',
+    'this is ... wrong',
+  ];
+
+  const expected = [
+    'this is. . wrong',
+    'this is… wrong',
+  ];
+
+  const computed = fr.clean(orig);
+
+  t.deepEqual(computed, expected);
+});
+
 test('[FR] do not keep multiple spaces', t => {
   const orig = [
     'this is   wrong',
