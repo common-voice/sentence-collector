@@ -5,6 +5,8 @@ import { Link, Redirect } from 'react-router-dom';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import WebDB from '../../web-db';
+import Modal from '../modal';
+import reviewSentences from '../../../../doc/review-sentences.md'
 
 const DEFAULT_STATE = {
   message: '',
@@ -179,6 +181,9 @@ class Review extends React.Component {
           <h1>Review Sentences</h1>
           <LanguageSelector name="language-selector-review" only={this.props.languages}
             selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
+          <Modal text="ⓘ Review Criteria">
+            <div dangerouslySetInnerHTML={{ __html: reviewSentences }} />
+          </Modal>
         </section>
         { this.renderContent() }
       </div>
