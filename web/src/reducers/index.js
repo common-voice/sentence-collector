@@ -112,7 +112,7 @@ function reducer(state = INITIAL_STATE, action) {
     case ACTION_ADD_LANGUAGE_SUCCESS:
       return copyInto(state, {
         pendingLanguages: false,
-        languages: state.languages.concat(action.languages),
+        languages: action.languages,
       });
 
     case ACTION_ADD_LANGUAGE_FAILURE:

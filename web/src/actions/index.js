@@ -120,11 +120,10 @@ export function submitSentences(language, sentences, source) {
     const db = new WebDB(state.app.username, state.app.password);
     const results = await db.submitSentences(language, sentences, source);
     dispatch(submitSentencesSuccess(results.sentences.slice(0)));
-    dispatch( sendAddLanguage() );
     const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
     dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
     if( !state.app.languages.includes( language ) ) {
-      dispatch(addLanguageSuccess(language));
+      dispatch(addLanguage( language ));
     }
     return results;
   };
