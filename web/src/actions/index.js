@@ -122,6 +122,9 @@ export function submitSentences(language, sentences, source) {
     dispatch(submitSentencesSuccess(results.sentences.slice(0)));
     const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
     dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
+    if(!state.app.languages.includes(language)) {
+      dispatch(addLanguage(language));
+    }
     return results;
   };
 }
