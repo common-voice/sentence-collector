@@ -1,17 +1,31 @@
 import btoa from 'btoa';
 import KintoClient from 'kinto-http';
 
+import { getAllLanguages } from './languages';
+import { parseBatchResults } from './db/api-result-parser';
+import { authedCreateReadAndWrite, authedReadAndWrite } from './db/permissions';
+import hash from './hash';
+import User from './db/user';
 import {
   lockDown,
   authedCreateNoRead
 } from './db/permissions';
-import User from './db/collections/user';
-import Sentences from './db/collections/sentences-meta';
 
 export const BUCKET_NAME = 'App';
+const SENTENCES_NAME = 'Sentences_Meta';
+const SENTENCES_PREFIX = SENTENCES_NAME + '_';
+const USER_PREFIX = SENTENCES_PREFIX + 'UserVote_';
+const USER_DATE_PREFIX = SENTENCES_PREFIX + 'UserVoteDate_';
+
+const VALID = true;
+const INVALID = false;
+
+// Two out of three votes need to be say the sentence is valid
+// for it to be approved.
+const APPROVAL_MIN_VALID_VOTES = 2;
+const APPROVAL_MIN_TOTAL_VOTES = 3;
 
 export default class DB {
-
   constructor(remote, username, password) {
     this.username = username;
     this.password = password;
@@ -28,7 +42,6 @@ export default class DB {
 
     this.server = new KintoClient(remote, defaultOptions);
     this.user = new User(this.server, username);
-    this.sentences = new Sentences(this.server, username);
   }
 
   async getBucket() {
@@ -37,44 +50,6 @@ export default class DB {
 
   async auth() {
     return this.user.tryAuth();
-  }
-
-  async initDB() {
-    await this.server.createBucket(BUCKET_NAME, lockDown());
-    const bucket = await this.getBucket();
-
-    // Create collections.
-    await bucket.createCollection(User.NAME, authedCreateNoRead());
-    await this.sentences.createAllCollections(bucket);
-  }
-
-  async deleteSentenceRecords() {
-    const bucket = await this.getBucket();
-    return this.sentences.deleteSentenceRecords(bucket);
-  }
-
-  async deleteSpecificSentenceRecords(locale, username) {
-    const bucket = await this.getBucket();
-    return this.sentences.deleteSpecificSentenceRecords(bucket, locale, username);
-  }
-
-  async forceDeleteSpecificSentenceRecords(locale, username) {
-    const bucket = await this.getBucket();
-    return this.sentences.forceDeleteSpecificSentenceRecords(bucket, locale, username);
-  }
-
-  async forceDeleteSentences(locale, sentences, dryRun) {
-    const bucket = await this.getBucket();
-    return this.sentences.forceDeleteSentences(bucket, locale, sentences, dryRun);
-  }
-
-  async deleteVotes(locale, username, approvalOnly) {
-    return this.sentences.deleteVotes(locale, username, approvalOnly);
-  }
-
-  async getSiteMetadata() {
-    const bucket = await this.getBucket();
-    return this.sentences.getLanguageAndSentenceCounts(bucket);
   }
 
   async getUsers() {
@@ -93,55 +68,137 @@ export default class DB {
     return this.user.removeLanguage(language);
   }
 
-  async getSentences(language) {
-    return this.sentences.getAll(language);
+  async initDB() {
+    await this.server.createBucket(BUCKET_NAME, lockDown());
+    const bucket = await this.getBucket();
+
+    // Create collections.
+    await bucket.createCollection(User.NAME, authedCreateNoRead());
+    await this.createAllCollections(bucket);
   }
 
-  async getSentencesNotVoted(language) {
-    return this.sentences.getNotVoted(language);
+  async createAllCollections(bucket) {
+    const languages = getAllLanguages();
+    const results = await bucket.batch(b => {
+      for (let i = 0; i < languages.length; i++) {
+        const code = languages[i].code;
+        const name = this.getSentencesCollectionName(code);
+        b.createCollection(name, authedCreateReadAndWrite());
+      }
+    });
+
+    const { successes, errors } = parseBatchResults(results);
+    if (errors.length > 0) {
+      throw new Error('Failed: create meta collections' + errors.join(','));
+    }
+    if (successes.length !== languages.length) {
+      throw new Error('Failed: missing meta collections');
+    }
   }
 
-  async getValidatedSentences(language) {
-    return this.sentences.getValidatedSentences(language);
+  getSentencesCollectionName(code) {
+    return SENTENCES_PREFIX + code;
   }
 
-  async getAllValidatedSentences(language) {
-    return this.sentences.getAllValidatedSentences(language);
+  getUserKey(username) {
+    return USER_PREFIX + username;
   }
 
-  async getAllSentences(language) {
-    return this.sentences.getAllPaginated(language);
+  getUserDateKey(username) {
+    return USER_DATE_PREFIX + username;
   }
 
-  async correctApprovals(language) {
-    return this.sentences.correctApprovals(language);
+  async getSentenceCollection(language) {
+    return this.server.bucket(BUCKET_NAME)
+      .collection(this.getSentencesCollectionName(language));
   }
 
-  async submitSentences(language, sentences, source) {
-    return this.sentences.submitSentences(language, sentences, source);
+  async getLanguages() {
+    const bucket = await this.getBucket();
+    const result = await this.getLanguageTableNames(bucket);
+    return result.map(c => c.replace(SENTENCES_PREFIX, ''));
+  }
+
+  async getLanguageTableNames(bucket) {
+    const result = await bucket.listCollections({
+      filters: {
+        like_id: SENTENCES_PREFIX,
+      },
+    });
+    return result.data.map(c => c.id);
+  }
+
+  getPreparedRecord({ sentence, reviewed, source }) {
+    const preparedRecord = {
+      id: hash(sentence),
+      sentence,
+      source,
+      valid: [],
+      invalid: [],
+      username: this.username,
+      createdAt: Date.now(),
+    };
+
+    if (reviewed) {
+      preparedRecord.valid = [this.username];
+      preparedRecord[`${USER_PREFIX}${this.username}`] = true;
+    }
+
+    return preparedRecord;
+  }
+
+  async getSiteMetadata() {
+    const bucket = await this.getBucket();
+    const languages = await this.getLanguageTableNames(bucket);
+
+    const responses = await this.server.batch((batch) => {
+      for (const cid of languages) {
+        batch.collection(cid).getTotalRecords();
+      }
+    }, { bucket: "App" });
+
+    return responses.reduce((info, response) => {
+      let numberOfSentences = 0;
+      try {
+        numberOfSentences = parseInt(response.headers['Total-Records'], 10);
+      } catch (err) { /* ignore */ }
+
+      info.sentences = info.sentences + numberOfSentences;
+
+      if (numberOfSentences > 0) {
+        info.languages = info.languages + 1;
+      }
+
+      return info;
+    }, { languages: 0, sentences: 0 });
   }
 
   async getSentenceCount(language) {
-    return this.sentences.count(language);
+    let collection = await this.getSentenceCollection(language);
+    return collection.getTotalRecords();
   }
 
-  async getAlreadyExistingSubset(language, sentences) {
-    return this.sentences.getAlreadyExistingSubset(language, sentences);
+  async getMySentences(language) {
+    const collection = await this.getSentenceCollection(language);
+    const result = await collection.listRecords({
+      filters: {
+        username: this.username,
+      },
+    });
+    return result.data;
   }
 
-  async vote(language, validated, invalidated) {
-    return this.sentences.vote(language, validated, invalidated);
-  }
-
-  async getAllRejectedByUsername(languages, username) {
-    return this.sentences.getAllRejectedByUsername(languages, username);
+  async getLanguagesMetaForMe(languages) {
+    return Promise.all(languages.map(language => {
+      return this.getLanguageInfoForMe(language);
+    }));
   }
 
   async getLanguageInfoForMe(language) {
     try {
       const [ submitted, validated ] = await Promise.all([
-        this.sentences.getMySentences(language),
-        this.sentences.getMyVotes(language),
+        this.getMySentences(language),
+        this.getMyVotes(language),
       ]);
       return {
         language,
@@ -157,15 +214,445 @@ export default class DB {
     }
   }
 
-  async getLanguagesMetaForMe(languages) {
-    return Promise.all(languages.map(language => {
-      return this.getLanguageInfoForMe(language);
-    }));
+  prepareForSubmission(sentences) {
+    const allUnreviewedSentences = sentences.unreviewed.map((sentence) => {
+      return { sentence, reviewed: false };
+    });
+
+    const allValidatedSentences = sentences.validated.map((sentence) => {
+      return { sentence, reviewed: true };
+    });
+
+    return allUnreviewedSentences.concat(allValidatedSentences);
   }
 
-  async getLanguages() {
+  async submitSentences(language, sentences, source) {
+    const allSentences = this.prepareForSubmission(sentences);
+    const collection = await this.getSentenceCollection(language);
+    const results = await collection.batch(batch => {
+      for (let i = 0; i < allSentences.length; i++) {
+        const record = this.getPreparedRecord({
+          sentence: allSentences[i].sentence,
+          reviewed: allSentences[i].reviewed,
+          source,
+        });
+        batch.createRecord(record, {
+          ...authedReadAndWrite(),
+          safe: true,
+        });
+      }
+    });
+
+    const { successes, errors } = parseBatchResults(results);
+    return {
+      sentences: successes,
+      errors,
+    };
+  }
+
+  async getFirstPageOfValidatedSentences(language) {
+    const filters = {};
+    filters.approved = true;
+    const collection = await this.getSentenceCollection(language);
+    const result = await collection.listRecords({ filters });
+    return result.data;
+  }
+
+  async getAll(language, filters = {}) {
+    const collection = await this.getSentenceCollection(language);
+
+    let { data, hasNextPage, next } = await collection.listRecords(filters);
+    while (hasNextPage) {
+      const result = await next();
+      data = data.concat(result.data);
+      hasNextPage = result.hasNextPage;
+      next = result.next;
+    }
+
+    return data;
+  }
+
+  async getAlreadyExistingSubset(language, sentences) {
+    const idList = sentences.map(s => hash(s));
+    const result = await this.getAll(language);
+    const existingIDs = result.map((existingSentence) => existingSentence.id);
+
+    const existingSubmittedSentencesIDs = idList.filter((id) => existingIDs.includes(id));
+    return result.filter((existingSentence) => existingSubmittedSentencesIDs.includes(existingSentence.id));
+  }
+
+  checkIfApproved(record) {
+    const validVotes = record.valid.length;
+    const invalidVotes = record.invalid.length;
+    const totalVotes = validVotes + invalidVotes;
+
+    if(validVotes >= APPROVAL_MIN_VALID_VOTES) {
+      return true;
+    } else if(totalVotes >= APPROVAL_MIN_TOTAL_VOTES) {
+      return false;
+    }
+
+    return;
+  }
+
+  async vote(language, validated, invalidated) {
+    const collection = await this.getSentenceCollection(language);
+    const notVoted = await this.getNotVoted(language);
+    const existing = notVoted.reduce((accum, record) => {
+      accum[record.id] = record;
+      return accum;
+    }, {});
+
+    const results = await collection.batch(c => {
+      let updateRecords = [
+        ...this.getVoteRecords(true, validated, existing),
+        ...this.getVoteRecords(false, invalidated, existing),
+      ];
+
+      updateRecords.forEach(record => {
+        c.updateRecord(record, {
+          safe: true,
+          last_modified: record.last_modified,
+        });
+      });
+    });
+
+    let votes = [];
+    let errors = [];
+    results.forEach(result => {
+      if (result.status === 200 || result === 201) {
+        votes.push(result.body.data);
+      } else {
+        console.error('vote error', result.status, result.body);
+        errors.push(result);
+      }
+    });
+
+    return {
+      votes,
+      errors,
+    };
+  }
+
+  getVoteRecords(isValid, sentences, existing) {
+    return sentences.map(sentence => {
+      let record = existing[sentence.id] ?
+        existing[sentence.id] : this.getPreparedRecord({
+          sentence: sentence.sentence,
+          reviewed: false,
+        });
+      if (isValid) {
+        record.valid.push(this.username);
+        record[this.getUserKey(this.username)] = VALID;
+      } else {
+        record.invalid.push(this.username);
+        record[this.getUserKey(this.username)] = INVALID;
+      }
+
+      record[this.getUserDateKey(this.username)] = Date.now();
+
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined') {
+        // We don't have any approval yet (not enough votes)
+        // therefore we leave the record as is
+        return record;
+      }
+
+      record.approved = isApproved;
+      record.approvalDate = Date.now();
+
+      return record;
+    });
+  }
+
+  async getMyVotes(language) {
+    const collection = await this.getSentenceCollection(language);
+    const filters = {};
+    filters['has_' + this.getUserKey(this.username)] = true;
+    const result = await collection.listRecords({ filters });
+    return result.data;
+  }
+
+  async getNotVoted(language) {
+    const filters = {};
+    // filter current user from votes.
+    filters['has_' + this.getUserKey(this.username)] = false;
+    filters['has_approved'] = false;
+    const collection = await this.getSentenceCollection(language);
+    const result = await collection.listRecords({ filters, sort: 'createdAt' });
+    const sentences = result.data;
+    // This works as all modern browsers use a stable sorting algorithm
+    // if not, we're still fine..
+    // We always want to show sentences with more valid votes first
+    const additionallySortedByApprovalVotes = sentences.sort((a, b) => {
+      const aVoteLength = a.valid.length;
+      const bVoteLength = b.valid.length;
+
+      return bVoteLength - aVoteLength;
+    });
+
+    return additionallySortedByApprovalVotes;
+  }
+
+  async getAllRejectedByUsername(languages, username) {
+    const promises = languages.map((language) => this.getAllUnapprovedByUsername(language, username));
+
+    return Promise.all(promises)
+      .then((unapprovedPerLanguage) => {
+        return unapprovedPerLanguage.reduce((rejectedSentences, unapproved, index) => {
+          if (unapproved && unapproved.length > 0) {
+            // we can use the index here, as Promise.all guarantees that its
+            // resolved values will be in the same order
+            rejectedSentences[languages[index]] = unapproved;
+          }
+
+          return rejectedSentences;
+        }, {});
+      });
+  }
+
+  async getAllUnapprovedByUsername(language, username) {
+    const collection = await this.getSentenceCollection(language);
+    const filters = {
+      username,
+      approved: false,
+    };
+    const result = await collection.listRecords({ filters });
+    const unapprovedSentencesWithoutDetail = result.data.map((record) => record.sentence);
+    return unapprovedSentencesWithoutDetail;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ONLY USED BY HELPER SCRIPTS
+
+  async deleteSentenceRecords() {
     const bucket = await this.getBucket();
-    return this.sentences.getLanguages(bucket);
+    const languages = getAllLanguages();
+    for (const language of languages) {
+      const records = await this.getAll(language.code);
+      const collectionName = await this.getSentencesCollectionName(language.code);
+      console.log(`Found ${records.length} records to delete for ${language.code}`);
+      await bucket.batch(b => {
+        for (let i = 0; i < records.length; i++) {
+          b.collection(collectionName).deleteRecord(records[i].id);
+        }
+      });
+    }
+  }
+
+  async deleteSpecificSentenceRecords(locale, username) {
+    const bucket = await this.getBucket();
+    const collectionName = await this.getSentencesCollectionName(locale);
+    const records = await this.getAllUnapprovedByUsername(locale, username);
+    const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
+    console.log(`Found ${minifiedRecords.length} records to delete for ${locale} with username ${username}`);
+    await bucket.batch(b => {
+      for (let i = 0; i < minifiedRecords.length; i++) {
+        console.log('Deleting', minifiedRecords[i]);
+        b.collection(collectionName).deleteRecord(minifiedRecords[i].id);
+      }
+    });
+  }
+
+  async forceDeleteSpecificSentenceRecords(locale, username) {
+    const bucket = await this.getBucket();
+    const collectionName = await this.getSentencesCollectionName(locale);
+    const records = await this.getAllByUsername(locale, username);
+    const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
+    console.log(`Found ${minifiedRecords.length} records to delete for ${locale} with username ${username}`);
+    await bucket.batch(b => {
+      for (let i = 0; i < minifiedRecords.length; i++) {
+        console.log('Deleting', minifiedRecords[i]);
+        b.collection(collectionName).deleteRecord(minifiedRecords[i].id);
+      }
+    });
+  }
+
+  async forceDeleteSentences(locale, sentences, dryRun) {
+    const bucket = await this.getBucket();
+    const collectionName = await this.getSentencesCollectionName(locale);
+    const records = await this.getAll(locale);
+    const minifiedRecords = records.map((record) => ({ id: record.id, sentence: record.sentence }));
+    const { foundSentences, errorSentences } = sentences.reduce((acc, sentence) => {
+      const foundSentence = minifiedRecords.find((record) => record.sentence === sentence);
+      if (!foundSentence) {
+        acc.errorSentences.push(sentence);
+        return acc;
+      }
+
+      acc.foundSentences.push(foundSentence);
+      return acc;
+    }, { foundSentences: [], errorSentences: [] });
+    console.log(`Found ${foundSentences.length} records to delete for ${locale}`);
+
+    if (dryRun) {
+      console.log('Aborting due to only being dry run..');
+      return;
+    }
+
+    await bucket.batch(b => {
+      for (let i = 0; i < foundSentences.length; i++) {
+        console.log('Deleting', foundSentences[i]);
+        b.collection(collectionName).deleteRecord(foundSentences[i].id);
+      }
+    });
+
+    console.log('All deleted, except the following sentences which could not be found:');
+    errorSentences.forEach((sentence) => console.error(sentence));
+  }
+
+  async deleteVotes(locale, username, approvalOnly) {
+    const collection = await this.getSentenceCollection(locale);
+    const records = await this.getAll(locale);
+
+    const foundSentences = records.filter((record) => {
+      return record.valid.includes(username) || record.invalid.includes(username);
+    });
+
+    console.log(`Found ${foundSentences.length} to analyze`);
+
+    const adjustedSentences = foundSentences.map((record) => {
+      if (approvalOnly && !record.valid.includes(username)) {
+        // Nothing to do for this sentence as there is no approval
+        return;
+      }
+
+      if (record.valid.includes(username)) {
+        const index = record.valid.indexOf(username);
+        record.valid.splice(index, 1);
+        delete record[`Sentences_Meta_UserVote_${username}`];
+        delete record[`Sentences_Meta_UserVoteDate_${username}`];
+      }
+
+      if (!approvalOnly && record.invalid.includes(username)) {
+        const index = record.invalid.indexOf(username);
+        record.invalid.splice(index, 1);
+        delete record[`Sentences_Meta_UserVote_${username}`];
+        delete record[`Sentences_Meta_UserVoteDate_${username}`];
+      }
+
+      // Given that we manipulate votes, we need to re-write the
+      // approval.
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined') {
+        delete record.approved;
+        delete record.approvalDate;
+      } else {
+        record.approved = isApproved;
+        record.approvalDate = Date.now();
+      }
+
+      return record;
+    }).filter(Boolean);
+
+    console.log(`Found ${adjustedSentences.length} records to delete votes in ${locale} for ${username}`);
+
+    if (adjustedSentences.length === 0) {
+      return;
+    }
+
+    const results = await collection.batch(c => {
+      adjustedSentences.forEach(record => {
+        c.updateRecord(record, {
+          safe: true,
+          last_modified: record.last_modified,
+        });
+      });
+    });
+
+    const adjustedResults = [];
+    const errors = [];
+    results.forEach(result => {
+      if (result.status === 200 || result === 201) {
+        adjustedResults.push(result.body.data);
+      } else {
+        console.error('Voting deletion error', result.status, result.body);
+        errors.push(result);
+      }
+    });
+
+    console.log('All votes adjusted:');
+    console.log(`Updated ${adjustedResults.length} records`);
+    console.log(`Errors updating ${errors.length} records!`);
+  }
+
+  async correctApprovals(language) {
+    const collection = await this.getSentenceCollection(language);
+    const records = await this.getAll(language);
+    console.log(`Found ${records.length} records to analyze for ${language}`);
+
+    const adjustedSentences = records.map((record) => {
+      const isApproved = this.checkIfApproved(record);
+      if (typeof isApproved === 'undefined' || isApproved === record.approved) {
+        // nothing to do here
+        return;
+      }
+
+      record.approved = isApproved;
+      record.approvalDate = Date.now();
+
+      return record;
+    }).filter(Boolean);
+
+    console.log(`Found ${adjustedSentences.length} to adjust`);
+
+    const results = await collection.batch(c => {
+      adjustedSentences.forEach(record => {
+        c.updateRecord(record, {
+          safe: true,
+          last_modified: record.last_modified,
+        });
+      });
+    });
+
+    const adjustedResults = [];
+    const errors = [];
+    results.forEach(result => {
+      if (result.status === 200) {
+        adjustedResults.push(result.body.data);
+      } else {
+        console.error('Approval adjustment error', result.status, result.body);
+        errors.push(result);
+      }
+    });
+
+    if (adjustedResults.length > 0) {
+      console.log('All approvals adjusted:');
+      console.log(`Updated ${adjustedResults.length} records`);
+    }
+
+    if (errors.length > 0) {
+      console.log(`Errors updating ${errors.length} records!`);
+    }
+  }
+
+  async getAllByUsername(language, username) {
+    const filters = {
+      username,
+    };
+
+    return this.getAll(language, filters);
+  }
+
+  async getAllValidatedSentences(language) {
+    const filters = {};
+    filters.approved = true;
+
+    const allRecords = await this.getAll(language, filters);
+    const approvedRecords = allRecords.filter((record) => this.checkIfApproved(record));
+
+    return approvedRecords;
   }
 }
 
