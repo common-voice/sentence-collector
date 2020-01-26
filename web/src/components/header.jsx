@@ -25,6 +25,7 @@ const Header = (props) => {
       <section id="external-links">
         <a target="_blank" rel="noopener" href="https://discourse.mozilla.org/tags/c/voice/sentence-collection">Discourse</a>
         <a target="_blank" rel="noopener" href="https://github.com/Common-Voice/sentence-collector/issues">Report Bugs (GitHub)</a>
+        <a target="_blank" rel="noopener" href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767">Report copyright issues</a>
         <a target="_blank" rel="noopener" href="https://voice.mozilla.org/en/privacy">Privacy</a>
         <a target="_blank" rel="noopener" href="https://voice.mozilla.org/en/terms">Terms</a>
         <a target="_blank" rel="noopener" href="https://www.mozilla.org/en-US/privacy/websites/#cookies">Cookies</a>
