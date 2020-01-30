@@ -17,6 +17,7 @@ const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',
   'pa-IN': 'pa',
+  'hi-IN': 'hi',
 };
 
 export async function startBackup(db, exportPath) {
