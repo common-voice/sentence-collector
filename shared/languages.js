@@ -54,6 +54,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Hornjoserbšćina',
   },
   {
+    code: 'kaa',
+    name: 'Karakalpak',
+    nativeName: 'Qaraqalpaq tili',
+  },
+  {
     code: 'kab',
     name: 'Kabyle',
     nativeName: 'Taqbaylit',
