@@ -107,7 +107,7 @@ async function backupAllLanguage(db, languageCode, exportPath) {
   const cvPath = `${exportPath}/${languageCode}`;
   let sentences = [];
   try {
-    sentences = await db.getAll(dbLanguageCode);
+    sentences = await db.getAllSentences(dbLanguageCode);
   } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
 
   if (!sentences || sentences.length === 0) {

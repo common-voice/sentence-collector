@@ -1,8 +1,9 @@
-import DB from '../db.js';
+import DB from '../../db.js';
 
 const NAME = 'User';
 
 export default class User {
+
   constructor(kintoServer, username) {
     this.username = username;
     this.server = kintoServer;

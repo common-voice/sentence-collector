@@ -105,7 +105,7 @@ class Review extends React.Component {
 
     const lang = this.getLanguageFromParams();
     const db = new WebDB(this.props.username, this.props.password);
-    const sentences = await db.getNotVoted(lang);
+    const sentences = await db.getSentencesNotVoted(lang);
     this.setState({
       loading: false,
       sentences,
