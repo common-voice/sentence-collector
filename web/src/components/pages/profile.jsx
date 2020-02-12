@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom';
 import { getLanguageName } from '../../../../shared/languages';
 import { arrayCompare } from '../../../../shared/util';
 import WebDB from '../../web-db';
-import {
-  addLanguage,
-  removeLanguage,
-  setSetting,
-  changePassword,
-} from '../../actions';
+import { addLanguage, removeLanguage, setSetting } from '../../actions';
 import LanguageSelector from '../language-selector';
 
 import '../../../css/profile.css';
@@ -20,8 +15,6 @@ const DEFAULT_STATE = {
   totalValidated: 0,
   languageInfo: {},
   loading: false,
-  passwordEntered: false,
-  passwordsMatching: true,
 };
 
 class Profile extends React.Component {
@@ -30,8 +23,6 @@ class Profile extends React.Component {
     this.state = DEFAULT_STATE;
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
-    this.onPasswordSubmit = this.onPasswordSubmit.bind(this);
-    this.checkPasswordInput = this.checkPasswordInput.bind(this);
     this.activateSwipeReview = this.activateSwipeReview.bind(this);
     this.deactivateSwipeReview = this.deactivateSwipeReview.bind(this);
   }
@@ -145,22 +136,6 @@ class Profile extends React.Component {
     this.props.setSetting('useSwipeReview', false);
   }
 
-  onPasswordSubmit() {
-    const password = document.querySelector('#password').value;
-    this.props.changePassword(password);
-  }
-
-  checkPasswordInput() {
-    const password = document.querySelector('#password').value;
-    const passwordRepeat = document.querySelector('#password-repeat').value;
-    const valid = password && passwordRepeat && password == passwordRepeat;
-
-    this.setState({
-      passwordEntered: Boolean(password) && Boolean(passwordRepeat),
-      passwordsMatching: valid,
-    });
-  }
-
   render() {
     const {
       username,
@@ -168,12 +143,12 @@ class Profile extends React.Component {
       pending,
       settings = {},
       settingsChangedFailureMessage,
-      passwordChanged,
     } = this.props;
+    console.log('settings changed?', settingsChangedFailureMessage);
     const { useSwipeReview } = settings;
 
     return (
-      <>
+      <form>
         <h2>Profile: { username }</h2>
 
         { languages && languages.length > 0 && (
@@ -220,25 +195,6 @@ class Profile extends React.Component {
         </section>
 
         <section>
-          <h2>Change Password</h2>
-          <p>Note that you will be logged out after changing the password. Please login with your new password.</p>
-          <form id="change-password" onSubmit={this.onPasswordSubmit}>
-            {passwordChanged === false && (
-              <p className="form-error">Password could not be changed. Please try again later.</p>
-            )}
-            <section>
-              <label htmlFor="password">Password</label>
-              <input type="password" id="password" onChange={this.checkPasswordInput} />
-              <label htmlFor="password-repeat">Repeat password</label>
-              <input type="password" id="password-repeat" onChange={this.checkPasswordInput} />
-              {!this.state.passwordsMatching && (<p className="password-error">Passwords do not match.</p>)}
-              {passwordChanged && (<p>Password changed successfully.</p>)}
-              <button disabled={!this.state.passwordEntered || !this.state.passwordsMatching}>Submit</button>
-            </section>
-          </form>
-        </section>
-
-        <section>
           <h2>Settings</h2>
           {settingsChangedFailureMessage && (
             <p className="form-error">{settingsChangedFailureMessage}</p>
@@ -256,7 +212,7 @@ class Profile extends React.Component {
             <button onClick={this.deactivateSwipeReview}>Use Normal Review Tool</button>
           )}
         </section>
-      </>
+      </form>
     );
   }
 }
@@ -289,7 +245,6 @@ function mapStateToProps(state) {
     pending: state.app.pendingLanguages,
     settings: state.app.settings,
     settingsChangedFailureMessage: state.app.settingsChangedFailureMessage,
-    passwordChanged: state.app.passwordChanged,
   };
 }
 
@@ -298,7 +253,6 @@ function mapDispatchToProps(dispatch) {
     addLanguage: (language) => dispatch(addLanguage(language)),
     removeLanguage: (language) => dispatch(removeLanguage(language)),
     setSetting: (key, value) => dispatch(setSetting(key, value)),
-    changePassword: (password) => dispatch(changePassword(password)),
   };
 }
 

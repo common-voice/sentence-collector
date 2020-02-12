@@ -23,8 +23,6 @@ export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
-export const ACTION_PASSWORD_CHANGED = 'ACTION_PASSWORD_CHANGED';
-export const ACTION_PASSWORD_CHANGE_FAILURE = 'ACTION_PASSWORD_CHANGE_FAILURE';
 
 const VALID_USERNAME_CHARACTERS = /^[a-zA-Z0-9]+$/;
 
@@ -77,24 +75,6 @@ export function setSetting(key, value) {
       }));
     } catch (err) {
       dispatch(settingsChangedFailure());
-      throw err;
-    }
-  };
-}
-
-export function changePassword(password) {
-  return async function(dispatch, getState) {
-    if (!password) {
-      return dispatch(passwordChangedFailure());
-    }
-
-    try {
-      const state = getState();
-      const db = new WebDB(state.app.username, state.app.password);
-      await db.changePassword(state.app.username, state.app.password, password);
-      dispatch(passwordChanged(password));
-    } catch (err) {
-      dispatch(passwordChangedFailure());
       throw err;
     }
   };
@@ -211,19 +191,6 @@ export function settingsChanged(newSettings) {
 export function settingsChangedFailure() {
   return {
     type: ACTION_SETTINGS_CHANGED_FAILURE,
-  };
-}
-
-export function passwordChanged(newPassword) {
-  return {
-    type: ACTION_PASSWORD_CHANGED,
-    newPassword,
-  };
-}
-
-export function passwordChangedFailure() {
-  return {
-    type: ACTION_PASSWORD_CHANGE_FAILURE,
   };
 }
 

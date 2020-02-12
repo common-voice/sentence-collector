@@ -30,7 +30,6 @@
     "test": "npm run lint && npm run build && npm run test:frontend && npm run test:shared"
   },
   "dependencies": {
-    "axios": "^0.19.2",
     "connected-react-router": "^6.6.1",
     "hammerjs": "^2.0.8",
     "hash.js": "^1.1.7",

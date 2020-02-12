@@ -21,8 +21,6 @@ import {
   ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
   ACTION_SETTINGS_CHANGED,
   ACTION_SETTINGS_CHANGED_FAILURE,
-  ACTION_PASSWORD_CHANGED,
-  ACTION_PASSWORD_CHANGE_FAILURE,
 } from '../actions';
 
 import {
@@ -40,7 +38,6 @@ export const INITIAL_STATE = {
   errorMessage: null,
   sentenceSubmissionFailures: [],
   settingsChangedFailureMessage: '',
-  passwordChanged: null,
 };
 
 function copyInto(oldObj, newObj) {
@@ -172,19 +169,6 @@ function reducer(state = INITIAL_STATE, action) {
     case ACTION_SETTINGS_CHANGED_FAILURE:
       return copyInto(state, {
         settingsChangedFailureMessage: 'Could not change settings. Please try again.',
-      });
-
-    case ACTION_PASSWORD_CHANGED:
-      return copyInto(state, {
-        authed: false,
-        username: null,
-        password: state.newPassword,
-        passwordChanged: true,
-      });
-
-    case ACTION_PASSWORD_CHANGE_FAILURE:
-      return copyInto(state, {
-        passwordChanged: false,
       });
 
     default:
