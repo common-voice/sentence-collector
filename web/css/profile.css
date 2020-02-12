@@ -7,3 +7,15 @@ button.remove-lang {
   box-shadow: none;
   text-decoration: underline;
 }
+
+#change-password {
+  max-width: 600px;
+}
+
+#change-password button {
+  margin: 0;
+}
+
+#change-password .form-error {
+  text-align: left;
+}

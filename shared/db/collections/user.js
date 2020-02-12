@@ -1,3 +1,4 @@
+import axios from 'axios';
 import DB from '../../db.js';
 
 const NAME = 'User';
@@ -56,6 +57,22 @@ export default class User {
     }
 
     return user.data;
+  }
+
+  async changePassword(username, password, newPassword) {
+    const apiUrl = `${this.server._remote}/accounts/${username}`;
+    const data = {
+      data: {
+        password: newPassword,
+      },
+    };
+
+    return axios.put(apiUrl, data, {
+      auth: {
+        username,
+        password,
+      },
+    });
   }
 
   async getAllUsers() {
