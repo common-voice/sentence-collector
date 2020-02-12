@@ -11,7 +11,6 @@ import Sentences from './db/collections/sentences-meta';
 export const BUCKET_NAME = 'App';
 
 export default class DB {
-
   constructor(remote, username, password) {
     this.username = username;
     this.password = password;
@@ -91,6 +90,10 @@ export default class DB {
 
   async removeLanguage(language) {
     return this.user.removeLanguage(language);
+  }
+
+  async changePassword(user, password, newPassword) {
+    return this.user.changePassword(user, password, newPassword);
   }
 
   async getSentences(language) {
