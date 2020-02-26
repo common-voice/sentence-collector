@@ -124,6 +124,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'удмурт кыл',
   },
   {
+    code: 'vec',
+    name: 'Venetian',
+    nativeName: 'vèneto',
+  },
+  {
     code: 'vot',
     name: 'Votic',
     nativeName: 'maaceeli',
