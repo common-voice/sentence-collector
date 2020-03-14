@@ -7,7 +7,7 @@ import { getStore } from './testUtils';
 
 test('Login button is disabled without input values', () => {
   const initialState = {
-    app: {
+    login: {
       authed: false,
       username: null,
       errormessage: null,

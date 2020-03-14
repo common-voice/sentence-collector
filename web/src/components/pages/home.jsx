@@ -47,10 +47,10 @@ const LanguageStats = (props) => {
 
 function mapStateToProps(state) {
   return {
-    languages: state.app.languages,
-    authed: state.app.authed,
-    username: state.app.username,
-    password: state.app.password,
+    languages: state.languages.languages,
+    authed: state.login.authed,
+    username: state.login.username,
+    password: state.login.password,
   };
 }
 

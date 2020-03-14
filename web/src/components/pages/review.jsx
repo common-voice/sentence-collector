@@ -193,10 +193,10 @@ class Review extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    languages: state.app.languages,
-    username: state.app.username,
-    password: state.app.password,
-    useSwipeReview: state.app.settings && state.app.settings.useSwipeReview,
+    languages: state.languages.languages,
+    password: state.login.password,
+    username: state.login.username,
+    useSwipeReview: state.settings.useSwipeReview,
   };
 }
 

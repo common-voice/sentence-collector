@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { logout } from '../actions';
+import { logout } from '../actions/login';
 
 class ProfileWidget extends React.Component {
   constructor(props) {
@@ -30,8 +30,8 @@ class ProfileWidget extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    authed: state.app.authed,
-    username: state.app.username,
+    authed: state.login.authed,
+    username: state.login.username,
   };
 }
 

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { getLanguageName } from '../../../../shared/languages';
 import { arrayCompare } from '../../../../shared/util';
 import WebDB from '../../web-db';
-import { addLanguage, removeLanguage, setSetting } from '../../actions';
+import { addLanguage, removeLanguage } from '../../actions/languages';
+import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
 
 import '../../../css/profile.css';
@@ -141,10 +142,8 @@ class Profile extends React.Component {
       username,
       languages,
       pending,
-      settings = {},
-      settingsChangedFailureMessage,
+      settings,
     } = this.props;
-    console.log('settings changed?', settingsChangedFailureMessage);
     const { useSwipeReview } = settings;
 
     return (
@@ -196,8 +195,8 @@ class Profile extends React.Component {
 
         <section>
           <h2>Settings</h2>
-          {settingsChangedFailureMessage && (
-            <p className="form-error">{settingsChangedFailureMessage}</p>
+          {settings.errorMessage && (
+            <p className="form-error">{settings.errorMessage}</p>
           )}
           <p>
             Experimental: There are two different tools with which you can review sentences. The normal tool lists 5 sentences per page
@@ -239,12 +238,11 @@ const LanguageInfo = (props) => (
 
 function mapStateToProps(state) {
   return {
-    username: state.app.username,
-    password: state.app.password,
-    languages: state.app.languages,
-    pending: state.app.pendingLanguages,
-    settings: state.app.settings,
-    settingsChangedFailureMessage: state.app.settingsChangedFailureMessage,
+    username: state.login.username,
+    password: state.login.password,
+    languages: state.languages.languages,
+    pending: state.languages.pendingLanguages,
+    settings: state.settings,
   };
 }
 

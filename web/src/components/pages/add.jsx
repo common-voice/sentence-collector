@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { submitSentences } from '../../actions';
+import { submitSentences } from '../../actions/sentences';
 import { parseSentences } from '../../actions/parsing';
 
 import SubmitForm from '../submit-form';
@@ -239,9 +239,7 @@ class Add extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    languages: state.app.languages,
-    username: state.app.username,
-    password: state.app.password,
+    languages: state.languages.languages,
   };
 }
 

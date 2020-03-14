@@ -62,9 +62,9 @@ class Rejected extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    username: state.app.username,
-    password: state.app.password,
-    languages: state.app.languages,
+    username: state.login.username,
+    password: state.login.password,
+    languages: state.languages.languages,
   };
 }
 

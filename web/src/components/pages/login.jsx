@@ -6,7 +6,7 @@ import {
   login,
   logout,
   checkLoginInput,
-} from '../../actions';
+} from '../../actions/login';
 
 class Login extends React.Component {
   constructor(props) {
@@ -60,10 +60,10 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    authed: state.app.authed,
-    username: state.app.username,
-    errorMessage: state.app.errorMessage,
-    loginDisabled: state.app.loginDisabled,
+    authed: state.login.authed,
+    username: state.login.username,
+    errorMessage: state.login.errorMessage,
+    loginDisabled: state.login.loginDisabled,
   };
 }
 

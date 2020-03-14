@@ -10,8 +10,8 @@ export function parseSentences(language, text) {
     try {
       const state = getState();
       const credentials = {
-        username: state.app.username,
-        password: state.app.password,
+        username: state.login.username,
+        password: state.login.password,
       };
 
       const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);

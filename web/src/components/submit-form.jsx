@@ -7,8 +7,8 @@ import SpinnerButton from './spinner-button';
 
 function mapStateToProps(state) {
   return {
-    errorMessage: state.app.errorMessage,
-    sentenceSubmissionFailures: state.app.sentenceSubmissionFailures,
+    errorMessage: state.sentences.errorMessage,
+    sentenceSubmissionFailures: state.sentences.sentenceSubmissionFailures,
   };
 }
 

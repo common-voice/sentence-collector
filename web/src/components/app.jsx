@@ -75,7 +75,7 @@ const PrivateRoute = (props) => {
 
 function mapStateToProps(state) {
   return {
-    authed: state.app.authed,
+    authed: state.login.authed,
   };
 }
 
