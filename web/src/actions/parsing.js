@@ -1,4 +1,4 @@
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 import * as validation from '../../../shared/validation';
 
 export const ACTION_PARSE_SENTENCES_FAILURE = 'PARSE_SENTENCES_FAILURE';
@@ -6,16 +6,10 @@ export const ACTION_PARSE_SENTENCES_FAILURE = 'PARSE_SENTENCES_FAILURE';
 const SPLIT_ON = '\n';
 
 export function parseSentences(language, text) {
-  return async function(dispatch, getState) {
+  return async function(dispatch) {
     try {
-      const state = getState();
-      const credentials = {
-        username: state.app.username,
-        password: state.app.password,
-      };
-
       const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
-      const { valid, filtered, existing, submitted } = await filterSentences(language, sentences, credentials);
+      const { valid, filtered, existing, submitted } = await filterSentences(language, sentences);
       const filteredSentences = filtered.map((filteredResult) => filteredResult.sentence);
 
       checkForNewSentences([
@@ -36,9 +30,9 @@ export function parseSentences(language, text) {
   };
 }
 
-async function filterSentences(language, sentences, credentials) {
+async function filterSentences(language, sentences) {
   const dedupedSentences = Array.from(new Set(sentences));
-  const existingSentences = await getAlreadyDefinedSentences(language, dedupedSentences, credentials);
+  const existingSentences = await getAlreadyDefinedSentences(language, dedupedSentences);
 
   const { valid, filtered } = validation.validateSentences(language, dedupedSentences);
 
@@ -55,8 +49,8 @@ async function filterSentences(language, sentences, credentials) {
   };
 }
 
-async function getAlreadyDefinedSentences(language, sentences, credentials) {
-  const db = new WebDB(credentials.username, credentials.password);
+async function getAlreadyDefinedSentences(language, sentences) {
+  const db = getDBInstance();
   const existing = await db.getAlreadyExistingSubset(language, sentences);
   const existingSentences = existing.map(s => s.sentence);
   return existingSentences;

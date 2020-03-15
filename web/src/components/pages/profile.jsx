@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { getLanguageName } from '../../../../shared/languages';
 import { arrayCompare } from '../../../../shared/util';
-import WebDB from '../../web-db';
-import { addLanguage, removeLanguage, setSetting } from '../../actions';
+import { getDBInstance } from '../../web-db';
+import { addLanguage, removeLanguage } from '../../actions/languages';
+import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
 
 import '../../../css/profile.css';
@@ -36,7 +37,7 @@ class Profile extends React.Component {
   }
 
   async loadUserLanguageInfo() {
-    const { username, password, languages } = this.props;
+    const { languages } = this.props;
 
     // No need to load langauge meta data if user hasn't added any languages.
     if (!languages || languages.length < 1) {
@@ -49,7 +50,7 @@ class Profile extends React.Component {
         languageInfo: DEFAULT_STATE.languageInfo,
       });
 
-      const db = new WebDB(username, password);
+      const db = getDBInstance();
       const metas = await db.getLanguagesMetaForMe(languages);
 
       // Transform array of language data into langauge info state.
@@ -141,10 +142,8 @@ class Profile extends React.Component {
       username,
       languages,
       pending,
-      settings = {},
-      settingsChangedFailureMessage,
+      settings,
     } = this.props;
-    console.log('settings changed?', settingsChangedFailureMessage);
     const { useSwipeReview } = settings;
 
     return (
@@ -196,8 +195,8 @@ class Profile extends React.Component {
 
         <section>
           <h2>Settings</h2>
-          {settingsChangedFailureMessage && (
-            <p className="form-error">{settingsChangedFailureMessage}</p>
+          {settings.errorMessage && (
+            <p className="form-error">{settings.errorMessage}</p>
           )}
           <p>
             Experimental: There are two different tools with which you can review sentences. The normal tool lists 5 sentences per page
@@ -239,12 +238,10 @@ const LanguageInfo = (props) => (
 
 function mapStateToProps(state) {
   return {
-    username: state.app.username,
-    password: state.app.password,
-    languages: state.app.languages,
-    pending: state.app.pendingLanguages,
-    settings: state.app.settings,
-    settingsChangedFailureMessage: state.app.settingsChangedFailureMessage,
+    username: state.login.username,
+    languages: state.languages.languages,
+    pending: state.languages.pendingLanguages,
+    settings: state.settings,
   };
 }
 

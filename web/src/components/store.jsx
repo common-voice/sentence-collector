@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 
-import createRootReducer, { INITIAL_STATE } from '../reducers';
+import createRootReducer from '../reducers';
 
 const ROOT_KEY = 'redux';
 const persistConfig = {
@@ -21,7 +21,7 @@ function getStore(history) {
 
   return createStore(
     persistedRecuder,
-    { app: INITIAL_STATE },
+    {},
     compose(
       applyMiddleware(thunk),
       applyMiddleware(routerMiddleware(history))

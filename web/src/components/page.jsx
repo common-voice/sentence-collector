@@ -5,7 +5,7 @@ import HeaderBtn from './header-btn';
 
 const DEFAULT_STATE = {
   headerIsOpen: true,
-}
+};
 
 export default class Page extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ export default class Page extends React.Component {
       return [
         <Header key="header" />,
         <div id="page" key="page">
-          <HeaderBtn  isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
+          <HeaderBtn isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
           <main key="main">
             {this.props.children}
           </main>
