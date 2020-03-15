@@ -31,6 +31,10 @@ class ConfirmForm extends React.Component {
       readyCount,
     } = this.props;
 
+    const {
+      pendingSentences,
+    } = this.state;
+
     return (
       <form onSubmit={this.onSubmit}>
         <h2>Confirm New Sentences</h2>
@@ -73,15 +77,16 @@ class ConfirmForm extends React.Component {
 
         <section id="confirm-buttons">
 
-          { this.state.pendingSentences ?
+          { pendingSentences ?
             <SpinnerButton></SpinnerButton> :
             <button type="submit" disabled={readyCount === 0}>Confirm</button>
           }
 
-          { this.state.pendingSentences && (
+          { pendingSentences && (
             <div>
-              <p className="loadingText">Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
-            Please don't close this website.
+              <p className="loadingText">
+                Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
+                Please don't close this website.
               </p>
             </div>
           )}

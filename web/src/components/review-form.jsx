@@ -14,16 +14,12 @@ const DEFAULT_STATE = {
 export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = DEFAULT_STATE;
+    this.state = Object.assign({}, DEFAULT_STATE, {
+      sentences: this.props.sentences.map((sentence) => ({ sentence })),
+    });
     this.onSubmit = this.onSubmit.bind(this);
     this.setPage = this.setPage.bind(this);
     this.cardsRef = React.createRef();
-
-    this.state.sentences = this.props.sentences.map((sentence) => {
-      return {
-        sentence,
-      };
-    });
   }
 
   getTotalPages() {
@@ -93,14 +89,20 @@ export default class ReviewForm extends React.Component {
   }
 
   render() {
-    if (!this.props.sentences && this.props.sentences.length < 1) {
+    const {
+      sentences = [],
+      message,
+      useSwipeReview,
+    } = this.props;
+
+    if (sentences.length < 1) {
       return <h2>nothing to review</h2>;
     }
 
     const offset = this.getOffset();
-    const curSentences = this.props.sentences.slice(offset, offset + PAGE_SIZE);
+    const curSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
-    if (this.props.useSwipeReview) {
+    if (useSwipeReview) {
       let message = (<p>You have not reviewed any sentences yet!</p>);
       if (this.state.page !== 0) {
         message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>)
@@ -139,7 +141,7 @@ export default class ReviewForm extends React.Component {
 
     return (
       <form id="review-form" onSubmit={this.onSubmit}>
-        { this.props.message && ( <p>{ this.props.message }</p> ) }
+        {message && ( <p>{ message }</p> ) }
 
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
@@ -171,7 +173,7 @@ export default class ReviewForm extends React.Component {
               Please don&apos;t close this website.</p>
           )}
         </section>
-        
+
         <section className="review-footer">
           <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
           <Pager page={this.state.page} lastPage={this.getLastPage()}
