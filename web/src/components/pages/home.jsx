@@ -21,8 +21,7 @@ class Home extends React.Component {
         </p>
         <SentenceCollectorInfo />
         { this.props.authed && (
-          <LanguageStats languages={fullLangs}
-           username={this.props.username} password={this.props.password} />
+          <LanguageStats languages={fullLangs} />
         )}
       </div>
     );
@@ -40,8 +39,7 @@ const LanguageStats = (props) => {
   }
 
   return props.languages.map(lang => (
-    <LanguageInfo key={lang.code} language={lang.code}
-      username={props.username} password={props.password} />
+    <LanguageInfo key={lang.code} language={lang.code} />
   ));
 };
 
@@ -49,8 +47,6 @@ function mapStateToProps(state) {
   return {
     languages: state.languages.languages,
     authed: state.login.authed,
-    username: state.login.username,
-    password: state.login.password,
   };
 }
 

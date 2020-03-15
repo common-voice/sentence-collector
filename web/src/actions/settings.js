@@ -1,13 +1,12 @@
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
 
 export function setSetting(key, value) {
-  return async function(dispatch, getState) {
+  return async function(dispatch) {
     try {
-      const state = getState();
-      const db = new WebDB(state.login.username, state.login.password);
+      const db = getDBInstance();
       await db.setSetting(key, value);
       dispatch(settingsChanged({
         [key]: value,

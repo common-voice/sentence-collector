@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 import { getLanguageName } from '../../../shared/languages';
 import { getReviewUrl } from './pages/review';
 
@@ -40,10 +40,11 @@ export default class LanguageInfo extends React.Component {
   }
 
   async fillCounts() {
-    const db = new WebDB(this.props.username, this.props.password);
-    const count = await db.getSentenceCount(this.props.language);
-    const unreviewed = await db.getSentencesNotVoted(this.props.language);
-    const validated = await db.getValidatedSentences(this.props.language);
+    const { language } = this.props;
+    const db = getDBInstance();
+    const count = await db.getSentenceCount(language);
+    const unreviewed = await db.getSentencesNotVoted(language);
+    const validated = await db.getValidatedSentences(language);
     this.setState({
       total: count,
       unvoted: unreviewed.length,
@@ -52,22 +53,31 @@ export default class LanguageInfo extends React.Component {
   }
 
   render() {
-    return this.state.loading ? <p>Loading language data...</p> : (
+    const {
+      loading,
+      total,
+      unvoted,
+      validated,
+    } = this.state;
+
+    const { language } = this.props;
+
+    return loading ? <p>Loading language data...</p> : (
       <section>
-        <h3>{getLanguageName(this.props.language)}</h3>
+        <h3>{getLanguageName(language)}</h3>
         { this.state.loading && ( <p>Loading</p> ) }
         <ul>
-          <li>{this.state.total} total sentences.</li>
+          <li>{total} total sentences.</li>
           <li>
-           {this.state.unvoted} unreviewed sentences.&nbsp;
-           { this.state.unvoted > 0 && (
-             <Link to={getReviewUrl(this.props.language)}>Review now!</Link>
+           {unvoted} unreviewed sentences.&nbsp;
+           { unvoted > 0 && (
+             <Link to={getReviewUrl(language)}>Review now!</Link>
            )}
-           { this.state.unvoted === 0 && (
+           { unvoted === 0 && (
              <Link to={'/add'}>Add more sentences now!</Link>
            )}
           </li>
-          <li>{this.state.validated} validated sentences.</li>
+          <li>{validated} validated sentences.</li>
         </ul>
       </section>
     );

@@ -1,4 +1,7 @@
-import WebDB from '../web-db';
+import {
+  getDBInstance,
+  removeInstance,
+} from '../web-db';
 import { addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
@@ -18,7 +21,7 @@ export function login(username, password) {
     try {
       dispatch(sendLoginRequest());
 
-      const db = new WebDB(username, password);
+      const db = getDBInstance(username, password);
       const user = await db.auth();
       dispatch(loginSuccess(username, password));
       dispatch(addLanguageSuccess(user.languages));
@@ -79,6 +82,8 @@ export function enableLogin() {
 }
 
 export function logout() {
+  removeInstance();
+
   return {
     type: ACTION_LOGOUT,
   };

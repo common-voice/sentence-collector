@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { getLanguageName } from '../../../../shared/languages';
 import { arrayCompare } from '../../../../shared/util';
-import WebDB from '../../web-db';
+import { getDBInstance } from '../../web-db';
 import { addLanguage, removeLanguage } from '../../actions/languages';
 import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
@@ -37,7 +37,7 @@ class Profile extends React.Component {
   }
 
   async loadUserLanguageInfo() {
-    const { username, password, languages } = this.props;
+    const { languages } = this.props;
 
     // No need to load langauge meta data if user hasn't added any languages.
     if (!languages || languages.length < 1) {
@@ -50,7 +50,7 @@ class Profile extends React.Component {
         languageInfo: DEFAULT_STATE.languageInfo,
       });
 
-      const db = new WebDB(username, password);
+      const db = getDBInstance();
       const metas = await db.getLanguagesMetaForMe(languages);
 
       // Transform array of language data into langauge info state.
@@ -239,7 +239,6 @@ const LanguageInfo = (props) => (
 function mapStateToProps(state) {
   return {
     username: state.login.username,
-    password: state.login.password,
     languages: state.languages.languages,
     pending: state.languages.pendingLanguages,
     settings: state.settings,

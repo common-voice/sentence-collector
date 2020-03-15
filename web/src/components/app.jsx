@@ -6,6 +6,7 @@ import {
   Route
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import { getDBInstance } from '../web-db';
 
 import Page from './page';
 import Home from './pages/home';
@@ -19,6 +20,7 @@ import Review from './pages/review';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    getDBInstance(props.username, props.password);
   }
 
   render() {
@@ -76,6 +78,8 @@ const PrivateRoute = (props) => {
 function mapStateToProps(state) {
   return {
     authed: state.login.authed,
+    username: state.login.username,
+    password: state.login.password,
   };
 }
 

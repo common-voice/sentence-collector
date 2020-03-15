@@ -4,9 +4,9 @@ import { Link, Redirect } from 'react-router-dom';
 
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
-import WebDB from '../../web-db';
+import { getDBInstance } from '../../web-db';
 import Modal from '../modal';
-import reviewSentences from '../../../../doc/review-sentences.md'
+import reviewSentences from '../../../../doc/review-sentences.md';
 
 const DEFAULT_STATE = {
   message: '',
@@ -104,8 +104,9 @@ class Review extends React.Component {
     });
 
     const lang = this.getLanguageFromParams();
-    const db = new WebDB(this.props.username, this.props.password);
+    const db = getDBInstance();
     const sentences = await db.getSentencesNotVoted(lang);
+    console.log('sentences', sentences);
     this.setState({
       loading: false,
       sentences,
@@ -122,7 +123,7 @@ class Review extends React.Component {
     const invalidated = reviewedState.invalidated;
     const lang = this.getLanguageFromParams();
 
-    const db = new WebDB(this.props.username, this.props.password);
+    const db = getDBInstance();
     const { votes } = await db.vote(lang, validated, invalidated);
     this.setState({
       message: `${votes.length} sentences reviewed. Thank you!`,
@@ -194,8 +195,6 @@ class Review extends React.Component {
 function mapStateToProps(state) {
   return {
     languages: state.languages.languages,
-    password: state.login.password,
-    username: state.login.username,
     useSwipeReview: state.settings.useSwipeReview,
   };
 }

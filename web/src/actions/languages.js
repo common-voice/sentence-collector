@@ -1,4 +1,4 @@
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -9,12 +9,11 @@ export const ACTION_REMOVE_LANGUAGE_SUCCESS = 'REMOVE_LANGUAGE_SUCCESS';
 export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export function addLanguage(language) {
-  return async function(dispatch, getState) {
+  return async function(dispatch) {
     try {
       dispatch(sendAddLanguage());
 
-      const state = getState();
-      const db = new WebDB(state.login.username, state.login.password);
+      const db = getDBInstance();
       const updatedLanguages = await db.addLanguage(language);
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
@@ -25,12 +24,11 @@ export function addLanguage(language) {
 }
 
 export function removeLanguage(language) {
-  return async function(dispatch, getState) {
+  return async function(dispatch) {
     try {
       dispatch(sendRemoveLanguage());
 
-      const state = getState();
-      const db = new WebDB(state.login.username, state.login.password);
+      const db = getDBInstance();
       const updatedLanguages = await db.removeLanguage(language);
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {

@@ -1,4 +1,4 @@
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 import { addLanguage } from './languages';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
@@ -10,7 +10,7 @@ export function submitSentences(language, sentences, source) {
     dispatch(sendSubmitSentences());
 
     const state = getState();
-    const db = new WebDB(state.login.username, state.login.password);
+    const db = getDBInstance();
     const results = await db.submitSentences(language, sentences, source);
     dispatch(submitSentencesSuccess(results.sentences.slice(0)));
     const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);

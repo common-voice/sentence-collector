@@ -1,6 +1,6 @@
 import React from 'react';
 
-import WebDB from '../web-db';
+import { getDBInstance } from '../web-db';
 
 const DEFAULT_STATE = {
   loading: false,
@@ -36,7 +36,7 @@ export default class SentenceCollectorInfo extends React.Component {
   }
 
   async fillCounts() {
-    const db = new WebDB(this.props.username, this.props.password);
+    const db = getDBInstance();
     const { languages, sentences } = await db.getSiteMetadata();
     this.setState({
       languages,

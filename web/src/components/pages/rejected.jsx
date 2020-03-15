@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import WebDB from '../../web-db';
+import { getDBInstance } from '../../web-db';
 
 class Rejected extends React.Component {
   constructor() {
@@ -13,12 +13,17 @@ class Rejected extends React.Component {
   }
 
   async loadRejected() {
-    if (!this.props.languages || this.props.languages.length < 1) {
+    const {
+      languages = [],
+      username,
+    } = this.props;
+
+    if (languages.length < 1) {
       return;
     }
 
-    const db = new WebDB(this.props.username, this.props.password);
-    const rejectedSentences = await db.getAllRejectedByUsername(this.props.languages, this.props.username);
+    const db = getDBInstance();
+    const rejectedSentences = await db.getAllRejectedByUsername(languages, username);
     this.setState({
       rejectedSentences,
       loading: false,
@@ -63,7 +68,6 @@ class Rejected extends React.Component {
 function mapStateToProps(state) {
   return {
     username: state.login.username,
-    password: state.login.password,
     languages: state.languages.languages,
   };
 }
