@@ -1,5 +1,5 @@
 import WebDB from '../web-db';
-import languages from './languages';
+import { addLanguage } from './languages';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
@@ -16,7 +16,7 @@ export function submitSentences(language, sentences, source) {
     const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
     dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
     if(!state.languages.languages.includes(language)) {
-      dispatch(languages.addLanguage(language));
+      dispatch(addLanguage(language));
     }
     return results;
   };
