@@ -49,9 +49,7 @@ class Login extends React.Component {
         <section>
           <label htmlFor="username">username (alphanumeric, no email)</label>
           <input type="text" id="username" onChange={this.checkInput} disabled={this.props.pending} />
-          <label htmlFor="password">password</label>
-          <input type="password" id="password" onChange={this.checkInput} disabled={this.props.pending} />
-          <button disabled={this.props.pending || this.props.loginDisabled}>Submit</button>
+          <button disabled>Submit</button>
         </section>
       </form>
     );

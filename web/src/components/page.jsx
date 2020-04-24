@@ -27,6 +27,7 @@ export default class Page extends React.Component {
         <div id="page" key="page">
           <HeaderBtn isOpen={this.state.headerIsOpen} handleClick={this.handleClick} />
           <main key="main">
+            <p>We are currently experiencing issues, see <a href="https://github.com/Common-Voice/sentence-collector/issues/305">GitHub</a> for current information.</p>
             {this.props.children}
           </main>
         </div>
