@@ -13,8 +13,12 @@ export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
 
 export function getLanguages() {
   return async function(dispatch) {
-    const languages = await sendRequest('languages');
-    dispatch(gotLanguages(languages));
+    try {
+      const languages = await sendRequest('languages');
+      dispatch(gotLanguages(languages));
+    } catch (error) {
+      console.error('Failed to fetch languages', error);
+    }
   };
 }
 
