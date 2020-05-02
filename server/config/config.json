@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "localdevelopment",
+    "database": "sentencecollector",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "dialect": "mysql"
+  },
+  "production": {
+    "use_env_variable": "SC_CONNECT",
+    "dialect": "mysql"
+  }
+}

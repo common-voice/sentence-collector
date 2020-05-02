@@ -8,6 +8,21 @@ services:
     networks:
       - backend-net
 
+  dbsql:
+    image: mysql:8.0
+    restart: always
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: sentencecollector
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: localdevelopment
+      MYSQL_ROOT_PASSWORD: localdevelopment
+    networks:
+      - backend-net
+
   cache:
     image: library/memcached
     networks:

@@ -9,7 +9,7 @@
 
 ## Prerequisites
 
- * [Node >= 10.12.0](https://nodejs.org/en/)
+ * [Node >= 12.0.0](https://nodejs.org/en/)
  * [docker](https://docs.docker.com/install/)
  * [docker-compose](https://docs.docker.com/compose/install/)
 
@@ -20,27 +20,14 @@ cp .env_template .env
 docker-compose up
 ```
 
-Once Kinto is fully started, you can create an admin account with the password `password`. Run the following in a separate Terminal window:
+Now we can install the dependencies and start the server in a new terminal window:
 
 ```
-curl --header "Content-Type: application/json" \
-  --request PUT \
-  --data '{"data": {"password": "password"}}' \
-  http://localhost:8888/v1/accounts/admin
+npm ci
+npm run start:server
 ```
 
-If you want to change the password, please also change the `KINTO_PASSWORD` in `.env`.
-
-Now we can install the dependencies and initialize the database:
-
-```
-npm install
-npm run init-db
-```
-
-If you get an error along the lines of `Error: ENOENT: no such file or directory, scandir '/directory/sentence-collector/voice-web/server/data'` you can safely ignore it for now. This folder is used to gather statistics and metadata from the local Common Voice instance. You can develop most of the features for the collector without having that repository around.
-
-Finally, you can start the frontend by running npm. Please make sure that you're in the root directory of the repository.
+Finally, you can start the frontend in another terminal window. Please make sure that you're in the root directory of the repository.
 
 ```
 npm start
@@ -63,10 +50,6 @@ GITHUB_TOKEN=... npm run deploy -o <remotename>
 ```
 
 This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
-
-### In case of a crash
-
-In the past we've experienced a couple of crashes with Kinto. It's recommended to only restart the database container. If that doesn't do the trick and the `docker-compose` process mentions authorization errors, you might have to `docker exec` a bash on the database machine and recreate the postgres role `CREATE ROLE <POSTGRES_USER> WITH LOGIN PASSWORD '<POSTGRES_PASSWORD>;
 
 ## Export
 
@@ -122,25 +105,3 @@ git push fork sentence-collector-export
 Now you will be able to create a manual pull request using the following URL:
 
 ``https://github.com/YOURUSERNAME/voice-web/pull/new/sentence-collector-export``
-
-## Adding a new user
-
-You can add as many users as you want. To do so, call the accounts endpoint again:
-
-```
-curl --header "Content-Type: application/json" \
-  --request PUT \
-  --data '{"data": {"password": "THIS_IS_YOUR_PASSWORD"}}' \
-  http://localhost:8888/v1/accounts/USERNAME
-```
-
-where `USERNAME` is your username and `THIS_IS_YOUR_PASSWORD` is your password.
-
-To create a user "Bob" with the password "mozilla":
-
-```
-curl --header "Content-Type: application/json" \
-  --request PUT \
-  --data '{"data": {"password": "mozilla"}}' \
-  http://localhost:8888/v1/accounts/Bob
-```

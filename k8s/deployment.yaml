@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sentence-collector-service
+spec:
+  ports:
+  - port: 3333
+    targetPort: 3333
+  selector:
+    app: sentence-collector
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentence-collector-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sentence-collector
+  template:
+    metadata:
+      labels:
+        app: sentence-collector
+    spec:
+      hostname: sentence-collector
+      containers:
+        - name: sentence-collector
+          image: michaelkohler/sentence-collector:<TAG>
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "150M"
+            requests:
+              cpu: "10m"
+              memory: "40M"
+          ports:
+            - containerPort: 3333
+          env:
+            - name: SC_CONNECT
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: connect

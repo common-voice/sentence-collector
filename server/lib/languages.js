@@ -1,6 +1,11 @@
-import ISO6391 from 'iso-639-1';
+const ISO6391 = require('iso-639-1');
 
-export const ENGLISH_CODE = 'en';
+const FALLBACK_LOCALE = 'en';
+
+module.exports = {
+  FALLBACK_LOCALE,
+  getAllLanguages,
+};
 
 const ADDITIONAL_LANGUAGES = [
   {
@@ -155,7 +160,7 @@ const LANGUAGES_TO_REMOVE = [
   'nn' // coverted by nn-NO
 ];
 
-export const getAllLanguages = () => {
+function getAllLanguages() {
   const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
   const languagesWithoutRemoved = removeLanguages(isoLanguages);
   const allLanguages = addAdditionalLanguages(languagesWithoutRemoved);
@@ -165,23 +170,7 @@ export const getAllLanguages = () => {
     return 0;
   });
   return allLanguagesSorted;
-};
-
-export const getLanguages = (codes) => {
-  const allLanguages = getAllLanguages();
-  const filteredLangauges = allLanguages.filter((lang) => codes.includes(lang.code));
-  return filteredLangauges;
-};
-
-export const getLanguageName = (code) => {
-  const language = getAllLanguages().find((language) => language.code === code);
-
-  if (!language) {
-    return 'ERROR - UNKNOWN - ' + code;
-  }
-
-  return language.nativeName;
-};
+}
 
 function removeLanguages(languages) {
   return languages.filter((language) => {

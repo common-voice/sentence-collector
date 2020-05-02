@@ -4,13 +4,15 @@
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "engines": {
-    "node": ">=10.12.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "env": "env $(grep -v '^#' .env | xargs)",
     "clean": "rm -rf dist .cache",
     "reset": "npm run clean && rm -rf node_modules package-lock.json && npm install",
     "start": "npm run clean && npm run env parcel web/index.pug",
+    "start:server": "npm run migrate && DEBUG=sentencecollector:* node server/index.js",
+    "migrate": "cd server && sequelize-cli db:migrate && cd ..",
     "build": "npm run clean && parcel build --no-cache web/index.pug --public-url .",
     "lint": "eslint shared web scripts server",
     "release": "semantic-release",
@@ -30,11 +32,14 @@
   },
   "dependencies": {
     "connected-react-router": "^6.6.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "hammerjs": "^2.0.8",
     "hash.js": "^1.1.7",
     "iso-639-1": "^2.1.0",
     "kinto": "^12.7.0",
     "kinto-http": "^4.7.3",
+    "mysql2": "^2.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.3",
@@ -43,6 +48,7 @@
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "sequelize": "^5.21.7",
     "talisman": "^0.21.0"
   },
   "devDependencies": {
@@ -80,7 +86,8 @@
     "pug": "^2.0.4",
     "react-test-renderer": "^16.12.0",
     "redux-mock-store": "^1.5.3",
-    "semantic-release": "^15.13.31"
+    "semantic-release": "^15.13.31",
+    "sequelize-cli": "^5.5.1"
   },
   "husky": {
     "hooks": {
