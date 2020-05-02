@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { getDBInstance } from '../web-db';
+import { getLanguages } from '../actions/languages';
 
 import Page from './page';
 import Home from './pages/home';
@@ -20,33 +21,27 @@ import Review from './pages/review';
 class App extends React.Component {
   constructor(props) {
     super(props);
+
     getDBInstance(props.username, props.password);
+    props.getLanguages();
   }
 
   render() {
+    const { history, authed } = this.props;
     return (
-      <ConnectedRouter history={this.props.history}>
+      <ConnectedRouter history={history}>
         <Page>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute exact authed={this.props.authed}
-              path="/profile" component={Profile} />
-            <PrivateRoute exact authed={this.props.authed}
-              path="/add" component={Add} />
-            <PrivateRoute exact authed={this.props.authed}
-              path="/review" component={Review} />
-            <PrivateRoute authed={this.props.authed}
-              path="/review/:language" component={Review} />
-            <PrivateRoute authed={this.props.authed}
-              path="/rejected" component={Rejected} />
+            <PrivateRoute exact authed={authed} path="/profile" component={Profile} />
+            <PrivateRoute exact authed={authed} path="/add" component={Add} />
+            <PrivateRoute exact authed={authed} path="/review" component={Review} />
+            <PrivateRoute authed={authed} path="/review/:language" component={Review} />
+            <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
             <Route render={() => (
-              <Redirect
-                to={{
-                  pathname: "/",
-                }}
-              />
+              <Redirect to={{ pathname: "/", }} />
             )} />
           </Switch>
         </Page>
@@ -73,6 +68,12 @@ const PrivateRoute = (props) => {
       )
     }
   />;
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getLanguages: () => dispatch(getLanguages()),
+  };
 }
 
 function mapStateToProps(state) {
@@ -83,4 +84,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

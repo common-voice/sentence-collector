@@ -1,4 +1,5 @@
 import { getDBInstance } from '../web-db';
+import { sendRequest } from '../backend';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -7,6 +8,15 @@ export const ACTION_ADD_LANGUAGE_FAILURE = 'ADD_LANGUAGE_FAILURE';
 export const ACTION_REMOVE_LANGUAGE_REQUEST = 'REMOVE_LANGUAGE_REQUEST';
 export const ACTION_REMOVE_LANGUAGE_SUCCESS = 'REMOVE_LANGUAGE_SUCCESS';
 export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
+
+export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
+
+export function getLanguages() {
+  return async function(dispatch) {
+    const languages = await sendRequest('languages');
+    dispatch(gotLanguages(languages));
+  };
+}
 
 export function addLanguage(language) {
   return async function(dispatch) {
@@ -35,6 +45,13 @@ export function removeLanguage(language) {
       dispatch(removeLanguageFailure());
       throw err;
     }
+  };
+}
+
+export function gotLanguages(languages) {
+  return {
+    type: ACTION_GOT_LANGUAGES,
+    languages,
   };
 }
 

@@ -68,7 +68,7 @@ class Rejected extends React.Component {
 function mapStateToProps(state) {
   return {
     username: state.login.username,
-    languages: state.languages.languages,
+    languages: state.languages.languages.map((lang) => lang.code),
   };
 }
 

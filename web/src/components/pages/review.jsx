@@ -64,13 +64,11 @@ class Review extends React.Component {
 
   isInvalidLanguageRequest() {
     return this.props.languages && this.getLanguageFromParams() &&
-           this.props.languages.indexOf(this.getLanguageFromParams()) === -1;
+           !this.props.languages.find((lang) => lang === this.getLanguageFromParams());
   }
 
   userHasNoLanguages() {
-    return (
-      !this.props.languages || this.props.languages.length < 1
-    );
+    return !this.props.languages || this.props.languages.length < 1;
   }
 
   // Make sure the requests matches the user profile.
@@ -106,7 +104,6 @@ class Review extends React.Component {
     const lang = this.getLanguageFromParams();
     const db = getDBInstance();
     const sentences = await db.getSentencesNotVoted(lang);
-    console.log('sentences', sentences);
     this.setState({
       loading: false,
       sentences,
@@ -152,10 +149,12 @@ class Review extends React.Component {
   }
 
   render() {
+    const { languages, allLanguages } = this.props;
+
     // If user only has one language possible, redirect to it.
     if (this.needsRedirectToOnlyLang()) {
       return (
-        <Redirect to={getReviewUrl(this.props.languages[0])} />
+        <Redirect to={getReviewUrl(languages[0])} />
       );
     }
 
@@ -176,12 +175,13 @@ class Review extends React.Component {
       );
     }
 
+    const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang));
     return (
       <div>
         <section>
           <h1>Review Sentences</h1>
-          <LanguageSelector name="language-selector-review" only={this.props.languages}
-            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
+          <LanguageSelector name="language-selector-review" languages={extendedLanguages}
+                            selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
           <Modal text="ⓘ Review Criteria">
             <div dangerouslySetInnerHTML={{ __html: reviewSentences }} />
           </Modal>
@@ -194,6 +194,7 @@ class Review extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     useSwipeReview: state.settings.useSwipeReview,
   };

@@ -4,14 +4,6 @@ import { connect } from 'react-redux';
 import LanguageSelector from './language-selector';
 import SpinnerButton from './spinner-button';
 
-
-function mapStateToProps(state) {
-  return {
-    errorMessage: state.sentences.errorMessage,
-    sentenceSubmissionFailures: state.sentences.sentenceSubmissionFailures,
-  };
-}
-
 class SubmitForm extends React.Component {
   constructor() {
     super();
@@ -33,6 +25,7 @@ class SubmitForm extends React.Component {
       error,
       errorMessage,
       languages,
+      allLanguages,
       sentenceSubmissionFailures,
     } = this.props;
 
@@ -41,6 +34,10 @@ class SubmitForm extends React.Component {
     } = this.state;
 
     const notError = !message && !error && !errorMessage;
+    let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang));
+    if (extendedLanguages.length < 1) {
+      extendedLanguages = allLanguages;
+    }
 
     return (
       <form id="add-form" onSubmit={this.onSubmit}>
@@ -65,7 +62,7 @@ class SubmitForm extends React.Component {
           <label className="language-selector-label" htmlFor="language-selector">
             Select Language
           </label>
-          <LanguageSelector name="language-selector" only={languages}/>
+          <LanguageSelector name="language-selector" languages={extendedLanguages}/>
         </section>
         <section>
           <label htmlFor="sentences-input">
@@ -104,6 +101,15 @@ class SubmitForm extends React.Component {
       </form>
     );
   }
+}
+
+function mapStateToProps(state) {
+  return {
+    allLanguages: state.languages.allLanguages,
+    languages: state.languages.languages,
+    errorMessage: state.sentences.errorMessage,
+    sentenceSubmissionFailures: state.sentences.sentenceSubmissionFailures,
+  };
 }
 
 export default connect(mapStateToProps)(SubmitForm);

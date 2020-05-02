@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getLanguageName } from '../../../../server/lib/languages';
-import { arrayCompare } from '../../../../shared/util';
 import { getDBInstance } from '../../web-db';
 import { addLanguage, removeLanguage } from '../../actions/languages';
 import { setSetting } from '../../actions/settings';
@@ -89,12 +87,6 @@ class Profile extends React.Component {
     this.loadUserLanguageInfo();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!arrayCompare(prevProps.languages, this.props.languages)) {
-      this.loadUserLanguageInfo();
-    }
-  }
-
   async onAdd(evt) {
     try {
       evt.preventDefault();
@@ -110,7 +102,7 @@ class Profile extends React.Component {
       const language = el.options[el.selectedIndex].value;
       await this.props.addLanguage(language);
       el.selectedIndex = 0;
-      this.setMessage('Language added: ' + getLanguageName(language));
+      this.setMessage('Language added: ' + language);
     } catch (err) {
       console.error(err);
       this.setError('Could not add language: ' + err);
@@ -122,7 +114,7 @@ class Profile extends React.Component {
       evt.preventDefault();
       const language = evt.currentTarget.dataset.lang;
       await this.props.removeLanguage(language);
-      this.setMessage('Language removed: ' + getLanguageName(language));
+      this.setMessage('Language removed: ' + language);
     } catch (err) {
       console.error(err);
       this.setError('Could not remove language: ' + err);
@@ -141,6 +133,7 @@ class Profile extends React.Component {
     const {
       username,
       languages,
+      allLanguages,
       pending,
       settings,
     } = this.props;
@@ -156,7 +149,7 @@ class Profile extends React.Component {
               <ul>
                 <li><strong>{this.state.totalSubmitted}</strong> sentences added</li>
                 <li><strong>{this.state.totalValidated}</strong> sentences reviewed</li>
-                <li>... across <strong>{this.props.languages.length}</strong> language(s)</li>
+                <li>... across <strong>{languages.length}</strong> language(s)</li>
               </ul>
             ): (
               <p>
@@ -174,9 +167,10 @@ class Profile extends React.Component {
         <section>
           <p>Your languages:</p>
           { languages && languages.length > 0 ? (
-            <LanguageInfo languageInfo={this.state.languageInfo}
-                          languages={languages}
-                          onRemove={this.onRemove} />
+            <PersonalLanguageInfo languageInfo={this.state.languageInfo}
+                                  allLanguages={allLanguages}
+                                  languages={languages}
+                                  onRemove={this.onRemove} />
           ) : (
             <p>You have not added any languages yet, please add at least one below.</p>
           )}
@@ -188,6 +182,7 @@ class Profile extends React.Component {
           </label>
           <LanguageSelector disabled={pending}
                             name="language-selector"
+                            languages={allLanguages}
                             filters={languages} />
           <button disabled={pending}
                   onClick={this.onAdd} className="add-language">Add</button>
@@ -216,19 +211,19 @@ class Profile extends React.Component {
   }
 }
 
-const LanguageInfo = (props) => (
+const PersonalLanguageInfo = (props) => (
   <ul>
   { props.languages.map((language, i) => (
     <li key={i}>
-      { getLanguageName(language) }
+      { props.allLanguages.find((lang) => lang.code === language).name }
       <button className="remove-lang" data-lang={language}
               onClick={props.onRemove} disabled={props.pending}>
         remove
       </button>
       { props.languageInfo && props.languageInfo[language] && (
         <ul>
-        <li>{props.languageInfo[language].submitted.length} added by you.</li>
-        <li>{props.languageInfo[language].validated.length} reviewed by you.</li>
+          <li>{props.languageInfo[language].submitted.length} added by you.</li>
+          <li>{props.languageInfo[language].validated.length} reviewed by you.</li>
         </ul>
       )}
     </li>
@@ -239,6 +234,7 @@ const LanguageInfo = (props) => (
 function mapStateToProps(state) {
   return {
     username: state.login.username,
+    allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     pending: state.languages.pendingLanguages,
     settings: state.settings,

@@ -1,11 +1,8 @@
 import React from 'react';
 
 import '../../css/language-selector.css';
-import {
-  ENGLISH_CODE,
-  getLanguages,
-  getAllLanguages
-} from '../../../server/lib/languages';
+
+const ENGLISH_CODE = 'en';
 
 const LanguageSelector = (props) => (
   <select onChange={evt => props.onChange && props.onChange(evt.target.value)}
@@ -15,8 +12,7 @@ const LanguageSelector = (props) => (
 );
 
 const Options = (props) => {
-  let languages = props.only && props.only.length > 0 ?
-    getLanguages(props.only) : getAllLanguages();
+  let languages = props.languages;
 
   // For convenience, move English to the top of the list since
   // for now the website is localized in English only.
@@ -51,4 +47,4 @@ const Option = (props) => (
 const NullOption = () => <option value="">--</option>;
 
 
-export default LanguageSelector
+export default LanguageSelector;

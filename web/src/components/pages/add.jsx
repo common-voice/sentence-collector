@@ -226,13 +226,11 @@ class Add extends React.Component {
                           filtered={groupedFilteredSentences}
                           existing={this.state.existing}
                           readyCount={this.getReadySentences().count} />;
-
     } else {
       // The plain submission form allows copy & pasting
       return <SubmitForm onSubmit={this.onSubmit}
                          message={this.state.message}
-                         error={this.state.error}
-                         languages={this.props.languages} />;
+                         error={this.state.error} />;
     }
   }
 }
@@ -245,8 +243,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitSentences:
-      (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
+    submitSentences: (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
     parseSentences: (language, text) => dispatch(parseSentences(language, text)),
   };
 }
