@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
-import { getLanguages } from '../../../../shared/languages';
+import { getLanguages } from '../../../../server/lib/languages';
 
 class Home extends React.Component {
   render() {

@@ -12,14 +12,14 @@
     "reset": "npm run clean && rm -rf node_modules package-lock.json && npm install",
     "start": "npm run clean && npm run env parcel web/index.pug",
     "build": "npm run clean && parcel build --no-cache web/index.pug --public-url .",
-    "lint": "eslint shared web scripts",
+    "lint": "eslint shared web scripts server",
     "release": "semantic-release",
     "deploy": "npm run release && npm run build && gh-pages -d dist",
     "deploy:only": "npm run build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test:frontend": "jest",
-    "test:shared": "ava",
-    "test": "npm run lint && npm run build && npm run test:frontend && npm run test:shared",
+    "test:server": "ava",
+    "test": "npm run lint && npm run test:frontend && npm run test:server",
     "db-helper": "npm run build:server && npm run env node dist/db-helper",
     "init-db": "npm run db-helper init",
     "flush-db": "npm run db-helper flush",
@@ -93,6 +93,9 @@
     ]
   },
   "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/server/"
+    ],
     "setupFiles": [
       "<rootDir>/web/src/tests/testSetup.js"
     ],
@@ -102,8 +105,7 @@
   },
   "ava": {
     "files": [
-      "test/**/*",
-      "!**/*.test.js"
+      "server/tests/**/*.test.js"
     ],
     "require": [
       "esm"

@@ -5,7 +5,7 @@ import {
   ENGLISH_CODE,
   getLanguages,
   getAllLanguages
-} from '../../../shared/languages';
+} from '../../../server/lib/languages';
 
 const LanguageSelector = (props) => (
   <select onChange={evt => props.onChange && props.onChange(evt.target.value)}

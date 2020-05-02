@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as en from '../../../../shared/cleanup/languages/en';
+import * as en from '../../../../lib/cleanup/languages/en';
 
 function clean(t, input, expected) {
   const cleaned = en.clean(input);

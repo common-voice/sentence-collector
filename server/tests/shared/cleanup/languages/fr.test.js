@@ -1,5 +1,5 @@
 import test from 'ava';
-import * as fr from '../../../../shared/cleanup/languages/fr';
+import * as fr from '../../../../lib/cleanup/languages/fr';
 
 test('[FR] no space after opening \'(\' or \'[\'', t => {
   const orig = [

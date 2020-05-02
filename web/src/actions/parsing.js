@@ -1,5 +1,5 @@
 import { getDBInstance } from '../web-db';
-import * as validation from '../../../shared/validation';
+import * as validation from '../../../server/lib/validation';
 
 export const ACTION_PARSE_SENTENCES_FAILURE = 'PARSE_SENTENCES_FAILURE';
 

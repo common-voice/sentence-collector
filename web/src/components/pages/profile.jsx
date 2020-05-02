@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getLanguageName } from '../../../../shared/languages';
+import { getLanguageName } from '../../../../server/lib/languages';
 import { arrayCompare } from '../../../../shared/util';
 import { getDBInstance } from '../../web-db';
 import { addLanguage, removeLanguage } from '../../actions/languages';

@@ -1,4 +1,4 @@
-import { getAllLanguages } from '../../languages';
+import { getAllLanguages } from '../../../server/lib/languages';
 import { BUCKET_NAME } from '../../db.js';
 import { parseBatchResults } from '../api-result-parser';
 import { authedCreateReadAndWrite, authedReadAndWrite } from '../permissions';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { getDBInstance } from '../web-db';
-import { getLanguageName } from '../../../shared/languages';
+import { getLanguageName } from '../../../server/lib/languages';
 import { getReviewUrl } from './pages/review';
 
 const DEFAULT_STATE = {

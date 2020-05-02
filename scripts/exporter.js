@@ -5,8 +5,8 @@ import {
   existsSync,
   mkdirSync,
 } from 'fs';
-import * as validation from '../shared/validation';
-import * as cleanup from '../shared/cleanup';
+import * as validation from '../server/lib/validation';
+import * as cleanup from '../server/lib/cleanup';
 
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
 const OUTPUT_JSON = 'sentence-collector.json';
