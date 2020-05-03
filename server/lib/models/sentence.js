@@ -1,7 +1,5 @@
 'use strict';
 
-const Locale = require('./locale');
-
 module.exports = (sequelize, DataTypes) => {
   const Sentence = sequelize.define('Sentence', {
     sentence: DataTypes.STRING,
@@ -10,8 +8,10 @@ module.exports = (sequelize, DataTypes) => {
     localeId: DataTypes.INTEGER,
   }, {});
 
-  const LocaleModel = Locale(sequelize, DataTypes);
-  Sentence.belongsTo(LocaleModel, { foreignKey: 'localeId' });
+  Sentence.associate = (models) => {
+    Sentence.belongsTo(models.Locale, { as: 'Locale', foreignKey: 'localeId' });
+    Sentence.hasMany(models.Vote, { as: 'Vote', foreignKey: 'sentenceId' });
+  };
 
   return Sentence;
 };

@@ -21,6 +21,19 @@ router.get('/', async (req, res) => {
     });
 });
 
+router.get('/review', async (req, res) => {
+  debug('GET_SENTENCES_FOR_REVIEW');
+  const locale = req.query.locale;
+  const user = req.query.user;
+  sentences.getSentencesForReview({ locale, user })
+    .then((foundSentences) => res.json(foundSentences))
+    .catch((error) => {
+      debug('GET_SENTENCES_FOR_REVIEW_ERROR', error);
+      res.status(STATUS_ERROR);
+      res.json({ message: error.message });
+    });
+});
+
 router.put('/', async (req, res) => {
   debug('CREATE_SENTENCES', req.body);
 

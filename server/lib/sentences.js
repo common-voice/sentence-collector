@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:sentences');
-const { Sentence, Locale } = require('./models');
+const { Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const { addVoteForSentence } = require('./votes');
@@ -10,6 +10,7 @@ const DUPLICATE_ERROR = 1062;
 
 module.exports = {
   getSentencesForLocale,
+  getSentencesForReview,
   addSentences,
 };
 
@@ -32,6 +33,33 @@ async function getSentencesForLocale(locale) {
   }
 
   return Sentence.findAll(options);
+}
+
+async function getSentencesForReview({ locale, user }) {
+  debug('GETTING_SENTENCES_FOR_LOCALE', locale);
+
+  const existingLocale = await Locale.findOne({
+    where: {
+      code: locale,
+    },
+  });
+
+  const options = {
+    order: [['createdAt', 'ASC']],
+    where: {
+      '$Vote.user$': null,
+      localeId: existingLocale.id,
+    },
+    include: [{
+      model: Vote,
+      as: 'Vote',
+      required: false,
+      where: { user },
+    }],
+  };
+
+  const sentences = await Sentence.findAll(options);
+  return sentences;
 }
 
 async function addSentences(data) {

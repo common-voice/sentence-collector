@@ -7,5 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     nativeName: DataTypes.STRING,
   }, {});
 
+  Locale.associate = (models) => {
+    Locale.hasMany(models.Sentence);
+  };
+
   return Locale;
 };

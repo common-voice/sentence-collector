@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
-import { getDBInstance } from '../../web-db';
+import { sendRequest } from '../../backend';
 import Modal from '../modal';
 import reviewSentences from '../../../../doc/review-sentences.md';
 
@@ -102,8 +102,7 @@ class Review extends React.Component {
     });
 
     const lang = this.getLanguageFromParams();
-    const db = getDBInstance();
-    const sentences = await db.getSentencesNotVoted(lang);
+    const sentences = await sendRequest(`sentences/review?locale=${lang}&user=${this.props.username}`);
     this.setState({
       loading: false,
       sentences,
@@ -197,6 +196,7 @@ function mapStateToProps(state) {
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     useSwipeReview: state.settings.useSwipeReview,
+    username: state.login.username,
   };
 }
 
