@@ -58,18 +58,6 @@ export default class User {
     return user.data;
   }
 
-  async getAllUsers() {
-    try {
-      const collection = await this.getCollection();
-      const result = await collection.listRecords();
-      const users = result.data.map(user => user.id);
-      return users;
-    } catch (err) {
-      console.error('--list user error--', err);
-      return false;
-    }
-  }
-
   async setSetting(key, value) {
     const collection = await this.getCollection();
     const record = await collection.getRecord(this.username);

@@ -19,18 +19,6 @@ const LANGUAGE_MAPPING = {
   'pa-IN': 'pa',
 };
 
-export async function startBackup(db, exportPath) {
-  const startTime = Date.now();
-  const allLanguages = await db.getLanguages();
-
-  for (const languageCode of allLanguages) {
-    await backupAllLanguage(db, languageCode, exportPath);
-  }
-
-  const endTime = Date.now();
-  console.log('Duration to backup everything (ms): ', endTime - startTime);
-}
-
 export async function startExport(db, exportPath) {
   const startTime = Date.now();
   const cvResponse = await fetch(CV_LANGUAGES_URL);
@@ -98,26 +86,6 @@ async function writeExport(cvPath, metaData, sentences = []) {
 
   console.log(`  - Writing all sentences to ${dataPath}..`);
   writeFileSync(dataPath, sentences.join('\n'));
-}
-
-async function backupAllLanguage(db, languageCode, exportPath) {
-  console.log(`Starting backup for ${languageCode}..`);
-
-  const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
-  const cvPath = `${exportPath}/${languageCode}`;
-  let sentences = [];
-  try {
-    sentences = await db.getAllSentences(dbLanguageCode);
-  } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
-
-  if (!sentences || sentences.length === 0) {
-    return;
-  }
-
-  console.log(`  - Found ${sentences.length} sentences`);
-
-  prepareExport(cvPath);
-  writeExport(cvPath, sentences);
 }
 
 function getValidatedSentences(languageCode, sentences) {
