@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { getDBInstance } from '../web-db';
-import { getLanguages } from '../actions/languages';
+import { getLanguages, getStats } from '../actions/languages';
 
 import Page from './page';
 import Home from './pages/home';
@@ -24,6 +24,7 @@ class App extends React.Component {
 
     getDBInstance(props.username, props.password);
     props.getLanguages();
+    props.getStats(props.username);
   }
 
   render() {
@@ -73,6 +74,7 @@ const PrivateRoute = (props) => {
 function mapDispatchToProps(dispatch) {
   return {
     getLanguages: () => dispatch(getLanguages()),
+    getStats: (username) => dispatch(getStats(username)),
   };
 }
 

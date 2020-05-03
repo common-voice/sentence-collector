@@ -6,7 +6,7 @@ import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
 
 const Home = (props) => {
-  const { authed, languages, allLanguages } = props;
+  const { authed, languages, allLanguages, languageStats } = props;
 
   return (
     <div>
@@ -17,13 +17,17 @@ const Home = (props) => {
       </p>
       <SentenceCollectorInfo />
       { authed && (
-        <LanguageStats languages={languages} allLanguages={allLanguages} />
+        <LanguageStats
+          languages={languages}
+          allLanguages={allLanguages}
+          languageStats={languageStats}
+        />
       )}
     </div>
   );
 };
 
-const LanguageStats = ({ languages, allLanguages }) => {
+const LanguageStats = ({ languages, allLanguages, languageStats }) => {
   if (!languages || languages.length < 1) {
     return (
       <p>
@@ -35,13 +39,20 @@ const LanguageStats = ({ languages, allLanguages }) => {
 
   const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang)).filter(Boolean);
 
-  return extendedLanguages.map((lang) => (
-    <LanguageInfo key={lang.code} language={lang.code} languageName={lang.name} />
-  ));
+  return extendedLanguages.map((lang) => languageStats && languageStats[lang.name] && (
+    <LanguageInfo
+      key={lang.code}
+      language={lang.code}
+      languageName={lang.name}
+      total={languageStats[lang.name].added}
+      validated={languageStats[lang.name].validated}
+    />
+  )).filter(Boolean);
 };
 
 function mapStateToProps(state) {
   return {
+    languageStats: state.languages.stats && state.languages.stats.all,
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     authed: state.login.authed,

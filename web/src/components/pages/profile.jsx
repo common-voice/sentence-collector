@@ -1,20 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { getDBInstance } from '../../web-db';
 import { addLanguage, removeLanguage } from '../../actions/languages';
 import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
 
 import '../../../css/profile.css';
 
-const DEFAULT_STATE = {
-  totalSubmitted: 0,
-  totalValidated: 0,
-  languageInfo: {},
-  loading: false,
-};
+const DEFAULT_STATE = {};
 
 class Profile extends React.Component {
   constructor(props) {
@@ -32,59 +25,6 @@ class Profile extends React.Component {
 
   setError(error) {
     this.setState({ error });
-  }
-
-  async loadUserLanguageInfo() {
-    const { languages } = this.props;
-
-    // No need to load langauge meta data if user hasn't added any languages.
-    if (!languages || languages.length < 1) {
-      return;
-    }
-
-    try {
-      this.setState({
-        loading: true,
-        languageInfo: DEFAULT_STATE.languageInfo,
-      });
-
-      const db = getDBInstance();
-      const metas = await db.getLanguagesMetaForMe(languages);
-
-      // Transform array of language data into langauge info state.
-      let totalSubmitted = 0;
-      let totalValidated = 0;
-      const languageInfo = metas.reduce((accum, languageMeta) => {
-        const { language, submitted, validated } = languageMeta;
-
-        totalSubmitted += submitted.length;
-        totalValidated += validated.length;
-
-        accum[language] = {
-          submitted,
-          validated,
-        };
-        return accum;
-      }, this.state.languageInfo);
-
-      this.setState({
-        loading: false,
-        languageInfo,
-        totalSubmitted,
-        totalValidated,
-      });
-
-    } catch (err) {
-      console.error('failed loading language meta in profile', err);
-      this.setState({
-        loading: false,
-      });
-      this.setError(err);
-    }
-  }
-
-  componentDidMount() {
-    this.loadUserLanguageInfo();
   }
 
   async onAdd(evt) {
@@ -134,6 +74,7 @@ class Profile extends React.Component {
       username,
       languages,
       allLanguages = [],
+      languageStats,
       pending,
       settings,
     } = this.props;
@@ -143,31 +84,13 @@ class Profile extends React.Component {
       <form>
         <h2>Profile: { username }</h2>
 
-        { languages && languages.length > 0 && (
-          <section>
-            { (this.state.totalSubmitted || this.state.totalValidated) ? (
-              <ul>
-                <li><strong>{this.state.totalSubmitted}</strong> sentences added</li>
-                <li><strong>{this.state.totalValidated}</strong> sentences reviewed</li>
-                <li>... across <strong>{languages.length}</strong> language(s)</li>
-              </ul>
-            ): (
-              <p>
-                No sentences added or reviewed,
-                try <Link to="/review">reviewing</Link> some sentences now?
-              </p>
-            )}
-          </section>
-        )}
-
         { this.state.message && ( <p>{this.state.message}</p> ) }
-
         { this.state.error && ( <p style={ { color: 'red' } }>{this.state.error}</p> ) }
 
         <section>
           <p>Your languages:</p>
           { languages && languages.length > 0 ? (
-            <PersonalLanguageInfo languageInfo={this.state.languageInfo}
+            <PersonalLanguageInfo languageStats={languageStats}
                                   allLanguages={allLanguages}
                                   languages={languages}
                                   onRemove={this.onRemove} />
@@ -211,29 +134,37 @@ class Profile extends React.Component {
   }
 }
 
-const PersonalLanguageInfo = (props) => (
-  <ul>
-  { props.languages.map((language, i) => (
-    <li key={i}>
-      { (props.allLanguages.find((lang) => lang.code === language) || {}).name }
-      <button className="remove-lang" data-lang={language}
-              onClick={props.onRemove} disabled={props.pending}>
-        remove
-      </button>
-      { props.languageInfo && props.languageInfo[language] && (
-        <ul>
-          <li>{props.languageInfo[language].submitted.length} added by you.</li>
-          <li>{props.languageInfo[language].validated.length} reviewed by you.</li>
-        </ul>
-      )}
-    </li>
-  ))}
-  </ul>
-);
+const PersonalLanguageInfo = (props) => {
+  const extendedLanguages = props.languages.map((lang) => {
+    const extended = props.allLanguages.find((extendedLang) => extendedLang.code === lang);
+    return extended;
+  });
+
+  return (
+    <ul>
+    { extendedLanguages.map((language, i) => (
+      <li key={i}>
+        { language.name }
+        <button className="remove-lang" data-lang={language.code}
+                onClick={props.onRemove} disabled={props.pending}>
+          remove
+        </button>
+        { props.languageStats && props.languageStats[language.name] && (
+          <ul>
+            <li>{props.languageStats[language.name].added || 0} added by you</li>
+            <li>of which {props.languageStats[language.name].validated || 0} got validated</li>
+          </ul>
+        )}
+      </li>
+    ))}
+    </ul>
+  );
+};
 
 function mapStateToProps(state) {
   return {
     username: state.login.username,
+    languageStats: state.languages.stats && state.languages.stats.user,
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     pending: state.languages.pendingLanguages,

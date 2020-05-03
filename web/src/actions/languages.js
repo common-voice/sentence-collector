@@ -10,6 +10,18 @@ export const ACTION_REMOVE_LANGUAGE_SUCCESS = 'REMOVE_LANGUAGE_SUCCESS';
 export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
+export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
+
+export function getStats(username) {
+  return async function(dispatch) {
+    try {
+      const stats = await sendRequest(`stats?user=${username}`);
+      dispatch(gotStats(stats));
+    } catch (error) {
+      console.error('Failed to fetch stats', error);
+    }
+  };
+}
 
 export function getLanguages() {
   return async function(dispatch) {
@@ -49,6 +61,13 @@ export function removeLanguage(language) {
       dispatch(removeLanguageFailure());
       throw err;
     }
+  };
+}
+
+export function gotStats(stats) {
+  return {
+    type: ACTION_GOT_STATS,
+    stats,
   };
 }
 

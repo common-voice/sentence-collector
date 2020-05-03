@@ -12,6 +12,8 @@ module.exports = {
   getSentencesForLocale,
   getSentencesForReview,
   getRejectedSentences,
+  getStats,
+  getUserAddedSentencesPerLocale,
   addSentences,
 };
 
@@ -114,6 +116,73 @@ async function getRejectedSentences({ user }) {
     return rejected;
   }, {});
   return rejectedSentences;
+}
+
+function calculateStats(stats, sentenceInfo) {
+  const locale = sentenceInfo.Locale.name;
+  stats[locale] = stats[locale] || {
+    added: 0,
+    validated: 0,
+  };
+
+  stats[locale].added++;
+
+  const approvals = sentenceInfo.Vote.filter((vote) => vote.approval);
+  const approved = approvals.length >= 2;
+  if (approved) {
+    stats[locale].validated++;
+  }
+
+  return stats;
+}
+
+async function getStats() {
+  debug('GETTING_STATS');
+
+  const options = {
+    attributes: ['id'],
+    include: [{
+      model: Vote,
+      as: 'Vote',
+      attributes: ['approval'],
+      required: false,
+    }, {
+      model: Locale,
+      as: 'Locale',
+      attributes: ['name'],
+      required: false,
+    }],
+  };
+  const sentences = await Sentence.findAll(options);
+  const allSentencesStats = sentences.reduce(calculateStats, {});
+
+  return allSentencesStats;
+}
+
+async function getUserAddedSentencesPerLocale(user) {
+  debug('GETTING_USER_ADDED_STATS');
+
+  const options = {
+    attributes: ['id'],
+    where: {
+      user,
+    },
+    include: [{
+      model: Vote,
+      as: 'Vote',
+      attributes: ['approval'],
+      required: false,
+    }, {
+      model: Locale,
+      as: 'Locale',
+      attributes: ['name'],
+      required: false,
+    }],
+  };
+  const sentences = await Sentence.findAll(options);
+  const sentencesStats = sentences.reduce(calculateStats, {});
+
+  return sentencesStats;
 }
 
 async function addSentences(data) {
