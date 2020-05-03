@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:sentences');
-const { Sequelize, sequelize, Sentence, Locale, Vote } = require('./models');
+const { Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const { addVoteForSentence } = require('./votes');
@@ -11,6 +11,7 @@ const DUPLICATE_ERROR = 1062;
 module.exports = {
   getSentencesForLocale,
   getSentencesForReview,
+  getRejectedSentences,
   addSentences,
 };
 
@@ -76,6 +77,43 @@ async function getSentencesForReview({ locale, user }) {
     return bVoteLength - aVoteLength;
   });
   return notYetApprovedOrRejected;
+}
+
+async function getRejectedSentences({ user }) {
+  debug('GETTING_REJECTED_SENTENCES');
+
+  const options = {
+    order: [['createdAt', 'DESC']],
+    attributes: ['id', 'sentence', 'Vote.approval', 'Locale.name'],
+    where: {
+      user,
+    },
+    include: [{
+      model: Vote,
+      as: 'Vote',
+      attributes: ['approval'],
+      required: false,
+    }, {
+      model: Locale,
+      as: 'Locale',
+      attributes: ['name'],
+      required: false,
+    }],
+  };
+
+  const sentences = await Sentence.findAll(options);
+
+  // TODO: all of this should be done in the query...
+  const rejectedSentences = sentences.filter((sentence) => {
+    const rejections = sentence.Vote.filter((vote) => vote.approval === false);
+    return rejections.length >= 2;
+  }).reduce((rejected, sentenceInfo) => {
+    const locale = sentenceInfo.Locale.name;
+    rejected[locale] = rejected[locale] || [];
+    rejected[locale].push(sentenceInfo);
+    return rejected;
+  }, {});
+  return rejectedSentences;
 }
 
 async function addSentences(data) {

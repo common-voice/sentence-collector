@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { getDBInstance } from '../../web-db';
+import { sendRequest } from '../../backend';
 
 class Rejected extends React.Component {
   constructor() {
@@ -14,16 +13,10 @@ class Rejected extends React.Component {
 
   async loadRejected() {
     const {
-      languages = [],
       username,
     } = this.props;
 
-    if (languages.length < 1) {
-      return;
-    }
-
-    const db = getDBInstance();
-    const rejectedSentences = await db.getAllRejectedByUsername(languages, username);
+    const rejectedSentences = await sendRequest(`sentences/rejected?user=${username}`);
     this.setState({
       rejectedSentences,
       loading: false,
@@ -38,7 +31,7 @@ class Rejected extends React.Component {
     const { rejectedSentences, loading } = this.state;
 
     return (
-      <>
+      <React.Fragment>
         <h1>Your rejected sentences</h1>
 
         { loading && (
@@ -55,12 +48,12 @@ class Rejected extends React.Component {
 
             <ul key={'list-' + language} className="no-bullets">
               { rejectedSentences[language].map((sentence) => (
-                <li key={sentence}>{sentence}</li>
+                <li key={sentence.id}>{sentence.sentence}</li>
               ))}
             </ul>
           </section>
         ))}
-      </>
+      </React.Fragment>
     );
   }
 }
@@ -68,7 +61,6 @@ class Rejected extends React.Component {
 function mapStateToProps(state) {
   return {
     username: state.login.username,
-    languages: state.languages.languages.map((lang) => lang.code),
   };
 }
 

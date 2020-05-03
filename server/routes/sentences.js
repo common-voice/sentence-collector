@@ -34,6 +34,18 @@ router.get('/review', async (req, res) => {
     });
 });
 
+router.get('/rejected', async (req, res) => {
+  debug('GET_REJECTED_SENTENCES');
+  const user = req.query.user;
+  sentences.getRejectedSentences({ user })
+    .then((foundSentences) => res.json(foundSentences))
+    .catch((error) => {
+      debug('GET_REJECTED_SENTENCES_ERROR', error);
+      res.status(STATUS_ERROR);
+      res.json({ message: error.message });
+    });
+});
+
 router.put('/', async (req, res) => {
   debug('CREATE_SENTENCES', req.body);
 
