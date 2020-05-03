@@ -10,6 +10,8 @@ export const INITIAL_STATE = {
 };
 
 export default function(state = INITIAL_STATE, action) {
+  const errors = action.errors || [];
+
   switch(action.type) {
     case ACTION_SUBMIT_SENTENCES_REQUEST:
       return Object.assign({}, state, {
@@ -19,7 +21,14 @@ export default function(state = INITIAL_STATE, action) {
 
     case ACTION_SUBMIT_SENTENCES_FAILURE:
       return Object.assign({}, state, {
-        sentenceSubmissionFailures: action.errors || [],
+        sentenceSubmissionFailures: errors.reduce((groupedFiltered, filterResult) => {
+          if (!groupedFiltered[filterResult.error]) {
+            groupedFiltered[filterResult.error] = [];
+          }
+
+          groupedFiltered[filterResult.error].push(filterResult.sentence);
+          return groupedFiltered;
+        }, {}),
       });
 
     case ACTION_SUBMIT_SENTENCES_SUCCESS:
