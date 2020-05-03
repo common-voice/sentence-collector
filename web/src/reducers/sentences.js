@@ -1,6 +1,6 @@
 import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
-  ACTION_SUBMIT_SENTENCES_SUCCESS,
+  ACTION_SUBMIT_SENTENCES_DONE,
   ACTION_SUBMIT_SENTENCES_FAILURE,
 } from '../actions/sentences';
 
@@ -31,7 +31,7 @@ export default function(state = INITIAL_STATE, action) {
         }, {}),
       });
 
-    case ACTION_SUBMIT_SENTENCES_SUCCESS:
+    case ACTION_SUBMIT_SENTENCES_DONE:
       return Object.assign({}, state, {
         isUploadingSentences: false,
       });
