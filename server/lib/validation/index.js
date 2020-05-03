@@ -27,10 +27,10 @@ function validateSentences(language, sentences) {
   return runValidation(validator, sentences);
 }
 
-function runValidation(validator, sentences = []) {
+function runValidation(validator, sentences = { unreviewed: [], validated: [] }) {
   let filtered = [];
 
-  const valid = sentences.reduce((validSentences, sentence) => {
+  const validate = (validSentences, sentence) => {
     const validationResult = validateSentence(validator, sentence);
     if (validationResult.error) {
       filtered.push(validationResult);
@@ -39,10 +39,14 @@ function runValidation(validator, sentences = []) {
 
     validSentences.push(sentence);
     return validSentences;
-  }, []);
+  };
+
+  const valid = sentences.unreviewed.reduce(validate, []);
+  const validValidated = sentences.validated.reduce(validate, []);
 
   return {
     valid,
+    validValidated,
     filtered,
   };
 }
