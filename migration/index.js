@@ -39,9 +39,7 @@ let locales;
     const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
     const content = JSON.parse(fileContent);
     console.log(`${content.length} sentences to migrate`);
-    for await (const sentenceInfo of content) {
-      await processSentence(sentenceInfo, localeId);
-    }
+    await Promise.all(content.map((sentenceInfo) => processSentence(sentenceInfo, localeId)));
   }
 
   console.log('We are done!');
@@ -65,14 +63,10 @@ async function processSentence(sentenceInfo, localeId) {
 
   try {
     const insertedId = await insertSentence(sentenceParams);
-
-    for await (const user of sentenceInfo.valid) {
-      await insertVote(sentenceInfo, user, insertedId, true);
-    }
-
-    for await (const user of sentenceInfo.invalid) {
-      await insertVote(sentenceInfo, user, insertedId, false);
-    }
+    await Promise.all([
+      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, insertedId, true)),
+      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
+    ]);
   } catch (error) {
     console.log(error.message);
   }
