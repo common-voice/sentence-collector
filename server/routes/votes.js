@@ -25,7 +25,7 @@ router.put('/', async (req, res) => {
       };
       await votes.addVoteForSentence(voteParams);
     } catch (error) {
-      debug('CREATE_VOTES_ERROR', error);
+      console.error('CREATE_VOTES_ERROR', error);
       errorCounter++;
     }
   };

@@ -13,6 +13,6 @@ async function addVoteForSentence(voteParams) {
   try {
     Vote.create(voteParams);
   } catch (error) {
-    debug('Failed adding vote for', voteParams.sentenceId);
+    console.error('Failed adding vote for', voteParams.sentenceId);
   }
 }
