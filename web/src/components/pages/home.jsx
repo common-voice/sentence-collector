@@ -6,7 +6,12 @@ import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
 
 const Home = (props) => {
-  const { authed, languages, allLanguages, languageStats } = props;
+  const {
+    authed,
+    languages,
+    allLanguages,
+    languageStats,
+  } = props;
 
   return (
     <div>
@@ -15,7 +20,7 @@ const Home = (props) => {
         This is a website where we collect and review sentences
         for <a href="https://voice.mozilla.org/">Common Voice</a>.
       </p>
-      <SentenceCollectorInfo />
+      <SentenceCollectorInfo languageStats={languageStats} />
       { authed && (
         <LanguageStats
           languages={languages}

@@ -156,7 +156,11 @@ async function getStats() {
   const sentences = await Sentence.findAll(options);
   const allSentencesStats = sentences.reduce(calculateStats, {});
 
-  return allSentencesStats;
+  return {
+    ...allSentencesStats,
+    total: sentences.length,
+    languages: Array.from(new Set(sentences.map((sentence) => sentence.Locale.name))).length,
+  };
 }
 
 async function getUserAddedSentencesPerLocale(user) {
