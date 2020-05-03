@@ -183,16 +183,16 @@ class Add extends React.Component {
 
   onReview() {
     this.setState({
-      reviewing: this.state.unreviewed,
+      reviewing: this.state.unreviewed.map((sentence) => ({ sentence })),
     });
   }
 
   onReviewed(reviewedState) {
     this.setState({
       reviewing: [],
-      unreviewed: reviewedState.unreviewed,
-      validated: merge(this.state.validated, reviewedState.validated),
-      invalidated: merge(this.state.invalidated, reviewedState.invalidated),
+      unreviewed: reviewedState.unreviewed.map((info) => info.sentence),
+      validated: merge(this.state.validated, reviewedState.validated.map((info) => info.sentence)),
+      invalidated: merge(this.state.invalidated, reviewedState.invalidated.map((info) => info.sentence)),
     });
   }
 

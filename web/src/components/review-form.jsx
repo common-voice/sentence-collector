@@ -15,7 +15,7 @@ export default class ReviewForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, DEFAULT_STATE, {
-      sentences: this.props.sentences.map((sentence) => ({ sentence })),
+      sentences: this.props.sentences,
     });
     this.onSubmit = this.onSubmit.bind(this);
     this.setPage = this.setPage.bind(this);
@@ -46,17 +46,17 @@ export default class ReviewForm extends React.Component {
     // Extract sentence that have been voted on.
     const unreviewed = this.state.sentences.filter((sentenceInfo) => {
       if (sentenceInfo.reviewApproval) {
-        validated.push(sentenceInfo.sentence);
+        validated.push(sentenceInfo);
         return false;
       }
 
       if (sentenceInfo.reviewApproval === false) {
-        invalidated.push(sentenceInfo.sentence);
+        invalidated.push(sentenceInfo);
         return false;
       }
 
       return true;
-    }).map((sentenceInfo) => sentenceInfo.sentence);
+    });
 
     await this.props.onReviewed({
       validated,
@@ -90,10 +90,13 @@ export default class ReviewForm extends React.Component {
 
   render() {
     const {
-      sentences = [],
       message,
       useSwipeReview,
     } = this.props;
+
+    const {
+      sentences,
+    } = this.state;
 
     if (sentences.length < 1) {
       return <h2>nothing to review</h2>;
@@ -117,7 +120,7 @@ export default class ReviewForm extends React.Component {
               this.onSubmit({preventDefault: ()=>{}});
             } else {
               this.setPage(this.state.page + 1);
-              this.cardsRef.current.setState({index: -1});//cardsRef.state.index modified due to Cards' inner card removal handling.
+              this.cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
             }
           }} className="master-root" ref={this.cardsRef}>
             {curSentences.map((sentence, i) => (

@@ -115,14 +115,17 @@ class Review extends React.Component {
   }
 
   async onReviewed(reviewedState) {
-    const validated = reviewedState.validated;
-    const invalidated = reviewedState.invalidated;
-    const lang = this.getLanguageFromParams();
+    const validated = reviewedState.validated.map((info) => info.id);
+    const invalidated = reviewedState.invalidated.map((info) => info.id);
 
-    const db = getDBInstance();
-    const { votes } = await db.vote(lang, validated, invalidated);
+    const { votes } = await sendRequest('votes', 'PUT', {
+      validated,
+      invalidated,
+      user: this.props.username,
+    });
+
     this.setState({
-      message: `${votes.length} sentences reviewed. Thank you!`,
+      message: `${votes} sentences reviewed. Thank you!`,
       sentences: null,
     });
 

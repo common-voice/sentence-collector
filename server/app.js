@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const sentencesRoutes = require('./routes/sentences');
 const languagesRoutes = require('./routes/languages');
+const votesRoutes = require('./routes/votes');
 
 const app = express();
 
@@ -16,5 +17,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use('/sentences', sentencesRoutes);
 app.use('/languages', languagesRoutes);
+app.use('/votes', votesRoutes);
 
 module.exports = app;

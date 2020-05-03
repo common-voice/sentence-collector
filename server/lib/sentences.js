@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:sentences');
-const { Sentence, Locale, Vote } = require('./models');
+const { Sequelize, sequelize, Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const { addVoteForSentence } = require('./votes');
@@ -46,20 +46,36 @@ async function getSentencesForReview({ locale, user }) {
 
   const options = {
     order: [['createdAt', 'ASC']],
+    attributes: ['id', 'sentence', 'Vote.approval', 'Vote.user'],
     where: {
-      '$Vote.user$': null,
       localeId: existingLocale.id,
     },
     include: [{
       model: Vote,
       as: 'Vote',
+      attributes: ['approval', 'user'],
       required: false,
-      where: { user },
     }],
   };
 
   const sentences = await Sentence.findAll(options);
-  return sentences;
+
+  // TODO: all of this should be done in the query...
+  const notYetApprovedOrRejected = sentences.filter((sentence) => {
+    const approvals = sentence.Vote.filter((vote) => vote.approval);
+    const rejections = sentence.Vote.filter((vote) => vote.approval === false);
+
+    const hasLessThan2Approvals = approvals.length < 2;
+    const hasLessThan2Rejections = rejections.length < 2;
+    const notVotedByUser = !sentence.Vote.find((vote) => vote.user === user);
+    return hasLessThan2Approvals && hasLessThan2Rejections && notVotedByUser;
+  }).sort((a, b) => {
+    const aVoteLength = a.Vote.length;
+    const bVoteLength = b.Vote.length;
+
+    return bVoteLength - aVoteLength;
+  });
+  return notYetApprovedOrRejected;
 }
 
 async function addSentences(data) {
