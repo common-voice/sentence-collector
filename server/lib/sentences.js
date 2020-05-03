@@ -3,6 +3,7 @@
 const debug = require('debug')('sentencecollector:sentences');
 const { Sentence, Locale } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
+const { validateSentences } = require('./validation');
 
 module.exports = {
   getSentencesForLocale,
@@ -44,9 +45,11 @@ async function addSentences(data) {
     },
   });
 
+  const { valid, filtered } = validateSentences(existingLocale.code, sentences);
 
-  return Promise.all(
-    sentences.map((sentence) => {
+  debug('Creating database entries');
+  await Promise.all(
+    valid.map((sentence) => {
       const params = {
         sentence,
         user,
@@ -57,4 +60,6 @@ async function addSentences(data) {
       return Sentence.create(params);
     })
   );
+
+  return { errors: filtered };
 }

@@ -8,6 +8,9 @@ export function sendRequest(endpoint, method = 'GET', data) {
   };
 
   if (data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    options.headers = headers;
     options.body = JSON.stringify(data);
   }
 

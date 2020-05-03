@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ReviewLink from './review-link';
 import SpinnerButton from './spinner-button';
@@ -23,17 +24,13 @@ class ConfirmForm extends React.Component {
   render() {
     const {
       submitted,
-      existing,
       invalidated,
-      filtered,
       validated,
       unreviewed,
-      readyCount,
+      isUploadingSentences,
     } = this.props;
 
-    const {
-      pendingSentences,
-    } = this.state;
+    const readyCount = submitted.length - invalidated.length;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -42,19 +39,9 @@ class ConfirmForm extends React.Component {
           {`${submitted.length} sentences found.`}
         </p>
 
-        {(existing && existing.length > 0) && (
-          <p>
-            {`${existing.length} sentences were previously submitted.`}
-          </p>
-        )}
-
-        {invalidated.length + filtered.length > 0 && (
+        {invalidated.length > 0 && (
           <p style={{color: 'red'}}>
-            {
-              `${filtered.length} sentences were not matching the requirements.` +
-              (invalidated.length > 0 ?
-                ` (${invalidated.length} more rejected by you) ` : '')
-            }
+            {`${invalidated.length} rejected by you`}
           </p>
         )}
 
@@ -76,45 +63,29 @@ class ConfirmForm extends React.Component {
         )}
 
         <section id="confirm-buttons">
-
-          { pendingSentences ?
+          { isUploadingSentences ?
             <SpinnerButton></SpinnerButton> :
             <button type="submit" disabled={readyCount === 0}>Confirm</button>
           }
 
-          { pendingSentences && (
+          { isUploadingSentences && (
             <div>
               <p className="loadingText">
                 Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
-                Please don't close this website.
+                Please do not close this website.
               </p>
             </div>
           )}
-
         </section>
-
-        { Object.keys(filtered).length > 0 && (
-          <section>
-            <h2>Filtered sentences due to requirements failing (please submit fixed versions as new sentences):</h2>
-            <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
-
-            {
-              Object.keys(filtered).map((filterKey) => (
-                <React.Fragment key={'fragment-' + filterKey}>
-                  <h3 key="{filterKey}">{ filterKey }</h3>
-                  {
-                    filtered[filterKey].map((filteredSentence) =>
-                      <p key={filteredSentence}>{filteredSentence}</p>
-                    )
-                  }
-                </React.Fragment>
-              ))
-            }
-          </section>
-        )}
       </form>
     );
   }
 }
 
-export default ConfirmForm;
+function mapStateToProps(state) {
+  return {
+    isUploadingSentences: state.sentences.isUploadingSentences,
+  };
+}
+
+export default connect(mapStateToProps)(ConfirmForm);

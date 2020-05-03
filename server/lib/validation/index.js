@@ -1,9 +1,9 @@
-import * as en from './languages/en';
-import * as it from './languages/it';
-import * as ne from './languages/ne';
-import * as kab from './languages/kab';
-import * as ru from './languages/ru';
-import * as ur from './languages/ur';
+const en = require('./languages/en');
+const it = require('./languages/it');
+const ne = require('./languages/ne');
+const kab = require( './languages/kab');
+const ru = require('./languages/ru');
+const ur = require('./languages/ur');
 
 const VALIDATORS = {
   en,
@@ -17,13 +17,17 @@ const VALIDATORS = {
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
 const DEFAULT_VALIDATOR = VALIDATORS[DEFAULT_VALIDATOR_LANGUAGE];
 
-export function validateSentences(language, sentences) {
+module.exports = {
+  validateSentences,
+};
+
+function validateSentences(language, sentences) {
   const validator = getValidatorFor(language);
 
   return runValidation(validator, sentences);
 }
 
-function runValidation(validator, sentences) {
+function runValidation(validator, sentences = []) {
   let filtered = [];
 
   const valid = sentences.reduce((validSentences, sentence) => {
@@ -50,34 +54,17 @@ function validateSentence(validator, sentence) {
 
   if (!validateCorrectLength(validator, sentence)) {
     validationResult.error = 'Sentence too long';
-    return validationResult;
-  }
-
-  if (!validateWithoutNumbers(validator, sentence)) {
+  } else if (!validateWithoutNumbers(validator, sentence)) {
     validationResult.error = 'Contains numbers';
-    return validationResult;
-  }
-
-  if (!validateWithoutAbbreviations(validator, sentence)) {
+  } else if (!validateWithoutAbbreviations(validator, sentence)) {
     validationResult.error = 'Contains abbreviations';
-    return validationResult;
-  }
-
-  if (!validateWithoutSymbols(validator, sentence)) {
+  } else if (!validateWithoutSymbols(validator, sentence)) {
     validationResult.error = 'Contains symbols';
-    return validationResult;
-  }
-
-  if (!validateStructure(validator, sentence)) {
+  } else if (!validateStructure(validator, sentence)) {
     validationResult.error = 'Contains multiple sentences';
-    return validationResult;
-  }
-  
-  if (!validateWithoutEnglishCharacters(validator, sentence)) {
+  } else if (!validateWithoutEnglishCharacters(validator, sentence)) {
     validationResult.error = 'Contains english characters';
-    return validationResult;
   }
-  
 
   return validationResult;
 }

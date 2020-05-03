@@ -33,7 +33,7 @@ const LanguageStats = ({ languages, allLanguages }) => {
     );
   }
 
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang));
+  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang)).filter(Boolean);
 
   return extendedLanguages.map((lang) => (
     <LanguageInfo key={lang.code} language={lang.code} languageName={lang.name} />

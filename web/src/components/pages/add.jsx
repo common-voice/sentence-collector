@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { submitSentences } from '../../actions/sentences';
-import { parseSentences } from '../../actions/parsing';
+import { uploadSentences } from '../../actions/sentences';
 
 import SubmitForm from '../submit-form';
 import ConfirmForm from '../confirm-form';
@@ -10,6 +9,7 @@ import ReviewForm from '../review-form';
 
 import '../../../css/add.css';
 
+const SPLIT_ON = '\n';
 const DEFAULT_STATE = {
   message: '',
   error: '',
@@ -18,8 +18,6 @@ const DEFAULT_STATE = {
   reviewing: [],
   validated: [],
   invalidated: [],
-  filtered: [],
-  existing: [],
 };
 
 function merge(arr1, arr2) {
@@ -80,11 +78,10 @@ class Add extends React.Component {
   }
 
   getReadySentences() {
-    return {
-      unreviewed: this.state.unreviewed,
-      validated: this.state.validated,
-      count: this.state.unreviewed.length + this.state.validated.length,
-    };
+    return [
+      ...this.state.unreviewed,
+      ...this.state.validated,
+    ];
   }
 
   validateForm() {
@@ -127,21 +124,13 @@ class Add extends React.Component {
   needsConfirmation() {
     return (this.state.unreviewed.length > 0 ||
            this.state.validated.length > 0 ||
-           this.state.invalidated.length > 0 ||
-           this.state.filtered.length > 0);
+           this.state.invalidated.length > 0);
   }
 
-  async startParsingSentences(language, text, source) {
-    const { valid, filtered, existing, sentences } = await this.props.parseSentences(language, text);
-
-    this.setState({
-      language,
-      source,
-      existing,
-      submitted: sentences,
-      unreviewed: valid,
-      filtered,
-    });
+  parseSentences(text) {
+    const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
+    const dedupedSentences = Array.from(new Set(sentences));
+    return dedupedSentences;
   }
 
   onSubmit(evt) {
@@ -151,33 +140,43 @@ class Add extends React.Component {
     }
 
     this.resetState();
-    this.startParsingSentences(this.getLanguageInput(), this.getSentencesInput(), this.getSourceInput());
+    const sentences = this.parseSentences(this.getSentencesInput());
+    this.setState({
+      language: this.getLanguageInput(),
+      source: this.getSourceInput(),
+      submitted: sentences,
+      unreviewed: sentences,
+    });
   }
 
   async onConfirm(evt) {
     try {
       evt.preventDefault();
-      const readySentences = this.getReadySentences();
-      const language = this.state.language;
-      const source = this.state.source;
-      const { sentences, errors } =
-        await this.props.submitSentences(language, readySentences, source);
 
-      let message = sentences.length > 0 ?
-          `Submitted ${sentences.length} sentences.` : '';
-      let error = errors.length > 0 ?
-          `${errors.length} sentences failed` : '';
+      const sentences = this.getReadySentences();
+      const locale = this.state.language;
+      const source = this.state.source;
+      const { errors } = await this.props.uploadSentences({
+        locale,
+        sentences,
+        source,
+        user: this.props.username,
+      });
+
+      if (typeof errors === 'undefined') {
+        throw new Error('Unexpected response returned from server');
+      }
 
       this.historyUnblock();
       this.resetState();
       this.setState({
-        message,
-        error,
+        message: 'Submitted sentences.',
+        error: errors && errors.length > 0 ? `${errors.length} sentences failed` : '',
       });
     } catch (err) {
       this.resetState();
       this.setState({
-        message: 'Submission error: ' + err,
+        message: `Submission Error: ${err.message}`,
       });
     }
   }
@@ -202,30 +201,14 @@ class Add extends React.Component {
       // The review form allows us to examine, and validate sentences.
       return <ReviewForm onReviewed={this.onReviewed}
                          sentences={this.state.reviewing} />;
-
     } else if (this.needsConfirmation()) {
-      let groupedFilteredSentences = [];
-      if (this.state.filtered && this.state.filtered.length > 0) {
-        groupedFilteredSentences = this.state.filtered.reduce((groupedFiltered, filterResult) => {
-          if (!groupedFiltered[filterResult.error]) {
-            groupedFiltered[filterResult.error] = [];
-          }
-
-          groupedFiltered[filterResult.error].push(filterResult.sentence);
-          return groupedFiltered;
-        }, {});
-      }
-
       // The confirm form is a stats page where sentence submission happens.
       return <ConfirmForm onSubmit={this.onConfirm}
                           onReview={this.onReview}
                           submitted={this.state.submitted}
                           unreviewed={this.state.unreviewed}
                           validated={this.state.validated}
-                          invalidated={this.state.invalidated}
-                          filtered={groupedFilteredSentences}
-                          existing={this.state.existing}
-                          readyCount={this.getReadySentences().count} />;
+                          invalidated={this.state.invalidated} />;
     } else {
       // The plain submission form allows copy & pasting
       return <SubmitForm onSubmit={this.onSubmit}
@@ -237,14 +220,14 @@ class Add extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    username: state.login.username,
     languages: state.languages.languages,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitSentences: (language, sentences, source) => dispatch(submitSentences(language, sentences, source)),
-    parseSentences: (language, text) => dispatch(parseSentences(language, text)),
+    uploadSentences: (sentencePackage) => dispatch(uploadSentences(sentencePackage)),
   };
 }
 

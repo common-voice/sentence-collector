@@ -1,4 +1,4 @@
-import tokenizeWords from 'talisman/tokenizers/words';
+const tokenizeWords = require('talisman/tokenizers/words');
 
 // Minimum of words that qualify as a sentence.
 const MIN_WORDS = 1;
@@ -23,24 +23,31 @@ const ABBREVIATION_REGEX = /[А-Я]{2,}|[А-Я]+\.*[А-Я]+/;
 
 const ENGLISH_ALPHABETS_REGEX = /[a-zA-Z]/;
 
+module.exports = {
+  filterNumbers,
+  filterAbbreviations,
+  filterSymbols,
+  filterLength,
+  filterEnglishCharacters,
+};
 
-export function filterNumbers(sentence) {
+function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
 }
 
-export function filterAbbreviations(sentence) {
+function filterAbbreviations(sentence) {
   return !sentence.match(ABBREVIATION_REGEX);
 }
 
-export function filterSymbols(sentence) {
+function filterSymbols(sentence) {
   return !sentence.match(SYMBOL_REGEX);
 }
 
-export function filterEnglishCharacters(sentence) {
+function filterEnglishCharacters(sentence) {
   return !sentence.match(ENGLISH_ALPHABETS_REGEX);
 }
 
-export function filterLength(sentence) {
+function filterLength(sentence) {
   const words = tokenizeWords(sentence);
   return words.length >= MIN_WORDS &&
     words.length <= MAX_WORDS;

@@ -133,7 +133,7 @@ class Profile extends React.Component {
     const {
       username,
       languages,
-      allLanguages,
+      allLanguages = [],
       pending,
       settings,
     } = this.props;
@@ -215,7 +215,7 @@ const PersonalLanguageInfo = (props) => (
   <ul>
   { props.languages.map((language, i) => (
     <li key={i}>
-      { props.allLanguages.find((lang) => lang.code === language).name }
+      { (props.allLanguages.find((lang) => lang.code === language) || {}).name }
       <button className="remove-lang" data-lang={language}
               onClick={props.onRemove} disabled={props.pending}>
         remove

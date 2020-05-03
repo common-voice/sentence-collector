@@ -22,12 +22,12 @@ router.get('/', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-  debug('CREATE_SENTENCES');
+  debug('CREATE_SENTENCES', req.body);
 
   sentences.addSentences(req.body)
-    .then(() => {
+  .then((result) => {
       res.status(STATUS_CREATED);
-      res.send();
+      res.json(result);
     })
     .catch((error) => {
       debug('CREATE_SENTENCES_ERROR', error);
