@@ -5,6 +5,8 @@ const { Sentence, Locale } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 
+const DUPLICATE_ERROR = 1062;
+
 module.exports = {
   getSentencesForLocale,
   addSentences,
@@ -48,6 +50,8 @@ async function addSentences(data) {
   const { valid, filtered } = validateSentences(existingLocale.code, sentences);
 
   debug('Creating database entries');
+  let duplicateCounter = 0;
+
   await Promise.all(
     valid.map((sentence) => {
       const params = {
@@ -57,9 +61,15 @@ async function addSentences(data) {
         localeId: existingLocale.id,
       };
 
-      return Sentence.create(params);
+      return Sentence.create(params)
+        .catch((error) => {
+          if (error.parent && error.parent.errno === DUPLICATE_ERROR) {
+            debug('Ignoring duplicate sentence', sentence);
+            duplicateCounter++;
+          }
+        });
     })
   );
 
-  return { errors: filtered };
+  return { errors: filtered, duplicates: duplicateCounter };
 }

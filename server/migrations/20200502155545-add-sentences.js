@@ -10,6 +10,7 @@ module.exports = {
     },
     sentence: {
       allowNull: false,
+      unique: true,
       type: Sequelize.STRING,
     },
     source: {
