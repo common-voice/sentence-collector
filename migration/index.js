@@ -24,7 +24,7 @@ let locales;
   const directories = files.filter((dirent) => dirent.isDirectory());
   const languages = directories.map((dirent) => dirent.name);
 
-  for await (const language of languages) {
+  for (const language of languages) {
     console.log('Processing', language);
     const sentenceCollectorFilePath = `${BACKUP_PATH}/${language}/sentence-collector.json`;
     try {
