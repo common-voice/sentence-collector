@@ -1,6 +1,7 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:sentences');
+const { v4: uuidv4 } = require('uuid');
 const { Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
@@ -197,6 +198,8 @@ async function addSentences(data) {
     locale = FALLBACK_LOCALE,
   } = data;
 
+  const batch = uuidv4();
+
   const existingLocale = await Locale.findOne({
     where: {
       code: locale,
@@ -213,6 +216,7 @@ async function addSentences(data) {
       sentence,
       user,
       source,
+      batch,
       localeId: existingLocale.id,
     };
 

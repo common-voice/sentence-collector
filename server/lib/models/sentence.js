@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     sentence: DataTypes.STRING,
     user: DataTypes.STRING,
     source: DataTypes.STRING,
+    batch: DataTypes.STRING,
     localeId: DataTypes.INTEGER,
   }, {});
 
