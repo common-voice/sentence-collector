@@ -159,8 +159,8 @@ async function getStats() {
 
   return {
     ...allSentencesStats,
-    total: sentences.length,
-    languages: Array.from(new Set(sentences.map((sentence) => sentence.Locale.name))).length,
+    total: await Sentence.count(),
+    languages: await Sentence.count({ distinct: true, col: 'localeId'}),
   };
 }
 
