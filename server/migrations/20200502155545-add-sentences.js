@@ -15,7 +15,7 @@ module.exports = {
     },
     source: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT,
     },
     user: {
       allowNull: false,
