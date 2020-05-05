@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const mysql = require('mysql2/promise');
+const languagesLib = require('../server/lib/languages');
 
 const {
   SC_CONNECT,
@@ -34,7 +35,8 @@ let locales;
       continue;
     }
 
-    const locale = locales.find((locale) => locale.code === language);
+    const scLanguage = languagesLib.LANGUAGE_MAPPING[language] || language;
+    const locale = locales.find((locale) => locale.code === scLanguage);
     const localeId = locale.id;
     const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
     const content = JSON.parse(fileContent);

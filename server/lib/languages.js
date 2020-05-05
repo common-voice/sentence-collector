@@ -2,8 +2,16 @@ const ISO6391 = require('iso-639-1');
 
 const FALLBACK_LOCALE = 'en';
 
+const LANGUAGE_MAPPING = {
+  // CV - Sentence Collector
+  'ne-NP': 'ne',
+  'sv-SE': 'sv',
+  'pa-IN': 'pa',
+};
+
 module.exports = {
   FALLBACK_LOCALE,
+  LANGUAGE_MAPPING,
   getAllLanguages,
 };
 
