@@ -1,8 +1,13 @@
-export function sortSentences(sentences) {
+module.exports = {
+  sortSentences,
+  clean,
+};
+
+function sortSentences(sentences) {
   return sentences.sort();
 }
 
-export function clean(sentences) {
+function clean(sentences) {
   return sentences.map((sentence) => {
     return sentence
       .replace(/\s+/g, ' ')

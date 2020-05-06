@@ -8,3 +8,4 @@ docker-compose.prod.yml
 .vscode
 .DS_Store
 coverage
+.nyc_output

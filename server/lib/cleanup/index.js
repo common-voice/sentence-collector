@@ -1,5 +1,5 @@
-import * as en from './languages/en';
-import * as fr from './languages/fr';
+const en = require('./languages/en');
+const fr = require('./languages/fr');
 
 const CLEANUPS = {
   en,
@@ -9,7 +9,11 @@ const CLEANUPS = {
 const DEFAULT_CLEANUP_LANGUAGE = 'en';
 const DEFAULT_CLEANUP = CLEANUPS[DEFAULT_CLEANUP_LANGUAGE];
 
-export function cleanupSentences(language, sentences) {
+module.exports = {
+  cleanupSentences,
+};
+
+function cleanupSentences(language, sentences) {
   const cleanup = getCleanupFor(language);
 
   const sorted = sortSentences(cleanup, sentences);

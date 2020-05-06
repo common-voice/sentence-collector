@@ -20,7 +20,7 @@
     "deploy:only": "npm run build && gh-pages -d dist",
     "run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d",
     "test:frontend": "jest",
-    "test:server": "ava",
+    "test:server": "nyc ava",
     "test": "npm run lint && npm run test:frontend && npm run test:server"
   },
   "dependencies": {
@@ -72,6 +72,7 @@
     "gh-pages": "^2.2.0",
     "husky": "^4.2.5",
     "jest": "^25.5.4",
+    "nyc": "^15.0.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-eslint": "^1.0.7",
     "parcel-plugin-markdown": "github:mikehenrty/parcel-plugin-markdown#upgrade-asset",
@@ -79,7 +80,9 @@
     "react-test-renderer": "^16.13.1",
     "redux-mock-store": "^1.5.3",
     "semantic-release": "^17.0.7",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
   },
   "husky": {
     "hooks": {
@@ -108,6 +111,22 @@
     ],
     "require": [
       "esm"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 70,
+    "branches": 50,
+    "functions": 58,
+    "lines": 71,
+    "include": [
+      "server/lib/**/*.js",
+      "server/routes/**/*.js"
+    ],
+    "all": true,
+    "reporter": [
+      "text-summary",
+      "lcov"
     ]
   },
   "release": {

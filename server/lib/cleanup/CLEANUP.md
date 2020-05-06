@@ -5,13 +5,13 @@ Please note that cleanup is only run on the txt sentences, not on the meta struc
 1. Copy the `en.js` file in the `languages` folder and name it according to the new language
 2. Adjust the content of the file to represent the new cleanup for this specific language
 3. Certain methods can be deleted if not needed, as the default is `en` anyway - so please only implement functions that are different to the `en` cleanups or not needed at all (just return the sentence)
-4. In `index.js` add a new import (as example for German - de)
+4. In `index.js` add a new require (as example for German - de)
 
 ```
-import * as de from './languages/de';
+const de = require('./languages/de');
 ```
 
-6. Expose the new import in the `CLEANUPS` object
+6. Expose the new require in the `CLEANUPS` object
 
 ```
 const CLEANUPS = {
