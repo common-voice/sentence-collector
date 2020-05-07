@@ -117,21 +117,38 @@ async function getStats() {
   };
   const sentenceTotalCountByLocale = await Sentence.count(options);
 
-  const totalStats = sentenceTotalCountByLocale.reduce((stats, countInfo) => {
-    stats[countInfo.localeId] = {
+  const totalStats = {};
+  for (const countInfo of sentenceTotalCountByLocale) {
+    const validatedQueryResult = await getValidatedSentencesForLocale(countInfo.localeId);
+    const validated = validatedQueryResult[0]['COUNT(*)'];
+    totalStats[countInfo.localeId] = {
       added: countInfo.count,
-
-      // TODO: How do we best count validated by locale? For now this is a regression
-      validated: -1,
+      validated,
     };
-    return stats;
-  }, {});
+  }
 
   return {
     ...totalStats,
     total: await Sentence.count(),
     languages: await Sentence.count({ distinct: true, col: 'localeId'}),
   };
+}
+
+function getValidatedSentencesForLocale(localeId) {
+  const query = `
+    SELECT COUNT(*) FROM
+      (SELECT
+            Sentences.id,
+            SUM(Votes.approval) as number_of_approving_votes
+          FROM Sentences
+          LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)
+          WHERE Sentences.localeId = "${localeId}"
+          GROUP BY Sentences.id
+          HAVING
+            number_of_approving_votes >= 2) as approved_sentences;
+  `;
+
+  return sequelize.query(query, { type: QueryTypes.SELECT });
 }
 
 async function getUserAddedSentencesPerLocale(user) {

@@ -1,12 +1,12 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import { getReviewUrl } from './pages/review';
+import { Link } from 'react-router-dom';
+import { getReviewUrl } from './pages/review';
 
 const LanguageInfo = (props) => {
   const {
     total,
-    // validated,
-    // language,
+    validated,
+    language,
     languageName,
   } = props;
 
@@ -15,7 +15,7 @@ const LanguageInfo = (props) => {
       <h3>{languageName}</h3>
       <ul>
         <li>{total} total sentences</li>
-        {/*<li>
+        <li>
          {total - validated} sentences in review.&nbsp;
          { total - validated > 0 && (
            <Link to={getReviewUrl(language)}>Review now!</Link>
@@ -24,7 +24,7 @@ const LanguageInfo = (props) => {
            <Link to={'/add'}>Add more sentences now!</Link>
          )}
         </li>
-         <li>{validated} validated sentences.</li>*/}
+         <li>{validated} validated sentences.</li>
       </ul>
     </section>
   );
