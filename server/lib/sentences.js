@@ -1,8 +1,9 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:sentences');
+const { QueryTypes } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
-const { Sentence, Locale, Vote } = require('./models');
+const { sequelize, Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const { addVoteForSentence } = require('./votes');
@@ -33,75 +34,61 @@ async function getSentencesForLocale(localeId) {
 async function getSentencesForReview({ locale, user }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', locale);
 
-  const options = {
-    order: [['createdAt', 'ASC']],
-    attributes: ['id', 'sentence', 'Vote.approval', 'Vote.user'],
-    where: {
-      localeId: locale,
-    },
-    include: [{
-      model: Vote,
-      as: 'Vote',
-      attributes: ['approval', 'user'],
-      required: false,
-    }],
-  };
+  const query = `
+    SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    WHERE NOT EXISTS (SELECT *
+        FROM Votes
+        WHERE Sentences.id = Votes.sentenceId AND Votes.user = "${user}")
+    GROUP BY Sentences.id
+    HAVING
+      number_of_votes < 2 OR # not enough votes yet
+      number_of_votes = 2 AND number_of_approving_votes = 1 # a tie at one each
+    ORDER BY number_of_votes DESC;
+  `;
 
-  const sentences = await Sentence.findAll(options);
-
-  // TODO: all of this should be done in the query...
-  const notYetApprovedOrRejected = sentences.filter((sentence) => {
-    const approvals = sentence.Vote.filter((vote) => vote.approval);
-    const rejections = sentence.Vote.filter((vote) => vote.approval === false);
-
-    const hasLessThan2Approvals = approvals.length < 2;
-    const hasLessThan2Rejections = rejections.length < 2;
-    const notVotedByUser = !sentence.Vote.find((vote) => vote.user === user);
-    return hasLessThan2Approvals && hasLessThan2Rejections && notVotedByUser;
-  }).sort((a, b) => {
-    const aVoteLength = a.Vote.length;
-    const bVoteLength = b.Vote.length;
-
-    return bVoteLength - aVoteLength;
-  });
-  return notYetApprovedOrRejected;
+  const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
+  return sentences;
 }
 
 async function getRejectedSentences({ user }) {
   debug('GETTING_REJECTED_SENTENCES');
 
-  const options = {
-    order: [['createdAt', 'DESC']],
-    attributes: ['Sentence.id', 'sentence', 'Vote.approval', 'Locale.name'],
-    where: {
-      user,
-    },
-    include: [{
-      model: Vote,
-      as: 'Vote',
-      attributes: ['approval'],
-      required: false,
-    }, {
-      model: Locale,
-      as: 'Locale',
-      attributes: ['name'],
-      required: false,
-    }],
-  };
+  const query = `
+    SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    WHERE Sentences.user = "${user}"
+    GROUP BY Sentences.id
+    HAVING
+      (
+        number_of_votes = 3 AND
+        number_of_approving_votes < 2
+      ) OR (
+        number_of_votes = 2 AND
+        number_of_approving_votes = 0
+      )
+    ORDER BY Sentences.createdAt DESC;
+  `;
 
-  const sentences = await Sentence.findAll(options);
-
-  // TODO: all of this should be done in the query...
-  const rejectedSentences = sentences.filter((sentence) => {
-    const rejections = sentence.Vote.filter((vote) => vote.approval === false);
-    return rejections.length >= 2;
-  }).reduce((rejected, sentenceInfo) => {
-    const locale = sentenceInfo.Locale.name;
-    rejected[locale] = rejected[locale] || [];
-    rejected[locale].push(sentenceInfo);
-    return rejected;
+  const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const sentencesPerLocale = sentences.reduce((perLocale, sentenceInfo) => {
+    perLocale[sentenceInfo.localeId] = perLocale[sentenceInfo.localeId] || [];
+    perLocale[sentenceInfo.localeId].push(sentenceInfo);
+    return perLocale;
   }, {});
-  return rejectedSentences;
+  return sentencesPerLocale;
 }
 
 function calculateStats(stats, sentenceInfo) {
@@ -126,24 +113,22 @@ async function getStats() {
   debug('GETTING_STATS');
 
   const options = {
-    attributes: ['Sentence.id'],
-    include: [{
-      model: Vote,
-      as: 'Vote',
-      attributes: ['approval'],
-      required: false,
-    }, {
-      model: Locale,
-      as: 'Locale',
-      attributes: ['name'],
-      required: false,
-    }],
+    group: ['localeId'],
   };
-  const sentences = await Sentence.findAll(options);
-  const allSentencesStats = sentences.reduce(calculateStats, {});
+  const sentenceTotalCountByLocale = await Sentence.count(options);
+
+  const totalStats = sentenceTotalCountByLocale.reduce((stats, countInfo) => {
+    stats[countInfo.localeId] = {
+      added: countInfo.count,
+
+      // TODO: How do we best count validated by locale? For now this is a regression
+      validated: -1,
+    };
+    return stats;
+  }, {});
 
   return {
-    ...allSentencesStats,
+    ...totalStats,
     total: await Sentence.count(),
     languages: await Sentence.count({ distinct: true, col: 'localeId'}),
   };

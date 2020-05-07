@@ -105,3 +105,65 @@ git push fork sentence-collector-export
 Now you will be able to create a manual pull request using the following URL:
 
 ``https://github.com/YOURUSERNAME/voice-web/pull/new/sentence-collector-export``
+
+## Useful queries
+
+### Get all approved sentences
+
+```
+SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    GROUP BY Sentences.id
+    HAVING
+      number_of_approving_votes >= 2;
+```
+
+### Get not decided sentences
+
+```
+SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    GROUP BY Sentences.id
+    HAVING
+      number_of_votes < 2 OR # not enough votes yet
+      number_of_votes = 2 AND number_of_approving_votes = 1; # a tie at one each
+```
+
+### Get all decided
+
+```
+SELECT Sentences.*
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    GROUP BY Sentences.id
+    HAVING
+      COUNT(Votes.approval) >= 2;
+```
+
+### Get all rejected
+
+```
+SELECT Sentences.*
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    GROUP BY Sentences.id
+    HAVING
+      (
+        COUNT(Votes.approval) = 3 AND
+        SUM(Votes.approval) < 2
+      ) OR (
+        COUNT(Votes.approval) = 2 AND
+        SUM(Votes.approval) = 0
+      );
+```
