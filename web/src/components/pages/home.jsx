@@ -42,12 +42,12 @@ const LanguageStats = ({ languages, allLanguages, languageStats }) => {
     );
   }
 
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang)).filter(Boolean);
+  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
 
   return extendedLanguages.map((lang) => languageStats && languageStats[lang.name] && (
     <LanguageInfo
-      key={lang.code}
-      language={lang.code}
+      key={lang.id}
+      language={lang.id}
       languageName={lang.name}
       total={languageStats[lang.name].added}
       validated={languageStats[lang.name].validated}

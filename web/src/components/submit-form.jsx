@@ -23,7 +23,7 @@ class SubmitForm extends React.Component {
     } = this.props;
 
     const notError = !message && !error;
-    let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang)).filter(Boolean);
+    let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
     if (extendedLanguages.length < 1) {
       extendedLanguages = allLanguages;
     }

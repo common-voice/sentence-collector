@@ -17,147 +17,147 @@ module.exports = {
 
 const ADDITIONAL_LANGUAGES = [
   {
-    code: 'ace',
+    id: 'ace',
     name: 'Achinese',
     nativeName: 'بهسا اچيه',
   },
   {
-    code: 'ady',
+    id: 'ady',
     name: 'Adyghe',
     nativeName: 'Адыгабзэ',
   },
   {
-    code: 'ast',
+    id: 'ast',
     name: 'Asturian',
     nativeName: 'asturianu',
   },
   {
-    code: 'bxr',
+    id: 'bxr',
     name: 'Russia Buriat',
     nativeName: 'буряад хэлэн',
   },
   {
-    code: 'cak',
+    id: 'cak',
     name: 'Kaqchikel',
     nativeName: 'Kaqchikel',
   },
   {
-    code: 'cnh',
+    id: 'cnh',
     name: 'Hakha Chin',
     nativeName: 'Lai',
   },
   {
-    code: 'dsb',
+    id: 'dsb',
     name: 'Lower Sorbian',
     nativeName: 'dolnoserbšćina',
   },
   {
-    code: 'fy-NL',
+    id: 'fy-NL',
     name: 'Frisian',
     nativeName: 'Frysk',
   },
   {
-    code: 'ga-IE',
+    id: 'ga-IE',
     name: 'Irish',
     nativeName: 'Irish',
   },
   {
-    code: 'hsb',
+    id: 'hsb',
     name: 'Upper Sorbian',
     nativeName: 'Hornjoserbšćina',
   },
   {
-    code: 'kaa',
+    id: 'kaa',
     name: 'Karakalpak',
     nativeName: 'Qaraqalpaq tili',
   },
   {
-    code: 'kab',
+    id: 'kab',
     name: 'Kabyle',
     nativeName: 'Taqbaylit',
   },
   {
-    code: 'kpv',
+    id: 'kpv',
     name: 'Komi-Zyrian',
     nativeName: 'Коми кыв',
   },
   {
-    code: 'mdf',
+    id: 'mdf',
     name: 'Moksha',
     nativeName: 'мокшень кяль',
   },
   {
-    code: 'mhr',
+    id: 'mhr',
     name: 'Eastern Mari',
     nativeName: 'Eastern Mari',
   },
   {
-    code: 'mrj',
+    id: 'mrj',
     name: 'Western Mari',
     nativeName: 'Western Mari',
   },
   {
-    code: 'myv',
+    id: 'myv',
     name: 'Erzya',
     nativeName: 'эрзянь кель',
   },
   {
-    code: 'nb-NO',
+    id: 'nb-NO',
     name: 'Norwegian Bokmål',
     nativeName: 'Bokmål',
   },
   {
-    code: 'rm-sursilv',
+    id: 'rm-sursilv',
     name: 'Romansh Sursilvan',
     nativeName: 'romontsch sursilvan',
   },
   {
-    code: 'rm-vallader',
+    id: 'rm-vallader',
     name: 'Romansh Vallader',
     nativeName: 'rumantsch vallader',
   },
   {
-    code: 'sah',
+    id: 'sah',
     name: 'Sakha',
     nativeName: 'Саха тыла',
   },
   {
-    code: 'scn',
+    id: 'scn',
     name: 'Sicilian',
     nativeName: 'sicilianu',
   },
   {
-    code: 'uby',
+    id: 'uby',
     name: 'Ubykh',
     nativeName: 'Ubykh',
   },
   {
-    code: 'udm',
+    id: 'udm',
     name: 'Udmurt',
     nativeName: 'удмурт кыл',
   },
   {
-    code: 'vec',
+    id: 'vec',
     name: 'Venetian',
     nativeName: 'vèneto',
   },
   {
-    code: 'vot',
+    id: 'vot',
     name: 'Votic',
     nativeName: 'maaceeli',
   },
   {
-    code: 'zh-CN',
+    id: 'zh-CN',
     name: 'Chinese - China',
     nativeName: '中文 (中国)',
   },
   {
-    code: 'zh-TW',
+    id: 'zh-TW',
     name: 'Chinese - Taiwan',
     nativeName: '中文 (台灣)',
   },
   {
-    code: 'zh-HK',
+    id: 'zh-HK',
     name: 'Chinese - Hong Kong',
     nativeName: '中文 (香港)',
   },
@@ -171,7 +171,12 @@ const LANGUAGES_TO_REMOVE = [
 function getAllLanguages() {
   const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
   const languagesWithoutRemoved = removeLanguages(isoLanguages);
-  const allLanguages = addAdditionalLanguages(languagesWithoutRemoved);
+  const codeIdReplaced = languagesWithoutRemoved.map((lang) => ({
+    id: lang.code,
+    name: lang.name,
+    nativeName: lang.nativeName,
+  }));
+  const allLanguages = addAdditionalLanguages(codeIdReplaced);
   const allLanguagesSorted = allLanguages.sort((a, b) => {
     if (a.name < b.name) return -1;
     if (a.name > b.name) return 1;
@@ -182,7 +187,7 @@ function getAllLanguages() {
 
 function removeLanguages(languages) {
   return languages.filter((language) => {
-    return !LANGUAGES_TO_REMOVE.includes(language.code);
+    return !LANGUAGES_TO_REMOVE.includes(language.id);
   });
 }
 

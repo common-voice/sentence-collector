@@ -136,7 +136,7 @@ class Profile extends React.Component {
 
 const PersonalLanguageInfo = (props) => {
   const extendedLanguages = props.languages.map((lang) => {
-    const extended = props.allLanguages.find((extendedLang) => extendedLang.code === lang);
+    const extended = props.allLanguages.find((extendedLang) => extendedLang.id === lang);
     return extended;
   });
 
@@ -145,7 +145,7 @@ const PersonalLanguageInfo = (props) => {
     { extendedLanguages.map((language, i) => (
       <li key={i}>
         { language.name }
-        <button className="remove-lang" data-lang={language.code}
+        <button className="remove-lang" data-lang={language.id}
                 onClick={props.onRemove} disabled={props.pending}>
           remove
         </button>

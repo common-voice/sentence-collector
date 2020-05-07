@@ -33,3 +33,10 @@ test('removes several spaces before exclamation mark', clean,
 test('removes multiple commas at beginning of sentence', clean, [',,,,this is wrong'], ['this is wrong']);
 test('removes multiple commas at beginning of sentence with space', clean, [',,,,, this is wrong'], ['this is wrong']);
 test('removes multiple commas at end of sentence', clean, ['this is wrong,,,,'], ['this is wrong']);
+
+test('should sort', (t) => {
+  const input = ['Hi', 'Hello'];
+  const expected = input.sort();
+  const result = en.sortSentences(input);
+  t.deepEqual(result, expected);
+});

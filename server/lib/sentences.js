@@ -18,23 +18,14 @@ module.exports = {
   addSentences,
 };
 
-async function getSentencesForLocale(locale) {
-  debug('GETTING_SENTENCES_FOR_LOCALE', locale);
+async function getSentencesForLocale(localeId) {
+  debug('GETTING_SENTENCES_FOR_LOCALE', localeId);
   const options = {
     order: [['createdAt', 'DESC']],
+    where: {
+      localeId,
+    }
   };
-
-  if (locale) {
-    const existingLocale = await Locale.findOne({
-      where: {
-        code: locale,
-      },
-    });
-
-    options.where = {
-      localeId: existingLocale.id,
-    };
-  }
 
   return Sentence.findAll(options);
 }
@@ -42,17 +33,11 @@ async function getSentencesForLocale(locale) {
 async function getSentencesForReview({ locale, user }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', locale);
 
-  const existingLocale = await Locale.findOne({
-    where: {
-      code: locale,
-    },
-  });
-
   const options = {
     order: [['createdAt', 'ASC']],
     attributes: ['id', 'sentence', 'Vote.approval', 'Vote.user'],
     where: {
-      localeId: existingLocale.id,
+      localeId: locale,
     },
     include: [{
       model: Vote,
@@ -87,7 +72,7 @@ async function getRejectedSentences({ user }) {
 
   const options = {
     order: [['createdAt', 'DESC']],
-    attributes: ['id', 'sentence', 'Vote.approval', 'Locale.name'],
+    attributes: ['Sentence.id', 'sentence', 'Vote.approval', 'Locale.name'],
     where: {
       user,
     },
@@ -141,7 +126,7 @@ async function getStats() {
   debug('GETTING_STATS');
 
   const options = {
-    attributes: ['id'],
+    attributes: ['Sentence.id'],
     include: [{
       model: Vote,
       as: 'Vote',
@@ -168,7 +153,7 @@ async function getUserAddedSentencesPerLocale(user) {
   debug('GETTING_USER_ADDED_STATS');
 
   const options = {
-    attributes: ['id'],
+    attributes: ['Sentence.id'],
     where: {
       user,
     },
@@ -200,13 +185,7 @@ async function addSentences(data) {
 
   const batch = uuidv4();
 
-  const existingLocale = await Locale.findOne({
-    where: {
-      code: locale,
-    },
-  });
-
-  const { valid, validValidated, filtered } = validateSentences(existingLocale.code, sentences);
+  const { valid, validValidated, filtered } = validateSentences(locale, sentences);
 
   debug('Creating database entries');
   let duplicateCounter = 0;
@@ -217,7 +196,7 @@ async function addSentences(data) {
       user,
       source,
       batch,
-      localeId: existingLocale.id,
+      localeId: locale,
     };
 
     return Sentence.create(params)

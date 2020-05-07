@@ -177,7 +177,7 @@ class Review extends React.Component {
       );
     }
 
-    const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.code === lang));
+    const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang));
     return (
       <div>
         <section>

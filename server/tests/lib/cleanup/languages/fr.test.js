@@ -180,3 +180,10 @@ test('[FR] do not keep multiple spaces', t => {
 
   t.deepEqual(computed, expected);
 });
+
+test('should sort', (t) => {
+  const input = ['Hi', 'Hello'];
+  const expected = input.sort();
+  const result = fr.sortSentences(input);
+  t.deepEqual(result, expected);
+});

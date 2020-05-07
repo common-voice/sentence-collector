@@ -36,12 +36,11 @@ let locales;
     }
 
     const scLanguage = languagesLib.LANGUAGE_MAPPING[language] || language;
-    const locale = locales.find((locale) => locale.code === scLanguage);
-    const localeId = locale.id;
+    const locale = locales.find((locale) => locale.id === scLanguage);
     const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
     const content = JSON.parse(fileContent);
     console.log(`${content.length} sentences to migrate`);
-    await Promise.all(content.map((sentenceInfo) => processSentence(sentenceInfo, localeId)));
+    await Promise.all(content.map((sentenceInfo) => processSentence(sentenceInfo, locale.id)));
   }
 
   console.log('We are done!');

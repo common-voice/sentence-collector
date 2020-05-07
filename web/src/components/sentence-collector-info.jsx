@@ -7,7 +7,7 @@ const SentenceCollectorInfo = (props) => {
      collected <strong>{props.languageStats.total}</strong> sentences
      in <strong>{props.languageStats.languages}</strong> languages!
     </p>
-  );
+  ) || null;
 };
 
 export default SentenceCollectorInfo;

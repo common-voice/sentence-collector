@@ -5,11 +5,11 @@ import app from '../../app';
 import languages from '../../lib/languages';
 
 const allLanguages = [{
-  code: 'en',
+  id: 'en',
   name: 'English',
   nativeName: 'English',
 }, {
-  code: 'de',
+  id: 'de',
   name: 'German',
   nativeName: 'Deutsch',
 }];

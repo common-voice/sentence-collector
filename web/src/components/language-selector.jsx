@@ -16,7 +16,7 @@ const Options = (props) => {
 
   // For convenience, move English to the top of the list since
   // for now the website is localized in English only.
-  const englishLang = languages.find(lang => lang.code === ENGLISH_CODE);
+  const englishLang = languages.find(lang => lang.id === ENGLISH_CODE);
   if (englishLang) {
     const englishIndex = languages.indexOf(englishLang);
     languages.splice(englishIndex, 1);
@@ -25,7 +25,7 @@ const Options = (props) => {
 
   if (props.filters) {
     languages = languages.filter(
-      ({ code }) => props.filters.indexOf(code) === -1);
+      ({ id }) => props.filters.indexOf(id) === -1);
   }
 
   if (languages.length === 1) {
@@ -34,12 +34,12 @@ const Options = (props) => {
 
   return [<NullOption key="null" />]
     .concat(languages.map(
-      lang => <Option key={lang.code} lang={lang} />
+      lang => <Option key={lang.id} lang={lang} />
     ));
 };
 
 const Option = (props) => (
-  <option value={props.lang.code}>
+  <option value={props.lang.id}>
     {`${props.lang.name} (${props.lang.nativeName})`}
   </option>
 );

@@ -23,7 +23,7 @@ module.exports = {
     },
     localeId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
     batch: {
       type: Sequelize.STRING,

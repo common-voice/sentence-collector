@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     user: DataTypes.STRING,
     source: DataTypes.STRING,
     batch: DataTypes.STRING,
-    localeId: DataTypes.INTEGER,
+    localeId: DataTypes.STRING,
   }, {});
 
   Sentence.associate = (models) => {
