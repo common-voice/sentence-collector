@@ -6,6 +6,7 @@ const LanguageInfo = (props) => {
   const {
     total,
     validated,
+    unreviewedByYou,
     language,
     languageName,
   } = props;
@@ -14,10 +15,13 @@ const LanguageInfo = (props) => {
     <section>
       <h3>{languageName}</h3>
       <ul>
-        <li>{total} total sentences</li>
+        <li>{total} total sentences.</li>
         <li>
          {total - validated} sentences in review.&nbsp;
-         { total - validated > 0 && (
+        </li>
+        <li>
+         {unreviewedByYou} sentences left for you to review.&nbsp;
+         { unreviewedByYou > 0 && (
            <Link to={getReviewUrl(language)}>Review now!</Link>
          )}
          { total - validated === 0 && (

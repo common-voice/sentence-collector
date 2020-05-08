@@ -34,25 +34,7 @@ async function getSentencesForLocale(localeId) {
 async function getSentencesForReview({ locale, user }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', locale);
 
-  const query = `
-    SELECT
-      Sentences.id,
-      Sentences.sentence,
-      Sentences.localeId,
-      SUM(Votes.approval) as number_of_approving_votes,
-      COUNT(Votes.approval) as number_of_votes
-    FROM Sentences
-    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
-    WHERE NOT EXISTS (SELECT *
-        FROM Votes
-        WHERE Sentences.id = Votes.sentenceId AND Votes.user = "${user}")
-    GROUP BY Sentences.id
-    HAVING
-      number_of_votes < 2 OR # not enough votes yet
-      number_of_votes = 2 AND number_of_approving_votes = 1 # a tie at one each
-    ORDER BY number_of_votes DESC;
-  `;
-
+  const query = getReviewQuery({ locale, user });
   const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
   return sentences;
 }
@@ -109,7 +91,7 @@ function calculateStats(stats, sentenceInfo) {
   return stats;
 }
 
-async function getStats() {
+async function getStats(user) {
   debug('GETTING_STATS');
 
   const options = {
@@ -119,11 +101,15 @@ async function getStats() {
 
   const totalStats = {};
   for (const countInfo of sentenceTotalCountByLocale) {
-    const validatedQueryResult = await getValidatedSentencesForLocale(countInfo.localeId);
+    const validatedQueryResult = await getValidatedSentencesCountForLocale(countInfo.localeId);
     const validated = validatedQueryResult[0]['COUNT(*)'];
+    const unreviewedByYouResult = await getUnreviewedByYouCountForLocale(countInfo.localeId, user);
+    const unreviewedByYou = unreviewedByYouResult[0]['COUNT(*)'];
+
     totalStats[countInfo.localeId] = {
       added: countInfo.count,
       validated,
+      unreviewedByYou,
     };
   }
 
@@ -134,18 +120,21 @@ async function getStats() {
   };
 }
 
-function getValidatedSentencesForLocale(localeId) {
+function getValidatedSentencesCountForLocale(locale) {
+  const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
   const query = `
     SELECT COUNT(*) FROM
-      (SELECT
-            Sentences.id,
-            SUM(Votes.approval) as number_of_approving_votes
-          FROM Sentences
-          LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)
-          WHERE Sentences.localeId = "${localeId}"
-          GROUP BY Sentences.id
-          HAVING
-            number_of_approving_votes >= 2) as approved_sentences;
+      (${validatedSentencesQuery}) as approved_sentences;
+  `;
+
+  return sequelize.query(query, { type: QueryTypes.SELECT });
+}
+
+function getUnreviewedByYouCountForLocale(locale, user) {
+  const reviewQuery = getReviewQuery({ locale, user });
+  const query = `
+    SELECT COUNT(*) FROM
+      (${reviewQuery}) as approved_sentences;
   `;
 
   return sequelize.query(query, { type: QueryTypes.SELECT });
@@ -231,4 +220,38 @@ async function addSentences(data) {
   ]);
 
   return { errors: filtered, duplicates: duplicateCounter };
+}
+
+function getReviewQuery({ locale, user }) {
+  return `
+    SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    WHERE Sentences.localeId = "${locale}"
+      AND NOT EXISTS (SELECT *
+        FROM Votes
+        WHERE Sentences.id = Votes.sentenceId AND Votes.user = "${user}")
+    GROUP BY Sentences.id
+    HAVING
+      number_of_votes < 2 OR # not enough votes yet
+      number_of_votes = 2 AND number_of_approving_votes = 1 # a tie at one each
+    ORDER BY number_of_votes DESC`;
+}
+
+function getValidatedSentencesQuery({ locale }) {
+  return `
+    SELECT
+      Sentences.id,
+      SUM(Votes.approval) as number_of_approving_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)
+    WHERE Sentences.localeId = "${locale}"
+    GROUP BY Sentences.id
+    HAVING
+      number_of_approving_votes >= 2`;
 }

@@ -51,6 +51,7 @@ const LanguageStats = ({ languages, allLanguages, languageStats }) => {
       languageName={lang.name}
       total={languageStats[lang.id].added}
       validated={languageStats[lang.id].validated}
+      unreviewedByYou={languageStats[lang.id].unreviewedByYou}
     />
   )).filter(Boolean);
 };
