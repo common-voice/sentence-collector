@@ -58,7 +58,7 @@ async function getLocales() {
   return response[0];
 }
 
-function processSentence(sentenceInfo, localeId, id) {
+async function processSentence(sentenceInfo, localeId, id) {
   const sentenceParams = {
     id,
     sentence: sentenceInfo.sentence,
@@ -69,13 +69,15 @@ function processSentence(sentenceInfo, localeId, id) {
     updatedAt: new Date(sentenceInfo.last_modified),
   };
 
-  return Promise.all([
-    insertSentence(sentenceParams),
-    ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, id, true)),
-    ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, id, false)),
-  ]).catch((error) => {
-    console.error(error);
-  });
+  try {
+    await Promise.all([
+      insertSentence(sentenceParams),
+      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, id, true)),
+      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, id, false)),
+    ]);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 function insertSentence(sentenceParams) {
