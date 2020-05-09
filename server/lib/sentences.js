@@ -74,25 +74,22 @@ async function getRejectedSentences({ user }) {
   return sentencesPerLocale;
 }
 
-
-
-
-// FIXME: use precalculated!!!
-async function getStats() {
+async function getStats(locales) {
   debug('GETTING_STATS');
 
-  const options = {
-    group: ['localeId'],
-  };
-  const sentenceTotalCountByLocale = await Sentence.count(options);
-
   const totalStats = {};
-  for (const countInfo of sentenceTotalCountByLocale) {
-    const validatedQueryResult = await getValidatedSentencesCountForLocale(countInfo.localeId);
+  for (const locale of locales) {
+    const validatedQueryResult = await getValidatedSentencesCountForLocale(locale);
     const validated = validatedQueryResult[0]['COUNT(*)'];
 
-    totalStats[countInfo.localeId] = {
-      added: countInfo.count,
+    const options = {
+      where: {
+        localeId: locale,
+      },
+    };
+    const sentenceTotalCountByLocale = await Sentence.count(options);
+    totalStats[locale] = {
+      added: sentenceTotalCountByLocale,
       validated,
     };
   }
@@ -113,9 +110,6 @@ function getValidatedSentencesCountForLocale(locale) {
 
   return sequelize.query(query, { type: QueryTypes.SELECT });
 }
-
-
-
 
 async function getUnreviewedByYouCountForLocales(locales, user) {
   const stats = {};

@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
   const locales = queryLocales.split(',');
 
   Promise.all([
-    sentences.getStats(),
+    sentences.getStats(locales),
     sentences.getUserAddedSentencesPerLocale(user),
     sentences.getUnreviewedByYouCountForLocales(locales, user),
   ])
