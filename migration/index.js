@@ -15,12 +15,9 @@ if (!SC_CONNECT || !BACKUP_PATH) {
 
 let connection;
 let locales;
-let currentIndex = 1;
 
 (async function() {
   connection = await mysql.createConnection(SC_CONNECT);
-  await connection.query('SET unique_checks=0');
-  await connection.query('SET foreign_key_checks=0');
 
   locales = await getLocales();
 
@@ -43,14 +40,11 @@ let currentIndex = 1;
     const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
     const content = JSON.parse(fileContent);
     console.log(`${content.length} sentences to migrate`);
-    await Promise.all(content.map((sentenceInfo, index) => processSentence(sentenceInfo, locale.id, currentIndex + index)));
-    currentIndex = currentIndex + content.length;
+    await Promise.all(content.map((sentenceInfo) => processSentence(sentenceInfo, locale.id)));
   }
 
   console.log('We are done!');
-  await connection.query('SET unique_checks=1');
-  await connection.query('SET foreign_key_checks=1');
-  connection.close();
+  process.exit(0);
 })();
 
 async function getLocales() {
@@ -58,9 +52,8 @@ async function getLocales() {
   return response[0];
 }
 
-async function processSentence(sentenceInfo, localeId, id) {
+async function processSentence(sentenceInfo, localeId) {
   const sentenceParams = {
-    id,
     sentence: sentenceInfo.sentence,
     source: sentenceInfo.source || '',
     user: sentenceInfo.username,
@@ -70,21 +63,22 @@ async function processSentence(sentenceInfo, localeId, id) {
   };
 
   try {
+    const insertedId = await insertSentence(sentenceParams);
     await Promise.all([
-      insertSentence(sentenceParams),
-      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, id, true)),
-      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, id, false)),
+      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, insertedId, true)),
+      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
     ]);
   } catch (error) {
     console.log(error.message);
   }
 }
 
-function insertSentence(sentenceParams) {
-  return connection.query('INSERT INTO Sentences SET ?', sentenceParams);
+async function insertSentence(sentenceParams) {
+  const insertedSentence = await connection.query('INSERT INTO Sentences SET ?', sentenceParams);
+  return insertedSentence[0].insertId;
 }
 
-async function insertVote(sentenceInfo, user, sentenceId, approval) {
+async function insertVote(sentenceInfo, user, insertedId, approval) {
   let createdAt = new Date(sentenceInfo.last_modified);
 
   const voteTimestamp = sentenceInfo[`Sentences_Meta_UserVoteDate_${user}`];
@@ -95,7 +89,7 @@ async function insertVote(sentenceInfo, user, sentenceId, approval) {
   const voteParams = {
     approval,
     user,
-    sentenceId,
+    sentenceId: insertedId,
     createdAt,
     updatedAt: createdAt,
   };
