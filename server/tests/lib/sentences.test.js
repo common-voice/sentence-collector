@@ -13,6 +13,7 @@ const exampleSentenceRecord = {
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
+  t.context.sandbox.stub(Sentence, 'count').resolves(0);
   t.context.sandbox.stub(Sentence, 'create').resolves(exampleSentenceRecord);
   t.context.sandbox.stub(Sentence, 'findAll').resolves([exampleSentenceRecord]);
   t.context.sandbox.stub(sequelize, 'query').resolves([exampleSentenceRecord]);
@@ -145,4 +146,84 @@ test.serial('addedSentences: should return duplicate counter', async (t) => {
   t.is(Sentence.create.callCount, 3);
   t.is(result.errors.length, 0);
   t.is(result.duplicates, 1);
+});
+
+test.serial('getStats: should fetch all stats correctly', async (t) => {
+  const locales = ['en', 'de'];
+  sequelize.query.onCall(0).resolves([{ 'COUNT(*)': 3 }]);
+  Sentence.count.onCall(0).resolves(10);
+  sequelize.query.onCall(1).resolves([{ 'COUNT(*)': 4 }]);
+  Sentence.count.onCall(1).resolves(15);
+  Sentence.count.onCall(2).resolves(1000);
+  Sentence.count.onCall(3).resolves(5);
+
+  const stats = await sentences.getStats(locales);
+  t.deepEqual(stats, {
+    en: {
+      added: 10,
+      validated: 3,
+    },
+    de: {
+      added: 15,
+      validated: 4,
+    },
+    total: 1000,
+    languages: 5,
+  });
+});
+
+test.serial('getUnreviewedByYouCountForLocales: should fetch unreviewed stats correctly', async (t) => {
+  const locales = ['en', 'de'];
+  const user = ['foo'];
+  sequelize.query.onCall(0).resolves([{ 'COUNT(*)': 10 }]);
+  sequelize.query.onCall(1).resolves([{ 'COUNT(*)': 5 }]);
+
+  const stats = await sentences.getUnreviewedByYouCountForLocales(locales, user);
+  t.deepEqual(stats, {
+    en: 10,
+    de: 5,
+  });
+});
+
+test.serial('getUserAddedSentencesPerLocale: should fetch user stats correctly', async (t) => {
+  const user = ['foo'];
+  Sentence.findAll.resolves([{
+    Locale: {
+      name: 'English'
+    },
+    Vote: [{
+      approval: true,
+    }, {
+      approval: true,
+    }],
+    sentence: 'Hi',
+  }, {
+    Locale: {
+      name: 'English'
+    },
+    Vote: [],
+    sentence: 'Hi there',
+  }, {
+    Locale: {
+      name: 'German'
+    },
+    Vote: [{
+      approval: true,
+    }, {
+      approval: true,
+    }],
+    sentence: 'Hallo',
+  }]);
+
+  const stats = await sentences.getUserAddedSentencesPerLocale(user);
+  t.deepEqual(stats, {
+    English: {
+      added: 2,
+      validated: 1,
+    },
+    German: {
+      added: 1,
+      validated: 1,
+    },
+  });
 });
