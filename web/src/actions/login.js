@@ -2,7 +2,7 @@ import {
   getDBInstance,
   removeInstance,
 } from '../web-db';
-import { addLanguageSuccess } from './languages';
+import { addLanguageSuccess, getStats } from './languages';
 import { settingsChanged } from './settings';
 
 export const ACTION_LOGOUT = 'LOGOUT';
@@ -26,6 +26,7 @@ export function login(username, password) {
       dispatch(loginSuccess(username, password));
       dispatch(addLanguageSuccess(user.languages));
       dispatch(settingsChanged(user.settings));
+      dispatch(getStats(username, user.languages));
     } catch (err) {
       console.log(err);
       dispatch(loginFailure());

@@ -11,6 +11,7 @@ const Home = (props) => {
     languages,
     allLanguages,
     languageStats,
+    userUnreviewedStats,
   } = props;
 
   return (
@@ -26,13 +27,14 @@ const Home = (props) => {
           languages={languages}
           allLanguages={allLanguages}
           languageStats={languageStats}
+          userUnreviewedStats={userUnreviewedStats}
         />
       )}
     </div>
   );
 };
 
-const LanguageStats = ({ languages, allLanguages, languageStats }) => {
+const LanguageStats = ({ languages, allLanguages, languageStats, userUnreviewedStats }) => {
   if (!languages || languages.length < 1) {
     return (
       <p>
@@ -51,7 +53,7 @@ const LanguageStats = ({ languages, allLanguages, languageStats }) => {
       languageName={lang.name}
       total={languageStats[lang.id].added}
       validated={languageStats[lang.id].validated}
-      unreviewedByYou={languageStats[lang.id].unreviewedByYou}
+      unreviewedByYou={userUnreviewedStats[lang.id]}
     />
   )).filter(Boolean);
 };
@@ -59,6 +61,7 @@ const LanguageStats = ({ languages, allLanguages, languageStats }) => {
 function mapStateToProps(state) {
   return {
     languageStats: state.languages.stats && state.languages.stats.all,
+    userUnreviewedStats: state.languages.stats && state.languages.stats.userUnreviewed,
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     authed: state.login.authed,

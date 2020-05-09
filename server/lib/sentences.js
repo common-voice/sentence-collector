@@ -16,6 +16,7 @@ module.exports = {
   getRejectedSentences,
   getStats,
   getUserAddedSentencesPerLocale,
+  getUnreviewedByYouCountForLocales,
   addSentences,
 };
 
@@ -73,25 +74,11 @@ async function getRejectedSentences({ user }) {
   return sentencesPerLocale;
 }
 
-function calculateStats(stats, sentenceInfo) {
-  const locale = sentenceInfo.Locale.name;
-  stats[locale] = stats[locale] || {
-    added: 0,
-    validated: 0,
-  };
 
-  stats[locale].added++;
 
-  const approvals = sentenceInfo.Vote.filter((vote) => vote.approval);
-  const approved = approvals.length >= 2;
-  if (approved) {
-    stats[locale].validated++;
-  }
 
-  return stats;
-}
-
-async function getStats(user) {
+// FIXME: use precalculated!!!
+async function getStats() {
   debug('GETTING_STATS');
 
   const options = {
@@ -103,13 +90,10 @@ async function getStats(user) {
   for (const countInfo of sentenceTotalCountByLocale) {
     const validatedQueryResult = await getValidatedSentencesCountForLocale(countInfo.localeId);
     const validated = validatedQueryResult[0]['COUNT(*)'];
-    const unreviewedByYouResult = await getUnreviewedByYouCountForLocale(countInfo.localeId, user);
-    const unreviewedByYou = unreviewedByYouResult[0]['COUNT(*)'];
 
     totalStats[countInfo.localeId] = {
       added: countInfo.count,
       validated,
-      unreviewedByYou,
     };
   }
 
@@ -130,14 +114,42 @@ function getValidatedSentencesCountForLocale(locale) {
   return sequelize.query(query, { type: QueryTypes.SELECT });
 }
 
-function getUnreviewedByYouCountForLocale(locale, user) {
-  const reviewQuery = getReviewQuery({ locale, user });
-  const query = `
-    SELECT COUNT(*) FROM
-      (${reviewQuery}) as approved_sentences;
-  `;
 
-  return sequelize.query(query, { type: QueryTypes.SELECT });
+
+
+async function getUnreviewedByYouCountForLocales(locales, user) {
+  const stats = {};
+
+  for await (const locale of locales) {
+    const reviewQuery = getReviewQuery({ locale, user });
+    const query = `
+      SELECT COUNT(*) FROM
+        (${reviewQuery}) as approved_sentences;
+    `;
+
+    const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+    stats[locale] = queryResult[0] && queryResult[0]['COUNT(*)'];
+  }
+
+  return stats;
+}
+
+function calculateStats(stats, sentenceInfo) {
+  const locale = sentenceInfo.Locale.name;
+  stats[locale] = stats[locale] || {
+    added: 0,
+    validated: 0,
+  };
+
+  stats[locale].added++;
+
+  const approvals = sentenceInfo.Vote.filter((vote) => vote.approval);
+  const approved = approvals.length >= 2;
+  if (approved) {
+    stats[locale].validated++;
+  }
+
+  return stats;
 }
 
 async function getUserAddedSentencesPerLocale(user) {

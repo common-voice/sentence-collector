@@ -7,7 +7,8 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { getDBInstance } from '../web-db';
-import { getLanguages, getStats } from '../actions/languages';
+import { getLanguages } from '../actions/languages';
+import { login } from '../actions/login';
 
 import Page from './page';
 import Home from './pages/home';
@@ -22,9 +23,19 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    getDBInstance(props.username, props.password);
-    props.getLanguages();
-    props.getStats(props.username);
+    const {
+      username,
+      password,
+      login,
+      getLanguages,
+    } = props;
+
+    if (username && password) {
+      getDBInstance(username, password);
+      login(username, password);
+    }
+
+    getLanguages();
   }
 
   render() {
@@ -74,7 +85,7 @@ const PrivateRoute = (props) => {
 function mapDispatchToProps(dispatch) {
   return {
     getLanguages: () => dispatch(getLanguages()),
-    getStats: (username) => dispatch(getStats(username)),
+    login: (username, password) => dispatch(login(username, password)),
   };
 }
 
