@@ -9,7 +9,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: sentence-collector-migration
-        image: michaelkohler/sentence-collector-mig:1.0.0
+        image: michaelkohler/sentence-collector-mig:1.0.1
         env:
           - name: SC_CONNECT
             valueFrom:
