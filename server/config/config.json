@@ -4,13 +4,16 @@
     "password": "localdevelopment",
     "database": "sentencecollector",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define": { "charset": "utf8mb4", "dialectOptions": { "collate": "utf8mb4_unicode_ci" } }
   },
   "test": {
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define": { "charset": "utf8mb4", "dialectOptions": { "collate": "utf8mb4_unicode_ci" } }
   },
   "production": {
     "use_env_variable": "SC_CONNECT",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "define": { "charset": "utf8mb4", "dialectOptions": { "collate": "utf8mb4_unicode_ci" } }
   }
 }

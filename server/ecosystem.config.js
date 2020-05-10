@@ -3,7 +3,8 @@
 module.exports = {
   apps: [{
     name: "sentencecollector",
-    script: "./server/index.js",
+    script: "npm",
+    args: "run start:server",
     env: {
       NODE_ENV: "production",
       DEBUG: "sentencecollector:*",
