@@ -9,3 +9,4 @@ docker-compose.prod.yml
 .DS_Store
 coverage
 .nyc_output
+data

@@ -1,0 +1,18 @@
+FROM node:12-buster
+
+ENV NODE_ENV development
+
+RUN mkdir -p /app
+COPY data /app/data
+COPY migration /app/migration
+COPY server /app/server
+COPY package.json /app/
+COPY package-lock.json /app/
+
+WORKDIR '/app'
+
+RUN npm ci
+
+EXPOSE 3333
+
+CMD ["node", "migration/index.js"]
