@@ -53,13 +53,16 @@ async function getLocales() {
 }
 
 async function processSentence(sentenceInfo, localeId) {
+  const createdAt = typeof sentenceInfo.createdAt !== 'undefined' ? new Date(sentenceInfo.createdAt) : new Date();
+  const updatedAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
+
   const sentenceParams = {
     sentence: sentenceInfo.sentence,
     source: sentenceInfo.source || '',
     user: sentenceInfo.username,
     localeId,
-    createdAt: new Date(sentenceInfo.createdAt),
-    updatedAt: new Date(sentenceInfo.last_modified),
+    createdAt,
+    updatedAt,
   };
 
   try {
@@ -69,7 +72,7 @@ async function processSentence(sentenceInfo, localeId) {
       ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
     ]);
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message, sentenceInfo);
   }
 }
 
@@ -79,10 +82,10 @@ async function insertSentence(sentenceParams) {
 }
 
 async function insertVote(sentenceInfo, user, insertedId, approval) {
-  let createdAt = new Date(sentenceInfo.last_modified);
+  let createdAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
 
   const voteTimestamp = sentenceInfo[`Sentences_Meta_UserVoteDate_${user}`];
-  if (voteTimestamp) {
+  if (Number.isInteger(voteTimestamp)) {
     createdAt = new Date(voteTimestamp);
   }
 
