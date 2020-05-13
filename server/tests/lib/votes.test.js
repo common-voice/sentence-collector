@@ -5,7 +5,7 @@ import votes from '../../lib/votes';
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
-  t.context.sandbox.stub(Vote, 'create').returns();
+  t.context.sandbox.stub(Vote, 'findOrCreate').resolves([undefined, true]);
 });
 
 test.afterEach.always((t) => {
@@ -21,11 +21,17 @@ test.serial('adds vote', async (t) => {
 
   await votes.addVoteForSentence(voteParams);
 
-  t.true(Vote.create.calledWith(voteParams));
+  t.true(Vote.findOrCreate.calledWith({
+    where: {
+      sentenceId: voteParams.sentenceId,
+      user: voteParams.user,
+    },
+    defaults: voteParams,
+  }));
 });
 
-test.serial('should catch error adding vote', async (t) => {
-  Vote.create.throws(new Error('nope!'));
+test.serial('should forward error adding vote', async (t) => {
+  Vote.findOrCreate.rejects(new Error('nope!'));
 
   const voteParams = {
     sentenceId: 1234,
@@ -33,5 +39,17 @@ test.serial('should catch error adding vote', async (t) => {
     approval: true,
   };
 
-  t.notThrows(() => votes.addVoteForSentence(voteParams));
+  await t.throwsAsync(() => votes.addVoteForSentence(voteParams));
+});
+
+test.serial('should not count vote if already existing vote', async (t) => {
+  Vote.findOrCreate.resolves([undefined, false]);
+
+  const voteParams = {
+    sentenceId: 1234,
+    user: 'foo',
+    approval: true,
+  };
+
+  await t.throwsAsync(() => votes.addVoteForSentence(voteParams));
 });
