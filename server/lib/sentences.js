@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const { sequelize, Sentence, Locale, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
-const { addVoteForSentence } = require('./votes');
+const votes = require('./votes');
 
 const DUPLICATE_ERROR = 1062;
 
@@ -207,7 +207,7 @@ async function addSentences(data) {
           user,
           approval: true,
         };
-        return addVoteForSentence(voteParams);
+        return votes.addVoteForSentence(voteParams);
       })
       .catch((error) => {
         if (error.parent && error.parent.errno === DUPLICATE_ERROR) {

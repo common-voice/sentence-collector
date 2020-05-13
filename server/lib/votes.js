@@ -11,7 +11,7 @@ async function addVoteForSentence(voteParams) {
   debug('ADDING_VOTE_FOR_SENTENCE', voteParams.sentenceId);
 
   try {
-    Vote.create(voteParams);
+    await Vote.create(voteParams);
   } catch (error) {
     console.error('Failed adding vote for', voteParams.sentenceId);
   }
