@@ -59,7 +59,6 @@ export default function(state = INITIAL_STATE, action) {
 
     case ACTION_LOGIN_REQUEST:
       return Object.assign({}, state, {
-        authed: false,
         loginDisabled: true,
       });
 
