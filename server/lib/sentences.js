@@ -20,7 +20,7 @@ module.exports = {
   addSentences,
 };
 
-async function getSentencesForLocale(localeId) {
+async function getSentencesForLocale(localeId, sentenceFilter) {
   debug('GETTING_SENTENCES_FOR_LOCALE', localeId);
   const options = {
     order: [['createdAt', 'DESC']],
@@ -28,6 +28,10 @@ async function getSentencesForLocale(localeId) {
       localeId,
     }
   };
+
+  if (sentenceFilter) {
+    options.where.sentence = sentenceFilter;
+  }
 
   return Sentence.findAll(options);
 }

@@ -7,12 +7,15 @@ import sentences from '../../lib/sentences';
 const sentencesMock = [{
   id: 1,
   sentence: 'Hi',
+  source: 'Myself',
 }, {
   id: 2,
   sentence: 'Hello',
+  source: 'CC0 Source',
 }, {
   id: 3,
   sentence: 'This is a test.',
+  source: 'Really old book',
 }];
 
 test.beforeEach((t) => {
@@ -29,18 +32,44 @@ test.afterEach.always((t) => {
 
 test.serial('should get sentences', async (t) => {
   const response = await request(app)
-    .get('/sentences?locale=en');
+    .get('/sentences/en');
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
   t.true(sentences.getSentencesForLocale.calledWith('en'));
 });
 
+test.serial('should get specific sentence info', async (t) => {
+  const response = await request(app)
+    .get('/sentences/en?sentence=Hi');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith('en', 'Hi'));
+});
+
+test.serial('should get sentences text only', async (t) => {
+  const response = await request(app)
+    .get('/sentences/text/en');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
+});
+
+test.serial('should get list of sources', async (t) => {
+  const response = await request(app)
+    .get('/sentences/sources/en');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.source).join('\n'));
+});
+
 test.serial('getting sentences should pass on error message', async (t) => {
   sentences.getSentencesForLocale.rejects(new Error('nope'));
 
   const response = await request(app)
-    .get('/sentences?locale=en');
+    .get('/sentences/en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
