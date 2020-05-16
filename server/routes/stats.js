@@ -12,7 +12,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 router.get('/', async (req, res) => {
   debug('GET_STATS');
   const user = req.query.user;
-  const queryLocales = req.query.locales || [];
+  const queryLocales = req.query.locales || '';
   const locales = queryLocales.split(',');
 
   Promise.all([

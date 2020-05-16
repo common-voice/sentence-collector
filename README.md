@@ -20,6 +20,23 @@ cp .env_template .env
 docker-compose up
 ```
 
+Now create an admin account with the password `password`:
+
+```
+curl --header "Content-Type: application/json" \
+  --request PUT \
+  --data '{"data": {"password": "password"}}' \
+  http://localhost:8888/v1/accounts/admin
+```
+
+If you want to change the password, please also change the `KINTO_PASSWORD` in `.env`.
+
+And then you can initialize the required user collections with:
+
+```
+npm run init
+```
+
 Now we can install the dependencies and start the server in a new terminal window:
 
 ```
@@ -35,41 +52,9 @@ npm start
 
 The sentence collector is now accessible through `http://localhost:1234`.
 
-## Deployment
+## Exporting to the official repository
 
-The website is hosted on GitHub Pages. Contributors with write access to the repository can deploy to production by running the following command. Please note that you will need to provide a GitHub token for the release notes. [Read more about tokens on GitHub.](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
-
-```
-GITHUB_TOKEN=... npm run deploy
-```
-
-This assumes that your `origin` is pointing to this repository. If not, you can specify the remote name with:
-
-```
-GITHUB_TOKEN=... npm run deploy -o <remotename>
-```
-
-This will also create [release notes on GitHub](https://github.com/Common-Voice/sentence-collector/releases).
-
-## Export
-
-### Locally
-
-Make sure you have voice-web repository cloned locally first.
-
-``git clone https://github.com/mozilla/voice-web.git``
-
-Anyone with a locally working setup can export sentences to be added to Common Voice. Make sure to have your `.env` file correctly set up, including the correct path to the Common Voice (voice-web) repository as well as the Kinto credentials depending on the environment.
-
-If you want to run the export against the local instance, remove the `SC_SYSTEM` env variable below.
-
-```
-SC_SYSTEM=production npm run export
-```
-
-This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository. After the script ran, you might verify the output by running `git status` in the voice-web repository.
-
-### Exporting to the official repository
+This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
 
 1. Make sure you have forked voice-web repo in your user.
 2. Clone voice-web locally and link your remote fork for exports
@@ -83,19 +68,19 @@ git remote add fork git@github.com:YOURUSERNAME/voice-web.git
 All steps to do the export to our fork (you can repeat this each time you want to make an updated export)
 
 ```
-cd  voice-web
+cd voice-web
 ## Making sure our master branch is updated
 git checkout master
 git pull origin master
 git push fork master
 git push --delete fork sentence-collector-export
 git branch -D sentence-collector-export
-## Creating a new branch just for forks
+## Creating a new branch just for exports
 git checkout -b sentence-collector-export
 cd ..
 ## Creating the export
-SC_SYSTEM=production npm run export
-## Committing the export to our Fork
+SC_CONNECT=mysql://user:password@dbhost/sentencecollector node scripts/exporter.js
+## Committing the export to our fork
 cd voice-web
 git add .
 git commit -am "Sentence Collector - validated sentences export - 2019-02-13-13-28"
