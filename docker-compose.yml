@@ -20,6 +20,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: localdevelopment
       MYSQL_ROOT_PASSWORD: localdevelopment
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     networks:
       - backend-net
 
