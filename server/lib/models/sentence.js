@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
 
   Sentence.associate = (models) => {
-    Sentence.belongsTo(models.Locale, { as: 'Locale', foreignKey: 'localeId' });
     Sentence.hasMany(models.Vote, { as: 'Vote', foreignKey: 'sentenceId' });
   };
 

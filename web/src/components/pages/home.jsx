@@ -35,8 +35,6 @@ const Home = (props) => {
 };
 
 const LanguageStats = ({ languages, allLanguages, languageStats, userUnreviewedStats }) => {
-  console.log(languageStats);
-  console.log(userUnreviewedStats);
   if (!languages || languages.length < 1) {
     return (
       <p>

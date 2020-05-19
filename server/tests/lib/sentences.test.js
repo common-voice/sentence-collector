@@ -188,40 +188,34 @@ test.serial('getUnreviewedByYouCountForLocales: should fetch unreviewed stats co
 test.serial('getUserAddedSentencesPerLocale: should fetch user stats correctly', async (t) => {
   const user = ['foo'];
   Sentence.findAll.resolves([{
-    Locale: {
-      name: 'English'
-    },
     Vote: [{
       approval: true,
     }, {
       approval: true,
     }],
     sentence: 'Hi',
+    localeId: 'en',
   }, {
-    Locale: {
-      name: 'English'
-    },
     Vote: [],
     sentence: 'Hi there',
+    localeId: 'en',
   }, {
-    Locale: {
-      name: 'German'
-    },
     Vote: [{
       approval: true,
     }, {
       approval: true,
     }],
     sentence: 'Hallo',
+    localeId: 'de',
   }]);
 
   const stats = await sentences.getUserAddedSentencesPerLocale(user);
   t.deepEqual(stats, {
-    English: {
+    en: {
       added: 2,
       validated: 1,
     },
-    German: {
+    de: {
       added: 1,
       validated: 1,
     },

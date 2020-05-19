@@ -3,7 +3,7 @@
 const debug = require('debug')('sentencecollector:sentences');
 const { QueryTypes } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
-const { sequelize, Sentence, Locale, Vote } = require('./models');
+const { sequelize, Sentence, Vote } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const votes = require('./votes');
@@ -133,18 +133,19 @@ async function getUnreviewedByYouCountForLocales(locales, user) {
 }
 
 function calculateStats(stats, sentenceInfo) {
-  const locale = sentenceInfo.Locale.name;
-  stats[locale] = stats[locale] || {
+  console.log(sentenceInfo);
+  const localeId = sentenceInfo.localeId;
+  stats[localeId] = stats[localeId] || {
     added: 0,
     validated: 0,
   };
 
-  stats[locale].added++;
+  stats[localeId].added++;
 
   const approvals = sentenceInfo.Vote.filter((vote) => vote.approval);
   const approved = approvals.length >= 2;
   if (approved) {
-    stats[locale].validated++;
+    stats[localeId].validated++;
   }
 
   return stats;
@@ -154,7 +155,6 @@ async function getUserAddedSentencesPerLocale(user) {
   debug('GETTING_USER_ADDED_STATS');
 
   const options = {
-    attributes: ['Sentence.id'],
     where: {
       user,
     },
@@ -162,11 +162,6 @@ async function getUserAddedSentencesPerLocale(user) {
       model: Vote,
       as: 'Vote',
       attributes: ['approval'],
-      required: false,
-    }, {
-      model: Locale,
-      as: 'Locale',
-      attributes: ['name'],
       required: false,
     }],
   };

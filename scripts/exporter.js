@@ -17,7 +17,7 @@ require('dotenv').config({
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
-// Mapping from PONTOON locale -> database locale code
+// Mapping from PONTOON locale -> SC locale code
 const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',

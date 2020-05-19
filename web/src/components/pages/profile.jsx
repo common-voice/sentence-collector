@@ -140,6 +140,7 @@ const PersonalLanguageInfo = (props) => {
     return extended;
   });
 
+  console.log(props.languageStats);
   return (
     <ul>
     { extendedLanguages.map((language, i) => (
@@ -149,10 +150,10 @@ const PersonalLanguageInfo = (props) => {
                 onClick={props.onRemove} disabled={props.pending}>
           remove
         </button>
-        { props.languageStats && props.languageStats[language.name] && (
+        { props.languageStats && props.languageStats[language.id] && (
           <ul>
-            <li>{props.languageStats[language.name].added || 0} added by you</li>
-            <li>of which {props.languageStats[language.name].validated || 0} got validated</li>
+            <li>{props.languageStats[language.id].added || 0} added by you</li>
+            <li>of which {props.languageStats[language.id].validated || 0} got validated</li>
           </ul>
         )}
       </li>
