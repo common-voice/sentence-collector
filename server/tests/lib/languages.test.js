@@ -15,7 +15,6 @@ test.afterEach.always((t) => {
 test('gets ISO and custom languages', (t) => {
   const allLanguages = languages.getAllLanguages();
   t.true(allLanguages.length > 31);
-  t.true(ISO6391.getLanguages.called);
   const languageToCheck = allLanguages.find((lang) => lang.id === 'bxr');
   t.deepEqual(languageToCheck, {
     id: 'bxr',

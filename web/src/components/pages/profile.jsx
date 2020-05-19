@@ -150,12 +150,10 @@ const PersonalLanguageInfo = (props) => {
                 onClick={props.onRemove} disabled={props.pending}>
           remove
         </button>
-        { props.languageStats && props.languageStats[language.id] && (
-          <ul>
-            <li>{props.languageStats[language.id].added || 0} added by you</li>
-            <li>of which {props.languageStats[language.id].validated || 0} got validated</li>
-          </ul>
-        )}
+        <ul>
+          <li>{(props.languageStats[language.id] || {}).added || 0} added by you</li>
+          <li>of which {(props.languageStats[language.id] || {}).validated || 0} got validated</li>
+        </ul>
       </li>
     ))}
     </ul>
