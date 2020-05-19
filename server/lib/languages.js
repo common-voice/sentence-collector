@@ -168,21 +168,23 @@ const LANGUAGES_TO_REMOVE = [
   'nn' // coverted by nn-NO
 ];
 
+const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
+const languagesWithoutRemoved = removeLanguages(isoLanguages);
+const codeIdReplaced = languagesWithoutRemoved.map((lang) => ({
+  id: lang.code,
+  name: lang.name,
+  nativeName: lang.nativeName,
+}));
+const allLanguages = addAdditionalLanguages(codeIdReplaced);
+const allLanguagesSorted = allLanguages.sort((a, b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+  return 0;
+});
+const loadedLanguages = allLanguagesSorted;
+
 function getAllLanguages() {
-  const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
-  const languagesWithoutRemoved = removeLanguages(isoLanguages);
-  const codeIdReplaced = languagesWithoutRemoved.map((lang) => ({
-    id: lang.code,
-    name: lang.name,
-    nativeName: lang.nativeName,
-  }));
-  const allLanguages = addAdditionalLanguages(codeIdReplaced);
-  const allLanguagesSorted = allLanguages.sort((a, b) => {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
-  });
-  return allLanguagesSorted;
+  return loadedLanguages;
 }
 
 function removeLanguages(languages) {
