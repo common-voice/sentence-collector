@@ -144,7 +144,7 @@ const PersonalLanguageInfo = (props) => {
     <ul>
     { extendedLanguages.map((language, i) => (
       <li key={i}>
-        { language.name }
+        { language.nativeName } ({ language.name })
         <button className="remove-lang" data-lang={language.id}
                 onClick={props.onRemove} disabled={props.pending}>
           remove

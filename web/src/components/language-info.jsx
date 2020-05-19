@@ -9,11 +9,12 @@ const LanguageInfo = (props) => {
     unreviewedByYou,
     language,
     languageName,
+    nativeLanguageName,
   } = props;
 
   return (
     <section>
-      <h3>{languageName}</h3>
+      <h3>{nativeLanguageName} ({languageName})</h3>
       <ul>
         <li>{total} total sentences.</li>
         <li>
