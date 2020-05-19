@@ -5,21 +5,30 @@ const mysql = require('mysql2/promise');
 const languagesLib = require('../server/lib/languages');
 
 const {
-  SC_CONNECT,
+  HOSTNAME = 'localhost',
+  USERNAME,
+  PASSWORD,
+  DATABASE = 'sentencecollector',
   BACKUP_PATH,
 } = process.env;
 
-if (!SC_CONNECT || !BACKUP_PATH) {
-  throw new Error('SC_CONNECT and BACKUP_PATH are required!');
+if (!HOSTNAME || !USERNAME || !PASSWORD || !DATABASE || !BACKUP_PATH) {
+  throw new Error('HOSTNAME, USERNAME, PASSWORD, DATABASE, and BACKUP_PATH are required!');
 }
 
 let connection;
 let locales;
 
 (async function() {
-  connection = await mysql.createConnection(SC_CONNECT);
+  connection = await mysql.createPool({
+    connectionLimit: 100,
+    host: HOSTNAME,
+    user: USERNAME,
+    password: PASSWORD,
+    database: DATABASE,
+  });
 
-  locales = await getLocales();
+  locales = languagesLib.getAllLanguages();
 
   const files = await fs.promises.readdir(BACKUP_PATH, { withFileTypes: true });
   const directories = files.filter((dirent) => dirent.isDirectory());
@@ -47,11 +56,6 @@ let locales;
   process.exit(0);
 })();
 
-async function getLocales() {
-  const response = await connection.query('SELECT * FROM Locales');
-  return response[0];
-}
-
 async function processSentence(sentenceInfo, localeId) {
   const createdAt = typeof sentenceInfo.createdAt !== 'undefined' ? new Date(sentenceInfo.createdAt) : new Date();
   const updatedAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
@@ -72,7 +76,7 @@ async function processSentence(sentenceInfo, localeId) {
       ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
     ]);
   } catch (error) {
-    console.log(error.message, sentenceInfo);
+    console.log(error.message);
   }
 }
 
