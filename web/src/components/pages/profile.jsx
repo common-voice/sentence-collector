@@ -140,7 +140,10 @@ const PersonalLanguageInfo = (props) => {
     return extended;
   });
 
-  console.log(props.languageStats);
+  if (!props.languageStats) {
+    return;
+  }
+
   return (
     <ul>
     { extendedLanguages.map((language, i) => (
