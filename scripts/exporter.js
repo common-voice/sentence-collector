@@ -11,7 +11,7 @@ const mysql = require('mysql2/promise');
 const cleanup = require('../server/lib/cleanup');
 
 require('dotenv').config({
-  path: path.resolve('..', '.env'),
+  path: path.resolve(__dirname, '..', '.env'),
 });
 
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
@@ -32,7 +32,7 @@ if (!SC_CONNECT) {
   throw new Error('SC_CONNECT is required!');
 }
 
-const exportPath = path.resolve('..', process.env.COMMON_VOICE_PATH, 'server', 'data');
+const exportPath = path.resolve(process.env.COMMON_VOICE_PATH, 'server', 'data');
 
 let connection;
 
