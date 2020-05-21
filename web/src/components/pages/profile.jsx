@@ -141,7 +141,7 @@ const PersonalLanguageInfo = (props) => {
   });
 
   if (!props.languageStats) {
-    return;
+    return null;
   }
 
   return (
