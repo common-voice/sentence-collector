@@ -13,6 +13,4 @@ WORKDIR '/app'
 
 RUN npm ci
 
-EXPOSE 3333
-
 CMD ["node", "migration/index.js"]

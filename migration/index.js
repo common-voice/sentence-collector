@@ -9,6 +9,7 @@ const {
   USERNAME,
   PASSWORD,
   DATABASE = 'sentencecollector',
+  CONNECTIONS,
   BACKUP_PATH,
 } = process.env;
 
@@ -21,7 +22,7 @@ let locales;
 
 (async function() {
   connection = await mysql.createPool({
-    connectionLimit: 100,
+    connectionLimit: CONNECTIONS || 50,
     host: HOSTNAME,
     user: USERNAME,
     password: PASSWORD,
