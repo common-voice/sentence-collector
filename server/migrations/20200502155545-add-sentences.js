@@ -10,8 +10,8 @@ module.exports = {
     },
     sentence: {
       allowNull: false,
-      unique: true,
       type: Sequelize.STRING,
+      unique: 'uniqueSentence',
     },
     source: {
       allowNull: false,
@@ -24,6 +24,7 @@ module.exports = {
     localeId: {
       allowNull: false,
       type: Sequelize.STRING,
+      unique: 'uniqueSentence',
     },
     batch: {
       type: Sequelize.STRING,
@@ -35,6 +36,12 @@ module.exports = {
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATE,
+    },
+  }, {
+    uniqueKeys: {
+      uniqueSentence: {
+          fields: ['sentence', 'localeId'],
+      },
     },
   }),
   down: (queryInterface) => queryInterface.dropTable('Sentences'),
