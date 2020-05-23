@@ -27,6 +27,7 @@ let locales;
     user: USERNAME,
     password: PASSWORD,
     database: DATABASE,
+    charset: 'utf8mb4_bin',
   });
 
   locales = languagesLib.getAllLanguages();

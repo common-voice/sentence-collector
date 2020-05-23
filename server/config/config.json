@@ -4,14 +4,14 @@
     "password": "localdevelopment",
     "database": "sentencecollector",
     "host": "127.0.0.1",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "dialectOptions": {
       "collate": "utf8mb4_bin",
       "charset": "utf8mb4"
     }
   },
   "test": {
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "dialectOptions": {
       "collate": "utf8mb4_bin",
       "charset": "utf8mb4"
@@ -19,7 +19,7 @@
   },
   "production": {
     "use_env_variable": "SC_CONNECT",
-    "dialect": "mysql",
+    "dialect": "mariadb",
     "dialectOptions": {
       "collate": "utf8mb4_bin",
       "charset": "utf8mb4"
