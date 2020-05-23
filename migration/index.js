@@ -20,9 +20,12 @@ if (!HOSTNAME || !USERNAME || !PASSWORD || !DATABASE || !BACKUP_PATH) {
 let connection;
 let locales;
 
+const connectionLimit = parseInt(CONNECTIONS, 10) || 50;
+console.log(`Using max ${connectionLimit} connections..`);
+
 (async function() {
   connection = await mysql.createPool({
-    connectionLimit: CONNECTIONS || 50,
+    connectionLimit,
     host: HOSTNAME,
     user: USERNAME,
     password: PASSWORD,

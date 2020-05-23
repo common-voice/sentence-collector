@@ -9,10 +9,12 @@ spec:
       restartPolicy: Never
       containers:
       - name: sentence-collector-migration
-        image: michaelkohler/sentence-collector-mig:1.0.4
+        image: michaelkohler/sentence-collector-mig:1.0.6
         env:
           - name: BACKUP_PATH
             value: "/app/data/"
+          - name: CONNECTIONS
+            value: "100"
           - name: HOSTNAME
             valueFrom:
               secretKeyRef:
@@ -33,9 +35,4 @@ spec:
               secretKeyRef:
                 name: sentencecollector-migration
                 key: database
-          - name: CONNECTIONS
-            valueFrom:
-              secretKeyRef:
-                name: sentencecollector-migration
-                key: connections
 
