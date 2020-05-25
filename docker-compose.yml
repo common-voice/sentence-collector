@@ -9,7 +9,7 @@ services:
       - backend-net
 
   dbsql:
-    image: mariadb:10.5
+    image: mysql:8.0
     restart: always
     expose:
       - "3306"
