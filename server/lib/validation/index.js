@@ -4,6 +4,7 @@ const ne = require('./languages/ne');
 const kab = require( './languages/kab');
 const ru = require('./languages/ru');
 const ur = require('./languages/ur');
+const or = require('./languages/or');
 
 const VALIDATORS = {
   en,
@@ -12,6 +13,7 @@ const VALIDATORS = {
   ne,
   ru,
   ur,
+  or,
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
