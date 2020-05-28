@@ -4,6 +4,7 @@ import * as ne from './languages/ne';
 import * as kab from './languages/kab';
 import * as ru from './languages/ru';
 import * as ur from './languages/ur';
+import * as or from './languages/or';
 
 const VALIDATORS = {
   en,
@@ -12,6 +13,7 @@ const VALIDATORS = {
   ne,
   ru,
   ur,
+  or,
 };
 
 const DEFAULT_VALIDATOR_LANGUAGE = 'en';
@@ -72,12 +74,12 @@ function validateSentence(validator, sentence) {
     validationResult.error = 'Contains multiple sentences';
     return validationResult;
   }
-  
+
   if (!validateWithoutEnglishCharacters(validator, sentence)) {
     validationResult.error = 'Contains english characters';
     return validationResult;
   }
-  
+
 
   return validationResult;
 }
