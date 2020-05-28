@@ -14,7 +14,7 @@ spec:
           - name: BACKUP_PATH
             value: "/app/data/"
           - name: CONNECTIONS
-            value: "100"
+            value: "50"
           - name: HOSTNAME
             valueFrom:
               secretKeyRef:
