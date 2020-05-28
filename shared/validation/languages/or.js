@@ -5,7 +5,7 @@ const MIN_WORDS = 1;
 
 // Maximum of words allowed per sentence to keep recordings in a manageable duration.
 // This got increased from 14 to 30 as per easiness in creation of meaningful sentences.
-const MAX_WORDS = 30;
+const MAX_WORDS = 20;
 
 // Numbers that are not allowed in a sentence depending on the language. For
 // English this is 0-9 once or multiple times after each other.
