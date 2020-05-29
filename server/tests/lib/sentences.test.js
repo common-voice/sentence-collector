@@ -151,8 +151,10 @@ test.serial('addedSentences: should return duplicate counter', async (t) => {
 test.serial('getStats: should fetch all stats correctly', async (t) => {
   const locales = ['en', 'de'];
   sequelize.query.onCall(0).resolves([{ 'COUNT(*)': 3 }]);
+  sequelize.query.onCall(1).resolves([{ 'COUNT(*)': 2 }]);
   Sentence.count.onCall(0).resolves(10);
-  sequelize.query.onCall(1).resolves([{ 'COUNT(*)': 4 }]);
+  sequelize.query.onCall(2).resolves([{ 'COUNT(*)': 4 }]);
+  sequelize.query.onCall(3).resolves([{ 'COUNT(*)': 1 }]);
   Sentence.count.onCall(1).resolves(15);
   Sentence.count.onCall(2).resolves(1000);
   Sentence.count.onCall(3).resolves(5);
@@ -162,10 +164,12 @@ test.serial('getStats: should fetch all stats correctly', async (t) => {
     en: {
       added: 10,
       validated: 3,
+      rejected: 2,
     },
     de: {
       added: 15,
       validated: 4,
+      rejected: 1,
     },
     total: 1000,
     languages: 5,

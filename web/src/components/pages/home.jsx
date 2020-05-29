@@ -54,6 +54,7 @@ const LanguageStats = ({ languages, allLanguages, languageStats, userUnreviewedS
       nativeLanguageName={lang.nativeName}
       total={languageStats[lang.id].added}
       validated={languageStats[lang.id].validated}
+      rejected={languageStats[lang.id].rejected}
       unreviewedByYou={userUnreviewedStats[lang.id]}
     />
   )).filter(Boolean);

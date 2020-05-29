@@ -47,28 +47,7 @@ async function getSentencesForReview({ locale, user }) {
 async function getRejectedSentences({ user }) {
   debug('GETTING_REJECTED_SENTENCES');
 
-  const query = `
-    SELECT
-      Sentences.id,
-      Sentences.sentence,
-      Sentences.localeId,
-      SUM(Votes.approval) as number_of_approving_votes,
-      COUNT(Votes.approval) as number_of_votes
-    FROM Sentences
-    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
-    WHERE Sentences.user = "${user}"
-    GROUP BY Sentences.id
-    HAVING
-      (
-        number_of_votes = 3 AND
-        number_of_approving_votes < 2
-      ) OR (
-        number_of_votes = 2 AND
-        number_of_approving_votes = 0
-      )
-    ORDER BY Sentences.createdAt DESC;
-  `;
-
+  const query = getRejectedSentencesQuery({ user });
   const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
   const sentencesPerLocale = sentences.reduce((perLocale, sentenceInfo) => {
     perLocale[sentenceInfo.localeId] = perLocale[sentenceInfo.localeId] || [];
@@ -83,8 +62,8 @@ async function getStats(locales) {
 
   const totalStats = {};
   for (const locale of locales) {
-    const validatedQueryResult = await getValidatedSentencesCountForLocale(locale);
-    const validated = validatedQueryResult[0]['COUNT(*)'];
+    const validated = await getValidatedSentencesCountForLocale(locale);
+    const rejected = await getRejectedSentencesCountForLocale(locale);
 
     const options = {
       where: {
@@ -95,6 +74,7 @@ async function getStats(locales) {
     totalStats[locale] = {
       added: sentenceTotalCountByLocale,
       validated,
+      rejected,
     };
   }
 
@@ -105,14 +85,16 @@ async function getStats(locales) {
   };
 }
 
-function getValidatedSentencesCountForLocale(locale) {
+async function getValidatedSentencesCountForLocale(locale) {
   const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
   const query = `
     SELECT COUNT(*) FROM
       (${validatedSentencesQuery}) as approved_sentences;
   `;
 
-  return sequelize.query(query, { type: QueryTypes.SELECT });
+  const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const validatedCount = queryResult[0] && queryResult[0]['COUNT(*)'];
+  return validatedCount;
 }
 
 async function getUnreviewedByYouCountForLocales(locales, user) {
@@ -130,6 +112,18 @@ async function getUnreviewedByYouCountForLocales(locales, user) {
   }
 
   return stats;
+}
+
+async function getRejectedSentencesCountForLocale(locale) {
+  const rejectedQuery = getRejectedSentencesQuery({ locale });
+  const query = `
+    SELECT COUNT(*) FROM
+      (${rejectedQuery}) as rejected_sentences;
+  `;
+
+  const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const rejectedCount = queryResult[0] && queryResult[0]['COUNT(*)'];
+  return rejectedCount;
 }
 
 function calculateStats(stats, sentenceInfo) {
@@ -258,4 +252,39 @@ function getValidatedSentencesQuery({ locale }) {
     GROUP BY Sentences.id
     HAVING
       number_of_approving_votes >= 2`;
+}
+
+function getRejectedSentencesQuery({ user, locale }) {
+  let whereClause = '';
+
+  if (user) {
+    whereClause = `WHERE Sentences.user = '${user}'`;
+  }
+
+  if (locale) {
+    whereClause = whereClause ?
+      `${whereClause} and Sentences.localeId = '${locale}'` :
+      `WHERE Sentences.localeId = '${locale}'`;
+  }
+
+  return `
+    SELECT
+      Sentences.id,
+      Sentences.sentence,
+      Sentences.localeId,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    ${whereClause}
+    GROUP BY Sentences.id
+    HAVING
+      (
+        number_of_votes = 3 AND
+        number_of_approving_votes < 2
+      ) OR (
+        number_of_votes = 2 AND
+        number_of_approving_votes = 0
+      )
+    ORDER BY Sentences.createdAt DESC`;
 }

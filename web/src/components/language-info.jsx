@@ -6,6 +6,7 @@ const LanguageInfo = (props) => {
   const {
     total,
     validated,
+    rejected,
     unreviewedByYou,
     language,
     languageName,
@@ -18,7 +19,7 @@ const LanguageInfo = (props) => {
       <ul>
         <li>{total} total sentences.</li>
         <li>
-         {total - validated} sentences in review.&nbsp;
+         {total - validated - rejected} sentences in review.&nbsp;
         </li>
         <li>
          {unreviewedByYou} sentences left for you to review.&nbsp;
@@ -30,6 +31,7 @@ const LanguageInfo = (props) => {
          )}
         </li>
          <li>{validated} validated sentences.</li>
+         <li>{rejected} rejected sentences.</li>
       </ul>
     </section>
   );
