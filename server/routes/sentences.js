@@ -38,16 +38,9 @@ router.get('/rejected', async (req, res) => {
 router.put('/', async (req, res) => {
   debug('CREATE_SENTENCES', req.body);
 
-  sentences.addSentences(req.body)
-    .then((result) => {
-        res.status(STATUS_CREATED);
-        res.json(result);
-      })
-      .catch((error) => {
-        debug('CREATE_SENTENCES_ERROR', error);
-        res.status(STATUS_ERROR);
-        res.json({ message: error.message });
-      });
+  const result = sentences.addSentences(req.body);
+  res.status(STATUS_CREATED);
+  res.json(result);
 });
 
 router.get('/:locale', async (req, res) => {

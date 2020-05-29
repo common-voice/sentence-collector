@@ -156,7 +156,7 @@ class Add extends React.Component {
       const sentences = this.getReadySentences();
       const locale = this.state.language;
       const source = this.state.source;
-      const { errors, duplicates } = await this.props.uploadSentences({
+      const { errors } = await this.props.uploadSentences({
         locale,
         sentences,
         source,
@@ -170,7 +170,7 @@ class Add extends React.Component {
       this.historyUnblock();
       this.resetState();
       this.setState({
-        message: `Submitted sentences. ${duplicates} sentences were rejected as duplicates.`,
+        message: `Submitted sentences.`,
         error: errors && errors.length > 0 ? `${errors.length} sentences failed` : '',
       });
     } catch (err) {
