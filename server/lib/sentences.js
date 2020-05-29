@@ -164,7 +164,7 @@ async function getUserAddedSentencesPerLocale(user) {
   return sentencesStats;
 }
 
-function addSentences(data) {
+async function addSentences(data) {
   const {
     sentences,
     user,
@@ -177,6 +177,7 @@ function addSentences(data) {
   const { valid, validValidated, filtered } = validateSentences(locale, sentences);
 
   debug('Creating database entries');
+  let duplicateCounter = 0;
 
   const addSentenceToDatabase = (sentence, isValidated) => {
     const params = {
@@ -187,7 +188,7 @@ function addSentences(data) {
       localeId: locale,
     };
 
-    Sentence.create(params)
+    return Sentence.create(params)
       .then((sentence) => {
         if (!isValidated) {
           return sentence;
@@ -203,14 +204,20 @@ function addSentences(data) {
       .catch((error) => {
         if (error.parent && error.parent.errno === DUPLICATE_ERROR) {
           debug('Ignoring duplicate sentence', sentence);
+          duplicateCounter++;
         }
       });
   };
 
-  valid.map((sentence) => addSentenceToDatabase(sentence, false));
-  validValidated.map((sentence) => addSentenceToDatabase(sentence, true));
+  const validPromises = valid.map((sentence) => addSentenceToDatabase(sentence, false));
+  const validatedPromises = validValidated.map((sentence) => addSentenceToDatabase(sentence, true));
 
-  return { errors: filtered };
+  await Promise.all([
+    ...validPromises,
+    ...validatedPromises,
+  ]);
+
+  return { errors: filtered, duplicates: duplicateCounter };
 }
 
 function getReviewQuery({ locale, user }) {

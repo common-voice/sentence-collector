@@ -81,6 +81,7 @@ test.serial('addedSentences: should add all unreviewed sentences', async (t) => 
 
   t.false(votes.addVoteForSentence.called);
   t.is(result.errors.length, 0);
+  t.is(result.duplicates, 0);
 });
 
 test.serial('addedSentences: should fall back to en if no locale provided', async (t) => {
@@ -120,6 +121,31 @@ test.serial('addedSentences: should add all sentences - mixed validated and unre
 
   t.is(Sentence.create.callCount, 3);
   t.is(result.errors.length, 0);
+  t.is(result.duplicates, 0);
+});
+
+test.serial('addedSentences: should return duplicate counter', async (t) => {
+  const error = new Error('duplicate');
+  error.parent = {
+    errno: 1062,
+  };
+  Sentence.create.onCall(2).rejects(error);
+
+  const sentenceParams = {
+    sentences: {
+      unreviewed: ['Hi!'],
+      validated: ['I am a test', 'I am a test'],
+    },
+    user: 'foo',
+    source: 'source',
+    locale: 'en',
+  };
+
+  const result = await sentences.addSentences(sentenceParams);
+
+  t.is(Sentence.create.callCount, 3);
+  t.is(result.errors.length, 0);
+  t.is(result.duplicates, 1);
 });
 
 test.serial('getStats: should fetch all stats correctly', async (t) => {

@@ -132,3 +132,15 @@ test.serial('should add sentences', async (t) => {
   t.is(response.status, 201);
   t.true(sentences.addSentences.calledWith(sentenceParams));
 });
+
+test.serial('adding sentences should pass on error message', async (t) => {
+  sentences.addSentences.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .put('/sentences');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
