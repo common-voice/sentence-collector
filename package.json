@@ -12,7 +12,7 @@
     "clean": "rm -rf dist .cache",
     "reset": "npm run clean && rm -rf node_modules package-lock.json && npm install",
     "start": "npm run clean && npm run env parcel web/index.pug",
-    "start:server": "npm run migrate && DEBUG=sentencecollector:* node server/index.js",
+    "start:server": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node server/index.js",
     "migrate": "cd server && sequelize-cli db:migrate && cd ..",
     "build": "npm run clean && parcel build --no-cache web/index.pug --public-url .",
     "build:scripts": "npm run clean && parcel build -t \"node\" scripts/kinto.js",
