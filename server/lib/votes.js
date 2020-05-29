@@ -7,7 +7,7 @@ module.exports = {
   addVoteForSentence,
 };
 
-async function addVoteForSentence(voteParams) {
+async function addVoteForSentence(voteParams, transaction) {
   debug('ADDING_VOTE_FOR_SENTENCE', voteParams.sentenceId);
 
   try {
@@ -17,6 +17,7 @@ async function addVoteForSentence(voteParams) {
         user: voteParams.user,
       },
       defaults: voteParams,
+      transaction,
     });
 
     if (!created) {

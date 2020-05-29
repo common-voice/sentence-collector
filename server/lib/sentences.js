@@ -179,7 +179,7 @@ async function addSentences(data) {
   debug('Creating database entries');
   let duplicateCounter = 0;
 
-  const addSentenceToDatabase = (sentence, isValidated) => {
+  const addSentenceToDatabase = (sentence, transaction, isValidated) => {
     const params = {
       sentence,
       user,
@@ -188,7 +188,7 @@ async function addSentences(data) {
       localeId: locale,
     };
 
-    return Sentence.create(params)
+    return Sentence.create(params, { transaction })
       .then((sentence) => {
         if (!isValidated) {
           return sentence;
@@ -199,7 +199,7 @@ async function addSentences(data) {
           user,
           approval: true,
         };
-        return votes.addVoteForSentence(voteParams);
+        return votes.addVoteForSentence(voteParams, transaction);
       })
       .catch((error) => {
         if (error.parent && error.parent.errno === DUPLICATE_ERROR) {
@@ -209,13 +209,16 @@ async function addSentences(data) {
       });
   };
 
-  const validPromises = valid.map((sentence) => addSentenceToDatabase(sentence, false));
-  const validatedPromises = validValidated.map((sentence) => addSentenceToDatabase(sentence, true));
+  const transaction = await sequelize.transaction();
+  const validPromises = valid.map((sentence) => addSentenceToDatabase(sentence, transaction, false));
+  const validatedPromises = validValidated.map((sentence) => addSentenceToDatabase(sentence, transaction, true));
 
   await Promise.all([
     ...validPromises,
     ...validatedPromises,
   ]);
+
+  await transaction.commit();
 
   return { errors: filtered, duplicates: duplicateCounter };
 }

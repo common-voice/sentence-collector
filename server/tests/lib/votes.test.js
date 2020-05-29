@@ -27,6 +27,27 @@ test.serial('adds vote', async (t) => {
       user: voteParams.user,
     },
     defaults: voteParams,
+    transaction: undefined,
+  }));
+});
+
+test.serial('adds vote with transaction', async (t) => {
+  const transaction = { dummy: true };
+  const voteParams = {
+    sentenceId: 1234,
+    user: 'foo',
+    approval: true,
+  };
+
+  await votes.addVoteForSentence(voteParams, transaction);
+
+  t.true(Vote.findOrCreate.calledWith({
+    where: {
+      sentenceId: voteParams.sentenceId,
+      user: voteParams.user,
+    },
+    defaults: voteParams,
+    transaction,
   }));
 });
 

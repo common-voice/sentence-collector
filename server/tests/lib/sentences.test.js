@@ -17,6 +17,10 @@ test.beforeEach((t) => {
   t.context.sandbox.stub(Sentence, 'create').resolves(exampleSentenceRecord);
   t.context.sandbox.stub(Sentence, 'findAll').resolves([exampleSentenceRecord]);
   t.context.sandbox.stub(sequelize, 'query').resolves([exampleSentenceRecord]);
+  t.context.transactionMock = {
+    commit: t.context.sandbox.stub(),
+  };
+  t.context.sandbox.stub(sequelize, 'transaction').resolves(t.context.transactionMock);
   t.context.sandbox.stub(votes, 'addVoteForSentence').resolves();
 });
 
@@ -70,6 +74,8 @@ test.serial('addedSentences: should add all unreviewed sentences', async (t) => 
 
   const result = await sentences.addSentences(sentenceParams);
 
+  t.true(sequelize.transaction.calledOnce);
+  t.true(t.context.transactionMock.commit.calledOnce);
   t.true(Sentence.create.calledTwice);
   t.true(Sentence.create.calledWith({
     sentence: 'Hi',

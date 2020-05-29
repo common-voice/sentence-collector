@@ -116,10 +116,10 @@
   },
   "nyc": {
     "check-coverage": true,
-    "statements": 88,
-    "branches": 70,
-    "functions": 78,
-    "lines": 88,
+    "statements": 90,
+    "branches": 72,
+    "functions": 79,
+    "lines": 90,
     "include": [
       "server/lib/**/*.js",
       "server/routes/**/*.js"
