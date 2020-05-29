@@ -77,6 +77,22 @@ router.get('/text/:locale', async (req, res) => {
     });
 });
 
+router.get('/text/approved/:locale', async (req, res) => {
+  debug('GET_APPROVED_SENTENCES_TEXT');
+  sentences.getApprovedSentencesForLocale(req.params.locale)
+    .then((foundSentences) => {
+      const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
+      const sentencesPerLine = sentencesOnly.join('\n');
+      res.header('Content-Type', 'text/plain');
+      res.send(sentencesPerLine);
+    })
+    .catch((error) => {
+      debug('GET_APPROVED_SENTENCES_TEXT_ERROR', error);
+      res.status(STATUS_ERROR);
+      res.json({ message: error.message });
+    });
+});
+
 router.get('/sources/:locale', async (req, res) => {
   debug('GET_SENTENCES_SOURCES');
   sentences.getSentencesForLocale(req.params.locale)

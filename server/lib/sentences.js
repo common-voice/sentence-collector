@@ -12,6 +12,7 @@ const DUPLICATE_ERROR = 1062;
 
 module.exports = {
   getSentencesForLocale,
+  getApprovedSentencesForLocale,
   getSentencesForReview,
   getRejectedSentences,
   getStats,
@@ -34,6 +35,11 @@ async function getSentencesForLocale(localeId, sentenceFilter) {
   }
 
   return Sentence.findAll(options);
+}
+
+function getApprovedSentencesForLocale(locale) {
+  const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
+  return sequelize.query(validatedSentencesQuery, { type: QueryTypes.SELECT });
 }
 
 async function getSentencesForReview({ locale, user }) {
@@ -248,6 +254,7 @@ function getValidatedSentencesQuery({ locale }) {
   return `
     SELECT
       Sentences.id,
+      Sentences.sentence,
       SUM(Votes.approval) as number_of_approving_votes
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)

@@ -79,7 +79,7 @@ git branch -D sentence-collector-export
 git checkout -b sentence-collector-export
 cd ..
 ## Creating the export
-SC_CONNECT=mysql://user:password@dbhost/sentencecollector node scripts/exporter.js
+API_BASE_URL=https://example.com:3333 node scripts/exporter.js
 ## Committing the export to our fork
 cd voice-web
 git add .
@@ -158,3 +158,4 @@ SELECT Sentences.*
 * Get info for a single sentence: `/sentences/de?sentence=Wie%20zuverl%C3%A4ssig%20eine%20Versicherung%20zahlt,%20wei%C3%9F%20man%20erst,%20wenn%20man%20sie%20braucht.`. Replace `de` with the locale code for the language. In the browser you can just copy/paste the sentence and it will correctly handle spaces and symbols)
 * Get all sources: `/sentences/sources/de`. Replace `de` with the locale code for the language.
 * Get all sentences as text: `/sentences/text/de`. Replace `de` with the locale code for the language.
+* Get all approved sentences as text: `/sentences/text/approved/de`. Replace `de` with the locale code for the language.

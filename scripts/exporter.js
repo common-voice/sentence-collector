@@ -1,4 +1,4 @@
-const {
+ const {
   writeFileSync,
   readdirSync,
   readFileSync,
@@ -7,7 +7,6 @@ const {
 } = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
-const mysql = require('mysql2/promise');
 const cleanup = require('../server/lib/cleanup');
 
 require('dotenv').config({
@@ -25,21 +24,17 @@ const LANGUAGE_MAPPING = {
 };
 
 const {
-  SC_CONNECT,
+  API_BASE_URL,
 } = process.env;
 
-if (!SC_CONNECT) {
-  throw new Error('SC_CONNECT is required!');
+if (!API_BASE_URL) {
+  throw new Error('API_BASE_URL is required!');
 }
 
 const exportPath = path.resolve(process.env.COMMON_VOICE_PATH, 'server', 'data');
 
-let connection;
-
 (async () => {
-  connection = await mysql.createConnection(SC_CONNECT);
   await startExport();
-  connection.close();
 })();
 
 async function startExport() {
@@ -60,20 +55,12 @@ async function exportLanguage(languageCode) {
 
   const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
   const cvPath = `${exportPath}/${languageCode}`;
+  const approvedSentencesUrl = `${API_BASE_URL}/sentences/text/approved/${dbLanguageCode}`;
 
-  const approvedQuery = `
-    SELECT
-        Sentences.id,
-        Sentences.sentence
-      FROM Sentences
-      LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)
-      WHERE Sentences.localeId = "${languageCode}"
-      GROUP BY Sentences.id
-      HAVING
-        SUM(Votes.approval) >= 2`;
-  const [approvedSentences] = await connection.query(approvedQuery);
-
-  if (!approvedSentences || approvedSentences.length === 0) {
+  const approvedSentencesResponse = await fetch(approvedSentencesUrl);
+  const approvedSentencesText = await approvedSentencesResponse.text();
+  const approvedSentences = approvedSentencesText.split('\n');
+  if (!approvedSentences || approvedSentences.length === 0 || approvedSentences[0] === '') {
     return;
   }
 
@@ -82,8 +69,7 @@ async function exportLanguage(languageCode) {
   prepareExport(cvPath);
 
   console.log(`  - Cleaning up sentences`);
-  const sentencesOnly = approvedSentences.map((sentenceMeta) => sentenceMeta.sentence);
-  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, sentencesOnly);
+  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, approvedSentences);
   const dedupedSentences = dedupeSentences(dbLanguageCode, cleanedUpSentences, cvPath);
 
   writeExport(cvPath, dedupedSentences);
