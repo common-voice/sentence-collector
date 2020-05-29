@@ -133,7 +133,6 @@ async function getUnreviewedByYouCountForLocales(locales, user) {
 }
 
 function calculateStats(stats, sentenceInfo) {
-  console.log(sentenceInfo);
   const localeId = sentenceInfo.localeId;
   stats[localeId] = stats[localeId] || {
     added: 0,
