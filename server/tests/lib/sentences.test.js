@@ -47,6 +47,11 @@ test.serial('getSentencesForLocale: should only get sentences for locale', async
   t.is(queryParams.where.localeId, localeId);
 });
 
+test.serial('getApprovedSentencesForLocale: should get approved sentences for locale', async (t) => {
+  await sentences.getApprovedSentencesForLocale(localeId);
+  t.true(sequelize.query.calledOnce);
+});
+
 test.serial('getSentencesForReview: should query sentences', async (t) => {
   const foundSentences = await sentences.getSentencesForReview(localeId);
   t.true(sequelize.query.called);

@@ -21,6 +21,7 @@ const sentencesMock = [{
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
   t.context.sandbox.stub(sentences, 'getSentencesForLocale').resolves(sentencesMock);
+  t.context.sandbox.stub(sentences, 'getApprovedSentencesForLocale').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getSentencesForReview').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getRejectedSentences').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'addSentences').resolves(sentencesMock);
@@ -53,6 +54,15 @@ test.serial('should get sentences text only', async (t) => {
 
   t.is(response.status, 200);
   t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
+});
+
+test.serial('should get approved sentences text only', async (t) => {
+  const response = await request(app)
+    .get('/sentences/text/approved/en');
+
+  t.is(response.status, 200);
+  t.true(sentences.getApprovedSentencesForLocale.calledWith('en'));
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
 });
 
