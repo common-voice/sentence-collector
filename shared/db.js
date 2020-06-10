@@ -42,7 +42,6 @@ export default class DB {
   }
 
   async initDB() {
-
     await this.server.createBucket(BUCKET_NAME, getPermissionsObject([{
       type: TYPE_READ,
       principals: [],
@@ -62,23 +61,23 @@ export default class DB {
     }]));
   }
 
-  async getBucket() {
+  getBucket() {
     return this.server.bucket(BUCKET_NAME);
   }
 
-  async auth() {
+  auth() {
     return this.user.tryAuth();
   }
 
-  async setSetting(key, value) {
+  setSetting(key, value) {
     return this.user.setSetting(key, value);
   }
 
-  async addLanguage(language) {
+  addLanguage(language) {
     return this.user.addLanguage(language);
   }
 
-  async removeLanguage(language) {
+  removeLanguage(language) {
     return this.user.removeLanguage(language);
   }
 }

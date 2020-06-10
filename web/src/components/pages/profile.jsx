@@ -61,11 +61,13 @@ class Profile extends React.Component {
     }
   }
 
-  activateSwipeReview() {
+  activateSwipeReview(evt) {
+    evt.preventDefault();
     this.props.setSetting('useSwipeReview', true);
   }
 
-  deactivateSwipeReview() {
+  deactivateSwipeReview(evt) {
+    evt.preventDefault();
     this.props.setSetting('useSwipeReview', false);
   }
 
