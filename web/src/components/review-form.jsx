@@ -95,10 +95,10 @@ export default class ReviewForm extends React.Component {
     } = this.props;
 
     const {
-      sentences,
+      sentences = [],
     } = this.state;
 
-    if (sentences.length < 1) {
+    if (!Array.isArray(sentences) || sentences.length < 1) {
       return <h2>nothing to review</h2>;
     }
 

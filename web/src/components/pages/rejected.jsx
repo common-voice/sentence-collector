@@ -42,7 +42,7 @@ class Rejected extends React.Component {
           <p>No rejected sentences found!</p>
         )}
 
-        { Object.keys(rejectedSentences).map((language) => (
+        { Array.isArray(rejectedSentences) && Object.keys(rejectedSentences).map((language) => (
           <section key={'section-' + language}>
             <h2 key={language}>{language}</h2>
 
