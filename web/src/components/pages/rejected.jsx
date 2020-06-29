@@ -30,6 +30,8 @@ class Rejected extends React.Component {
   render() {
     const { rejectedSentences, loading } = this.state;
 
+    console.log(rejectedSentences, loading); // eslint-disable-line no-console
+
     return (
       <React.Fragment>
         <h1>Your rejected sentences</h1>
@@ -42,7 +44,7 @@ class Rejected extends React.Component {
           <p>No rejected sentences found!</p>
         )}
 
-        { Array.isArray(rejectedSentences) && Object.keys(rejectedSentences).map((language) => (
+        { Object.keys(rejectedSentences).map((language) => (
           <section key={'section-' + language}>
             <h2 key={language}>{language}</h2>
 
