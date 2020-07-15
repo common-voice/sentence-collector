@@ -1,11 +1,15 @@
 FROM node:12-buster
 
+ARG KINTO_URL_PROD
+ARG CLIENT_URL_PROD
+ARG BACKEND_URL_PROD
+
 RUN npm install pm2 -g
 
 ENV NODE_ENV production
-ENV KINTO_URL_PROD https://kinto.mozvoice.org/v1
-ENV CLIENT_URL_PROD https://sentencecollector.staging.k8s.michael.network
-ENV BACKEND_URL_PROD https://sentencecollector.staging.k8s.michael.network
+ENV KINTO_URL_PROD=$KINTO_URL_PROD
+ENV CLIENT_URL_PROD=$CLIENT_URL_PROD
+ENV BACKEND_URL_PROD=$BACKEND_URL_PROD
 
 RUN mkdir -p /app
 COPY doc /app/doc

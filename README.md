@@ -52,6 +52,14 @@ npm start
 
 The sentence collector is now accessible through `http://localhost:1234`.
 
+## Building the image
+
+```
+docker build --build-arg KINTO_URL_PROD=https://kinto.mozvoice.org/v1 --build-arg CLIENT_URL_PROD=https://sentencecollector.staging.k8s.michael.network/main/ --build-arg BACKEND_URL_PROD=https://sentencecollector.staging.k8s.michael.network/main/ -t michaelkohler/sentence-collector:2.0.9 .
+```
+
+Of course the variables can be set to whatever value you'll need.
+
 ## Exporting to the official repository
 
 This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
