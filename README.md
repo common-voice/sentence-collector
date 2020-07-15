@@ -55,7 +55,7 @@ The sentence collector is now accessible through `http://localhost:1234`.
 ## Building the image
 
 ```
-docker build --build-arg KINTO_URL_PROD=https://kinto.mozvoice.org/v1 --build-arg CLIENT_URL_PROD=https://sentencecollector.staging.k8s.michael.network/main/ --build-arg BACKEND_URL_PROD=https://sentencecollector.staging.k8s.michael.network/main/ -t michaelkohler/sentence-collector:2.0.9 .
+docker build --build-arg KINTO_URL_PROD=https://kinto.mozvoice.org/v1 --build-arg CLIENT_URL_PROD=https://sentencecollector.staging.k8s.michael.network/sentence-collector/ --build-arg BACKEND_URL_PROD=https://sentencecollector.staging.k8s.michael.network/sentence-collector/ -t michaelkohler/sentence-collector:2.0.9 .
 ```
 
 Of course the variables can be set to whatever value you'll need.

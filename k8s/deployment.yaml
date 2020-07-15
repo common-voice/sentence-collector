@@ -27,7 +27,7 @@ spec:
       containers:
         - name: sentence-collector
           image: michaelkohler/sentence-collector:2.0.9
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           resources:
             limits:
               cpu: "100m"
