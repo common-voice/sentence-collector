@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { getLanguages } from '../actions/languages';
-import { login } from '../actions/login';
 
 import Page from './page';
 import Home from './pages/home';
@@ -23,15 +22,8 @@ class App extends React.Component {
     super(props);
 
     const {
-      username,
-      password,
-      login,
       getLanguages,
     } = props;
-
-    if (username && password) {
-      login(username, password);
-    }
 
     getLanguages();
   }
@@ -83,15 +75,12 @@ const PrivateRoute = (props) => {
 function mapDispatchToProps(dispatch) {
   return {
     getLanguages: () => dispatch(getLanguages()),
-    login: (username, password) => dispatch(login(username, password)),
   };
 }
 
 function mapStateToProps(state) {
   return {
     authed: state.login.authed,
-    username: state.login.username,
-    password: state.login.password,
   };
 }
 

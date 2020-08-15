@@ -35,7 +35,7 @@ class DraggableCard extends Component {
       startPosition: { x: 0, y: 0 }
     });
   }
-  
+
   panstart () {
     const { x, y } = this.state;
     this.setState({
@@ -70,7 +70,6 @@ class DraggableCard extends Component {
     this.setState(this.calculatePosition( ev.deltaX, ev.deltaY ));
   }
   pancancel (ev) {
-    console.log(ev.type);
   }
 
   handlePan (ev) {
@@ -80,7 +79,6 @@ class DraggableCard extends Component {
   }
 
   handleSwipe (ev) {
-    console.log(ev.type);
   }
 
   calculatePosition (deltaX, deltaY) {
@@ -93,7 +91,7 @@ class DraggableCard extends Component {
   componentDidMount () {
     this.hammer = new Hammer.Manager(this.myRef.current.myRef.current);
     this.hammer.add(new Hammer.Pan({ threshold: 2 }));
-    
+
     this.hammer.on('panstart panend pancancel panmove', this.handlePan);
     this.hammer.on('swipestart swipeend swipecancel swipemove', this.handleSwipe);
 

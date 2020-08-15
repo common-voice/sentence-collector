@@ -1,8 +1,5 @@
-import { getBackendUrl } from './config';
-
 export function sendRequest(endpoint, method = 'GET', data) {
-  const backendUrl = getBackendUrl();
-  const url = `${backendUrl}/${endpoint}`;
+  const url = `/${endpoint}`;
   const options = {
     method,
   };

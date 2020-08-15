@@ -12,7 +12,6 @@ import {
 export const INITIAL_STATE = {
   authed: false,
   username: null,
-  password: null,
   loginDisabled: true,
   errorMessage: null,
 };
@@ -47,7 +46,6 @@ export default function(state = INITIAL_STATE, action) {
         authed: true,
         loginDisabled: false,
         username: action.username,
-        password: action.password,
         errorMessage: null,
       });
 

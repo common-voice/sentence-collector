@@ -30,8 +30,6 @@ class Rejected extends React.Component {
   render() {
     const { rejectedSentences, loading } = this.state;
 
-    console.log(rejectedSentences, loading); // eslint-disable-line no-console
-
     return (
       <React.Fragment>
         <h1>Your rejected sentences</h1>
