@@ -2,30 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { logout } from '../actions/login';
-
-class ProfileWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onLogout = this.onLogout.bind(this);
+function ProfileWidget(props) {
+  if (!props.authed) {
+    return '';
   }
 
-  onLogout() {
-    this.props.logout();
-  }
-
-  render() {
-    if (!this.props.authed) {
-      return '';
-    }
-
-    return (
-      <div className="profile-widget">
-        <h3><Link to="/profile">{this.props.username}</Link></h3>
-        <button className="inverse" onClick={this.onLogout}>Logout</button>
-      </div>
-    );
-  }
+  return (
+    <div className="profile-widget">
+      <h3><Link to="/profile">{props.username}</Link></h3>
+      <a href="/logout">Logout</a>
+    </div>
+  );
 }
 
 function mapStateToProps(state) {
@@ -35,10 +22,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    logout: () => dispatch(logout()),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileWidget);
+export default connect(mapStateToProps)(ProfileWidget);

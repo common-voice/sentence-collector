@@ -11,7 +11,7 @@ import { getLanguages } from '../actions/languages';
 import Page from './page';
 import Home from './pages/home';
 import HowTo from './pages/how-to';
-import Login from './pages/login';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './pages/login';
 import Profile from './pages/profile';
 import Rejected from './pages/rejected';
 import Add from './pages/add';
@@ -36,7 +36,9 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/how-to" component={HowTo} />
-            <Route exact path="/login" component={Login} />
+            <Route exact path="/login-failure" component={LoginFailure} />
+            <Route exact path="/login-success" component={LoginSuccess} />
+            <Route exact path="/logout-success" component={LogoutSuccess} />
             <PrivateRoute exact authed={authed} path="/profile" component={Profile} />
             <PrivateRoute exact authed={authed} path="/add" component={Add} />
             <PrivateRoute exact authed={authed} path="/review" component={Review} />

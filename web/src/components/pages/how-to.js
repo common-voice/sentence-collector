@@ -5,8 +5,8 @@ const HowTo = () => {
     <section>
       <h1 id="how-to">How to</h1>
 
-      <h2 id="login">Login</h2>
-      <p>You can login by entering any available username and choosing a password, that will automatically create an account for you. Once logged in you can select your languages from the profile section.</p>
+      <h2 id="login">Adding languages to work with</h2>
+      <p>Once logged in you can select your languages from the profile section.</p>
 
       <h2 id="add-new-sentences">Add new sentences</h2>
       <ul>

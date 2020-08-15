@@ -3,7 +3,7 @@
     "username": "admin",
     "password": "localdevelopment",
     "database": "sentencecollector",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql",
     "dialectOptions": {
       "charset": "utf8mb4"
@@ -14,14 +14,16 @@
       "acquire": 30000,
       "idle": 10000
     },
-    "logging": false
+    "logging": false,
+    "callbackURL": "http://localhost:3333/callback"
   },
   "test": {
     "dialect": "mysql",
     "dialectOptions": {
       "charset": "utf8mb4"
     },
-    "logging": false
+    "logging": false,
+    "callbackURL": "http://localhost:3333/callback"
   },
   "production": {
     "use_env_variable": "SC_CONNECT",
@@ -35,6 +37,7 @@
       "acquire": 30000,
       "idle": 10000
     },
-    "logging": false
+    "logging": false,
+    "callbackURL": "https://commonvoice.mozilla.org/sentence-collector/callback"
   }
 }

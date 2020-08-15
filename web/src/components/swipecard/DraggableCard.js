@@ -69,7 +69,7 @@ class DraggableCard extends Component {
   panmove (ev) {
     this.setState(this.calculatePosition( ev.deltaX, ev.deltaY ));
   }
-  pancancel (ev) {
+  pancancel () {
   }
 
   handlePan (ev) {
@@ -78,7 +78,7 @@ class DraggableCard extends Component {
     return false;
   }
 
-  handleSwipe (ev) {
+  handleSwipe () {
   }
 
   calculatePosition (deltaX, deltaY) {
