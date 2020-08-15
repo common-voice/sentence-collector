@@ -1,4 +1,4 @@
-import DB from '../../db.js';
+import DB from '../../kinto.js';
 
 const NAME = 'User';
 

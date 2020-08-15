@@ -1,0 +1,64 @@
+{
+  "name": "sentence-collector-server",
+  "version": "2.0.9",
+  "description": "Backend for the sentence collector",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "env": "env $(grep -v '^#' .env | xargs)",
+    "init": "npm run build:scripts && npm run env node dist/kinto",
+    "build:scripts": "parcel build -t \"node\" scripts/kinto.js",
+    "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
+    "migrate": "sequelize-cli db:migrate && cd ..",
+    "lint": "eslint .",
+    "test": "npm run lint && nyc ava"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "iso-639-1": "^2.1.3",
+    "kinto": "^13.0.0",
+    "kinto-http": "^5.1.1",
+    "mariadb": "^2.4.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.3",
+    "talisman": "^1.1.2",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "ava": "^3.10.1",
+    "btoa": "^1.2.1",
+    "eslint": "^7.4.0",
+    "nyc": "^15.1.0",
+    "pug": "^3.0.0",
+    "sequelize-cli": "^6.2.0",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
+  },
+  "ava": {
+    "files": [
+      "server/tests/**/*.test.js"
+    ],
+    "require": [
+      "esm"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 90,
+    "branches": 72,
+    "functions": 79,
+    "lines": 90,
+    "include": [
+      "lib/**/*.js",
+      "routes/**/*.js"
+    ],
+    "all": true,
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ]
+  }
+}

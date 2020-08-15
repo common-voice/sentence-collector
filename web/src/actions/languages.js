@@ -1,4 +1,3 @@
-import { getDBInstance } from '../web-db';
 import { sendRequest } from '../backend';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
@@ -39,9 +38,7 @@ export function addLanguage(language) {
   return async function(dispatch) {
     try {
       dispatch(sendAddLanguage());
-
-      const db = getDBInstance();
-      const updatedLanguages = await db.addLanguage(language);
+      const updatedLanguages = await sendRequest('languages', 'PUT', { language });
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(addLanguageFailure());
@@ -54,9 +51,7 @@ export function removeLanguage(language) {
   return async function(dispatch) {
     try {
       dispatch(sendRemoveLanguage());
-
-      const db = getDBInstance();
-      const updatedLanguages = await db.removeLanguage(language);
+      const updatedLanguages = await sendRequest('languages', 'DELETE', { language });
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(removeLanguageFailure());

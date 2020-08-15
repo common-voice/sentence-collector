@@ -40,7 +40,7 @@ npm run init
 Now we can install the dependencies and start the server in a new terminal window:
 
 ```
-npm ci
+npm run install:all
 npm run start:server
 ```
 

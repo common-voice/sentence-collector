@@ -1,4 +1,4 @@
-import { getDBInstance } from '../web-db';
+import { sendRequest } from '../backend';
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
@@ -6,8 +6,7 @@ export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE'
 export function setSetting(key, value) {
   return async function(dispatch) {
     try {
-      const db = getDBInstance();
-      await db.setSetting(key, value);
+      await sendRequest('settings', 'POST', { key, value });
       dispatch(settingsChanged({
         [key]: value,
       }));

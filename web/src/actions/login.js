@@ -1,7 +1,4 @@
-import {
-  getDBInstance,
-  removeInstance,
-} from '../web-db';
+import { sendRequest } from '../backend';
 import { addLanguageSuccess, getStats } from './languages';
 import { settingsChanged } from './settings';
 
@@ -20,9 +17,7 @@ export function login(username, password) {
   return async function(dispatch) {
     try {
       dispatch(sendLoginRequest());
-
-      const db = getDBInstance(username, password);
-      const user = await db.auth();
+      const user = await sendRequest('kintoLogin', 'POST', { username, password });
       dispatch(loginSuccess(username, password));
       dispatch(addLanguageSuccess(user.languages));
       dispatch(settingsChanged(user.settings));
@@ -83,8 +78,6 @@ export function enableLogin() {
 }
 
 export function logout() {
-  removeInstance();
-
   return {
     type: ACTION_LOGOUT,
   };

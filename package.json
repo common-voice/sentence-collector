@@ -7,50 +7,11 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "env": "env $(grep -v '^#' .env | xargs)",
-    "init": "npm run build:scripts && npm run env node dist/kinto",
-    "clean": "rm -rf dist .cache",
-    "reset": "npm run clean && rm -rf node_modules package-lock.json && npm install",
-    "start": "npm run clean && npm run env parcel web/index.pug",
-    "start:server": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node server/index.js",
-    "migrate": "cd server && sequelize-cli db:migrate && cd ..",
-    "build": "npm run clean && parcel build --no-cache web/index.pug --public-url .",
-    "build:scripts": "npm run clean && parcel build -t \"node\" scripts/kinto.js",
-    "lint": "eslint shared web scripts server",
-    "release": "semantic-release",
-    "test:frontend": "jest",
-    "test:server": "nyc ava",
-    "test": "npm run lint && npm run test:frontend && npm run test:server"
+    "install:all": "cd server && npm ci && cd ../web && npm ci",
+    "release": "semantic-release"
   },
-  "dependencies": {
-    "connected-react-router": "^6.8.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "hammerjs": "^2.0.8",
-    "iso-639-1": "^2.1.3",
-    "kinto": "^13.0.0",
-    "kinto-http": "^5.1.1",
-    "mariadb": "^2.4.1",
-    "mysql2": "^2.1.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "redux": "^4.0.5",
-    "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.3.0",
-    "regenerator-runtime": "^0.13.5",
-    "sequelize": "^6.3.3",
-    "talisman": "^1.1.2",
-    "uuid": "^8.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "@babel/runtime": "^7.10.5",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
@@ -58,32 +19,8 @@
     "@semantic-release/github": "^7.0.7",
     "@semantic-release/npm": "^7.0.5",
     "@semantic-release/release-notes-generator": "^9.0.1",
-    "ava": "^3.10.1",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.1.0",
-    "babel-preset-env": "^1.7.0",
-    "btoa": "^1.2.1",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.1",
-    "enzyme-to-json": "^3.5.0",
-    "eslint": "^7.4.0",
-    "eslint-plugin-enzyme": "^0.2.0",
-    "eslint-plugin-react": "^7.20.3",
-    "esm": "^3.2.25",
     "gh-pages": "^3.1.0",
-    "husky": "^4.2.5",
-    "jest": "^26.1.0",
-    "nyc": "^15.1.0",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-eslint": "^1.0.7",
-    "parcel-plugin-markdown": "github:mikehenrty/parcel-plugin-markdown#upgrade-asset",
-    "pug": "^3.0.0",
-    "react-test-renderer": "^16.13.1",
-    "redux-mock-store": "^1.5.3",
-    "semantic-release": "^17.1.1",
-    "sequelize-cli": "^6.2.0",
-    "sinon": "^9.0.2",
-    "supertest": "^4.0.2"
+    "husky": "^4.2.5"
   },
   "husky": {
     "hooks": {
@@ -93,41 +30,6 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/server/"
-    ],
-    "setupFiles": [
-      "<rootDir>/web/src/tests/testSetup.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
-  "ava": {
-    "files": [
-      "server/tests/**/*.test.js"
-    ],
-    "require": [
-      "esm"
-    ]
-  },
-  "nyc": {
-    "check-coverage": true,
-    "statements": 90,
-    "branches": 72,
-    "functions": 79,
-    "lines": 90,
-    "include": [
-      "server/lib/**/*.js",
-      "server/routes/**/*.js"
-    ],
-    "all": true,
-    "reporter": [
-      "text-summary",
-      "lcov"
     ]
   },
   "release": {

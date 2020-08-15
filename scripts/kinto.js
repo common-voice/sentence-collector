@@ -1,4 +1,4 @@
-import DB from '../shared/db.js';
+import DB from '../server/kinto.js';
 
 const remote = process.env.KINTO_URL_LOCAL;
 const username = process.env.KINTO_USER;

@@ -108,7 +108,7 @@ export default class ReviewForm extends React.Component {
     if (useSwipeReview) {
       let message = (<p>You have not reviewed any sentences yet!</p>);
       if (this.state.page !== 0) {
-        message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>)
+        message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>);
       }
 
       return (

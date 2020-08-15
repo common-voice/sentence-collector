@@ -6,7 +6,6 @@ import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import { sendRequest } from '../../backend';
 import Modal from '../modal';
-import reviewSentences from '../../../../doc/review-sentences.md';
 
 const DEFAULT_STATE = {
   message: '',
@@ -185,7 +184,16 @@ class Review extends React.Component {
           <LanguageSelector name="language-selector-review" languages={extendedLanguages}
                             selected={this.getLanguageFromParams()} onChange={this.onSelectLanguage} />
           <Modal text="ⓘ Review Criteria">
-            <div dangerouslySetInnerHTML={{ __html: reviewSentences }} />
+            <h2 id="review-criteria">Review Criteria</h2>
+            <h3 id="make-sure-the-sentence-meets-the-following-criteria-">Make sure the sentence meets the following criteria:</h3>
+            <ol>
+              <li>The sentence must be spelled correctly.</li>
+              <li>The sentence must be grammatically correct.</li>
+              <li>The sentence must be speakable.</li>
+              <li>If the sentence meets the criteria, click the &quot;yes&quot; button on the right.</li>
+              <li>If the sentence does not meet the above criteria, click the &quot;no&quot; button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.</li>
+              <li>If you run out of sentences to review, please help us collect more sentences!</li>
+            </ol>
           </Modal>
         </section>
         { this.renderContent() }

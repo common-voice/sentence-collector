@@ -12,7 +12,6 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true,
     "jest": true
   },
   "extends": [
@@ -22,7 +21,8 @@
   "rules": {
     "no-console": "off",
     "semi": "error",
-    "no-prototype-builtins": "off"
+    "no-prototype-builtins": "off",
+    "react/prop-types": "off"
   },
   "plugins": [
     "react",

@@ -16,7 +16,7 @@ export default class Page extends React.Component {
 
   handleClick() {
     this.setState((prevState) => {
-      return { headerIsOpen: !prevState.headerIsOpen }
+      return { headerIsOpen: !prevState.headerIsOpen };
     });
   }
 

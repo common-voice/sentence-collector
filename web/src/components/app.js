@@ -6,7 +6,6 @@ import {
   Route
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
-import { getDBInstance } from '../web-db';
 import { getLanguages } from '../actions/languages';
 import { login } from '../actions/login';
 
@@ -16,7 +15,7 @@ import HowTo from './pages/how-to';
 import Login from './pages/login';
 import Profile from './pages/profile';
 import Rejected from './pages/rejected';
-import Add from './pages/add.jsx';
+import Add from './pages/add';
 import Review from './pages/review';
 
 class App extends React.Component {
@@ -31,7 +30,6 @@ class App extends React.Component {
     } = props;
 
     if (username && password) {
-      getDBInstance(username, password);
       login(username, password);
     }
 

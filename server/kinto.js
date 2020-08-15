@@ -1,7 +1,7 @@
 import btoa from 'btoa';
 import KintoClient from 'kinto-http';
 
-import User from './db/collections/user';
+import User from './kintoDB/collections/user';
 
 export const BUCKET_NAME = 'App';
 
