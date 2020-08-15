@@ -7,17 +7,15 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --hot --progress --colors --inline --mode development",
+    "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
     "lint": "eslint src",
-    "test": "npm run lint && nyc jest"
+    "test": "npm run lint && jest"
   },
   "dependencies": {
     "connected-react-router": "^6.8.0",
     "hammerjs": "^2.0.8",
     "iso-639-1": "^2.1.3",
-    "kinto": "^13.0.0",
-    "kinto-http": "^5.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
@@ -50,7 +48,6 @@
     "file-loader": "^6.0.0",
     "jest": "^26.1.0",
     "mini-css-extract-plugin": "^0.10.0",
-    "nyc": "^15.1.0",
     "react-test-renderer": "^16.13.1",
     "redux-mock-store": "^1.5.3",
     "style-loader": "^1.2.1",
@@ -59,29 +56,11 @@
     "webpack-dev-server": "^3.11.0"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "<rootDir>/server/"
-    ],
     "setupFiles": [
-      "<rootDir>/web/src/tests/testSetup.js"
+      "<rootDir>/src/tests/testSetup.js"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
-    ]
-  },
-  "nyc": {
-    "check-coverage": true,
-    "statements": 90,
-    "branches": 72,
-    "functions": 79,
-    "lines": 90,
-    "include": [
-      "src/**/*.js"
-    ],
-    "all": true,
-    "reporter": [
-      "text-summary",
-      "lcov"
     ]
   }
 }

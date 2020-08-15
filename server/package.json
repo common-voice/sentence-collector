@@ -7,20 +7,16 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "env": "env $(grep -v '^#' .env | xargs)",
-    "init": "npm run build:scripts && npm run env node dist/kinto",
-    "build:scripts": "parcel build -t \"node\" scripts/kinto.js",
     "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
     "migrate": "sequelize-cli db:migrate && cd ..",
     "lint": "eslint .",
     "test": "npm run lint && nyc ava"
   },
   "dependencies": {
+    "atob": "^2.1.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "iso-639-1": "^2.1.3",
-    "kinto": "^13.0.0",
-    "kinto-http": "^5.1.1",
     "mariadb": "^2.4.1",
     "mysql2": "^2.1.0",
     "sequelize": "^6.3.3",
@@ -29,8 +25,10 @@
   },
   "devDependencies": {
     "ava": "^3.10.1",
+    "babel-eslint": "^10.1.0",
     "btoa": "^1.2.1",
     "eslint": "^7.4.0",
+    "esm": "^3.2.25",
     "nyc": "^15.1.0",
     "pug": "^3.0.0",
     "sequelize-cli": "^6.2.0",
@@ -39,7 +37,7 @@
   },
   "ava": {
     "files": [
-      "server/tests/**/*.test.js"
+      "tests/**/*.test.js"
     ],
     "require": [
       "esm"
@@ -48,7 +46,7 @@
   "nyc": {
     "check-coverage": true,
     "statements": 90,
-    "branches": 72,
+    "branches": 74,
     "functions": 79,
     "lines": 90,
     "include": [

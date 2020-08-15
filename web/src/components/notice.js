@@ -7,6 +7,6 @@ export default class Notice extends React.Component {
 
   render() {
     const { text } = this.props;
-    return (<p class="notice error">{text}</p>);
+    return (<p className="notice error">{text}</p>);
   }
 }

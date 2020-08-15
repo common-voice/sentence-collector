@@ -9,10 +9,6 @@ const path = require('path');
 const fetch = require('node-fetch');
 const cleanup = require('../server/lib/cleanup');
 
-require('dotenv').config({
-  path: path.resolve(__dirname, '..', '.env'),
-});
-
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
@@ -25,13 +21,14 @@ const LANGUAGE_MAPPING = {
 
 const {
   API_BASE_URL,
+  COMMON_VOICE_PATH,
 } = process.env;
 
-if (!API_BASE_URL) {
-  throw new Error('API_BASE_URL is required!');
+if (!API_BASE_URL || !COMMON_VOICE_PATH) {
+  throw new Error('API_BASE_URL and COMMON_VOICE_PATH are required!');
 }
 
-const exportPath = path.resolve(process.env.COMMON_VOICE_PATH, 'server', 'data');
+const exportPath = path.resolve(COMMON_VOICE_PATH, 'server', 'data');
 
 (async () => {
   await startExport();

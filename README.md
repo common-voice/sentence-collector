@@ -16,7 +16,6 @@
 ## Local Development
 
 ```
-cp .env_template .env
 docker-compose up
 ```
 
@@ -28,8 +27,6 @@ curl --header "Content-Type: application/json" \
   --data '{"data": {"password": "password"}}' \
   http://localhost:8888/v1/accounts/admin
 ```
-
-If you want to change the password, please also change the `KINTO_PASSWORD` in `.env`.
 
 And then you can initialize the required user collections with:
 
