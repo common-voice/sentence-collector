@@ -29,6 +29,7 @@ test.serial('get: should get user', async (t) => {
   const user = await users.get('foo@example.com');
   t.deepEqual(user, {
     email: 'foo@example.com',
+    languages: [],
     settings: {
       useSwipeReview: true,
     },

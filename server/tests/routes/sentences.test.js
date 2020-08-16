@@ -169,6 +169,7 @@ test.serial('should add sentences', async (t) => {
   const sentenceParams = {
     sentence: 'Hi',
     source: 'me',
+    user: undefined,
   };
 
   const response = await request(app)

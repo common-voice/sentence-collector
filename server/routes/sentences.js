@@ -38,10 +38,11 @@ router.get('/rejected', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-  debug('CREATE_SENTENCES', req.body);
+  const user = req.user && req.user.email;
+  debug('CREATE_SENTENCES', req.body, user);
 
   try {
-    const result = await sentences.addSentences(req.body);
+    const result = await sentences.addSentences({ ...req.body, user });
     res.status(STATUS_CREATED);
     res.json(result);
   } catch (error) {
