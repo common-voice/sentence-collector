@@ -43,3 +43,23 @@ spec:
                 secretKeyRef:
                   name: sentencecollector
                   key: connect
+            - name: AUTH0_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: auth0domain
+            - name: AUTH0_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: auth0clientid
+            - name: AUTH0_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: auth0clientsecret
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: sessionsecret
