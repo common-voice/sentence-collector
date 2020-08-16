@@ -1,4 +1,4 @@
-# Common Voice Sentence Collector [![Build Status](https://travis-ci.com/Common-Voice/sentence-collector.svg?branch=master)](https://travis-ci.com/Common-Voice/sentence-collector)
+# Common Voice Sentence Collector
 
 ## Get involved
 
@@ -19,6 +19,12 @@
 docker-compose up
 ```
 
+Now we can install the dependencies:
+
+```
+npm run install:all
+```
+
 Now create an admin account with the password `password`:
 
 ```
@@ -31,31 +37,41 @@ curl --header "Content-Type: application/json" \
 And then you can initialize the required user collections with:
 
 ```
+cd server
 npm run init
 ```
 
-Now we can install the dependencies and start the server in a new terminal window:
+Start the server in a new terminal window. For this you'll need parameters from Auth0 to make sure that the login works, see below for a short tutorial.
 
 ```
-npm run install:all
-npm run start:server
+cd server
+env AUTH0_DOMAIN=yourusername.eu.auth0.com AUTH0_CLIENT_ID=fromauth0 AUTH0_CLIENT_SECRET=fromauth0 SESSION_SECRET=somerandomvalue npm start
 ```
 
 Finally, you can start the frontend in another terminal window. Please make sure that you're in the root directory of the repository.
 
 ```
+cd web
 npm start
 ```
 
-The sentence collector is now accessible through `http://localhost:1234`.
+The sentence collector is now accessible through `http://localhost:3333`. We're serving the frontend code through the NodeJS app to make Auth0 work locally. However the frontend code changes are still rebuilt, so you can reload the tab to see changes.
+
+## Getting required parameters from Auth0
+
+1. Create an [Auth0](https://auth0.com/) account. There is a free tier and that will be enough for local development.
+2. Click "Applications" from the dashboard. Create a new one, or use the default application.
+3. Go to "Applications" and click on the Settings icon next to your application.
+4. Add `http://localhost:3333/callback` to the "Allowed Callback URLs" list.
+5. You can add more login options to your app from the "Connections" tab, but you don't have to
+6. These required domain, client ID and client secret are found in the same Settings tab as the "Allowed Callback URLs". Copy those into your run command from above.
+8. You will now be able to create a new user by clicking on "Login" and then switching over to the "Sign Up" tab on the login dialog. You don't need to use a valid email address.
 
 ## Building the image
 
 ```
-docker build --build-arg KINTO_URL_PROD=https://kinto.mozvoice.org/v1 --build-arg CLIENT_URL_PROD=https://sentencecollector.staging.k8s.michael.network/sentence-collector/ --build-arg BACKEND_URL_PROD=https://sentencecollector.staging.k8s.michael.network/sentence-collector/ -t michaelkohler/sentence-collector:2.0.9 .
+docker build -t michaelkohler/sentence-collector:2.0.10 .
 ```
-
-Of course the variables can be set to whatever value you'll need.
 
 ## Exporting to the official repository
 
@@ -65,36 +81,36 @@ This will export all the approved sentences for languages currently active in ht
 2. Clone voice-web locally and link your remote fork for exports
 
 ```
-git clone https://github.com/mozilla/voice-web.git
+git clone https://github.com/mozilla/common-voice.git
 cd voice-web
-git remote add fork git@github.com:YOURUSERNAME/voice-web.git
+git remote add fork git@github.com:YOURUSERNAME/common-voice.git
 ```
 
 All steps to do the export to our fork (you can repeat this each time you want to make an updated export)
 
 ```
-cd voice-web
-## Making sure our master branch is updated
-git checkout master
-git pull origin master
-git push fork master
+cd common-voice
+## Making sure our main branch is updated
+git checkout main
+git pull origin main
+git push fork main
 git push --delete fork sentence-collector-export
 git branch -D sentence-collector-export
 ## Creating a new branch just for exports
 git checkout -b sentence-collector-export
 cd ..
 ## Creating the export
-API_BASE_URL=https://example.com:3333 node scripts/exporter.js
+API_BASE_URL=https://commonvoice.mozilla.org node scripts/exporter.js
 ## Committing the export to our fork
-cd voice-web
+cd common-voice
 git add .
-git commit -am "Sentence Collector - validated sentences export - 2019-02-13-13-28"
+git commit -am "Sentence Collector - Validated sentences export - 2019-02-13"
 git push fork sentence-collector-export
 ```
 
 Now you will be able to create a manual pull request using the following URL:
 
-``https://github.com/YOURUSERNAME/voice-web/pull/new/sentence-collector-export``
+``https://github.com/YOURUSERNAME/common-voice/pull/new/sentence-collector-export``
 
 ## Useful queries
 
