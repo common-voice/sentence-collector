@@ -23,15 +23,14 @@ const {
   AUTH0_CLIENT_SECRET,
   AUTH0_CALLBACK_URL = 'http://localhost:3333/sentence-collector/callback',
   SESSION_SECRET,
-  NODE_ENV,
+  NODE_ENV = 'development',
 } = process.env;
 
-const env = NODE_ENV || 'development';
 // Locally: frontend at /, API at /sentence-collector
 // Production: frontend and API both at /sentence-collector
-const FRONTEND_BASE_PATH = env === 'production' ? '/sentence-collector' : '';
-const MOUNT_PATH = env === 'production' ? '' : '/sentence-collector';
-const config = require('./config/config.json')[env];
+const FRONTEND_BASE_PATH = NODE_ENV === 'production' ? '/sentence-collector' : '';
+const MOUNT_PATH = NODE_ENV === 'production' ? '' : '/sentence-collector';
+// const config = require('./config/config.json')[NODE_ENV];
 
 const app = express();
 
