@@ -9,6 +9,7 @@ const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
+const users = require('./lib/users');
 const sentencesRoutes = require('./routes/sentences');
 const languagesRoutes = require('./routes/languages');
 const statsRoutes = require('./routes/stats');
@@ -99,7 +100,13 @@ app.use('/callback', passport.authenticate('auth0', { failureRedirect: '/login' 
   if (!user) {
     res.redirect('/#/login-failure');
   } else {
-    res.redirect('/#/login-success');
+    const email = user.emails && user.emails[0] && user.emails[0].value;
+    users.createUserIfNecessary(email)
+      .then(() => res.redirect('/#/login-success'))
+      .catch((error) => {
+        debug('FAILED_CREATING_USER', error);
+        res.redirect('/#/login-failure');
+      });
   }
 });
 

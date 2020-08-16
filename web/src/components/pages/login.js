@@ -28,7 +28,9 @@ function mapDispatchToProps(dispatch) {
 
 export const LoginSuccess = connect(mapStateToProps, mapDispatchToProps)(LoginSuccessComponent);
 
-export function LoginFailure() {
+function LoginFailureComponent({ logout }) {
+  logout();
+
   return (
     <section>
       <h1>Login failed</h1>
@@ -36,6 +38,8 @@ export function LoginFailure() {
     </section>
   );
 }
+
+export const LoginFailure = connect(mapStateToProps, mapDispatchToProps)(LoginFailureComponent);
 
 export function LogoutSuccessComponent({ logout }) {
   logout();

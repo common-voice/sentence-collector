@@ -6,12 +6,13 @@ export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE'
 export function setSetting(key, value) {
   return async function(dispatch) {
     try {
-      await sendRequest('settings', 'POST', { key, value });
+      await sendRequest('users/settings', 'POST', { key, value });
       dispatch(settingsChanged({
         [key]: value,
       }));
     } catch (err) {
       dispatch(settingsChangedFailure());
+      console.error(err);
       throw err;
     }
   };
