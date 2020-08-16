@@ -38,7 +38,7 @@ export function addLanguage(language) {
   return async function(dispatch) {
     try {
       dispatch(sendAddLanguage());
-      const updatedLanguages = await sendRequest('languages', 'PUT', { language });
+      const updatedLanguages = await sendRequest('users/languages', 'PUT', { language });
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(addLanguageFailure());
@@ -51,7 +51,7 @@ export function removeLanguage(language) {
   return async function(dispatch) {
     try {
       dispatch(sendRemoveLanguage());
-      const updatedLanguages = await sendRequest('languages', 'DELETE', { language });
+      const updatedLanguages = await sendRequest(`users/languages/${language}`, 'DELETE');
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(removeLanguageFailure());

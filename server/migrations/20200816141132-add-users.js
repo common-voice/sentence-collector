@@ -10,7 +10,12 @@ module.exports = {
     },
     email: {
       allowNull: false,
-      unique: 'email',
+      unique: 'uniqueEmail',
+      type: Sequelize.STRING,
+    },
+    languages: {
+      allowNull: false,
+      defaultValue: '',
       type: Sequelize.STRING,
     },
     useSwipeReview: {
@@ -25,6 +30,12 @@ module.exports = {
     updatedAt: {
       allowNull: false,
       type: Sequelize.DATE,
+    },
+  }, {
+    uniqueKeys: {
+      uniqueEmail: {
+          fields: ['email'],
+      },
     },
   }),
   down: (queryInterface) => queryInterface.dropTable('Users'),

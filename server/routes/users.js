@@ -43,4 +43,42 @@ router.post('/settings', async (req, res) => {
   }
 });
 
+router.put('/languages', async (req, res) => {
+  const {
+    user,
+    body: {
+      language,
+    },
+  } = req;
+
+  debug('LANGUAGE_UPDATE', user && user.email, language);
+
+  try {
+    const updatedLanguages = await users.addLanguage(user && user.email, language);
+    res.json(updatedLanguages);
+  } catch (error) {
+    res.status(500);
+    res.json({ message: error.message });
+  }
+});
+
+router.delete('/languages/:language', async (req, res) => {
+  const {
+    user,
+    params: {
+      language,
+    },
+  } = req;
+
+  debug('LANGUAGE_REMOVAL', user && user.email, language);
+
+  try {
+    const updatedLanguages = await users.removeLanguage(user && user.email, language);
+    res.json(updatedLanguages);
+  } catch (error) {
+    res.status(500);
+    res.json({ message: error.message });
+  }
+});
+
 module.exports = router;
