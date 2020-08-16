@@ -10,7 +10,7 @@ function ProfileWidget(props) {
   return (
     <div className="profile-widget">
       <p className="small"><Link to="/profile">{props.username}</Link></p>
-      <a href="/logout">Logout</a>
+      <a href="/sentence-collector/logout">Logout</a>
     </div>
   );
 }

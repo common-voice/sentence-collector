@@ -26,6 +26,10 @@ const {
 } = process.env;
 
 const env = NODE_ENV || 'development';
+// Locally: frontend at /, API at /sentence-collector
+// Production: frontend and API both at /sentence-collector
+const FRONTEND_BASE_PATH = env === 'production' ? '/sentence-collector' : '';
+const MOUNT_PATH = env === 'production' ? '' : '/sentence-collector';
 const config = require('./config/config.json')[env];
 
 const app = express();
@@ -95,35 +99,35 @@ if (AUTH0_DOMAIN) {
   debug('No Auth0 configuration found');
 }
 
-app.use('/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), async (req, res) => {
+app.use(`${MOUNT_PATH}/callback`, passport.authenticate('auth0', { failureRedirect: `${MOUNT_PATH}/login` }), async (req, res) => {
   const { user } = req;
   if (!user) {
-    res.redirect('/#/login-failure');
+    res.redirect(`${FRONTEND_BASE_PATH}/#/login-failure`);
   } else {
     const email = user.emails && user.emails[0] && user.emails[0].value;
     users.createUserIfNecessary(email)
-      .then(() => res.redirect('/#/login-success'))
+      .then(() => res.redirect(`${FRONTEND_BASE_PATH}/#/login-success`))
       .catch((error) => {
         debug('FAILED_CREATING_USER', error);
-        res.redirect('/#/login-failure');
+        res.redirect(`${FRONTEND_BASE_PATH}/#/login-failure`);
       });
   }
 });
 
-app.use('/login', (req, res) => {
+app.use(`${MOUNT_PATH}/login`, (req, res) => {
   passport.authenticate('auth0', {})(req, res);
 });
 
-app.use('/logout', (req, res) => {
+app.use(`${MOUNT_PATH}/logout`, (req, res) => {
   res.clearCookie('connect.sid');
-  res.redirect('/#/logout-success');
+  res.redirect(`${FRONTEND_BASE_PATH}/#/logout-success`);
 });
 
-app.use('/languages', languagesRoutes);
-app.use('/sentences', sentencesRoutes);
-app.use('/stats', statsRoutes);
-app.use('/users', usersRoutes);
-app.use('/votes', votesRoutes);
+app.use(`${MOUNT_PATH}/languages`, languagesRoutes);
+app.use(`${MOUNT_PATH}/sentences`, sentencesRoutes);
+app.use(`${MOUNT_PATH}/stats`, statsRoutes);
+app.use(`${MOUNT_PATH}/users`, usersRoutes);
+app.use(`${MOUNT_PATH}/votes`, votesRoutes);
 app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist')));
 
 module.exports = app;

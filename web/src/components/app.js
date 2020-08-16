@@ -67,7 +67,7 @@ const PrivateRoute = (props) => {
         return <Component {...props} />;
       }
 
-      window.location = '/login';
+      window.location = '/sentence-collector/login';
       return;
     }}
   />;

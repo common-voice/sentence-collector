@@ -1,5 +1,5 @@
 export function sendRequest(endpoint, method = 'GET', data) {
-  const url = `/${endpoint}`;
+  const url = `/sentence-collector/${endpoint}`; // we always have the backend at that path, even locally
   const options = {
     method,
   };

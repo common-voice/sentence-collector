@@ -18,7 +18,7 @@ const Header = (props) => {
         { props.authed ? (
           <NavLink to="/profile" exact key="profile">Profile</NavLink>
         ) : (
-          <a href="/login">Login</a>
+          <a href="/sentence-collector/login">Login</a>
         )}
       </nav>
       <ProfileWidget />

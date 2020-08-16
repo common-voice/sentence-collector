@@ -15,7 +15,7 @@
       "idle": 10000
     },
     "logging": false,
-    "callbackURL": "http://localhost:3333/callback"
+    "callbackURL": "http://localhost:3333/sentence-collector/callback"
   },
   "test": {
     "dialect": "mysql",
@@ -23,7 +23,7 @@
       "charset": "utf8mb4"
     },
     "logging": false,
-    "callbackURL": "http://localhost:3333/callback"
+    "callbackURL": "http://localhost:3333/sentence-collector/callback"
   },
   "production": {
     "use_env_variable": "SC_CONNECT",
