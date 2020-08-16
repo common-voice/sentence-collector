@@ -14,13 +14,15 @@ router.get('/review', async (req, res) => {
   const locale = req.query.locale;
   const user = req.user && req.user.email;
   debug('GET_SENTENCES_FOR_REVIEW', user);
-  sentences.getSentencesForReview({ locale, user })
-    .then((foundSentences) => res.json(foundSentences))
-    .catch((error) => {
-      debug('GET_SENTENCES_FOR_REVIEW_ERROR', error);
-      res.status(STATUS_ERROR);
-      res.json({ message: error.message });
-    });
+
+  try {
+    const foundSentences = await sentences.getSentencesForReview({ locale, user });
+    res.json(foundSentences);
+  } catch (error) {
+    debug('GET_SENTENCES_FOR_REVIEW_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 router.get('/rejected', async (req, res) => {
@@ -38,76 +40,76 @@ router.get('/rejected', async (req, res) => {
 router.put('/', async (req, res) => {
   debug('CREATE_SENTENCES', req.body);
 
-  sentences.addSentences(req.body)
-    .then((result) => {
-        res.status(STATUS_CREATED);
-        res.json(result);
-      })
-      .catch((error) => {
-        debug('CREATE_SENTENCES_ERROR', error);
-        res.status(STATUS_ERROR);
-        res.json({ message: error.message });
-      });
+  try {
+    const result = await sentences.addSentences(req.body);
+    res.status(STATUS_CREATED);
+    res.json(result);
+  } catch (error) {
+    debug('CREATE_SENTENCES_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 router.get('/:locale', async (req, res) => {
   debug('GET_SENTENCES');
-  sentences.getSentencesForLocale(req.params.locale, req.query.sentence)
-    .then((foundSentences) => res.json(foundSentences))
-    .catch((error) => {
-      debug('GET_SENTENCES_ERROR', error);
-      res.status(STATUS_ERROR);
-      res.json({ message: error.message });
-    });
+
+  try {
+    const foundSentences = await sentences.getSentencesForLocale(req.params.locale, req.query.sentence);
+    res.json(foundSentences);
+  } catch (error) {
+    debug('GET_SENTENCES_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 router.get('/text/:locale', async (req, res) => {
   debug('GET_SENTENCES_TEXT');
-  sentences.getSentencesForLocale(req.params.locale)
-    .then((foundSentences) => {
-      const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
-      const sentencesPerLine = sentencesOnly.join('\n');
-      res.header('Content-Type', 'text/plain');
-      res.send(sentencesPerLine);
-    })
-    .catch((error) => {
-      debug('GET_SENTENCES_TEXT_ERROR', error);
-      res.status(STATUS_ERROR);
-      res.json({ message: error.message });
-    });
+
+  try {
+    const foundSentences = await sentences.getSentencesForLocale(req.params.locale);
+    const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
+    const sentencesPerLine = sentencesOnly.join('\n');
+    res.header('Content-Type', 'text/plain');
+    res.send(sentencesPerLine);
+  } catch (error) {
+    debug('GET_SENTENCES_TEXT_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 router.get('/text/approved/:locale', async (req, res) => {
   debug('GET_APPROVED_SENTENCES_TEXT');
-  sentences.getApprovedSentencesForLocale(req.params.locale)
-    .then((foundSentences) => {
-      const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
-      const sentencesPerLine = sentencesOnly.join('\n');
-      res.header('Content-Type', 'text/plain');
-      res.send(sentencesPerLine);
-    })
-    .catch((error) => {
-      debug('GET_APPROVED_SENTENCES_TEXT_ERROR', error);
-      res.status(STATUS_ERROR);
-      res.json({ message: error.message });
-    });
+
+  try {
+    const foundSentences = await sentences.getApprovedSentencesForLocale(req.params.locale);
+    const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
+    const sentencesPerLine = sentencesOnly.join('\n');
+    res.header('Content-Type', 'text/plain');
+    res.send(sentencesPerLine);
+  } catch (error) {
+    debug('GET_APPROVED_SENTENCES_TEXT_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 router.get('/sources/:locale', async (req, res) => {
   debug('GET_SENTENCES_SOURCES');
-  sentences.getSentencesForLocale(req.params.locale)
-    .then((foundSentences) => {
-      const sources = Array.from(new Set(foundSentences.map((sentence) => sentence.source)));
-      console.log(sources.length);
-      const sourcesPerLine = sources.join('\n');
-      res.header('Content-Type', 'text/plain');
-      res.send(sourcesPerLine);
-    })
-    .catch((error) => {
-      debug('GET_SENTENCES_SOURCES_ERROR', error);
-      res.status(STATUS_ERROR);
-      res.json({ message: error.message });
-    });
+
+  try {
+    const foundSentences = await sentences.getSentencesForLocale(req.params.locale);
+    const sources = Array.from(new Set(foundSentences.map((sentence) => sentence.source)));
+    const sourcesPerLine = sources.join('\n');
+    res.header('Content-Type', 'text/plain');
+    res.send(sourcesPerLine);
+  } catch (error) {
+    debug('GET_SENTENCES_SOURCES_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
 });
 
 module.exports = router;

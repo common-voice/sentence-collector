@@ -23,7 +23,7 @@ router.get('/whoami', async (req, res) => {
   res.send();
 });
 
-router.post('/settings', (req, res) => {
+router.post('/settings', async (req, res) => {
   const {
     user,
     body: {
@@ -33,12 +33,14 @@ router.post('/settings', (req, res) => {
   } = req;
 
   debug('SETTING_UPDATE', user && user.email);
-  users.updateSetting(user && user.email, key, value)
-    .then(() => res.json({}))
-    .catch((error) => {
-      res.status(500);
-      res.json({ message: error.message });
-    });
+
+  try {
+    await users.updateSetting(user && user.email, key, value);
+    res.json();
+  } catch (error) {
+    res.status(500);
+    res.json({ message: error.message });
+  }
 });
 
 module.exports = router;
