@@ -17,14 +17,14 @@ test.afterEach.always((t) => {
 
 test.serial('whoami: should return 404 when no user', async (t) => {
   const response = await request(app)
-    .get('/users/whoami');
+    .get('/sentence-collector/users/whoami');
 
   t.is(response.status, 404);
 });
 
 test.serial('updateSetting: should update setting', async (t) => {
   const response = await request(app)
-    .post('/users/settings')
+    .post('/sentence-collector/users/settings')
     .send({ key: 'foo', value: 'bar' });
 
   t.is(response.status, 200);
@@ -35,7 +35,7 @@ test.serial('updateSetting: should pass error', async (t) => {
   users.updateSetting.rejects(new Error('nope'));
 
   const response = await request(app)
-    .post('/users/settings')
+    .post('/sentence-collector/users/settings')
     .send({ key: 'foo', value: 'bar' });
 
   t.is(response.status, 500);
@@ -46,7 +46,7 @@ test.serial('updateSetting: should pass error', async (t) => {
 
 test.serial('addLanguage: should update languages', async (t) => {
   const response = await request(app)
-    .put('/users/languages')
+    .put('/sentence-collector/users/languages')
     .send({ language: 'en' });
 
   t.is(response.status, 200);
@@ -58,7 +58,7 @@ test.serial('addLanguage: should pass error', async (t) => {
   users.addLanguage.rejects(new Error('nope'));
 
   const response = await request(app)
-    .put('/users/languages')
+    .put('/sentence-collector/users/languages')
     .send({ language: 'en' });
 
   t.is(response.status, 500);
@@ -69,7 +69,7 @@ test.serial('addLanguage: should pass error', async (t) => {
 
 test.serial('removeLanguage: should update languages', async (t) => {
   const response = await request(app)
-    .delete('/users/languages/en');
+    .delete('/sentence-collector/users/languages/en');
 
   t.is(response.status, 200);
   t.true(users.removeLanguage.calledWith(undefined, 'en'));
@@ -80,7 +80,7 @@ test.serial('removeLanguage: should pass error', async (t) => {
   users.removeLanguage.rejects(new Error('nope'));
 
   const response = await request(app)
-    .delete('/users/languages/en');
+    .delete('/sentence-collector/users/languages/en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

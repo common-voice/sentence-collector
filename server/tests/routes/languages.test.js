@@ -25,7 +25,7 @@ test.afterEach.always((t) => {
 
 test.serial('should get languages', async (t) => {
   const response = await request(app)
-    .get('/languages');
+    .get('/sentence-collector/languages');
 
   t.is(response.status, 200);
   t.deepEqual(response.body, allLanguages);
@@ -35,7 +35,7 @@ test.serial('should pass on error message', async (t) => {
   languages.getAllLanguages.throws(new Error('nope'));
 
   const response = await request(app)
-    .get('/languages');
+    .get('/sentence-collector/languages');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

@@ -15,7 +15,7 @@ test.afterEach.always((t) => {
 
 test.serial('does nothing if nothing passed', async (t) => {
   await request(app)
-    .put('/votes')
+    .put('/sentence-collector/votes')
     .expect('Content-Type', /json/)
     .expect(201, {
       votes: 0,
@@ -27,7 +27,7 @@ test.serial('does nothing if nothing passed', async (t) => {
 
 test.serial('adds votes - all approved', async (t) => {
   await request(app)
-    .put('/votes')
+    .put('/sentence-collector/votes')
     .send({
       validated: [111, 112],
       invalidated: [],
@@ -55,7 +55,7 @@ test.serial('adds votes - all approved', async (t) => {
 
 test.serial('adds votes - all rejected', async (t) => {
   await request(app)
-    .put('/votes')
+    .put('/sentence-collector/votes')
     .send({
       validated: [],
       invalidated: [111, 112],
@@ -83,7 +83,7 @@ test.serial('adds votes - all rejected', async (t) => {
 
 test.serial('adds votes - mixed', async (t) => {
   await request(app)
-    .put('/votes')
+    .put('/sentence-collector/votes')
     .send({
       validated: [109],
       invalidated: [111, 112],
@@ -119,7 +119,7 @@ test.serial('adds votes - single error', async (t) => {
   votes.addVoteForSentence.onCall(1).rejects(new Error('nope'));
 
   await request(app)
-    .put('/votes')
+    .put('/sentence-collector/votes')
     .send({
       validated: [109],
       invalidated: [111],
