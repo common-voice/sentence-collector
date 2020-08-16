@@ -21,6 +21,7 @@ const {
   AUTH0_DOMAIN,
   AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET,
+  AUTH0_CALLBACK_URL = 'http://localhost:3333/sentence-collector/callback',
   SESSION_SECRET,
   NODE_ENV,
 } = process.env;
@@ -90,7 +91,7 @@ if (AUTH0_DOMAIN) {
     clientID: AUTH0_CLIENT_ID,
     clientSecret: AUTH0_CLIENT_SECRET,
     scope: 'openid email',
-    callbackURL: config.callbackURL,
+    callbackURL: AUTH0_CALLBACK_URL,
     state: false,
   }, (accessToken, refreshToken, extraParams, profile, done) => done(null, profile));
 

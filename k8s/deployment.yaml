@@ -26,7 +26,7 @@ spec:
       hostname: sentence-collector
       containers:
         - name: sentence-collector
-          image: michaelkohler/sentence-collector:2.0.9
+          image: michaelkohler/sentence-collector:2.0.10
           imagePullPolicy: Always
           resources:
             limits:
@@ -58,6 +58,11 @@ spec:
                 secretKeyRef:
                   name: sentencecollector
                   key: auth0clientsecret
+            - name: AUTH0_CALLBACK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: sentencecollector
+                  key: auth0callbackurl
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:

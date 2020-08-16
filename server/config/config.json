@@ -14,16 +14,14 @@
       "acquire": 30000,
       "idle": 10000
     },
-    "logging": false,
-    "callbackURL": "http://localhost:3333/sentence-collector/callback"
+    "logging": false
   },
   "test": {
     "dialect": "mysql",
     "dialectOptions": {
       "charset": "utf8mb4"
     },
-    "logging": false,
-    "callbackURL": "http://localhost:3333/sentence-collector/callback"
+    "logging": false
   },
   "production": {
     "use_env_variable": "SC_CONNECT",
@@ -37,7 +35,6 @@
       "acquire": 30000,
       "idle": 10000
     },
-    "logging": false,
-    "callbackURL": "https://commonvoice.mozilla.org/sentence-collector/callback"
+    "logging": false
   }
 }
