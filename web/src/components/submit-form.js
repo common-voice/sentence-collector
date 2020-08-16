@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import LanguageSelector from './language-selector';
 
@@ -70,7 +71,7 @@ class SubmitForm extends React.Component {
         { Object.keys(sentenceSubmissionFailures).length > 0 && (
           <section>
             <h2>Filtered sentences due to requirements failing (please submit fixed versions as new sentences):</h2>
-            <p>Please check the <a href="https://common-voice.github.io/sentence-collector/#/how-to">guidelines</a>.</p>
+            <p>Please check the <Link to={'/how-to'}>guidelines</Link>.</p>
 
             {
               Object.keys(sentenceSubmissionFailures).map((filterKey) => (
