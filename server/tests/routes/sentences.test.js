@@ -40,6 +40,18 @@ test.serial('should get sentences', async (t) => {
   t.true(sentences.getSentencesForLocale.calledWith('en'));
 });
 
+test.serial('getting sentences should pass on error message', async (t) => {
+  sentences.getSentencesForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentences/en');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
 test.serial('should get specific sentence info', async (t) => {
   const response = await request(app)
     .get('/sentences/en?sentence=Hi');
@@ -57,6 +69,18 @@ test.serial('should get sentences text only', async (t) => {
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
 });
 
+test.serial('should pass error when getting sentences text only', async (t) => {
+  sentences.getSentencesForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentences/text/en');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
 test.serial('should get approved sentences text only', async (t) => {
   const response = await request(app)
     .get('/sentences/text/approved/en');
@@ -64,6 +88,18 @@ test.serial('should get approved sentences text only', async (t) => {
   t.is(response.status, 200);
   t.true(sentences.getApprovedSentencesForLocale.calledWith('en'));
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
+});
+
+test.serial('should pass error when getting approved sentences text only', async (t) => {
+  sentences.getApprovedSentencesForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentences/text/approved/en');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
 });
 
 test.serial('should get list of sources', async (t) => {
@@ -75,11 +111,11 @@ test.serial('should get list of sources', async (t) => {
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.source).join('\n'));
 });
 
-test.serial('getting sentences should pass on error message', async (t) => {
+test.serial('should pass error when getting list of sources', async (t) => {
   sentences.getSentencesForLocale.rejects(new Error('nope'));
 
   const response = await request(app)
-    .get('/sentences/en');
+    .get('/sentences/sources/en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
@@ -89,18 +125,18 @@ test.serial('getting sentences should pass on error message', async (t) => {
 
 test.serial('should get review sentences', async (t) => {
   const response = await request(app)
-    .get('/sentences/review?locale=en&user=foo');
+    .get('/sentences/review?locale=en');
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
-  t.true(sentences.getSentencesForReview.calledWith({ user: 'foo', locale: 'en' }));
+  t.true(sentences.getSentencesForReview.calledWith({ user: undefined, locale: 'en' }));
 });
 
 test.serial('getting review sentences should pass on error message', async (t) => {
   sentences.getSentencesForReview.rejects(new Error('nope'));
 
   const response = await request(app)
-    .get('/sentences/review?locale=en&user=foo');
+    .get('/sentences/review?locale=en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
@@ -110,18 +146,18 @@ test.serial('getting review sentences should pass on error message', async (t) =
 
 test.serial('should get rejected sentences', async (t) => {
   const response = await request(app)
-    .get('/sentences/rejected?user=foo');
+    .get('/sentences/rejected');
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
-  t.true(sentences.getRejectedSentences.calledWith({ user: 'foo' }));
+  t.true(sentences.getRejectedSentences.calledWith({ user: undefined }));
 });
 
 test.serial('getting rejected sentences should pass on error message', async (t) => {
   sentences.getRejectedSentences.rejects(new Error('nope'));
 
   const response = await request(app)
-    .get('/sentences/rejected?user=foo');
+    .get('/sentences/rejected');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

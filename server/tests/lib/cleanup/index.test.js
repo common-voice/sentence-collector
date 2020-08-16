@@ -13,8 +13,14 @@ test.afterEach.always((t) => {
   t.context.sandbox.restore();
 });
 
-test('sorts and cleans sentences', (t) => {
+test.serial('sorts and cleans sentences', (t) => {
   cleanup.cleanupSentences('en', ['hi']);
+  t.true(en.sortSentences.called);
+  t.true(en.clean.called);
+});
+
+test.serial('falls back to English', (t) => {
+  cleanup.cleanupSentences('inexisting_language', ['hi']);
   t.true(en.sortSentences.called);
   t.true(en.clean.called);
 });

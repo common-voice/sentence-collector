@@ -10,7 +10,7 @@ const STATUS_ERROR = 500;
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/', async (req, res) => {
-  const user = req.user.email;
+  const user = req.user && req.user.email;
   const queryLocales = req.query.locales || '';
   const locales = queryLocales.split(',');
 

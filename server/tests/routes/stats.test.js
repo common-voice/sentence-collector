@@ -37,7 +37,9 @@ test.afterEach.always((t) => {
 
 test.serial('should get stats', async (t) => {
   const response = await request(app)
-    .get('/stats?user=foo&locales=en,de');
+    .get('/stats?locales=en,de');
+
+  t.log(response);
 
   t.is(response.status, 200);
   t.deepEqual(response.body, {
@@ -51,7 +53,7 @@ test.serial('should pass on error message', async (t) => {
   sentences.getUserAddedSentencesPerLocale.rejects(new Error('nope'));
 
   const response = await request(app)
-    .get('/stats?user=foo&locales=en,de');
+    .get('/stats?locales=en,de');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

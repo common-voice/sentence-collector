@@ -7,7 +7,7 @@ export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 export const ACTION_USER_INFO_RECEIVED = 'USER_INFO_RECEIVED';
 
-export function afterLogin(user) {
+export function afterLogin() {
   return async function(dispatch) {
     dispatch(loginSuccess());
   };

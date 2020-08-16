@@ -26,12 +26,9 @@ test.serial('does nothing if nothing passed', async (t) => {
 });
 
 test.serial('adds votes - all approved', async (t) => {
-  const user = 'user';
-
   await request(app)
     .put('/votes')
     .send({
-      user,
       validated: [111, 112],
       invalidated: [],
     })
@@ -46,23 +43,20 @@ test.serial('adds votes - all approved', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: true,
-    user,
+    user: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: true,
-    user,
+    user: undefined,
   }));
 });
 
 test.serial('adds votes - all rejected', async (t) => {
-  const user = 'user';
-
   await request(app)
     .put('/votes')
     .send({
-      user,
       validated: [],
       invalidated: [111, 112],
     })
@@ -77,23 +71,20 @@ test.serial('adds votes - all rejected', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: false,
-    user,
+    user: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: false,
-    user,
+    user: undefined,
   }));
 });
 
 test.serial('adds votes - mixed', async (t) => {
-  const user = 'user';
-
   await request(app)
     .put('/votes')
     .send({
-      user,
       validated: [109],
       invalidated: [111, 112],
     })
@@ -108,30 +99,28 @@ test.serial('adds votes - mixed', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 109,
     approval: true,
-    user,
+    user: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: false,
-    user,
+    user: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: false,
-    user,
+    user: undefined,
   }));
 });
 
 test.serial('adds votes - single error', async (t) => {
-  const user = 'user';
   votes.addVoteForSentence.onCall(1).rejects(new Error('nope'));
 
   await request(app)
     .put('/votes')
     .send({
-      user,
       validated: [109],
       invalidated: [111],
     })

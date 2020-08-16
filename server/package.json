@@ -10,7 +10,8 @@
     "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
     "migrate": "sequelize-cli db:migrate && cd ..",
     "lint": "eslint .",
-    "test": "npm run lint && nyc ava"
+    "test:only": "env SESSION_SECRET=foo nyc ava",
+    "test": "npm run lint && npm run test:only"
   },
   "dependencies": {
     "atob": "^2.1.2",
@@ -50,13 +51,16 @@
   },
   "nyc": {
     "check-coverage": true,
-    "statements": 90,
-    "branches": 74,
-    "functions": 79,
-    "lines": 90,
+    "statements": 95,
+    "branches": 75,
+    "functions": 95,
+    "lines": 95,
     "include": [
       "lib/**/*.js",
       "routes/**/*.js"
+    ],
+    "exclude": [
+      "lib/validation/languages/*.js"
     ],
     "all": true,
     "reporter": [
