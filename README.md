@@ -67,6 +67,16 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 6. These required domain, client ID and client secret are found in the same Settings tab as the "Allowed Callback URLs". Copy those into your run command from above.
 8. You will now be able to create a new user by clicking on "Login" and then switching over to the "Sign Up" tab on the login dialog. You don't need to use a valid email address.
 
+## Path special cases
+
+* In production the app is mounted at `/sentence-collector`
+* Therefore we need to make sure that we're not requesting resources on `/`
+* This however leads to a weirder case locally, as we're faking this relationship.
+* We do not want to build the base path into the image, which does not leave us many possibilities. Injecting it into the running container is a possibility, but makes it quite complicated for the frontend calls.
+* Therefore we are serving the frontend on `/` locally, and the API lives at `/sentence-collector`
+* With that we have the same relative calls as we have in production
+* Apart from having a prefix that is either empty or not, we do not have any other special casing
+
 ## Building the image
 
 ```
