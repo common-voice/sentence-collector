@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { getLanguages } from '../actions/languages';
+import { checkCurrentUser } from '../actions/login';
 
 import Page from './page';
 import Home from './pages/home';
@@ -23,8 +24,10 @@ class App extends React.Component {
 
     const {
       getLanguages,
+      checkCurrentUser,
     } = props;
 
+    checkCurrentUser();
     getLanguages();
   }
 
@@ -73,6 +76,7 @@ const PrivateRoute = (props) => {
 function mapDispatchToProps(dispatch) {
   return {
     getLanguages: () => dispatch(getLanguages()),
+    checkCurrentUser: () => dispatch(checkCurrentUser()),
   };
 }
 

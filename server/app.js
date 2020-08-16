@@ -12,6 +12,7 @@ const Auth0Strategy = require('passport-auth0');
 const sentencesRoutes = require('./routes/sentences');
 const languagesRoutes = require('./routes/languages');
 const statsRoutes = require('./routes/stats');
+const usersRoutes = require('./routes/users');
 const votesRoutes = require('./routes/votes');
 // const connectionString = require('./lib/connectionString');
 
@@ -111,6 +112,7 @@ app.use('/logout', (req, res) => {
 app.use('/languages', languagesRoutes);
 app.use('/sentences', sentencesRoutes);
 app.use('/stats', statsRoutes);
+app.use('/users', usersRoutes);
 app.use('/votes', votesRoutes);
 app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist')));
 
