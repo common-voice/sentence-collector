@@ -11,11 +11,11 @@ export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
 export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
 
-export function getStats(username, locales = []) {
+export function getStats(locales = []) {
   return async function(dispatch) {
     const joinedLocales = locales.join(',');
     try {
-      const stats = await sendRequest(`stats?user=${username}&locales=${joinedLocales}`);
+      const stats = await sendRequest(`stats?locales=${joinedLocales}`);
       dispatch(gotStats(stats));
     } catch (error) {
       console.error('Failed to fetch stats', error);

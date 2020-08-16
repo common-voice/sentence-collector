@@ -277,3 +277,7 @@ form button {
   background-color: red;
   color: #fff;
 }
+
+.small {
+  font-size: 0.7rem;
+}

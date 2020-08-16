@@ -1,10 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { sendRequest } from '../../backend';
 
 class Rejected extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       loading: true,
       rejectedSentences: {},
@@ -12,11 +11,7 @@ class Rejected extends React.Component {
   }
 
   async loadRejected() {
-    const {
-      username,
-    } = this.props;
-
-    const rejectedSentences = await sendRequest(`sentences/rejected?user=${username}`);
+    const rejectedSentences = await sendRequest(`sentences/rejected`);
     this.setState({
       rejectedSentences,
       loading: false,
@@ -58,10 +53,4 @@ class Rejected extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    username: state.login.username,
-  };
-}
-
-export default connect(mapStateToProps)(Rejected);
+export default Rejected;

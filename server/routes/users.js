@@ -9,8 +9,8 @@ router.get('/whoami', (req, res) => {
   debug('GET_CURRENT_USER');
   const { user } = req;
 
-  if (user && user.emails && user.emails[0] && user.emails[0].value) {
-    return res.json({ email: user.emails[0].value });
+  if (user && user.email) {
+    return res.json({ email: user.email });
   }
 
   res.status(404);

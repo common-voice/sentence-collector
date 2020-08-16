@@ -160,7 +160,6 @@ class Add extends React.Component {
         locale,
         sentences,
         source,
-        user: this.props.username,
       });
 
       if (typeof errors === 'undefined') {
@@ -220,7 +219,6 @@ class Add extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    username: state.login.username,
     languages: state.languages.languages,
   };
 }

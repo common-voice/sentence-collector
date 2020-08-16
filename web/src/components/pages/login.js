@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import {
-  fetchAfterLogin,
+  afterLogin,
   logout,
 } from '../../actions/login';
 
-function LoginSuccessComponent({ fetchAfterLogin }) {
-  fetchAfterLogin();
+function LoginSuccessComponent({ afterLogin }) {
+  afterLogin();
 
   return (
     <Redirect to={'/profile'} />
@@ -21,7 +21,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAfterLogin: () => dispatch(fetchAfterLogin()),
+    afterLogin: () => dispatch(afterLogin()),
     logout: () => dispatch(logout()),
   };
 }

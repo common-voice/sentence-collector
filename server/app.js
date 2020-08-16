@@ -60,7 +60,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => done(null, user));
+passport.serializeUser((user, done) => {
+  const extendedUser = Object.assign({}, user, { email: user && user.emails && user.emails[0] && user.emails[0].value });
+  return done(null, extendedUser);
+});
 passport.deserializeUser((sessionUser, done) => done(null, sessionUser));
 
 if (AUTH0_DOMAIN) {

@@ -101,7 +101,7 @@ class Review extends React.Component {
     });
 
     const lang = this.getLanguageFromParams();
-    const sentences = await sendRequest(`sentences/review?locale=${lang}&user=${this.props.username}`);
+    const sentences = await sendRequest(`sentences/review?locale=${lang}`);
     this.setState({
       loading: false,
       sentences,
@@ -120,7 +120,6 @@ class Review extends React.Component {
     const { votes } = await sendRequest('votes', 'PUT', {
       validated,
       invalidated,
-      user: this.props.username,
     });
 
     this.setState({
@@ -207,7 +206,6 @@ function mapStateToProps(state) {
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     useSwipeReview: state.settings.useSwipeReview,
-    username: state.login.username,
   };
 }
 

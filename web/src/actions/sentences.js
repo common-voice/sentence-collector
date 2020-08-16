@@ -5,7 +5,7 @@ export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_DONE = 'ACTION_SUBMIT_SENTENCES_DONE';
 export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 
-export function uploadSentences({ locale, sentences, source, user }) {
+export function uploadSentences({ locale, sentences, source }) {
   return async function(dispatch, getState) {
     dispatch(sendSubmitSentences());
     const state = getState();
@@ -14,7 +14,6 @@ export function uploadSentences({ locale, sentences, source, user }) {
       source,
       locale,
       sentences,
-      user,
     };
 
     try {

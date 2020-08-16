@@ -10,7 +10,7 @@ const STATUS_ERROR = 500;
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/', (req, res) => {
-  debug('GET_LANGUAGES', req.user);
+  debug('GET_LANGUAGES');
   try {
     const allLanguages = languages.getAllLanguages();
     res.json(allLanguages);

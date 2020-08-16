@@ -11,9 +11,9 @@ const STATUS_ERROR = 500;
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/review', async (req, res) => {
-  debug('GET_SENTENCES_FOR_REVIEW');
   const locale = req.query.locale;
-  const user = req.query.user;
+  const user = req.user.email;
+  debug('GET_SENTENCES_FOR_REVIEW', user);
   sentences.getSentencesForReview({ locale, user })
     .then((foundSentences) => res.json(foundSentences))
     .catch((error) => {
@@ -24,8 +24,8 @@ router.get('/review', async (req, res) => {
 });
 
 router.get('/rejected', async (req, res) => {
-  debug('GET_REJECTED_SENTENCES');
-  const user = req.query.user;
+  const user = req.user.email;
+  debug('GET_REJECTED_SENTENCES', user);
   sentences.getRejectedSentences({ user })
     .then((foundSentences) => res.json(foundSentences))
     .catch((error) => {

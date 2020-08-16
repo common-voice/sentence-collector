@@ -9,7 +9,7 @@ function ProfileWidget(props) {
 
   return (
     <div className="profile-widget">
-      <h3><Link to="/profile">{props.username}</Link></h3>
+      <p className="small"><Link to="/profile">{props.username}</Link></p>
       <a href="/logout">Logout</a>
     </div>
   );
