@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const mysql = require('mysql2/promise');
-const languagesLib = require('../server/lib/languages');
+const languagesLib = require('./lib/languages');
 
 const {
   HOSTNAME = 'localhost',

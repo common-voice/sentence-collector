@@ -4,12 +4,9 @@ ENV NODE_ENV development
 
 RUN mkdir -p /app
 COPY data /app/data
-COPY migration /app/migration
 COPY server /app/server
-COPY package.json /app/
-COPY package-lock.json /app/
 
-WORKDIR '/app'
+WORKDIR '/app/server'
 
 RUN npm ci
 
