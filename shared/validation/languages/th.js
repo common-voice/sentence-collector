@@ -39,7 +39,7 @@ const SYMBOL_REGEX = /[<>+*\\#@^[\]()/]|[A-Za-z]{3,}|[\u0E40\u0E41\u0E42\u0E43\u
 // inbetween are considered abbreviations or acronyms.
 // This currently also matches fooBAR but we most probably don't want that either
 // as users wouldn't know how to pronounce the uppercase letters.
-const ABBREVIATION_REGEX = /[A-Zก-ฮ]{2,}|[A-Zก-ฮ]+\.*[A-Zก-ฮ]+/;
+const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+|[ก-ฮ]+\.([ก-ฮ]+\.)+/;
 
 export function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
