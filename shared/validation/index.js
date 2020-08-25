@@ -3,6 +3,7 @@ import * as it from './languages/it';
 import * as ne from './languages/ne';
 import * as kab from './languages/kab';
 import * as ru from './languages/ru';
+import * as th from './languages/th';
 import * as ur from './languages/ur';
 import * as or from './languages/or';
 
@@ -12,6 +13,7 @@ const VALIDATORS = {
   kab,
   ne,
   ru,
+  th,
   ur,
   or,
 };
