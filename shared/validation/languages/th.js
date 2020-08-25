@@ -4,7 +4,7 @@ const MAX_LENGTH = 150;
 
 // Numbers that are not allowed in a sentence depending on the language. For
 // English this is 0-9 once or multiple times after each other.
-// Thai digits: \u0e50-\u0e59 (๐-๙)
+// Thai digits: \u0E50-\u0E59 (๐-๙)
 const NUMBERS_REGEX = /[0-9๐-๙]+/;
 
 // Some languages want to check the structure, this is what this REGEX is for. For English
@@ -20,19 +20,19 @@ const STRUCTURE_REGEX = undefined;
 // as they can be foriegn language.
 //
 // These classes of Thai characters are not allowed to be immediately repeated:
-// * Lead vowels: \u0e40\u0e41\u0e42\u0e43\u0e44
-// - Follow vowels: \u0e30\u0e32\u0e33\u0e45
-// - Above vowels: \u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47
-// - Below vowels: \u0e38\u0e39
-// - Tone marks: \u0e48\u0e49\u0e4a\u0e4b
-// - Phinthu: \u0e3a
-// - Thanthakhat: \u0e4c
-// - Nikhahit: \u0e4d
-// - Yamakkan: \u0e4e
+// * Lead vowels: \u0E40\u0E41\u0E42\u0E43\u0E44
+// - Follow vowels: \u0E30\u0E32\u0E33\u0E45
+// - Above vowels: \u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47
+// - Below vowels: \u0E38\u0E39
+// - Tone marks: \u0E48\u0E49\u0E4A\u0E4B
+// - Phinthu: \u0E3A
+// - Thanthakhat: \u0E4C
+// - Nikhahit: \u0E4D
+// - Yamakkan: \u0E4E
 // The class with (*) symbol can't end the word.
 // The class with (-) symbol can't start the word.
 /* eslint-disable-next-line no-useless-escape */
-const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]|[A-Za-z]{3,}|[\u0e40\u0e41\u0e42\u0e43\u0e44]{2,}|[\u0e30]{2,}|[\u0e32\u0e33\u0e45]{2,}|[\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47]{2,}|[\u0e38\u0e39]{2,}|[\u0e48\u0e49\u0e4a\u0e4b]{2,}|[\u0e3a]{2,}|[\u0e4c]{2,}|[\u0e4d]{2,}|[\u0e4e]{2,}|(^|\W)[\u0e30\u0e32\u0e33\u0e45\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47\u0e38\u0e39\u0e48\u0e49\u0e4a\u0e4b\u0e3a\u0e4c\u0e4d\u0e4e]|[\u0e40\u0e41\u0e42\u0e43\u0e44]($|\W)/;
+const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]|[A-Za-z]{3,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|[\u0E30]{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|[\u0E3A]{2,}|[\u0E4C]{2,}|[\u0E4D]{2,}|[\u0E4E]{2,}|(^|\W)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E40\u0E41\u0E42\u0E43\u0E44]($|\W)/u;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
