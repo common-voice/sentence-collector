@@ -33,7 +33,7 @@ const STRUCTURE_REGEX = undefined;
 // The class with (-) symbol can't start the word.
 /* eslint-disable-next-line no-useless-escape */
 // const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]|[A-Za-z]{3,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|[\u0E30]{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|[\u0E3A]{2,}|[\u0E4C]{2,}|[\u0E4D]{2,}|[\u0E4E]{2,}|(^|\W)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E40\u0E41\u0E42\u0E43\u0E44]($|\W)/u;
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/]|[A-Za-z]{3,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}/;
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/]|[A-Za-z]{3,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
