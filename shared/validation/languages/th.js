@@ -4,6 +4,7 @@ const MAX_LENGTH = 150;
 
 // Numbers that are not allowed in a sentence depending on the language. For
 // English this is 0-9 once or multiple times after each other.
+// Thai digits: \u0e50-\u0e59 (๐-๙)
 const NUMBERS_REGEX = /[0-9๐-๙]+/;
 
 // Some languages want to check the structure, this is what this REGEX is for. For English
@@ -31,7 +32,7 @@ const STRUCTURE_REGEX = undefined;
 // The class with (*) symbol can't end the word.
 // The class with (-) symbol can't start the word.
 /* eslint-disable-next-line no-useless-escape */
-const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]|[A-Za-z]{3,}|[\u0e40\u0e41\u0e42\u0e43\u0e44]{2,}|[\u0e30]{2,}|[\u0e32\u0e33\u0e45]{2,}|[\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47]{2,}|[\u0e38\u0e39]{2,}|[\u0e48\u0e49\u0e4a\u0e4b]{2,}|[\u0e3a]{2,}|[\u0e4c]{2,}|[\u0e4d]{2,}|[\u0e4e]{2,}|(^|\W)[\u0e30\u0e32\u0e33\u0e45\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47\u0e38\u0e39\u0e48\u0e49\u0e4a\u0e4b\u0e3a\u0e4c\u0e4d\u0e4e]|[\u0e40\u0e41\u0e42\u0e43\u0e44]($|\W)/
+const SYMBOL_REGEX = /[<>\+\*\\#@\^\[\]\(\)\/]|[A-Za-z]{3,}|[\u0e40\u0e41\u0e42\u0e43\u0e44]{2,}|[\u0e30]{2,}|[\u0e32\u0e33\u0e45]{2,}|[\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47]{2,}|[\u0e38\u0e39]{2,}|[\u0e48\u0e49\u0e4a\u0e4b]{2,}|[\u0e3a]{2,}|[\u0e4c]{2,}|[\u0e4d]{2,}|[\u0e4e]{2,}|(^|\W)[\u0e30\u0e32\u0e33\u0e45\u0e31\u0e34\u0e35\u0e36\u0e37\u0e4d\u0e47\u0e38\u0e39\u0e48\u0e49\u0e4a\u0e4b\u0e3a\u0e4c\u0e4d\u0e4e]|[\u0e40\u0e41\u0e42\u0e43\u0e44]($|\W)/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
