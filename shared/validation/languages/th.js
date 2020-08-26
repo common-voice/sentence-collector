@@ -3,6 +3,7 @@
 // - Thai sentence is written without space between words.
 
 // We count chars to validate instead of words.
+// Target max length: 7-10 seconds
 const MIN_LENGTH = 2;
 const MAX_LENGTH = 100;
 
@@ -14,7 +15,7 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // Some languages want to check the structure, this is what this REGEX is for. For English
 // (and by extend as default) we're not currently using it.
 //
-// Sentence with running characters of 70 or more without a space is considered difficult to read.
+// Sentence with running characters of 80 or more without a space is considered difficult to read.
 //
 // These classes of Thai characters are not allowed to be immediately repeated:
 // - Lead vowels: \u0E40\u0E41\u0E42\u0E43\u0E44
@@ -31,7 +32,7 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come after lead and follow vowels
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come before above and below vowels
 /* eslint-disable-next-line no-useless-escape */
-const STRUCTURE_REGEX= /[\u0E01-\u0E4Ea-zA-Z.-]{70,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
+const STRUCTURE_REGEX= /[\u0E01-\u0E4Ea-zA-Z.,-"'\?\!:;]{80,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
 
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
