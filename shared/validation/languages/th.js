@@ -1,6 +1,8 @@
 // Notes
 // - Thai Unicode range: \u0E00-\u0E7F
 // - Thai sentence is written without space between words.
+// See discussion here:
+// https://github.com/Common-Voice/sentence-collector/issues/318
 
 // We count chars to validate instead of words.
 // Target max time length for recorded speech: 7-10 seconds
