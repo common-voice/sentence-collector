@@ -42,11 +42,11 @@ const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{80,}|[\u0E40\u0E41\u0E4
 // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
 // - Maiyamok
 /* eslint-disable-next-line no-misleading-character-class */
-const BEGIN_REGEX = /\s+[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E\u0E46]/;
+const BEGIN_REGEX = /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E\u0E46]/;
 // These Thai chars cannot end the word:
 // - Lead vowels
 /* eslint-disable-next-line no-misleading-character-class */
-const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44]\s+/;
+const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
