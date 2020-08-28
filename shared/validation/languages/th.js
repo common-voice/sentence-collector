@@ -14,10 +14,8 @@ const MAX_LENGTH = 110;
 // Thai digits: \u0E50-\u0E59 (๐-๙)
 const NUMBERS_REGEX = /[0-9๐-๙]+/;
 
-// Some languages want to check the structure, this is what this REGEX is for. For English
-// (and by extend as default) we're not currently using it.
+// Some languages want to check the structure, this is what this REGEX is for.
 //
-// Rules for Thai:
 // Sentence with running characters of 80 or more without a space is considered difficult to read.
 //
 // These classes of Thai characters are not allowed to be immediately repeated:
@@ -39,7 +37,7 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // to reduce disagreement during the record on how many times to actually voice out the sound.
 const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{80,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]|(\u0E46[ ]*){2,}/;
 // These Thai chars cannot start the word:
-// - All vowels, except lead vowels
+// - All vowels except lead vowels
 // - Tone marks
 // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
 // - Maiyamok
@@ -47,9 +45,8 @@ const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{80,}|[\u0E40\u0E41\u0E4
 const BEGIN_REGEX = /\s+[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E\u0E46]/;
 // These Thai chars cannot end the word:
 // - Lead vowels
-// - Tone marks, except Mai Ek \u0E48 ()
 /* eslint-disable-next-line no-misleading-character-class */
-const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E49\u0E4A\u0E4B]\s+/;
+const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44]\s+/;
 
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
@@ -81,7 +78,9 @@ export function filterSymbols(sentence) {
 }
 
 export function filterStructure(sentence) {
-  return !(sentence.match(STRUCTURE_REGEX) || sentence.match(BEGIN_REGEX) || sentence.match(END_REGEX));
+  return !(sentence.match(STRUCTURE_REGEX)
+    || sentence.match(BEGIN_REGEX)
+    || sentence.match(END_REGEX));
 }
 
 export function filterLength(sentence) {
