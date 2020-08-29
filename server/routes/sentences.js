@@ -12,11 +12,11 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/review', async (req, res) => {
   const locale = req.query.locale;
-  const user = req.user && req.user.email;
-  debug('GET_SENTENCES_FOR_REVIEW', user);
+  const userId = req.user && req.user.id;
+  debug('GET_SENTENCES_FOR_REVIEW', userId);
 
   try {
-    const foundSentences = await sentences.getSentencesForReview({ locale, user });
+    const foundSentences = await sentences.getSentencesForReview({ locale, userId });
     res.json(foundSentences);
   } catch (error) {
     debug('GET_SENTENCES_FOR_REVIEW_ERROR', error);
@@ -26,9 +26,9 @@ router.get('/review', async (req, res) => {
 });
 
 router.get('/rejected', async (req, res) => {
-  const user = req.user && req.user.email;
-  debug('GET_REJECTED_SENTENCES', user);
-  sentences.getRejectedSentences({ user })
+  const userId = req.user && req.user.id;
+  debug('GET_REJECTED_SENTENCES', userId);
+  sentences.getRejectedSentences({ userId })
     .then((foundSentences) => res.json(foundSentences))
     .catch((error) => {
       debug('GET_REJECTED_SENTENCES_ERROR', error);
@@ -38,11 +38,11 @@ router.get('/rejected', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-  const user = req.user && req.user.email;
-  debug('CREATE_SENTENCES', req.body, user);
+  const userId = req.user && req.user.id;
+  debug('CREATE_SENTENCES', req.body, userId);
 
   try {
-    const result = await sentences.addSentences({ ...req.body, user });
+    const result = await sentences.addSentences({ ...req.body, userId });
     res.status(STATUS_CREATED);
     res.json(result);
   } catch (error) {

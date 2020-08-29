@@ -19,6 +19,7 @@ if (!HOSTNAME || !USERNAME || !PASSWORD || !DATABASE || !BACKUP_PATH) {
 
 let connection;
 let locales;
+let userIdCache = {};
 
 const connectionLimit = parseInt(CONNECTIONS, 10) || 50;
 console.log(`Using max ${connectionLimit} connections..`);
@@ -53,23 +54,39 @@ console.log(`Using max ${connectionLimit} connections..`);
     const locale = locales.find((locale) => locale.id === scLanguage);
     const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
     const content = JSON.parse(fileContent);
-    const sortedByApprovingVotes = content.sort((a, b) => b.valid.length - a.valid.length);
-    console.log(`${sortedByApprovingVotes.length} sentences to migrate`);
-    await Promise.all(sortedByApprovingVotes.map((sentenceInfo) => processSentence(sentenceInfo, locale.id)));
+    console.log(`${content.length} sentences to migrate`);
+
+    const allUsers = [...new Set(content.map((sentences) => sentences.username))];
+    console.log(`${allUsers.length} users to create `);
+
+    for (const user of allUsers) {
+      if (!userIdCache[user]) {
+        userIdCache[user] = await createUser(user);
+      }
+    }
+
+    await Promise.all(content.map((sentence) => processSentence(sentence, locale.id)));
   }
 
   console.log('We are done!');
   process.exit(0);
 })();
 
+async function createUser(username) {
+  const dummyEmail = `${username}@sentencecollector.local`;
+  const [insertedRecord] = await connection.query('INSERT INTO Users SET ?', { email: dummyEmail, createdAt: new Date(), updatedAt: new Date() });
+  return insertedRecord.insertId;
+}
+
 async function processSentence(sentenceInfo, localeId) {
+  const userId = userIdCache[sentenceInfo.username];
   const createdAt = typeof sentenceInfo.createdAt !== 'undefined' ? new Date(sentenceInfo.createdAt) : new Date();
   const updatedAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
 
   const sentenceParams = {
     sentence: sentenceInfo.sentence,
     source: sentenceInfo.source || '',
-    user: sentenceInfo.username,
+    userId,
     localeId,
     createdAt,
     updatedAt,
@@ -78,8 +95,8 @@ async function processSentence(sentenceInfo, localeId) {
   try {
     const insertedId = await insertSentence(sentenceParams);
     await Promise.all([
-      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, insertedId, true)),
-      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
+      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, userIdCache[user], insertedId, true)),
+      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, userIdCache[user], insertedId, false)),
     ]);
   } catch (error) {
     console.log(error.message);
@@ -91,17 +108,17 @@ async function insertSentence(sentenceParams) {
   return insertedSentence[0].insertId;
 }
 
-async function insertVote(sentenceInfo, user, insertedId, approval) {
+async function insertVote(sentenceInfo, username, userId, insertedId, approval) {
   let createdAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
 
-  const voteTimestamp = sentenceInfo[`Sentences_Meta_UserVoteDate_${user}`];
+  const voteTimestamp = sentenceInfo[`Sentences_Meta_UserVoteDate_${username}`];
   if (Number.isInteger(voteTimestamp)) {
     createdAt = new Date(voteTimestamp);
   }
 
   const voteParams = {
     approval,
-    user,
+    userId,
     sentenceId: insertedId,
     createdAt,
     updatedAt: createdAt,

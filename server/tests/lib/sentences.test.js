@@ -66,13 +66,13 @@ test.serial('getRejectedSentences: should group sentences correctly', async (t) 
   });
 });
 
-test.serial('addedSentences: should add all unreviewed sentences', async (t) => {
+test.serial('addSentences: should add all unreviewed sentences', async (t) => {
   const sentenceParams = {
     sentences: {
       unreviewed: ['Hi', 'Hi another!'],
       validated: [],
     },
-    user: 'foo',
+    userId: '1',
     source: 'source',
     locale: 'en',
   };
@@ -84,7 +84,7 @@ test.serial('addedSentences: should add all unreviewed sentences', async (t) => 
   t.true(Sentence.create.calledTwice);
   t.true(Sentence.create.calledWith({
     sentence: 'Hi',
-    user: 'foo',
+    userId: '1',
     source: 'source',
     batch: sinon.match.string,
     localeId,
@@ -95,13 +95,13 @@ test.serial('addedSentences: should add all unreviewed sentences', async (t) => 
   t.is(result.duplicates, 0);
 });
 
-test.serial('addedSentences: should fall back to en if no locale provided', async (t) => {
+test.serial('addSentences: should fall back to en if no locale provided', async (t) => {
   const sentenceParams = {
     sentences: {
       unreviewed: ['Hi'],
       validated: [],
     },
-    user: 'foo',
+    userId: '1',
     source: 'source',
   };
 
@@ -110,20 +110,20 @@ test.serial('addedSentences: should fall back to en if no locale provided', asyn
   t.true(Sentence.create.calledOnce);
   t.true(Sentence.create.calledWith({
     sentence: 'Hi',
-    user: 'foo',
+    userId: '1',
     source: 'source',
     batch: sinon.match.string,
     localeId,
   }));
 });
 
-test.serial('addedSentences: should add all sentences - mixed validated and unreviewed', async (t) => {
+test.serial('addSentences: should add all sentences - mixed validated and unreviewed', async (t) => {
   const sentenceParams = {
     sentences: {
       unreviewed: ['Hi!'],
       validated: ['I am a test', 'I am good too'],
     },
-    user: 'foo',
+    userId: '1',
     source: 'source',
     locale: 'en',
   };
@@ -135,7 +135,7 @@ test.serial('addedSentences: should add all sentences - mixed validated and unre
   t.is(result.duplicates, 0);
 });
 
-test.serial('addedSentences: should return duplicate counter', async (t) => {
+test.serial('addSentences: should return duplicate counter', async (t) => {
   const error = new Error('duplicate');
   error.parent = {
     errno: 1062,
@@ -147,7 +147,7 @@ test.serial('addedSentences: should return duplicate counter', async (t) => {
       unreviewed: ['Hi!'],
       validated: ['I am a test', 'I am a test'],
     },
-    user: 'foo',
+    userId: '1',
     source: 'source',
     locale: 'en',
   };

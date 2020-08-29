@@ -66,10 +66,27 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done) => {
-  const extendedUser = Object.assign({}, user, { email: user && user.emails && user.emails[0] && user.emails[0].value });
+  const email = user && user.emails && user.emails[0] && user.emails[0].value;
+
+  if (!email) {
+    return done(new Error('NO_EMAIL_PROVIDED'), null);
+  }
+
+  const extendedUser = Object.assign({}, user, { email });
   return done(null, extendedUser);
 });
-passport.deserializeUser((sessionUser, done) => done(null, sessionUser));
+
+passport.deserializeUser((sessionUser, done) => {
+  users.get(sessionUser.email)
+    .then((user) => {
+      const extendedUser = Object.assign({}, sessionUser, { id: user.id });
+      return done(null, extendedUser);
+    })
+    .catch((error) => {
+      console.error('FAILED_DESERIALIZE_USER', error);
+      return done(error, null);
+    });
+});
 
 if (AUTH0_DOMAIN) {
   Auth0Strategy.prototype.authorizationParams = function(options = {}) {

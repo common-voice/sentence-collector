@@ -10,17 +10,17 @@ const STATUS_ERROR = 500;
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/', async (req, res) => {
-  const sessionUser = req.user && req.user.email;
+  const sessionUserId = req.user && req.user.id;
   const queryLocales = req.query.locales || '';
   const locales = queryLocales.split(',');
 
-  debug('GET_STATS', sessionUser);
+  debug('GET_STATS', sessionUserId);
 
   try {
     const [all, user, userUnreviewed] = await Promise.all([
       sentences.getStats(locales),
-      sentences.getUserAddedSentencesPerLocale(sessionUser),
-      sentences.getUnreviewedByYouCountForLocales(locales, sessionUser),
+      sentences.getUserAddedSentencesPerLocale(sessionUserId),
+      sentences.getUnreviewedByYouCountForLocales(locales, sessionUserId),
     ]);
 
     res.json({

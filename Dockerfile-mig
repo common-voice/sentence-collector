@@ -10,4 +10,4 @@ WORKDIR '/app/server'
 
 RUN npm ci
 
-CMD ["node", "migration/index.js"]
+CMD ["node", "migration.js"]

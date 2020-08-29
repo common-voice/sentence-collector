@@ -14,7 +14,7 @@ async function addVoteForSentence(voteParams, transaction) {
     const [, created] = await Vote.findOrCreate({
       where: {
         sentenceId: voteParams.sentenceId,
-        user: voteParams.user,
+        userId: voteParams.userId,
       },
       defaults: voteParams,
       transaction,

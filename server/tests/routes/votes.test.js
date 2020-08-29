@@ -43,13 +43,13 @@ test.serial('adds votes - all approved', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: true,
-    user: undefined,
+    userId: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: true,
-    user: undefined,
+    userId: undefined,
   }));
 });
 
@@ -71,13 +71,13 @@ test.serial('adds votes - all rejected', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: false,
-    user: undefined,
+    userId: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: false,
-    user: undefined,
+    userId: undefined,
   }));
 });
 
@@ -99,19 +99,19 @@ test.serial('adds votes - mixed', async (t) => {
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 109,
     approval: true,
-    user: undefined,
+    userId: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 111,
     approval: false,
-    user: undefined,
+    userId: undefined,
   }));
 
   t.true(votes.addVoteForSentence.calledWith({
     sentenceId: 112,
     approval: false,
-    user: undefined,
+    userId: undefined,
   }));
 });
 

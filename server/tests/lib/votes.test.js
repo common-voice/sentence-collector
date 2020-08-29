@@ -15,7 +15,7 @@ test.afterEach.always((t) => {
 test.serial('adds vote', async (t) => {
   const voteParams = {
     sentenceId: 1234,
-    user: 'foo',
+    userId: '1',
     approval: true,
   };
 
@@ -24,7 +24,7 @@ test.serial('adds vote', async (t) => {
   t.true(Vote.findOrCreate.calledWith({
     where: {
       sentenceId: voteParams.sentenceId,
-      user: voteParams.user,
+      userId: voteParams.userId,
     },
     defaults: voteParams,
     transaction: undefined,
@@ -35,7 +35,7 @@ test.serial('adds vote with transaction', async (t) => {
   const transaction = { dummy: true };
   const voteParams = {
     sentenceId: 1234,
-    user: 'foo',
+    userId: '1',
     approval: true,
   };
 
@@ -44,7 +44,7 @@ test.serial('adds vote with transaction', async (t) => {
   t.true(Vote.findOrCreate.calledWith({
     where: {
       sentenceId: voteParams.sentenceId,
-      user: voteParams.user,
+      userId: voteParams.userId,
     },
     defaults: voteParams,
     transaction,
@@ -56,7 +56,7 @@ test.serial('should forward error adding vote', async (t) => {
 
   const voteParams = {
     sentenceId: 1234,
-    user: 'foo',
+    userId: '1',
     approval: true,
   };
 
@@ -68,7 +68,7 @@ test.serial('should not count vote if already existing vote', async (t) => {
 
   const voteParams = {
     sentenceId: 1234,
-    user: 'foo',
+    userId: '1',
     approval: true,
   };
 

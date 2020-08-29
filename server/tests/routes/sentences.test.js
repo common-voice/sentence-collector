@@ -129,7 +129,7 @@ test.serial('should get review sentences', async (t) => {
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
-  t.true(sentences.getSentencesForReview.calledWith({ user: undefined, locale: 'en' }));
+  t.true(sentences.getSentencesForReview.calledWith({ userId: undefined, locale: 'en' }));
 });
 
 test.serial('getting review sentences should pass on error message', async (t) => {
@@ -150,7 +150,7 @@ test.serial('should get rejected sentences', async (t) => {
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
-  t.true(sentences.getRejectedSentences.calledWith({ user: undefined }));
+  t.true(sentences.getRejectedSentences.calledWith({ userId: undefined }));
 });
 
 test.serial('getting rejected sentences should pass on error message', async (t) => {
@@ -169,7 +169,7 @@ test.serial('should add sentences', async (t) => {
   const sentenceParams = {
     sentence: 'Hi',
     source: 'me',
-    user: undefined,
+    userId: undefined,
   };
 
   const response = await request(app)

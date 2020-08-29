@@ -2,12 +2,13 @@
 
 module.exports = (sequelize, DataTypes) => {
   const Vote = sequelize.define('Vote', {
-    user: DataTypes.STRING,
+    userId: DataTypes.STRING,
     approval: DataTypes.BOOLEAN,
   }, {});
 
   Vote.associate = (models) => {
     Vote.belongsTo(models.Sentence);
+    Vote.hasOne(models.User, { as: 'User', foreignKey: 'id' });
   };
 
   return Vote;
