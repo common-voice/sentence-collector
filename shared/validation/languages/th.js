@@ -32,17 +32,13 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // These classes of Thai characters have a specific legitimate order.
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come after lead and follow vowels
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come before above and below vowels
-//
-// Limit the use of Maiyamok (\u0E46 ๆ - repetition mark) to just one time per word,
-// to reduce disagreement during the record on how many times to actually voice out the sound.
-const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{80,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]|(\u0E46[ ]*){2,}/;
+const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{80,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
 // These Thai chars cannot start the word:
 // - All vowels except lead vowels
 // - Tone marks
 // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
-// - Maiyamok
 /* eslint-disable-next-line no-misleading-character-class */
-const BEGIN_REGEX = /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E\u0E46]/;
+const BEGIN_REGEX = /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/;
 // These Thai chars cannot end the word:
 // - Lead vowels
 /* eslint-disable-next-line no-misleading-character-class */
@@ -51,13 +47,15 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // The following symbols are disallowed, please update here as well and not just the regex
 // to make it easier to read:
 // < > + * \ # @ ^ [ ] ( ) /
-// Fongman: \u0E4F ๏
-// Angkhankhu: \u0E5A ๚
-// Khomut: \u0E5B ๛
+// Paiyannoi: \u0E2F ฯ (ellipsis, abbreviation)
+// Maiyamok: \u0E46 ๆ (repetition)
+// Fongman: \u0E4F ๏ (used as bullet)
+// Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
+// Khomut: \u0E5B ๛ (used to mark end of chapter/document)
 //
 // Latin characters with length of 3 or more are disallowed as well,
 // as they can be foriegn (non-Thai) language.
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E4F\u0E5A\u0E5B]|[A-Za-z]{3,}/;
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]{3,}/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
