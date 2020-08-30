@@ -63,25 +63,33 @@ const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]{3
 // as users wouldn't know how to pronounce the uppercase letters.
 const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+|[ก-ฮ]+\.([ก-ฮ]+\.)+/;
 
-export function filterNumbers(sentence) {
+module.exports = {
+  filterNumbers,
+  filterAbbreviations,
+  filterSymbols,
+  filterStructure,
+  filterLength,
+};
+
+function filterNumbers(sentence) {
   return !sentence.match(NUMBERS_REGEX);
 }
 
-export function filterAbbreviations(sentence) {
+function filterAbbreviations(sentence) {
   return !sentence.match(ABBREVIATION_REGEX);
 }
 
-export function filterSymbols(sentence) {
+function filterSymbols(sentence) {
   return !sentence.match(SYMBOL_REGEX);
 }
 
-export function filterStructure(sentence) {
+function filterStructure(sentence) {
   return !(sentence.match(STRUCTURE_REGEX)
     || sentence.match(BEGIN_REGEX)
     || sentence.match(END_REGEX));
 }
 
-export function filterLength(sentence) {
+function filterLength(sentence) {
   return sentence.length >= MIN_LENGTH
     && sentence.length <= MAX_LENGTH;
 }
