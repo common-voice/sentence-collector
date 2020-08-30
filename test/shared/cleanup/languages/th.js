@@ -14,7 +14,7 @@ test('removes comma', clean, ['this is , wrong'], ['this is wrong']);
 test('removes exclamation mark', clean, ['this is wrong !'], ['this is wrong']);
 test('removes question mark', clean, ['this is wrong ?'], ['this is wrong']);
 test('removes ellipsis', clean, ['this is wrong ...'], ['this is wrong']);
-test('removes ellipsis', clean, ['this is wrong. . . ... '], ['this is wrong']);
+test('removes several ellipsis', clean, ['this ... is wrong. . . ... '], ['this is wrong']);
 test('removes period at end of sentence', clean, ['this is wrong.'], ['this is wrong']);
 test('removes period at end of sentence with space', clean, ['this is wrong.  '], ['this is wrong']);
 test('removes several multiple spaces', clean,
