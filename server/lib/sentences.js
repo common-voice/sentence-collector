@@ -46,7 +46,11 @@ async function getSentencesForReview({ locale, userId }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', locale);
 
   const query = getReviewQuery({ locale, userId });
-  const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const limittedQuery = `
+    ${query}
+    LIMIT 1000
+  `;
+  const sentences = await sequelize.query(limittedQuery, { type: QueryTypes.SELECT });
   return sentences;
 }
 

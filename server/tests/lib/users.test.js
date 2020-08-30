@@ -29,7 +29,6 @@ test.serial('createUserIfNecessary: should create user if necessary', async (t) 
 test.serial('get: should get user', async (t) => {
   const user = await users.get('foo@example.com');
   t.deepEqual(user, {
-    id: '1',
     email: 'foo@example.com',
     languages: [],
     settings: {
