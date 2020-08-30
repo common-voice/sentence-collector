@@ -14,6 +14,14 @@ router.get('/', async (req, res) => {
   const queryLocales = req.query.locales || '';
   const locales = queryLocales.split(',');
 
+  if (locales.length === 1 && !locales[0]) {
+    return res.json({
+      all: 0,
+      user: 0,
+      userUnreviewed: 0,
+    });
+  }
+
   debug('GET_STATS', sessionUserId);
 
   try {
