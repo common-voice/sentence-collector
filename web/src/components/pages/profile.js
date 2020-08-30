@@ -142,10 +142,6 @@ const PersonalLanguageInfo = (props) => {
     return extended;
   });
 
-  if (!props.languageStats) {
-    return null;
-  }
-
   return (
     <ul>
     { extendedLanguages.map((language, i) => (
@@ -168,7 +164,7 @@ const PersonalLanguageInfo = (props) => {
 function mapStateToProps(state) {
   return {
     username: state.login.username,
-    languageStats: state.languages.stats && state.languages.stats.user,
+    languageStats: (state.languages.stats && state.languages.stats.user) || {},
     allLanguages: state.languages.allLanguages,
     languages: state.languages.languages,
     pending: state.languages.pendingLanguages,
