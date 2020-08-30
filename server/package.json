@@ -10,15 +10,15 @@
     "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
     "migrate": "sequelize-cli db:migrate && cd ..",
     "lint": "eslint .",
-    "test:only": "env SESSION_SECRET=foo nyc ava",
+    "test:only": "env SESSION_SECRET=foo USE_SESSION_STORE=false nyc ava",
     "test": "npm run lint && npm run test:only"
   },
   "dependencies": {
     "atob": "^2.1.2",
+    "connect-session-sequelize": "^7.0.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.1",
     "iso-639-1": "^2.1.3",
     "mariadb": "^2.4.1",

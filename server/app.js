@@ -2,20 +2,20 @@
 
 const debug = require('debug')('sentencecollector:app');
 const bodyParser = require('body-parser');
+const connectSessionSequelize = require('connect-session-sequelize');
 const cors = require('cors');
 const express = require('express');
 const session = require('express-session');
-// const MySQLStore = require('express-mysql-session')(session);
 const path = require('path');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
+const models = require('./lib/models');
 const users = require('./lib/users');
 const sentencesRoutes = require('./routes/sentences');
 const languagesRoutes = require('./routes/languages');
 const statsRoutes = require('./routes/stats');
 const usersRoutes = require('./routes/users');
 const votesRoutes = require('./routes/votes');
-// const connectionString = require('./lib/connectionString');
 
 const {
   AUTH0_DOMAIN,
@@ -24,44 +24,44 @@ const {
   AUTH0_CALLBACK_URL = 'http://localhost:3333/sentence-collector/callback',
   SESSION_SECRET,
   NODE_ENV = 'development',
+  USE_SESSION_STORE = 'true',
 } = process.env;
 
 // Locally: frontend at /, API at /sentence-collector
 // Production: frontend and API both at /sentence-collector
 const FRONTEND_BASE_PATH = NODE_ENV === 'production' ? '/sentence-collector' : '';
 const MOUNT_PATH = NODE_ENV === 'production' ? '' : '/sentence-collector';
-// const config = require('./config/config.json')[NODE_ENV];
 
+const SequelizeStore = connectSessionSequelize(session.Store);
 const app = express();
+const maxAge = 30 * 24 * 60 * 60 * 1000;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(require('cookie-parser')());
 
-// const connectionStringConfig = config.use_env_variable ? connectionString.parse(process.env[config.use_env_variable]) : {};
+const sessionOptions = {
+  cookie: {
+    maxAge,
+    secure: NODE_ENV === 'production',
+  },
+  secret: SESSION_SECRET,
+  proxy: true,
+  resave: false,
+  saveUninitialized: false,
+};
 
-// const storeOptions = {
-//   host: config.host || connectionStringConfig.host,
-//   user: config.username || connectionStringConfig.username,
-//   password: config.password || connectionStringConfig.password,
-//   database: config.database || connectionStringConfig.database,
-//   createDatabaseTable: true,
-// };
+if (USE_SESSION_STORE === 'true') {
+  sessionOptions.store = new SequelizeStore({
+    db: models.sequelize,
+    expiration: maxAge,
+  });
+  models.sequelize.sync();
+}
 
-app.use(
-  session({
-    cookie: {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      secure: NODE_ENV === 'production',
-    },
-    secret: SESSION_SECRET,
-    // store: new MySQLStore(storeOptions),
-    proxy: true,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session(sessionOptions));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
