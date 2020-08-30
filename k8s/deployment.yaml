@@ -26,7 +26,7 @@ spec:
       hostname: sentence-collector
       containers:
         - name: sentence-collector
-          image: michaelkohler/sentence-collector:2.0.11
+          image: michaelkohler/sentence-collector:2.0.12
           imagePullPolicy: IfNotPresent
           resources:
             limits:
