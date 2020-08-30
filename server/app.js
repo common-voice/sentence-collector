@@ -69,7 +69,8 @@ passport.serializeUser((user, done) => {
   const email = user && user.emails && user.emails[0] && user.emails[0].value;
 
   if (!email) {
-    return done(new Error('NO_EMAIL_PROVIDED'), null);
+    const errorMessage = 'Did not get an email address from Auth0. Please make sure that Auth0 has access to the email address in your account.';
+    return done(new Error(errorMessage), null);
   }
 
   const extendedUser = Object.assign({}, user, { email });
@@ -77,15 +78,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((sessionUser, done) => {
-  users.get(sessionUser.email)
-    .then((user) => {
-      const extendedUser = Object.assign({}, sessionUser, { id: user.id });
-      return done(null, extendedUser);
-    })
-    .catch((error) => {
-      console.error('FAILED_DESERIALIZE_USER', error);
-      return done(error, null);
-    });
+  done(null, sessionUser);
 });
 
 if (AUTH0_DOMAIN) {

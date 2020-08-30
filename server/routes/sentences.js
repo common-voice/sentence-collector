@@ -12,7 +12,7 @@ const router = express.Router(); // eslint-disable-line new-cap
 
 router.get('/review', async (req, res) => {
   const locale = req.query.locale;
-  const userId = req.user && req.user.id;
+  const userId = req.user && req.user.email;
   debug('GET_SENTENCES_FOR_REVIEW', userId);
 
   try {
@@ -26,7 +26,7 @@ router.get('/review', async (req, res) => {
 });
 
 router.get('/rejected', async (req, res) => {
-  const userId = req.user && req.user.id;
+  const userId = req.user && req.user.email;
   debug('GET_REJECTED_SENTENCES', userId);
   sentences.getRejectedSentences({ userId })
     .then((foundSentences) => res.json(foundSentences))
@@ -38,7 +38,7 @@ router.get('/rejected', async (req, res) => {
 });
 
 router.put('/', async (req, res) => {
-  const userId = req.user && req.user.id;
+  const userId = req.user && req.user.email;
   debug('CREATE_SENTENCES', req.body, userId);
 
   try {

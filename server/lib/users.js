@@ -16,7 +16,6 @@ async function get(email) {
   const [user] = await User.findAll({ where: { email }});
   const userLanguages = user.languages || '';
   return {
-    id: user.id,
     email: user.email,
     languages: userLanguages.split(',').filter(Boolean),
     settings: {

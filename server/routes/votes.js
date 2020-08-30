@@ -20,7 +20,7 @@ router.put('/', async (req, res) => {
     try {
       const voteParams = {
         sentenceId: sentenceId,
-        userId: req.user && req.user.id,
+        userId: req.user && req.user.email,
         approval: isValidated,
       };
       await votes.addVoteForSentence(voteParams);
