@@ -79,14 +79,13 @@ async function createUser(username) {
 }
 
 async function processSentence(sentenceInfo, localeId) {
-  const userId = userIdCache[sentenceInfo.username];
   const createdAt = typeof sentenceInfo.createdAt !== 'undefined' ? new Date(sentenceInfo.createdAt) : new Date();
   const updatedAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
 
   const sentenceParams = {
     sentence: sentenceInfo.sentence,
     source: sentenceInfo.source || '',
-    userId,
+    userId: `${sentenceInfo.username}@sentencecollector.local`,
     localeId,
     createdAt,
     updatedAt,
@@ -95,8 +94,8 @@ async function processSentence(sentenceInfo, localeId) {
   try {
     const insertedId = await insertSentence(sentenceParams);
     await Promise.all([
-      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, userIdCache[user], insertedId, true)),
-      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, userIdCache[user], insertedId, false)),
+      ...sentenceInfo.valid.map((user) => insertVote(sentenceInfo, user, insertedId, true)),
+      ...sentenceInfo.invalid.map((user) => insertVote(sentenceInfo, user, insertedId, false)),
     ]);
   } catch (error) {
     console.log(error.message);
@@ -108,7 +107,7 @@ async function insertSentence(sentenceParams) {
   return insertedSentence[0].insertId;
 }
 
-async function insertVote(sentenceInfo, username, userId, insertedId, approval) {
+async function insertVote(sentenceInfo, username, insertedId, approval) {
   let createdAt = typeof sentenceInfo.last_modified !== 'undefined' ? new Date(sentenceInfo.last_modified) : new Date();
 
   const voteTimestamp = sentenceInfo[`Sentences_Meta_UserVoteDate_${username}`];
@@ -118,7 +117,7 @@ async function insertVote(sentenceInfo, username, userId, insertedId, approval) 
 
   const voteParams = {
     approval,
-    userId,
+    userId: `${username}@sentencecollector.local`,
     sentenceId: insertedId,
     createdAt,
     updatedAt: createdAt,
