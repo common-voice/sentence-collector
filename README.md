@@ -25,22 +25,6 @@ Now we can install the dependencies:
 npm run install:all
 ```
 
-Now create an admin account with the password `password`:
-
-```
-curl --header "Content-Type: application/json" \
-  --request PUT \
-  --data '{"data": {"password": "password"}}' \
-  http://localhost:8888/v1/accounts/admin
-```
-
-And then you can initialize the required user collections with:
-
-```
-cd server
-npm run init
-```
-
 Start the server in a new terminal window. For this you'll need parameters from Auth0 to make sure that the login works, see below for a short tutorial.
 
 ```
@@ -92,7 +76,7 @@ This will export all the approved sentences for languages currently active in ht
 
 ```
 git clone https://github.com/mozilla/common-voice.git
-cd voice-web
+cd common-voice
 git remote add fork git@github.com:YOURUSERNAME/common-voice.git
 ```
 
