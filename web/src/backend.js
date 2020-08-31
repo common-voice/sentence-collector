@@ -1,4 +1,4 @@
-export function sendRequest(endpoint, method = 'GET', data) {
+export async function sendRequest(endpoint, method = 'GET', data) {
   const url = `/sentence-collector/${endpoint}`; // we always have the backend at that path, even locally
   const options = {
     method,
@@ -11,6 +11,12 @@ export function sendRequest(endpoint, method = 'GET', data) {
     options.body = JSON.stringify(data);
   }
 
-  return fetch(url, options)
-    .then(response => response.json());
+  const response = await fetch(url, options);
+  const json = await response.json();
+
+  if (!response.ok) {
+    throw new Error(json.message || 'Request failed.');
+  }
+
+  return json;
 }

@@ -20,6 +20,9 @@ const Header = (props) => {
         ) : (
           <a href="/sentence-collector/login">Login</a>
         )}
+        { props.authed && !props.migrationDone && (
+          <NavLink to="/migrate" exact key="migrate">Migrate Account</NavLink>
+        )}
       </nav>
       <ProfileWidget />
       <section id="external-links">
@@ -39,6 +42,7 @@ function mapStateToProps(state) {
     // force a re-render of header active links on location change.
     location: state.router.location,
     authed: state.login.authed,
+    migrationDone: state.login.migrationDone,
   };
 }
 

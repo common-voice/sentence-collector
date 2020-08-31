@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addLanguage, removeLanguage } from '../../actions/languages';
 import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
+import Notice from '../notice';
 
 import '../../../css/profile.css';
 
@@ -79,6 +81,7 @@ class Profile extends React.Component {
       languageStats,
       pending,
       settings,
+      migrationDone,
     } = this.props;
     const { useSwipeReview } = settings;
 
@@ -88,6 +91,10 @@ class Profile extends React.Component {
 
         { this.state.message && ( <p>{this.state.message}</p> ) }
         { this.state.error && ( <p style={ { color: 'red' } }>{this.state.error}</p> ) }
+
+        { !migrationDone && (<Notice text={(
+          <span>Migrate your stats and profile settings to your new account now. To do so, use our <Link to="/migrate" href="">migration form</Link>.</span>
+        )}></Notice>) }
 
         <section>
           <p>Your languages:</p>
@@ -140,7 +147,7 @@ const PersonalLanguageInfo = (props) => {
   const extendedLanguages = props.languages.map((lang) => {
     const extended = props.allLanguages.find((extendedLang) => extendedLang.id === lang);
     return extended;
-  });
+  }).filter(Boolean);
 
   return (
     <ul>
@@ -169,6 +176,7 @@ function mapStateToProps(state) {
     languages: state.languages.languages,
     pending: state.languages.pendingLanguages,
     settings: state.settings,
+    migrationDone: state.login.migrationDone,
   };
 }
 

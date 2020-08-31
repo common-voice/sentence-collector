@@ -278,6 +278,10 @@ form button {
   color: #fff;
 }
 
+.error-message {
+  color: red;
+}
+
 .small {
   font-size: 0.7rem;
 }

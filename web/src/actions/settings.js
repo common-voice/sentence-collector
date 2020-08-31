@@ -12,7 +12,6 @@ export function setSetting(key, value) {
       }));
     } catch (err) {
       dispatch(settingsChangedFailure());
-      console.error(err);
       throw err;
     }
   };
