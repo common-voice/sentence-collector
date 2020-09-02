@@ -64,6 +64,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Taqbaylit',
   },
   {
+    code: 'kmr',
+    name: 'Kurmanji',
+    nativeName: 'Kurmancî‎',
+  },
+  {
     code: 'kpv',
     name: 'Komi-Zyrian',
     nativeName: 'Коми кыв',
