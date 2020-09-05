@@ -15,7 +15,7 @@ export function clean(sentences) {
     return sentence
       .replace(/[\u200b\u200c]/g, '')  // removes zero-width chars (occurs in some Thai texts)
       .replace(/,/g, ' ') // replaces comma with space
-      .replace(/\s:/g, ' : ') // add a space before and after colon
+      .replace(/:/g, ' : ') // add a space before and after colon
       .replace(/\?/g, ' ? ') // adds a space before and after question mark
       .replace(/!/g, ' ! ') // adds a space before and after exclamation mark
       .replace(/(\u0E46\s*)+/g, '\u0E46') // condenses multiple Maiyamok to one Maiyamok
