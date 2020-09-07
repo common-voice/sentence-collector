@@ -15,7 +15,8 @@ test('removes exclamation mark', clean, ['this is wrong!'], ['this is wrong !'])
 test('removes question mark', clean, ['this is wrong?'], ['this is wrong ?']);
 test('removes ellipsis', clean, ['this is wrong...'], ['this is wrong']);
 test('removes several ellipsis', clean, ['this ... is wrong . . . ... '], ['this is wrong']);
-test('removes dangling period', clean, ['this is wrong .'], ['this is wrong']);
+test('removes orphan period', clean, ['this is wrong .'], ['this is wrong']);
+test('removes another orphan period', clean, ['this is .wrong'], ['this is wrong']);
 test('retains immediate period', clean, ['this is wrong.'], ['this is wrong.']);
 test('removes spaces at end of sentence', clean, ['this is wrong.  '], ['this is wrong.']);
 test('removes several multiple spaces', clean,
@@ -35,3 +36,4 @@ test('removes multiple periods at beginning of sentence with space', clean, ['..
 test('removes multiple periods at end of sentence', clean, ['this is wrong...'], ['this is wrong']);
 test('normalize Sara E Sara E', clean, ['เรือนเเพ'], ['เรือนแพ']);
 test('normalize Sara Am', clean, ['ลํานํ้า'], ['ลำน้ำ']);
+test('normalizes Ru/Lu Sara Aa', clean, ['ฤา ฦา', 'ฤๅ ฦๅ']);
