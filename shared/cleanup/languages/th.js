@@ -29,5 +29,6 @@ export function clean(sentences) {
       .replace(/\u0E40\u0E40/g, '\u0E41') // normalizes Sara E + Sara E -> Sara Ae
       .replace(/\u0E4d([\u0E48\u0E49\u0E4A\u0E4B]*)\u0E32/g, '$1\u0E33') // normalizes Nikhahit + Sara Aa -> Sara Am
       .replace(/([\u0E24\u0E26])\u0E32/g, '$1\u0E45') // normalizes Ru/Lu + Sara Aa -> Ru/Lu + Lakkhangyao
+      ;
   });
 }
