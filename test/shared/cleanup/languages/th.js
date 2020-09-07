@@ -36,4 +36,4 @@ test('removes multiple periods at beginning of sentence with space', clean, ['..
 test('removes multiple periods at end of sentence', clean, ['this is wrong...'], ['this is wrong']);
 test('normalize Sara E Sara E', clean, ['เรือนเเพ'], ['เรือนแพ']);
 test('normalize Sara Am', clean, ['ลํานํ้า'], ['ลำน้ำ']);
-test('normalizes Ru/Lu Sara Aa', clean, ['ฤา ฦา', 'ฤๅ ฦๅ']);
+test('normalizes Ru/Lu Sara Aa', clean, ['ฤา ฦา'], ['ฤๅ ฦๅ']);
