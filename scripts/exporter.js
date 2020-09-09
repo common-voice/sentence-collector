@@ -8,7 +8,7 @@ import {
 import * as validation from '../shared/validation';
 import * as cleanup from '../shared/cleanup';
 
-const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json';
+const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/main/locales/all.json';
 const OUTPUT_JSON = 'sentence-collector.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
@@ -17,6 +17,7 @@ const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',
   'pa-IN': 'pa',
+  'ckb': 'ku',
 };
 
 export async function startBackup(db, exportPath) {
