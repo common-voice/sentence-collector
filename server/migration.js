@@ -34,11 +34,15 @@ console.log(`Using max ${connectionLimit} connections..`);
     charset: 'utf8mb4_bin',
   });
 
+  console.log('Successfully connected to DB!');
+
   locales = languagesLib.getAllLanguages();
 
   const files = await fs.promises.readdir(BACKUP_PATH, { withFileTypes: true });
   const directories = files.filter((dirent) => dirent.isDirectory());
   const languages = directories.map((dirent) => dirent.name);
+
+  await initCleanup();
 
   for (const language of languages) {
     console.log('Processing', language);
@@ -57,7 +61,7 @@ console.log(`Using max ${connectionLimit} connections..`);
     console.log(`${content.length} sentences to migrate`);
 
     const allUsers = [...new Set(content.map((sentences) => sentences.username))];
-    console.log(`${allUsers.length} users to create `);
+    console.log(`${allUsers.length} users to create`);
 
     for (const user of allUsers) {
       if (!userIdCache[user]) {
@@ -71,6 +75,13 @@ console.log(`Using max ${connectionLimit} connections..`);
   console.log('We are done!');
   process.exit(0);
 })();
+
+async function initCleanup() {
+  console.log('Initial cleanup');
+  await connection.query('DELETE FROM Users');
+  await connection.query('DELETE FROM Sentences');
+  await connection.query('DELETE FROM Votes');
+}
 
 async function createUser(username) {
   const dummyEmail = `${username}@sentencecollector.local`;

@@ -9,7 +9,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: sentence-collector-migration
-        image: michaelkohler/sentence-collector-mig:1.0.9
+        image: michaelkohler/sentence-collector-mig:1.0.13
         env:
           - name: BACKUP_PATH
             value: "/app/data/"
