@@ -7,13 +7,13 @@ Please note that cleanup is only run on the txt sentences, not on the meta struc
 3. Certain methods can be deleted if not needed, as the default is `en` anyway - so please only implement functions that are different to the `en` cleanups or not needed at all (just return the sentence)
 4. In `index.js` add a new require (as example for German - de)
 
-```
+```javascript
 const de = require('./languages/de');
 ```
 
-6. Expose the new require in the `CLEANUPS` object
+5. Expose the new require in the `CLEANUPS` object
 
-```
+```javascript
 const CLEANUPS = {
   en,
   de,

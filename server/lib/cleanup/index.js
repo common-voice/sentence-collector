@@ -1,9 +1,11 @@
 const en = require('./languages/en');
 const fr = require('./languages/fr');
+const th = require('./languages/th');
 
 const CLEANUPS = {
   en,
-  fr
+  fr,
+  th
 };
 
 const DEFAULT_CLEANUP_LANGUAGE = 'en';
