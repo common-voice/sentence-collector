@@ -1,20 +1,18 @@
 import {
   ACTION_LOGOUT,
-  ACTION_LOGIN_REQUEST,
   ACTION_LOGIN_SUCCESS,
-  ACTION_LOGIN_FAILURE,
-  ACTION_LOGIN_CHECK_USERNAME_FAILED,
-  ACTION_LOGIN_ENABLE,
-  ACTION_LOGIN_DISABLE,
-  ACTION_LOGIN_CHECK_USERNAME_SUCCESS,
+  ACTION_USER_INFO_RECEIVED,
+  ACTION_USER_MIGRATION_START,
+  ACTION_USER_MIGRATION_SUCCESS,
+  ACTION_USER_MIGRATION_FAILURE,
 } from '../actions/login';
 
 export const INITIAL_STATE = {
   authed: false,
-  username: null,
-  password: null,
-  loginDisabled: true,
-  errorMessage: null,
+  username: '',
+  migrating: false,
+  migrationError: undefined,
+  migrationDone: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -22,45 +20,35 @@ export default function(state = INITIAL_STATE, action) {
     case ACTION_LOGOUT:
       return Object.assign({}, state, INITIAL_STATE);
 
-    case ACTION_LOGIN_CHECK_USERNAME_SUCCESS:
-      return Object.assign({}, state, {
-        errorMessage: null,
-      });
-
-    case ACTION_LOGIN_CHECK_USERNAME_FAILED:
-      return Object.assign({}, state, INITIAL_STATE, {
-        errorMessage: 'Please only use alphanumeric usernames.',
-      });
-
-    case ACTION_LOGIN_DISABLE:
-      return Object.assign({}, state, {
-        loginDisabled: true,
-      });
-
-    case ACTION_LOGIN_ENABLE:
-      return Object.assign({}, state, {
-        loginDisabled: false,
-      });
-
     case ACTION_LOGIN_SUCCESS:
       return  Object.assign({}, state, {
         authed: true,
-        loginDisabled: false,
+      });
+
+    case ACTION_USER_INFO_RECEIVED:
+      return  Object.assign({}, state, {
+        authed: true,
         username: action.username,
-        password: action.password,
-        errorMessage: null,
       });
 
-    case ACTION_LOGIN_FAILURE:
-      return Object.assign({}, state, INITIAL_STATE, {
-        errorMessage: 'Login failed.',
-        loginDisabled: true,
+    case ACTION_USER_MIGRATION_START:
+      return  Object.assign({}, state, {
+        migrating: true,
+        migrationError: undefined,
       });
 
-    case ACTION_LOGIN_REQUEST:
-      return Object.assign({}, state, {
-        authed: false,
-        loginDisabled: true,
+    case ACTION_USER_MIGRATION_SUCCESS:
+      return  Object.assign({}, state, {
+        migrating: false,
+        migrationDone: true,
+        migrationError: undefined,
+      });
+
+    case ACTION_USER_MIGRATION_FAILURE:
+      return  Object.assign({}, state, {
+        migrating: false,
+        migrationDone: false,
+        migrationError: action.errorMessage,
       });
 
     default:

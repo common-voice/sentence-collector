@@ -1,18 +1,18 @@
-import {
+ const {
   writeFileSync,
   readdirSync,
   readFileSync,
   existsSync,
   mkdirSync,
-} from 'fs';
-import * as validation from '../shared/validation';
-import * as cleanup from '../shared/cleanup';
+} = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+const cleanup = require('../server/lib/cleanup');
 
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/main/locales/all.json';
-const OUTPUT_JSON = 'sentence-collector.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
-// Mapping from PONTOON locale -> database locale code
+// Mapping from PONTOON locale -> SC locale code
 const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',
@@ -20,62 +20,57 @@ const LANGUAGE_MAPPING = {
   'ckb': 'ku',
 };
 
-export async function startBackup(db, exportPath) {
-  const startTime = Date.now();
-  const allLanguages = await db.getLanguages();
+const {
+  API_BASE_URL,
+  COMMON_VOICE_PATH,
+} = process.env;
 
-  for (const languageCode of allLanguages) {
-    await backupAllLanguage(db, languageCode, exportPath);
-  }
-
-  const endTime = Date.now();
-  console.log('Duration to backup everything (ms): ', endTime - startTime);
+if (!API_BASE_URL || !COMMON_VOICE_PATH) {
+  throw new Error('API_BASE_URL and COMMON_VOICE_PATH are required!');
 }
 
-export async function startExport(db, exportPath) {
+const exportPath = path.resolve(COMMON_VOICE_PATH, 'server', 'data');
+
+(async () => {
+  await startExport();
+})();
+
+async function startExport() {
   const startTime = Date.now();
   const cvResponse = await fetch(CV_LANGUAGES_URL);
   const allCVLanguages = await cvResponse.json();
 
-  for (const languageCode of allCVLanguages) {
-    await exportLanguage(db, languageCode, exportPath);
+  for await (const languageCode of allCVLanguages) {
+    await exportLanguage(languageCode);
   }
 
   const endTime = Date.now();
   console.log('Duration to export everything (ms): ', endTime - startTime);
 }
 
-async function exportLanguage(db, languageCode, exportPath) {
+async function exportLanguage(languageCode) {
   console.log(`Starting export for ${languageCode}..`);
 
   const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
   const cvPath = `${exportPath}/${languageCode}`;
-  let approvedSentences = [];
-  try {
-    approvedSentences = await db.getAllValidatedSentences(dbLanguageCode);
-  } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
+  const approvedSentencesUrl = `${API_BASE_URL}/sentences/text/approved/${dbLanguageCode}`;
 
-  if (!approvedSentences || approvedSentences.length === 0) {
+  const approvedSentencesResponse = await fetch(approvedSentencesUrl);
+  const approvedSentencesText = await approvedSentencesResponse.text();
+  const approvedSentences = approvedSentencesText.split('\n');
+  if (!approvedSentences || approvedSentences.length === 0 || approvedSentences[0] === '') {
     return;
   }
 
   console.log(`  - Found ${approvedSentences.length} approved sentences`);
 
-  const validatedSentences = getValidatedSentences(dbLanguageCode, approvedSentences);
-
-  if (!validatedSentences) {
-    console.log(`  - Found no valid sentences, not writing any output..`);
-    return;
-  }
-
   prepareExport(cvPath);
 
   console.log(`  - Cleaning up sentences`);
-  const sentencesOnly = validatedSentences.map((sentenceMeta) => sentenceMeta.sentence);
-  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, sentencesOnly);
+  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, approvedSentences);
   const dedupedSentences = dedupeSentences(dbLanguageCode, cleanedUpSentences, cvPath);
 
-  writeExport(cvPath, validatedSentences, dedupedSentences);
+  writeExport(cvPath, dedupedSentences);
 }
 
 async function prepareExport(cvPath) {
@@ -86,12 +81,8 @@ async function prepareExport(cvPath) {
   }
 }
 
-async function writeExport(cvPath, metaData, sentences = []) {
-  const metaDataPath = `${cvPath}/${OUTPUT_JSON}`;
+async function writeExport(cvPath, sentences = []) {
   const dataPath = `${cvPath}/${OUTPUT_TXT}`;
-
-  console.log(`  - Writing all meta data to ${metaDataPath}..`);
-  writeFileSync(metaDataPath, JSON.stringify(metaData));
 
   if (!sentences || sentences.length === 0) {
     return;
@@ -99,40 +90,6 @@ async function writeExport(cvPath, metaData, sentences = []) {
 
   console.log(`  - Writing all sentences to ${dataPath}..`);
   writeFileSync(dataPath, sentences.join('\n'));
-}
-
-async function backupAllLanguage(db, languageCode, exportPath) {
-  console.log(`Starting backup for ${languageCode}..`);
-
-  const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
-  const cvPath = `${exportPath}/${languageCode}`;
-  let sentences = [];
-  try {
-    sentences = await db.getAllSentences(dbLanguageCode);
-  } catch (err) { /* ignore for now, as we also get this if the code does not exist */ }
-
-  if (!sentences || sentences.length === 0) {
-    return;
-  }
-
-  console.log(`  - Found ${sentences.length} sentences`);
-
-  prepareExport(cvPath);
-  writeExport(cvPath, sentences);
-}
-
-function getValidatedSentences(languageCode, sentences) {
-  const sentencesOnly = sentences.map((sentenceMeta) => sentenceMeta.sentence);
-  const { filtered } = validation.validateSentences(languageCode, sentencesOnly);
-  const filteredSentences = filtered.map((filteredResult) => filteredResult.sentence);
-  filteredSentences.length > 0 &&
-    console.log(`  - Filtered ${filteredSentences.length} sentences`, filteredSentences);
-
-  const filteredSentenceMetas = sentences.filter((sentenceMeta) => {
-    return !filteredSentences.includes(sentenceMeta.sentence);
-  });
-  console.log(`  - Found ${filteredSentenceMetas.length} valid sentences`);
-  return filteredSentenceMetas;
 }
 
 function dedupeSentences(languageCode, sentences, path) {

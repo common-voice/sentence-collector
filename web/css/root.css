@@ -277,3 +277,11 @@ form button {
   background-color: red;
   color: #fff;
 }
+
+.error-message {
+  color: red;
+}
+
+.small {
+  font-size: 0.7rem;
+}

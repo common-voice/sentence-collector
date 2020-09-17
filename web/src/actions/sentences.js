@@ -1,24 +1,42 @@
-import { getDBInstance } from '../web-db';
 import { addLanguage } from './languages';
+import { sendRequest } from '../backend';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
-export const ACTION_SUBMIT_SENTENCES_SUCCESS = 'SUBMIT_SENTENCES_SUCCESS';
-export const ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE = 'SUBMIT_SENTENCES_FAILURE_SINGLE';
+export const ACTION_SUBMIT_SENTENCES_DONE = 'ACTION_SUBMIT_SENTENCES_DONE';
+export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 
-export function submitSentences(language, sentences, source) {
+export function uploadSentences({ locale, sentences, source }) {
   return async function(dispatch, getState) {
     dispatch(sendSubmitSentences());
-
     const state = getState();
-    const db = getDBInstance();
-    const results = await db.submitSentences(language, sentences, source);
-    dispatch(submitSentencesSuccess(results.sentences.slice(0)));
-    const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
-    dispatch(submitSentencesFailureSingle(errorsWithSentenceInfo));
-    if(!state.languages.languages.includes(language)) {
-      dispatch(addLanguage(language));
+
+    const data = {
+      source,
+      locale,
+      sentences,
+    };
+
+    try {
+      const results = await sendRequest('sentences', 'PUT', data);
+      dispatch(submitSentencesDone());
+
+      if (!results || !results.errors) {
+        dispatch(submitSentencesDone());
+        return {};
+      }
+
+      const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
+      dispatch(submitSentencesFailure(errorsWithSentenceInfo));
+
+      if(!state.languages.languages.includes(locale)) {
+        dispatch(addLanguage(locale));
+      }
+
+      return results;
+    } catch (error) {
+      dispatch(submitSentencesDone());
+      throw error;
     }
-    return results;
   };
 }
 
@@ -28,16 +46,15 @@ export function sendSubmitSentences() {
   };
 }
 
-export function submitSentencesSuccess(sentences) {
+export function submitSentencesDone() {
   return {
-    type: ACTION_SUBMIT_SENTENCES_SUCCESS,
-    sentences,
+    type: ACTION_SUBMIT_SENTENCES_DONE,
   };
 }
 
-export function submitSentencesFailureSingle(errors) {
+export function submitSentencesFailure(errors) {
   return {
-    type: ACTION_SUBMIT_SENTENCES_FAILURE_SINGLE,
+    type: ACTION_SUBMIT_SENTENCES_FAILURE,
     errors,
   };
 }

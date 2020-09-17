@@ -1,0 +1,40 @@
+{
+  "development": {
+    "username": "admin",
+    "password": "localdevelopment",
+    "database": "sentencecollector",
+    "host": "localhost",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "pool": {
+      "max": 100,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "logging": false
+  },
+  "test": {
+    "dialect": "mysql",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "SC_CONNECT",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    },
+    "pool": {
+      "max": 100,
+      "min": 0,
+      "acquire": 30000,
+      "idle": 10000
+    },
+    "logging": false
+  }
+}

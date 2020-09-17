@@ -1,33 +1,18 @@
 version: '3'
 services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-    networks:
-      - backend-net
-
-  cache:
-    image: library/memcached
-    networks:
-      - backend-net
-
-  web:
-    image: kinto/kinto-server:13.3.0
-    depends_on:
-     - db
-     - cache
+  dbsql:
+    image: mysql:8.0
+    restart: always
+    expose:
+      - "3306"
     ports:
-     - "8888:8888"
+      - "3306:3306"
     environment:
-      - KINTO_CACHE_BACKEND=kinto.core.cache.memcached
-      - KINTO_CACHE_HOSTS=cache:11211 cache:11212
-      - KINTO_STORAGE_BACKEND=kinto.core.storage.postgresql
-      - KINTO_STORAGE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
-      - KINTO_PERMISSION_BACKEND=kinto.core.permission.postgresql
-      - KINTO_PERMISSION_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/postgres
-      - KINTO_INCLUDES=kinto.plugins.admin kinto.plugins.flush kinto.plugins.accounts
+      MYSQL_DATABASE: sentencecollector
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: localdevelopment
+      MYSQL_ROOT_PASSWORD: localdevelopment
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_bin']
     networks:
       - backend-net
 

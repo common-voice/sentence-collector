@@ -1,0 +1,72 @@
+{
+  "name": "sentence-collector-server",
+  "version": "0.0.1",
+  "description": "Backend for the sentence collector",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
+    "migrate": "sequelize-cli db:migrate && cd ..",
+    "lint": "eslint .",
+    "test:only": "env SESSION_SECRET=foo USE_SESSION_STORE=false nyc ava",
+    "test": "npm run lint && npm run test:only"
+  },
+  "dependencies": {
+    "atob": "^2.1.2",
+    "axios": "^0.20.0",
+    "connect-session-sequelize": "^7.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "iso-639-1": "^2.1.3",
+    "mariadb": "^2.4.1",
+    "mysql2": "^2.1.0",
+    "passport": "^0.4.1",
+    "passport-auth0": "^1.3.3",
+    "sequelize": "^6.3.3",
+    "sequelize-cli": "^6.2.0",
+    "talisman": "^1.1.2",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "ava": "^3.10.1",
+    "babel-eslint": "^10.1.0",
+    "btoa": "^1.2.1",
+    "eslint": "^7.4.0",
+    "esm": "^3.2.25",
+    "nyc": "^15.1.0",
+    "pug": "^3.0.0",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*.test.js"
+    ],
+    "require": [
+      "esm"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "statements": 95,
+    "branches": 75,
+    "functions": 95,
+    "lines": 95,
+    "include": [
+      "lib/**/*.js",
+      "routes/**/*.js"
+    ],
+    "exclude": [
+      "lib/validation/languages/*.js"
+    ],
+    "all": true,
+    "reporter": [
+      "text-summary",
+      "lcov"
+    ]
+  }
+}
