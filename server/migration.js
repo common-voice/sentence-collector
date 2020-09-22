@@ -23,6 +23,7 @@ let userIdCache = {};
 
 const connectionLimit = parseInt(CONNECTIONS, 10) || 50;
 console.log(`Using max ${connectionLimit} connections..`);
+const MAX_SENTENCES_PER_CHUNK = 100000;
 
 (async function() {
   connection = await mysql.createPool({
@@ -56,8 +57,8 @@ console.log(`Using max ${connectionLimit} connections..`);
 
     const scLanguage = languagesLib.LANGUAGE_MAPPING[language] || language;
     const locale = locales.find((locale) => locale.id === scLanguage);
-    const fileContent = await fs.promises.readFile(sentenceCollectorFilePath, 'utf-8');
-    const content = JSON.parse(fileContent);
+    const content = await getFileContent(sentenceCollectorFilePath);
+    global.gc();
     console.log(`${content.length} sentences to migrate`);
 
     const allUsers = [...new Set(content.map((sentences) => sentences.username))];
@@ -69,12 +70,28 @@ console.log(`Using max ${connectionLimit} connections..`);
       }
     }
 
-    await Promise.all(content.map((sentence) => processSentence(sentence, locale.id)));
+    if (content.length <= MAX_SENTENCES_PER_CHUNK) {
+      await processSentences(content, locale.id);
+      continue;
+    }
+
+    const processSentencesInChunks = async function(chunks) {
+      global.gc();
+      await Promise.all(chunks.map((sentence) => processSentence(sentence, locale.id)));
+      return content.length && processSentencesInChunks(content.splice(0, MAX_SENTENCES_PER_CHUNK));
+    };
+
+    await processSentencesInChunks(content.splice(0, MAX_SENTENCES_PER_CHUNK));
   }
 
   console.log('We are done!');
   process.exit(0);
 })();
+
+async function getFileContent(path) {
+  const fileContent = await fs.promises.readFile(path, 'utf-8');
+  return JSON.parse(fileContent);
+}
 
 async function initCleanup() {
   console.log('Initial cleanup');
@@ -87,6 +104,10 @@ async function createUser(username) {
   const dummyEmail = `${username}@sentencecollector.local`;
   const [insertedRecord] = await connection.query('INSERT INTO Users SET ?', { email: dummyEmail, createdAt: new Date(), updatedAt: new Date() });
   return insertedRecord.insertId;
+}
+
+async function processSentences(sentences, localeId) {
+  return Promise.all(sentences.map((sentence) => processSentence(sentence, localeId)));
 }
 
 async function processSentence(sentenceInfo, localeId) {

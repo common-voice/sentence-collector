@@ -1,4 +1,4 @@
-FROM node:12-buster
+FROM node:12-buster-slim
 
 ENV NODE_ENV development
 
@@ -10,4 +10,4 @@ WORKDIR '/app/server'
 
 RUN npm ci
 
-CMD ["node", "migration.js"]
+CMD ["node", "--expose-gc", "migration.js"]
