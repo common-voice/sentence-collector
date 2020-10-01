@@ -8,6 +8,7 @@ import {
   ACTION_GOT_LANGUAGES,
   ACTION_GET_STATS,
   ACTION_GOT_STATS,
+  ACTION_RESET_STATS_STATUS,
 } from '../actions/languages';
 
 export const INITIAL_STATE = {
@@ -30,6 +31,11 @@ export default function(state = INITIAL_STATE, action) {
       return Object.assign({}, state, {
         stats: action.stats,
         lastStatsUpdate: Date.now(),
+        statsUpdating: false,
+      });
+
+    case ACTION_RESET_STATS_STATUS:
+      return Object.assign({}, state, {
         statsUpdating: false,
       });
 

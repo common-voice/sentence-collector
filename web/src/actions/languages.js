@@ -11,9 +11,17 @@ export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
 export const ACTION_GET_STATS = 'ACTION_GET_STATS';
 export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
+export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
-export function getStats(locales = []) {
+const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
+
+export function getStats(locales = [], lastUpdate) {
   return async function(dispatch) {
+    if (Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
+      dispatch(resetStatsStatus());
+      return;
+    }
+
     dispatch(gettingStats());
     const joinedLocales = locales.join(',');
     try {
@@ -21,6 +29,7 @@ export function getStats(locales = []) {
       dispatch(gotStats(stats));
     } catch (error) {
       console.error('Failed to fetch stats', error);
+      dispatch(resetStatsStatus());
     }
   };
 }
@@ -72,6 +81,12 @@ export function gotStats(stats) {
   return {
     type: ACTION_GOT_STATS,
     stats,
+  };
+}
+
+export function resetStatsStatus() {
+  return {
+    type: ACTION_RESET_STATS_STATUS,
   };
 }
 

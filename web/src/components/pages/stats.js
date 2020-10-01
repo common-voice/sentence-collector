@@ -18,7 +18,7 @@ const Stats = (props) => {
   } = props;
 
   useEffect(() => {
-    getStats(languages);
+    getStats(languages, lastStatsUpdate);
   }, []);
 
   return (
@@ -81,7 +81,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getStats: (languages) => dispatch(getStats(languages)),
+    getStats: (languages, lastStatsUpdate) => dispatch(getStats(languages, lastStatsUpdate)),
   };
 }
 
