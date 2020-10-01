@@ -72,17 +72,19 @@ async function getStats(locales) {
 
   const totalStats = {};
   for (const locale of locales) {
-    const validated = await getValidatedSentencesCountForLocale(locale);
-    const rejected = await getRejectedSentencesCountForLocale(locale);
-
     const options = {
       where: {
         localeId: locale,
       },
     };
-    const sentenceTotalCountByLocale = await Sentence.count(options);
+
+    const [validated, rejected, added] = await Promise.all([
+      getValidatedSentencesCountForLocale(locale),
+      getRejectedSentencesCountForLocale(locale),
+      Sentence.count(options),
+    ]);
     totalStats[locale] = {
-      added: sentenceTotalCountByLocale,
+      added,
       validated,
       rejected,
     };
