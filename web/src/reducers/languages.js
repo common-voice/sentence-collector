@@ -6,6 +6,7 @@ import {
   ACTION_REMOVE_LANGUAGE_SUCCESS,
   ACTION_REMOVE_LANGUAGE_FAILURE,
   ACTION_GOT_LANGUAGES,
+  ACTION_GET_STATS,
   ACTION_GOT_STATS,
 } from '../actions/languages';
 
@@ -14,13 +15,22 @@ export const INITIAL_STATE = {
   languages: [],
   allLanguages: [],
   pendingLanguages: false,
+  lastStatsUpdate: null,
+  statsUpdating: false,
 };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
+    case ACTION_GET_STATS:
+      return Object.assign({}, state, {
+        statsUpdating: true,
+      });
+
     case ACTION_GOT_STATS:
       return Object.assign({}, state, {
         stats: action.stats,
+        lastStatsUpdate: Date.now(),
+        statsUpdating: false,
       });
 
     case ACTION_GOT_LANGUAGES:

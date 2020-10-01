@@ -1,5 +1,5 @@
 import { sendRequest } from '../backend';
-import { addLanguageSuccess, getStats } from './languages';
+import { addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
 export const ACTION_LOGOUT = 'LOGOUT';
@@ -23,7 +23,6 @@ export function checkCurrentUser() {
       dispatch(userInfoReceived(userInfo));
       dispatch(addLanguageSuccess(userInfo.languages));
       dispatch(settingsChanged(userInfo.settings));
-      dispatch(getStats(userInfo.languages));
     } catch (error) {
       dispatch(logoutSuccess());
     }

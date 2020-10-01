@@ -9,10 +9,12 @@ export const ACTION_REMOVE_LANGUAGE_SUCCESS = 'REMOVE_LANGUAGE_SUCCESS';
 export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
+export const ACTION_GET_STATS = 'ACTION_GET_STATS';
 export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
 
 export function getStats(locales = []) {
   return async function(dispatch) {
+    dispatch(gettingStats());
     const joinedLocales = locales.join(',');
     try {
       const stats = await sendRequest(`stats?locales=${joinedLocales}`);
@@ -57,6 +59,12 @@ export function removeLanguage(language) {
       dispatch(removeLanguageFailure());
       throw err;
     }
+  };
+}
+
+export function gettingStats() {
+  return {
+    type: ACTION_GET_STATS,
   };
 }
 
