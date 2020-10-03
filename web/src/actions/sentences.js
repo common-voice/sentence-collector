@@ -7,6 +7,8 @@ export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
 export const ACTION_LOAD_REJECTED_SENTENCES = 'LOAD_REJECTED_SENTENCES';
 export const ACTION_GOT_REJECTED_SENTENCES = 'GOT_REJECTED_SENTENCES';
 export const ACTION_REJECTED_SENTENCES_FAILURE = 'REJECTED_SENTENCES_FAILURE';
+export const ACTION_LOAD_SENTENCES = 'LOAD_SENTENCES';
+export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
 
 export function loadRejectedSentences() {
   return async function(dispatch) {
@@ -16,6 +18,18 @@ export function loadRejectedSentences() {
       dispatch(loadRejectedSentencesDone(results));
     } catch (error) {
       dispatch(loadRejectedSentencesFailure(error.message));
+    }
+  };
+}
+
+export function loadSentences(language) {
+  return async function(dispatch) {
+    dispatch(loadSentencesStart());
+    try {
+      const results = await sendRequest(`sentences/review?locale=${language}`);
+      dispatch(loadSentencesDone(results));
+    } catch (error) {
+      console.error(error);
     }
   };
 }
@@ -91,5 +105,18 @@ function loadRejectedSentencesFailure(errorMessage) {
   return {
     type: ACTION_REJECTED_SENTENCES_FAILURE,
     errorMessage,
+  };
+}
+
+function loadSentencesStart() {
+  return {
+    type: ACTION_LOAD_SENTENCES,
+  };
+}
+
+function loadSentencesDone(sentences) {
+  return {
+    type: ACTION_GOT_SENTENCES,
+    sentences,
   };
 }
