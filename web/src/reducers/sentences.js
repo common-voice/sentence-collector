@@ -9,6 +9,7 @@ import {
   ACTION_GOT_SENTENCES,
   ACTION_REVIEWED_SENTENCES,
   ACTION_REVIEW_SENTENCES_FAILURE,
+  ACTION_REVIEW_RESET_MESSAGE,
 } from '../actions/sentences';
 
 export const INITIAL_STATE = {
@@ -87,6 +88,11 @@ export default function(state = INITIAL_STATE, action) {
     case ACTION_REVIEW_SENTENCES_FAILURE:
       return Object.assign({}, state, {
         reviewMessage: action.errorMessage,
+      });
+
+    case ACTION_REVIEW_RESET_MESSAGE:
+      return Object.assign({}, state, {
+        reviewMessage: '',
       });
 
     default:

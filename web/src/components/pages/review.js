@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { loadSentences, reviewSentences } from '../../actions/sentences';
+import { loadSentences, resetReviewMessage, reviewSentences } from '../../actions/sentences';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
 import Modal from '../modal';
@@ -54,6 +54,7 @@ export default function Review({ match, history }) {
 
   useEffect(() => {
     if (language) {
+      dispatch(resetReviewMessage());
       dispatch(loadSentences(language));
     }
   }, [language]);

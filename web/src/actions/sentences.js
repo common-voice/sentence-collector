@@ -11,6 +11,7 @@ export const ACTION_LOAD_SENTENCES = 'LOAD_SENTENCES';
 export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
 export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
 export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
+export const ACTION_REVIEW_RESET_MESSAGE = 'REVIEW_RESET_MESSAGE';
 
 export function loadRejectedSentences() {
   return async function(dispatch) {
@@ -21,6 +22,12 @@ export function loadRejectedSentences() {
     } catch (error) {
       dispatch(loadRejectedSentencesFailure(error.message));
     }
+  };
+}
+
+export function resetReviewMessage() {
+  return async function(dispatch) {
+    dispatch(resetMessage());
   };
 }
 
@@ -145,5 +152,11 @@ function reviewSentencesFailure(errorMessage) {
   return {
     type: ACTION_REVIEW_SENTENCES_FAILURE,
     errorMessage,
+  };
+}
+
+function resetMessage() {
+  return {
+    type: ACTION_REVIEW_RESET_MESSAGE,
   };
 }
