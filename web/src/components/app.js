@@ -1,5 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import {
   Switch,
   Redirect,
@@ -20,50 +23,44 @@ import Review from './pages/review';
 import Stats from './pages/stats';
 import Migrate from './pages/migrate';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+export default function App({ history }) {
+  const {
+    authed,
+  } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
 
-    const {
-      getLanguages,
-      checkCurrentUser,
-    } = props;
+  useEffect(() => {
+    dispatch(checkCurrentUser());
+    dispatch(getLanguages());
+  }, []);
 
-    checkCurrentUser();
-    getLanguages();
-  }
-
-  render() {
-    const { history, authed } = this.props;
-    return (
-      <ConnectedRouter history={history}>
-        <Page>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/how-to" component={HowTo} />
-            <Route exact path="/login-failure" component={LoginFailure} />
-            <Route exact path="/login-success" component={LoginSuccess} />
-            <Route exact path="/logout-success" component={LogoutSuccess} />
-            <PrivateRoute exact authed={authed} path="/profile" component={Profile} />
-            <PrivateRoute exact authed={authed} path="/add" component={Add} />
-            <PrivateRoute exact authed={authed} path="/review" component={Review} />
-            <PrivateRoute authed={authed} path="/review/:language" component={Review} />
-            <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
-            <PrivateRoute authed={authed} path="/stats" component={Stats} />
-            <PrivateRoute authed={authed} path="/migrate" component={Migrate} />
-            <Route render={() => (
-              <Redirect to={{ pathname: "/", }} />
-            )} />
-          </Switch>
-        </Page>
-      </ConnectedRouter>
-    );
-  }
+  return (
+    <ConnectedRouter history={history}>
+      <Page>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/how-to" component={HowTo} />
+          <Route exact path="/login-failure" component={LoginFailure} />
+          <Route exact path="/login-success" component={LoginSuccess} />
+          <Route exact path="/logout-success" component={LogoutSuccess} />
+          <PrivateRoute exact authed={authed} path="/profile" component={Profile} />
+          <PrivateRoute exact authed={authed} path="/add" component={Add} />
+          <PrivateRoute exact authed={authed} path="/review" component={Review} />
+          <PrivateRoute authed={authed} path="/review/:language" component={Review} />
+          <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
+          <PrivateRoute authed={authed} path="/stats" component={Stats} />
+          <PrivateRoute authed={authed} path="/migrate" component={Migrate} />
+          <Route render={() => (
+            <Redirect to={{ pathname: "/", }} />
+          )} />
+        </Switch>
+      </Page>
+    </ConnectedRouter>
+  );
 }
 
 const PrivateRoute = (props) => {
-  const Component = props.component;
-  const authed = props.authed;
+  const { authed, component: Component } = props;
   return <Route
     path={props.path}
     render={props => {
@@ -76,18 +73,3 @@ const PrivateRoute = (props) => {
     }}
   />;
 };
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getLanguages: () => dispatch(getLanguages()),
-    checkCurrentUser: () => dispatch(checkCurrentUser()),
-  };
-}
-
-function mapStateToProps(state) {
-  return {
-    authed: state.login.authed,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);

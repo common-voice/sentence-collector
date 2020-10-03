@@ -1,11 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 
 import ProfileWidget from './profile-widget';
 import logoURL from '../../img/cv-logo-one-color-white.svg';
 
-const Header = (props) => {
+export default function Header() {
+  const { authed, migrationDone } = useSelector((state) => state.login);
+
   return (
     <header>
       <Link to="/" href=""><img src={logoURL} /></Link>
@@ -16,12 +18,12 @@ const Header = (props) => {
         <NavLink to="/review" key="review">Review</NavLink>
         <NavLink to="/rejected" key="rejected">Rejected Sentences</NavLink>
         <NavLink to="/stats" key="stats">Statistics</NavLink>
-        { props.authed ? (
+        { authed ? (
           <NavLink to="/profile" exact key="profile">Profile</NavLink>
         ) : (
           <a href="/sentence-collector/login">Login</a>
         )}
-        { props.authed && !props.migrationDone && (
+        { authed && !migrationDone && (
           <NavLink to="/migrate" exact key="migrate">Migrate Account</NavLink>
         )}
       </nav>
@@ -36,15 +38,4 @@ const Header = (props) => {
       </section>
     </header>
   );
-};
-
-function mapStateToProps(state) {
-  return {
-    // force a re-render of header active links on location change.
-    location: state.router.location,
-    authed: state.login.authed,
-    migrationDone: state.login.migrationDone,
-  };
 }
-
-export default connect(mapStateToProps)(Header);

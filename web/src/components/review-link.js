@@ -1,12 +1,10 @@
 import React from 'react';
 
-const ReviewLink = (props) => {
-  return props.sentences.length > 0 && (
-    <a href="#" onClick={evt => {
+export default function ReviewLink({ sentences, onReview }) {
+  return sentences.length > 0 && (
+    <a href="#" onClick={(evt) => {
       evt.preventDefault();
-      props.onReview && props.onReview();
+      onReview && onReview();
     }}>Review</a>
   );
-};
-
-export default ReviewLink;
+}
