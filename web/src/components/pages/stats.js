@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { getStats } from '../../actions/languages';
 import SentenceCollectorInfo from '../sentence-collector-info';
 import LanguageInfo from '../language-info';
 
-const Stats = (props) => {
+export default function Stats() {
+  const dispatch = useDispatch();
   const {
-    languages,
+    all: languageStats,
+    userUnreviewed,
+  } = useSelector((state) => state.languages.stats);
+  const {
     allLanguages,
-    languageStats,
-    userUnreviewedStats,
-    getStats,
+    languages,
     lastStatsUpdate,
     statsUpdating,
-  } = props;
+  } = useSelector((state) => state.languages);
 
   useEffect(() => {
-    getStats(languages, lastStatsUpdate);
+    dispatch(getStats(languages, lastStatsUpdate));
   }, []);
 
   return (
@@ -34,13 +36,13 @@ const Stats = (props) => {
             languages={languages}
             allLanguages={allLanguages}
             languageStats={languageStats}
-            userUnreviewedStats={userUnreviewedStats}
+            userUnreviewedStats={userUnreviewed}
           />
         </React.Fragment>
       )}
     </div>
   );
-};
+}
 
 const LanguageStats = ({ languages, allLanguages, languageStats, userUnreviewedStats }) => {
   if (!languages || languages.length < 1) {
@@ -67,22 +69,3 @@ const LanguageStats = ({ languages, allLanguages, languageStats, userUnreviewedS
     />
   )).filter(Boolean);
 };
-
-function mapStateToProps(state) {
-  return {
-    languageStats: state.languages.stats && state.languages.stats.all,
-    userUnreviewedStats: state.languages.stats && state.languages.stats.userUnreviewed,
-    allLanguages: state.languages.allLanguages,
-    languages: state.languages.languages,
-    lastStatsUpdate: state.languages.lastStatsUpdate,
-    statsUpdating: state.languages.statsUpdating,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getStats: (languages, lastStatsUpdate) => dispatch(getStats(languages, lastStatsUpdate)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);

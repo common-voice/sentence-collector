@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import {
@@ -7,29 +7,18 @@ import {
   logout,
 } from '../../actions/login';
 
-function LoginSuccessComponent({ afterLogin }) {
-  afterLogin();
+export function LoginSuccess() {
+  const dispatch = useDispatch();
+  dispatch(afterLogin());
 
   return (
     <Redirect to={'/profile'} />
   );
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    afterLogin: () => dispatch(afterLogin()),
-    logout: () => dispatch(logout()),
-  };
-}
-
-export const LoginSuccess = connect(mapStateToProps, mapDispatchToProps)(LoginSuccessComponent);
-
-function LoginFailureComponent({ logout }) {
-  logout();
+export function LoginFailure() {
+  const dispatch = useDispatch();
+  dispatch(logout());
 
   return (
     <section>
@@ -39,14 +28,11 @@ function LoginFailureComponent({ logout }) {
   );
 }
 
-export const LoginFailure = connect(mapStateToProps, mapDispatchToProps)(LoginFailureComponent);
-
-export function LogoutSuccessComponent({ logout }) {
-  logout();
+export function LogoutSuccess() {
+  const dispatch = useDispatch();
+  dispatch(logout());
 
   return (
     <Redirect to={'/'} />
   );
 }
-
-export const LogoutSuccess = connect(mapStateToProps, mapDispatchToProps)(LogoutSuccessComponent);

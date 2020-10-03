@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HowTo = () => {
+export default function HowTo() {
   return (
     <section>
       <h1 id="how-to">How to</h1>
@@ -47,6 +47,4 @@ const HowTo = () => {
       <p>Expert linguists can also help, try to reach out to local linguistic Universities (both teachers and students) and see if they can help to gather a diverse set of sound-diverse sentences in your language.</p>
     </section>
   );
-};
-
-export default HowTo;
+}

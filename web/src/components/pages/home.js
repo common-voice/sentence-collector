@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Home = () => {
+export default function Home() {
   return (
     <div>
       <h1>Welcome to the Common Voice Sentence Collector</h1>
@@ -10,6 +10,4 @@ const Home = () => {
       </p>
     </div>
   );
-};
-
-export default Home;
+}

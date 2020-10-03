@@ -12,7 +12,7 @@ import { migrate } from '../../actions/login';
 
 import '../../../css/migrate.css';
 
-const Migrate = () => {
+export default function Migrate() {
   const {
     migrationError,
     migrating,
@@ -50,6 +50,4 @@ const Migrate = () => {
       { migrationDone && (<Redirect to={'/foo'} />) }
     </form>
   );
-};
-
-export default Migrate;
+}
