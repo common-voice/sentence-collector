@@ -7,6 +7,8 @@ import {
   ACTION_REJECTED_SENTENCES_FAILURE,
   ACTION_LOAD_SENTENCES,
   ACTION_GOT_SENTENCES,
+  ACTION_REVIEWED_SENTENCES,
+  ACTION_REVIEW_SENTENCES_FAILURE,
 } from '../actions/sentences';
 
 export const INITIAL_STATE = {
@@ -17,6 +19,7 @@ export const INITIAL_STATE = {
   rejectedSentencesError: null,
   sentences: [],
   sentencesLoading: false,
+  reviewMessage: null,
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -74,6 +77,16 @@ export default function(state = INITIAL_STATE, action) {
       return Object.assign({}, state, {
         sentencesLoading: false,
         sentences: action.sentences,
+      });
+
+    case ACTION_REVIEWED_SENTENCES:
+      return Object.assign({}, state, {
+        reviewMessage: `${action.votes} sentences reviewed. Thank you!`,
+      });
+
+    case ACTION_REVIEW_SENTENCES_FAILURE:
+      return Object.assign({}, state, {
+        reviewMessage: action.errorMessage,
       });
 
     default:

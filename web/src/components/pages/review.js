@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
-import { loadSentences } from '../../actions/sentences';
+import { loadSentences, reviewSentences } from '../../actions/sentences';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review-form';
-import { sendRequest } from '../../backend';
 import Modal from '../modal';
 
 export const getReviewUrl = (language) => {
@@ -24,7 +23,6 @@ const getLanguageFromMatch = (match) => {
 
 export default function Review({ match, history }) {
   const [language, setLanguage] = useState(getLanguageFromMatch(match));
-  const [message, setMessage] = useState();
   const {
     allLanguages,
     languages,
@@ -32,6 +30,7 @@ export default function Review({ match, history }) {
   const {
     sentencesLoading,
     sentences,
+    reviewMessage,
   } = useSelector((state) => state.sentences);
   const { useSwipeReview } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -65,15 +64,10 @@ export default function Review({ match, history }) {
   };
 
   const onReviewed = async (reviewedState) => {
-    const validated = reviewedState.validated.map((info) => info.id);
-    const invalidated = reviewedState.invalidated.map((info) => info.id);
-
-    const { votes } = await sendRequest('votes', 'PUT', {
-      validated,
-      invalidated,
-    });
-
-    setMessage(`${votes} sentences reviewed. Thank you!`);
+    dispatch(reviewSentences({
+      validated: reviewedState.validated.map((info) => info.id),
+      invalidated: reviewedState.invalidated.map((info) => info.id),
+    }));
     dispatch(loadSentences(language));
   };
 
@@ -115,7 +109,7 @@ export default function Review({ match, history }) {
 
       { language && !sentencesLoading && sentences && sentences.length > 0 && (
         <ReviewForm
-          message={message}
+          message={reviewMessage}
           onReviewed={onReviewed}
           sentences={sentences}
           useSwipeReview={useSwipeReview} />

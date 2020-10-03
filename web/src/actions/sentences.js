@@ -9,6 +9,8 @@ export const ACTION_GOT_REJECTED_SENTENCES = 'GOT_REJECTED_SENTENCES';
 export const ACTION_REJECTED_SENTENCES_FAILURE = 'REJECTED_SENTENCES_FAILURE';
 export const ACTION_LOAD_SENTENCES = 'LOAD_SENTENCES';
 export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
+export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
+export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
 
 export function loadRejectedSentences() {
   return async function(dispatch) {
@@ -69,6 +71,17 @@ export function uploadSentences({ locale, sentences, source }) {
   };
 }
 
+export function reviewSentences(data) {
+  return async function(dispatch) {
+    try {
+      const { votes } = await sendRequest('votes', 'PUT', data);
+      dispatch(reviewSentencesDone(votes));
+    } catch (error) {
+      dispatch(reviewSentencesFailure(error.message));
+    }
+  };
+}
+
 function sendSubmitSentences() {
   return {
     type: ACTION_SUBMIT_SENTENCES_REQUEST,
@@ -118,5 +131,19 @@ function loadSentencesDone(sentences) {
   return {
     type: ACTION_GOT_SENTENCES,
     sentences,
+  };
+}
+
+function reviewSentencesDone(votes) {
+  return {
+    type: ACTION_REVIEWED_SENTENCES,
+    votes,
+  };
+}
+
+function reviewSentencesFailure(errorMessage) {
+  return {
+    type: ACTION_REVIEW_SENTENCES_FAILURE,
+    errorMessage,
   };
 }
