@@ -1,56 +1,47 @@
-import React from 'react';
-import { sendRequest } from '../../backend';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-class Rejected extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      rejectedSentences: {},
-    };
-  }
+import { loadRejectedSentences } from '../../actions/sentences';
 
-  async loadRejected() {
-    const rejectedSentences = await sendRequest(`sentences/rejected`);
-    this.setState({
-      rejectedSentences,
-      loading: false,
-    });
-  }
+export default function Rejected() {
+  const dispatch = useDispatch();
+  const {
+    rejectedSentences = [],
+    rejectedSentencesLoading,
+    rejectedSentencesError,
+  } = useSelector((state) => state.sentences);
 
-  componentDidMount() {
-    this.loadRejected();
-  }
+  useEffect(() => {
+    dispatch(loadRejectedSentences());
+  }, []);
 
-  render() {
-    const { rejectedSentences, loading } = this.state;
+  return (
+    <React.Fragment>
+      <h1>Your rejected sentences</h1>
 
-    return (
-      <React.Fragment>
-        <h1>Your rejected sentences</h1>
+      { rejectedSentencesLoading && (
+        <p>Loading rejected sentences..</p>
+      )}
 
-        { loading && (
-          <p>Loading rejected sentences..</p>
-        )}
+      { rejectedSentencesError && (
+        <p>Error while fetching rejected sentences: {rejectedSentencesError}</p>
+      )}
 
-        { !loading && Object.keys(rejectedSentences).length === 0 && (
-          <p>No rejected sentences found!</p>
-        )}
+      { !rejectedSentencesLoading && !rejectedSentencesError && Object.keys(rejectedSentences).length === 0 && (
+        <p>No rejected sentences found!</p>
+      )}
 
-        { Object.keys(rejectedSentences).map((language) => (
-          <section key={'section-' + language}>
-            <h2 key={language}>{language}</h2>
+      { Object.keys(rejectedSentences).map((language) => (
+        <section key={'section-' + language}>
+          <h2 key={language}>{language}</h2>
 
-            <ul key={'list-' + language} className="no-bullets">
-              { rejectedSentences[language].map((sentence) => (
-                <li key={sentence.id}>{sentence.sentence}</li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </React.Fragment>
-    );
-  }
+          <ul key={'list-' + language} className="no-bullets">
+            { rejectedSentences[language].map((sentence) => (
+              <li key={sentence.id}>{sentence.sentence}</li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </React.Fragment>
+  );
 }
-
-export default Rejected;
