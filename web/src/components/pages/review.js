@@ -64,12 +64,11 @@ export default function Review({ match, history }) {
     history.push(getReviewUrl(language));
   };
 
-  const onReviewed = async (reviewedState) => {
+  const onReviewed = (reviewedState) => {
     dispatch(reviewSentences({
       validated: reviewedState.validated.map((info) => info.id),
       invalidated: reviewedState.invalidated.map((info) => info.id),
-    }));
-    dispatch(loadSentences(language));
+    }, language));
   };
 
   const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang));

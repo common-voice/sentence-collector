@@ -78,11 +78,12 @@ export function uploadSentences({ locale, sentences, source }) {
   };
 }
 
-export function reviewSentences(data) {
+export function reviewSentences(data, language) {
   return async function(dispatch) {
     try {
       const { votes } = await sendRequest('votes', 'PUT', data);
       dispatch(reviewSentencesDone(votes));
+      dispatch(loadSentences(language));
     } catch (error) {
       dispatch(reviewSentencesFailure(error.message));
     }
