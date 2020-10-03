@@ -36,7 +36,7 @@ router.post('/settings', async (req, res) => {
 
   try {
     await users.updateSetting(user && user.email, key, value);
-    res.json();
+    res.json({});
   } catch (error) {
     res.status(500);
     res.json({ message: error.message });
