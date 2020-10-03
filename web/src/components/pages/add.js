@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { uploadSentences } from '../../actions/sentences';
 
@@ -10,15 +10,6 @@ import ReviewForm from '../review-form';
 import '../../../css/add.css';
 
 const SPLIT_ON = '\n';
-const DEFAULT_STATE = {
-  message: '',
-  error: '',
-  submitted: [],
-  unreviewed: [],
-  reviewing: [],
-  validated: [],
-  invalidated: [],
-};
 
 function merge(arr1, arr2) {
   return arr1.reduce((accum, cur) => {
@@ -26,207 +17,145 @@ function merge(arr1, arr2) {
   }, arr2);
 }
 
-class Add extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = DEFAULT_STATE;
+function getLanguageInput() {
+  const input = document.querySelector('#add-form select');
+  return input && input.value;
+}
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onConfirm = this.onConfirm.bind(this);
-    this.onReview = this.onReview.bind(this);
-    this.onReviewed = this.onReviewed.bind(this);
+function getSentencesInput() {
+  const input = document.querySelector('#sentences-input');
+  return input && input.value;
+}
+
+function getSourceInput() {
+  const input = document.querySelector('#source-input');
+  return input && input.value;
+}
+
+function getConfirmInput() {
+  const input = document.querySelector('#agree');
+  return input && input.checked;
+}
+
+function validateForm() {
+  if (!getLanguageInput()) {
+    return 'Please select a language.';
   }
 
-  componentDidMount() {
-    if (this.props.history) {
-      this.historyUnblock = this.props.history.block(() => {
-        if (this.needsConfirmation()) {
-          return "Your sentences have not been added. Are you sure you want to leave?";
-        }
-      });
-    }
+  if (!getSentencesInput()) {
+    return 'Please add sentences.';
   }
 
-  componentWillUnmount() {
-    if (this.props.history) {
-      this.historyUnblock();
-    }
+  if (!getSourceInput()) {
+    return 'Please add a source.';
   }
 
-  resetState() {
-    this.setState(DEFAULT_STATE);
+  if (!getConfirmInput()) {
+    return 'Please confirm that these sentences are public domain.';
   }
 
-  getLanguageInput() {
-    const input = document.querySelector('#add-form select');
-    return input && input.value;
-  }
+  return;
+}
 
-  getSentencesInput() {
-    const input = document.querySelector('#sentences-input');
-    return input && input.value;
-  }
+function parseSentences() {
+  const text = getSentencesInput();
+  const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
+  const dedupedSentences = Array.from(new Set(sentences));
+  return dedupedSentences;
+}
 
-  getSourceInput() {
-    const input = document.querySelector('#source-input');
-    return input && input.value;
-  }
+export default function Add() {
+  const dispatch = useDispatch();
+  const [language, setLanguage] = useState('');
+  const [source, setSource] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState([]);
+  const [unreviewed, setUnreviewed] = useState([]);
+  const [reviewing, setReviewing] = useState([]);
+  const [validated, setValidated] = useState([]);
+  const [invalidated, setInvalidated] = useState([]);
 
-  getConfirmInput() {
-    const input = document.querySelector('#agree');
-    return input && input.checked;
-  }
+  const resetState = () => {
+    setLanguage('');
+    setSource('');
+    setMessage('');
+    setError('');
+    setSubmitted([]);
+    setUnreviewed([]);
+    setReviewing([]);
+    setValidated([]);
+    setInvalidated([]);
+  };
 
-  getReadySentences() {
-    return {
-      unreviewed: this.state.unreviewed,
-      validated: this.state.validated,
-    };
-  }
-
-  validateForm() {
-    let lang = this.getLanguageInput();
-    if (!lang) {
-      this.resetState();
-      this.setState({
-        message: 'Please select a language.',
-      });
-      return false;
-    }
-
-    let rawInput = this.getSentencesInput();
-    if (!rawInput) {
-      this.setState({
-        message: 'Please add sentences.',
-      });
-      return false;
-    }
-
-    let rawSourceInput = this.getSourceInput();
-    if (!rawSourceInput) {
-      this.setState({
-        message: 'Please add a source.',
-      });
-      return false;
-    }
-
-    let confirmInput = this.getConfirmInput();
-    if (!confirmInput) {
-      this.setState({
-        message: 'Please confirm that these sentences are public domain.',
-      });
-      return false;
-    }
-
-    return true;
-  }
-
-  needsConfirmation() {
-    return (this.state.unreviewed.length > 0 ||
-           this.state.validated.length > 0 ||
-           this.state.invalidated.length > 0);
-  }
-
-  parseSentences(text) {
-    const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
-    const dedupedSentences = Array.from(new Set(sentences));
-    return dedupedSentences;
-  }
-
-  onSubmit(evt) {
+  const onSubmit = (evt) => {
     evt.preventDefault();
-    if (!this.validateForm()) {
+    const validationError = validateForm();
+    if (validationError) {
+      setMessage(validationError);
       return false;
     }
 
-    this.resetState();
-    const sentences = this.parseSentences(this.getSentencesInput());
-    this.setState({
-      language: this.getLanguageInput(),
-      source: this.getSourceInput(),
-      submitted: sentences,
-      unreviewed: sentences,
-    });
-  }
+    const sentences = parseSentences();
+    setLanguage(getLanguageInput());
+    setSource(getSourceInput());
+    setSubmitted(sentences);
+    setUnreviewed(sentences);
+  };
 
-  async onConfirm(evt) {
+  const onConfirm = async (evt) => {
+    evt.preventDefault();
+
     try {
-      evt.preventDefault();
-
-      const sentences = this.getReadySentences();
-      const locale = this.state.language;
-      const source = this.state.source;
-      const { errors, duplicates } = await this.props.uploadSentences({
-        locale,
-        sentences,
+      const { errors, duplicates } = await dispatch(uploadSentences({
+        sentences: {
+          unreviewed,
+          validated,
+        },
+        locale: language,
         source,
-      });
+      }));
 
       if (typeof errors === 'undefined') {
         throw new Error('Unexpected response returned from server');
       }
 
-      this.historyUnblock();
-      this.resetState();
-      this.setState({
-        message: `Submitted sentences. ${duplicates} sentences were rejected as duplicates.`,
-        error: errors && errors.length > 0 ? `${errors.length} sentences failed` : '',
-      });
-    } catch (err) {
-      this.resetState();
-      this.setState({
-        message: `Submission Error: ${err.message}`,
-      });
+      resetState();
+      setMessage(`Submitted sentences. ${duplicates} sentences were rejected as duplicates.`);
+      setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
+    } catch (error) {
+      resetState();
+      setMessage(`Submission Error: ${error.message}`);
     }
-  }
-
-  onReview() {
-    this.setState({
-      reviewing: this.state.unreviewed.map((sentence) => ({ sentence })),
-    });
-  }
-
-  onReviewed(reviewedState) {
-    this.setState({
-      reviewing: [],
-      unreviewed: reviewedState.unreviewed.map((info) => info.sentence),
-      validated: merge(this.state.validated, reviewedState.validated.map((info) => info.sentence)),
-      invalidated: merge(this.state.invalidated, reviewedState.invalidated.map((info) => info.sentence)),
-    });
-  }
-
-  render() {
-    if (this.state.reviewing.length > 0) {
-      // The review form allows us to examine, and validate sentences.
-      return <ReviewForm onReviewed={this.onReviewed}
-                         sentences={this.state.reviewing} />;
-    } else if (this.needsConfirmation()) {
-      // The confirm form is a stats page where sentence submission happens.
-      return <ConfirmForm onSubmit={this.onConfirm}
-                          onReview={this.onReview}
-                          submitted={this.state.submitted}
-                          unreviewed={this.state.unreviewed}
-                          validated={this.state.validated}
-                          invalidated={this.state.invalidated} />;
-    } else {
-      // The plain submission form allows copy & pasting
-      return <SubmitForm onSubmit={this.onSubmit}
-                         message={this.state.message}
-                         error={this.state.error} />;
-    }
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    languages: state.languages.languages,
   };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    uploadSentences: (sentencePackage) => dispatch(uploadSentences(sentencePackage)),
+  const onReview = () => {
+    setReviewing(unreviewed.map((sentence) => ({ sentence })));
   };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Add);
+  const onReviewed = (reviewedState) => {
+    setReviewing([]);
+    setUnreviewed(reviewedState.unreviewed.map((info) => info.sentence));
+    setValidated(merge(validated, reviewedState.validated.map((info) => info.sentence)));
+    setInvalidated(merge(invalidated, reviewedState.invalidated.map((info) => info.sentence)));
+  };
+
+  if (reviewing.length > 0) {
+    // The review form allows us to examine, and validate sentences.
+    return <ReviewForm onReviewed={onReviewed}
+                       sentences={reviewing} />;
+  } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
+    // The confirm form is a stats page where sentence submission happens.
+    return <ConfirmForm onSubmit={onConfirm}
+                        onReview={onReview}
+                        submitted={submitted}
+                        unreviewed={unreviewed}
+                        validated={validated}
+                        invalidated={invalidated} />;
+  } else {
+    // The plain submission form allows copy & pasting
+    return <SubmitForm onSubmit={onSubmit}
+                       message={message}
+                       error={error} />;
+  }
+}
