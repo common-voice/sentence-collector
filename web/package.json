@@ -10,7 +10,7 @@
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
     "lint": "eslint src",
-    "test": "npm run lint && jest --passWithNoTests"
+    "test": "npm run lint && jest"
   },
   "dependencies": {
     "connected-react-router": "^6.8.0",
@@ -56,8 +56,27 @@
     "webpack-dev-server": "^3.11.0"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/dist/**",
+      "!**/node_modules/**",
+      "!**/tests/**",
+      "!**/src/components/swipecard/**",
+      "!webpack.config.js"
+    ],
+    "coverageReporters": ["lcov", "text-summary"],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
     "setupFiles": [
-      "<rootDir>/src/tests/testSetup.js"
+      "<rootDir>/tests/test-setup.js"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

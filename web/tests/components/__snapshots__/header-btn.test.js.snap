@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header button should be rendered correctly when closed 1`] = `
+<HeaderBtn
+  handleClick={[MockFunction]}
+  isOpen={false}
+>
+  <button
+    className="header-btn header-btn-closed"
+    onClick={[Function]}
+  >
+    <div
+      className="header-btn-arrow header-btn-arrow-right"
+    />
+  </button>
+</HeaderBtn>
+`;
+
+exports[`Header button should be rendered correctly when open 1`] = `
+<HeaderBtn
+  handleClick={[MockFunction]}
+  isOpen={true}
+>
+  <button
+    className="header-btn header-btn-open"
+    onClick={[Function]}
+  >
+    <div
+      className="header-btn-arrow"
+    />
+  </button>
+</HeaderBtn>
+`;
