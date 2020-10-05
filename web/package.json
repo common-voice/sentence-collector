@@ -75,6 +75,10 @@
         "statements": 0
       }
     },
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "\\.svg$": "<rootDir>/tests/file-transformer.js"
+    },
     "setupFiles": [
       "<rootDir>/tests/test-setup.js"
     ],
