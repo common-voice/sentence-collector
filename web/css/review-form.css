@@ -25,7 +25,6 @@
 
 .sentence-box,
 .card-sentence-box {
-  --sentence-box-height: 6rem;
   --sentence-box-font-size: var(--base-font-size);
   height: var(--sentence-box-height);
   border: 1px solid var(--grey-color);
@@ -38,8 +37,17 @@
   font-size: var(--sentence-box-font-size)
 }
 
-.sentence-box small {
-  color:var(--dark-grey-color);
+.sentence-box {
+  --sentence-box-height: 6rem;
+}
+
+.sentence-box small,
+.card-sentence-box small {
+  color: var(--dark-grey-color);
+}
+
+.card-sentence-box {
+  border: none;
 }
 
 .validator li {
@@ -130,7 +138,7 @@
 .master-root {
   margin: 20px auto;
   position: relative;
-  height: calc(6rem + 2em);
+  height: calc(var(--sentence-box-height) + 2em);
   width: calc(250px + 2em);
   overflow: hidden;
   border: 1px solid #e5e5e5;
@@ -140,7 +148,7 @@
   background-size: cover;
   position: absolute;
   background: #F8F3F3;
-  height: 6rem;
+  height: var(--sentence-box-height);
   width: 250px;
   transition: box-shadow .3s;
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
@@ -155,8 +163,4 @@
 
 .inactive {
   box-shadow: none;
-}
-
-.card-sentence-box {
-  border: none;
 }

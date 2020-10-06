@@ -14,6 +14,7 @@
   --review-unselected-color: #ffffff;
   --base-font-size: 19px;
   --button-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --sentence-box-height: 8rem;
 }
 
 html {

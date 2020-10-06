@@ -130,7 +130,8 @@ export default class ReviewForm extends React.Component {
                 onSwipeRight={() => this.reviewSentence(offset + i, true)}
               >
                 <div className="card-sentence-box">
-                  {sentence.sentence || sentence}
+                  <p>{ sentence.sentence || sentence }</p>
+                  <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
                 </div>
               </Card>
             ))}
