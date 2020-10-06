@@ -149,7 +149,8 @@ export default class ReviewForm extends React.Component {
         { curSentences.map((sentence, i) => (
           <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
             <div className="sentence-box">
-              { sentence.sentence || sentence }
+              <p>{ sentence.sentence || sentence }</p>
+              <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
             </div>
             <div className="button-group">
               <button type="button"

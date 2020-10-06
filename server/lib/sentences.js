@@ -240,6 +240,7 @@ function getReviewQuery({ locale, userId }) {
     SELECT
       Sentences.id,
       Sentences.sentence,
+      Sentences.source,
       Sentences.localeId,
       SUM(Votes.approval) as number_of_approving_votes,
       COUNT(Votes.approval) as number_of_votes

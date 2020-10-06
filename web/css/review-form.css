@@ -12,7 +12,7 @@
    .validator .button-group button {
     --button-padding: 1.75rem;
   }
- }
+}
 
 .validator {
   --validator-height: 6.6rem;
@@ -23,7 +23,8 @@
   padding: 0;
 }
 
-.sentence-box, .card-sentence-box {
+.sentence-box,
+.card-sentence-box {
   --sentence-box-height: 6rem;
   --sentence-box-font-size: var(--base-font-size);
   height: var(--sentence-box-height);
@@ -33,7 +34,12 @@
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
   font-size: var(--sentence-box-font-size)
+}
+
+.sentence-box small {
+  color:var(--dark-grey-color);
 }
 
 .validator li {
