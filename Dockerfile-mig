@@ -1,0 +1,13 @@
+FROM node:12-buster-slim
+
+ENV NODE_ENV development
+
+RUN mkdir -p /app
+COPY data /app/data
+COPY server /app/server
+
+WORKDIR '/app/server'
+
+RUN npm ci
+
+CMD ["node", "--expose-gc", "migration.js"]

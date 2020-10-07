@@ -81,4 +81,25 @@ router.delete('/languages/:language', async (req, res) => {
   }
 });
 
+router.post('/migrate', async (req, res) => {
+  const {
+    user = {},
+    body: {
+      username,
+      password,
+    },
+  } = req;
+
+  debug('MIGRATING_USER', user.email, username);
+
+  try {
+    await users.migrate(user.email, username, password);
+    res.json({});
+  } catch (error) {
+    debug('MIGRATION_ERROR', error.message);
+    res.status(500);
+    res.json({ message: error.message });
+  }
+});
+
 module.exports = router;

@@ -20,3 +20,9 @@ test('should render logged in state sidebar', () => {
   let component = shallow(<Header />);
   expect(component).toMatchSnapshot();
 });
+
+test('should render logged in state sidebar - migrated', () => {
+  redux.useSelector.mockImplementation(() => ({ authed: true, migrationDone: true }));
+  let component = shallow(<Header />);
+  expect(component).toMatchSnapshot();
+});

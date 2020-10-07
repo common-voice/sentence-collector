@@ -6,6 +6,9 @@ export const ACTION_LOGOUT = 'LOGOUT';
 export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 export const ACTION_USER_INFO_RECEIVED = 'USER_INFO_RECEIVED';
+export const ACTION_USER_MIGRATION_START = 'USER_MIGRATION_START';
+export const ACTION_USER_MIGRATION_SUCCESS = 'USER_MIGRATION_SUCCESS';
+export const ACTION_USER_MIGRATION_FAILURE = 'USER_MIGRATION_FAILURE';
 
 export function afterLogin() {
   return async function(dispatch) {
@@ -22,6 +25,19 @@ export function checkCurrentUser() {
       dispatch(settingsChanged(userInfo.settings));
     } catch (error) {
       dispatch(logoutSuccess());
+    }
+  };
+}
+
+export function migrate(credentials) {
+  return async function(dispatch) {
+    try {
+      dispatch(migrationStart());
+      await sendRequest('users/migrate', 'POST', credentials);
+      dispatch(migrationSuccess());
+      dispatch(checkCurrentUser());
+    } catch (error) {
+      dispatch(migrationFailure());
     }
   };
 }
@@ -48,5 +64,25 @@ export function userInfoReceived(userInfo) {
   return {
     type: ACTION_USER_INFO_RECEIVED,
     username: userInfo.email,
+  };
+}
+
+export function migrationStart(credentials) {
+  return {
+    type: ACTION_USER_MIGRATION_START,
+    credentials,
+  };
+}
+
+export function migrationSuccess() {
+  return {
+    type: ACTION_USER_MIGRATION_SUCCESS,
+  };
+}
+
+export function migrationFailure() {
+  return {
+    type: ACTION_USER_MIGRATION_FAILURE,
+    errorMessage: 'Migration failed. Make sure you entered the correct credentials and try again.',
   };
 }

@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sentence-collector-migration
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: sentence-collector-migration
+        image: michaelkohler/sentence-collector-mig:1.0.19
+        env:
+          - name: BACKUP_PATH
+            value: "/app/data/"
+          - name: CONNECTIONS
+            value: "50"
+          - name: HOSTNAME
+            valueFrom:
+              secretKeyRef:
+                name: sentencecollector-migration
+                key: hostname
+          - name: USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: sentencecollector-migration
+                key: username
+          - name: PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sentencecollector-migration
+                key: password
+          - name: DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: sentencecollector-migration
+                key: database
+

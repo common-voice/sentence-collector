@@ -1,7 +1,14 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:users');
-const { User } = require('./models');
+const axios = require('axios');
+const { User, Sentence, Vote } = require('./models');
+
+const {
+  KINTO_URL,
+} = process.env;
+
+const USER_BASE_URL = `${KINTO_URL}/v1/buckets/App/collections/User/records`;
 
 module.exports = {
   get,
@@ -9,6 +16,7 @@ module.exports = {
   updateSetting,
   addLanguage,
   removeLanguage,
+  migrate,
 };
 
 async function get(email) {
@@ -100,4 +108,59 @@ async function removeLanguage(email, language) {
   });
 
   return newLanguages;
+}
+
+async function migrate(email, username, password) {
+  const dummyUser = `${username}@sentencecollector.local`;
+
+  if (!KINTO_URL) {
+    throw new Error('NO_KINTO_URL_SET');
+  }
+
+  const { data: responseContent } = await axios.get(`${USER_BASE_URL}/${username}`, {
+    auth: {
+      username,
+      password,
+    },
+  });
+
+  const {
+    useSwipeReview = false,
+    languages = [],
+  } = responseContent.data;
+
+  debug('UPDATE_WITH_LANGUAGES_SETTINGS');
+  await User.update({
+    languages: languages.join(','),
+    useSwipeReview,
+  }, {
+    where: {
+      email,
+    },
+  });
+
+  debug('UPDATE_SENTENCES');
+  await Sentence.update({
+    userId: email,
+  }, {
+    where: {
+      userId: dummyUser,
+    },
+  });
+
+  debug('UPDATE_VOTES');
+  await Vote.update({
+    userId: email,
+  }, {
+    where: {
+      userId: dummyUser,
+    },
+  });
+
+  debug('DELETE_DUMMY_USER');
+  await User.destroy({
+    where: {
+      email: dummyUser,
+    },
+  });
 }
