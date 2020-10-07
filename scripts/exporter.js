@@ -9,7 +9,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 const cleanup = require('../server/lib/cleanup');
 
-const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/voice-web/main/locales/all.json';
+const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
 // Mapping from PONTOON locale -> SC locale code

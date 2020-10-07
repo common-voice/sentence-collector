@@ -69,10 +69,10 @@ docker build -t michaelkohler/sentence-collector:2.0.10 .
 
 ## Exporting to the official repository
 
-This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/voice-web/master/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
+This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
 
-1. Make sure you have forked voice-web repo in your user.
-2. Clone voice-web locally and link your remote fork for exports
+1. Make sure you have forked the common-voice repo to your user.
+2. Clone common-voice locally and link your remote fork for exports
 
 ```
 git clone https://github.com/mozilla/common-voice.git
@@ -94,7 +94,7 @@ git branch -D sentence-collector-export
 git checkout -b sentence-collector-export
 cd ..
 ## Creating the export
-API_BASE_URL=https://commonvoice.mozilla.org node scripts/exporter.js
+env API_BASE_URL=https://commonvoice.mozilla.org/sentence-collector/ COMMON_VOICE_PATH=common-voice node scripts/exporter.js
 ## Committing the export to our fork
 cd common-voice
 git add .

@@ -1,5 +1,6 @@
 node_modules
 voice-web
+common-voice
 dist
 .cache
 .env
