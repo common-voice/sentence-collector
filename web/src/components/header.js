@@ -6,7 +6,7 @@ import ProfileWidget from './profile-widget';
 import logoURL from '../../img/cv-logo-one-color-white.svg';
 
 export default function Header() {
-  const { authed, migrationDone } = useSelector((state) => state.login);
+  const { authed } = useSelector((state) => state.login);
 
   return (
     <header>
@@ -22,9 +22,6 @@ export default function Header() {
           <NavLink to="/profile" exact key="profile">Profile</NavLink>
         ) : (
           <a href="/sentence-collector/login">Login</a>
-        )}
-        { authed && !migrationDone && (
-          <NavLink to="/migrate" exact key="migrate">Migrate Account</NavLink>
         )}
       </nav>
       <ProfileWidget />

@@ -21,7 +21,6 @@ import Rejected from './pages/rejected';
 import Add from './pages/add';
 import Review from './pages/review';
 import Stats from './pages/stats';
-import Migrate from './pages/migrate';
 
 export default function App({ history }) {
   const {
@@ -49,7 +48,6 @@ export default function App({ history }) {
           <PrivateRoute authed={authed} path="/review/:language" component={Review} />
           <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
           <PrivateRoute authed={authed} path="/stats" component={Stats} />
-          <PrivateRoute authed={authed} path="/migrate" component={Migrate} />
           <Route render={() => (
             <Redirect to={{ pathname: "/", }} />
           )} />
