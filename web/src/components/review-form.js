@@ -122,7 +122,7 @@ export default class ReviewForm extends React.Component {
               this.setPage(this.state.page + 1);
               this.cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
             }
-          }} className="master-root" ref={this.cardsRef}>
+          }} className="main-root" ref={this.cardsRef}>
             {curSentences.map((sentence, i) => (
               <Card
                 key={offset + i}
