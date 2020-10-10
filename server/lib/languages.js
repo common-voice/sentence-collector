@@ -42,6 +42,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Kaqchikel',
   },
   {
+    id: 'ckb',
+    name: 'Kurdish',
+    nativeName: 'Kurdî',
+  },
+  {
     id: 'cnh',
     name: 'Hakha Chin',
     nativeName: 'Lai',
@@ -169,6 +174,7 @@ const ADDITIONAL_LANGUAGES = [
 ];
 
 const LANGUAGES_TO_REMOVE = [
+  'ku',
   'zh',
   'nn' // coverted by nn-NO
 ];
@@ -194,7 +200,7 @@ function getAllLanguages() {
 
 function removeLanguages(languages) {
   return languages.filter((language) => {
-    return !LANGUAGES_TO_REMOVE.includes(language.id);
+    return !LANGUAGES_TO_REMOVE.includes(language.code); // this will clash with the other PR, to be rebased..
   });
 }
 

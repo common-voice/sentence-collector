@@ -17,7 +17,6 @@ const LANGUAGE_MAPPING = {
   'ne-NP': 'ne',
   'sv-SE': 'sv',
   'pa-IN': 'pa',
-  'ckb': 'ku',
 };
 
 const {
