@@ -24,6 +24,7 @@ module.exports = {
 async function getSentencesForLocale(localeId, sentenceFilter) {
   debug('GETTING_SENTENCES_FOR_LOCALE', localeId);
   const options = {
+    attributes: { exclude: ['userId'] },
     order: [['createdAt', 'DESC']],
     where: {
       localeId,
