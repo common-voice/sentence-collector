@@ -34,6 +34,7 @@
   },
   "release": {
     "ci": false,
+    "branches": ["main"],
     "repositoryUrl": "git@github.com:Common-Voice/sentence-collector.git",
     "plugins": [
       "@semantic-release/commit-analyzer",
