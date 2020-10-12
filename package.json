@@ -2,6 +2,7 @@
   "name": "sentence-collector",
   "version": "2.0.17",
   "description": "A web console for collecting and validating sentences",
+  "repository": "github:Common-Voice/sentence-collector",
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
