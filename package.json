@@ -48,7 +48,8 @@
         "@semantic-release/git",
         {
           "assets": [
-            "package.json"
+            "package.json",
+            "package-lock.json"
           ]
         }
       ],
