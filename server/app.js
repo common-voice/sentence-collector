@@ -46,6 +46,7 @@ const sessionOptions = {
     maxAge,
     secure: NODE_ENV === 'production',
   },
+  name: 'sc.connect.sid',
   secret: SESSION_SECRET,
   proxy: true,
   resave: false,
