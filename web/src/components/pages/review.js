@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { loadSentences, resetReviewMessage, reviewSentences } from '../../actions/sentences';
 import LanguageSelector from '../language-selector';
@@ -35,11 +35,9 @@ export default function Review({ match, history }) {
   const { useSwipeReview } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
-  // If user only has one language possible, redirect to it.
+  // If user only has one language possible, use it.
   if (languages.length === 1 && languages[0] !== language) {
-    return (
-      <Redirect to={getReviewUrl(languages[0])} />
-    );
+    setLanguage(languages[0]);
   }
 
   // If user hasn't added any languages, ask them to do so.
