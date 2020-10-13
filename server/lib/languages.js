@@ -42,6 +42,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Kaqchikel',
   },
   {
+    id: 'ckb',
+    name: 'Kurdish',
+    nativeName: 'Kurdî',
+  },
+  {
     id: 'cnh',
     name: 'Hakha Chin',
     nativeName: 'Lai',
@@ -174,6 +179,7 @@ const ADDITIONAL_LANGUAGES = [
 ];
 
 const LANGUAGES_TO_REMOVE = [
+  'ku',
   'zh',
   'nn', // coverted by nn-NO
   'ks', // re-added above as native name is wrong
