@@ -69,7 +69,7 @@ export default function Profile() {
       { error && ( <p style={ { color: 'red' } }>{error}</p> ) }
 
       { !migrationDone && (<Notice text={(
-        <span>Migrate your stats and profile settings to your new account now. To do so, use our <Link to="/migrate" href="">migration form</Link>.</span>
+        <span>Migrate your stats and profile settings to your new account now. To do so, use our <Link to="/migrate" href="">migration form</Link>. We will remove that form on November 7th.</span>
       )} level="warning"></Notice>) }
 
       <section>
