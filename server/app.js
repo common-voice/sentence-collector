@@ -32,6 +32,8 @@ const {
 const FRONTEND_BASE_PATH = NODE_ENV === 'production' ? '/sentence-collector' : '';
 const MOUNT_PATH = NODE_ENV === 'production' ? '' : '/sentence-collector';
 
+const COOKIE_NAME = 'sc.connect.sid';
+
 const SequelizeStore = connectSessionSequelize(session.Store);
 const app = express();
 const maxAge = 30 * 24 * 60 * 60 * 1000;
@@ -46,7 +48,7 @@ const sessionOptions = {
     maxAge,
     secure: NODE_ENV === 'production',
   },
-  name: 'sc.connect.sid',
+  name: COOKIE_NAME,
   secret: SESSION_SECRET,
   proxy: true,
   resave: false,
@@ -130,7 +132,7 @@ app.use(`${MOUNT_PATH}/login`, (req, res) => {
 });
 
 app.use(`${MOUNT_PATH}/logout`, (req, res) => {
-  res.clearCookie('connect.sid');
+  res.clearCookie(COOKIE_NAME);
   res.redirect(`${FRONTEND_BASE_PATH}/#/logout-success`);
 });
 
