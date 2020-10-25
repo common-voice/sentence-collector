@@ -1,6 +1,6 @@
 {
   "name": "sentence-collector",
-  "version": "2.0.21",
+  "version": "2.0.22",
   "description": "A web console for collecting and validating sentences",
   "repository": {
     "type": "git",
