@@ -32,6 +32,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'asturianu',
   },
   {
+    id: 'bas',
+    name: 'Basaa',
+    nativeName: 'Ɓàsàa',
+  },
+  {
     id: 'bxr',
     name: 'Russia Buriat',
     nativeName: 'буряад хэлэн',
