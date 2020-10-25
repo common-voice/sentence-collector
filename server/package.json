@@ -32,7 +32,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "ava": "^3.10.1",
+    "ava": "^3.13.0",
     "babel-eslint": "^10.1.0",
     "btoa": "^1.2.1",
     "eslint": "^7.4.0",
