@@ -14,7 +14,7 @@ jobs:
       - name: Checkout CV
         run: cd cv && git checkout ${{secrets.COMMON_VOICE_BRANCH}}
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.2
         with:
           node-version: 14
       - name: Install CV dependencies (npm is good enough)
