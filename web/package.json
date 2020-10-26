@@ -16,7 +16,7 @@
     "connected-react-router": "^6.8.0",
     "hammerjs": "^2.0.8",
     "iso-639-1": "^2.1.3",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
