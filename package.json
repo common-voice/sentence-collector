@@ -24,7 +24,7 @@
     "@semantic-release/npm": "^7.0.6",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "husky": "^4.3.0",
-    "semantic-release": "^17.2.1"
+    "semantic-release": "^17.2.2"
   },
   "husky": {
     "hooks": {
