@@ -8,7 +8,7 @@ jobs:
   export:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.3
+      - uses: actions/checkout@v2.3.4
       - name: Clone CV
         run: git clone --depth 1 https://${{secrets.GH_USERNAME}}:${{secrets.GH_KEY}}@github.com/${{secrets.COMMON_VOICE_ORG}}/${{secrets.COMMON_VOICE_REPO}} cv
       - name: Checkout CV
