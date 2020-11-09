@@ -68,8 +68,3 @@ spec:
                 secretKeyRef:
                   name: sentencecollector
                   key: sessionsecret
-            - name: KINTO_URL
-              valueFrom:
-                secretKeyRef:
-                  name: sentencecollector
-                  key: kintourl

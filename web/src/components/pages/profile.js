@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { addLanguage, removeLanguage } from '../../actions/languages';
 import { setSetting } from '../../actions/settings';
 import LanguageSelector from '../language-selector';
-import Notice from '../notice';
 
 import '../../../css/profile.css';
 
 export default function Profile() {
   const dispatch = useDispatch();
-  const { username, migrationDone } = useSelector((state) => state.login);
+  const { username } = useSelector((state) => state.login);
   const {
     stats: { user: languageStats = {} },
     allLanguages,
@@ -67,10 +65,6 @@ export default function Profile() {
 
       { message && ( <p>{message}</p> ) }
       { error && ( <p style={ { color: 'red' } }>{error}</p> ) }
-
-      { !migrationDone && (<Notice text={(
-        <span>Migrate your stats and profile settings to your new account now. To do so, use our <Link to="/migrate" href="">migration form</Link>. We will remove that form on November 7th.</span>
-      )} level="warning"></Notice>) }
 
       <section>
         <p>Your languages:</p>

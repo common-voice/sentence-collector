@@ -9,7 +9,6 @@ test.beforeEach((t) => {
   t.context.sandbox.stub(users, 'updateSetting').resolves();
   t.context.sandbox.stub(users, 'addLanguage').resolves(['en']);
   t.context.sandbox.stub(users, 'removeLanguage').resolves(['en']);
-  t.context.sandbox.stub(users, 'migrate').resolves();
 });
 
 test.afterEach.always((t) => {
@@ -82,28 +81,6 @@ test.serial('removeLanguage: should pass error', async (t) => {
 
   const response = await request(app)
     .delete('/sentence-collector/users/languages/en');
-
-  t.is(response.status, 500);
-  t.deepEqual(response.body, {
-    message: 'nope',
-  });
-});
-
-test.serial('migrate: should migrate', async (t) => {
-  const response = await request(app)
-    .post('/sentence-collector/users/migrate')
-    .send({ username: 'foo', password: 'bar' });
-
-  t.is(response.status, 200);
-  t.true(users.migrate.calledWith(undefined, 'foo', 'bar'));
-});
-
-test.serial('migrate: should pass error', async (t) => {
-  users.migrate.rejects(new Error('nope'));
-
-  const response = await request(app)
-    .post('/sentence-collector/users/migrate')
-    .send({ username: 'foo', password: 'bar' });
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
