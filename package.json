@@ -1,7 +1,11 @@
 {
   "name": "sentence-collector",
-  "version": "2.0.17",
+  "version": "2.0.22",
   "description": "A web console for collecting and validating sentences",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Common-Voice/sentence-collector.git"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=12.0.0"
@@ -12,15 +16,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.0.7",
-    "@semantic-release/npm": "^7.0.5",
+    "@semantic-release/github": "^7.1.1",
+    "@semantic-release/npm": "^7.0.6",
     "@semantic-release/release-notes-generator": "^9.0.1",
-    "gh-pages": "^3.1.0",
-    "husky": "^4.2.5"
+    "husky": "^4.3.0",
+    "semantic-release": "^17.2.2"
   },
   "husky": {
     "hooks": {
@@ -30,10 +34,27 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
-    ]
+    ],
+    "rules": {
+      "body-max-line-length": [
+        0,
+        "always"
+      ],
+      "footer-max-line-length": [
+        0,
+        "always"
+      ],
+      "footer-leading-blank": [
+        0,
+        "always"
+      ]
+    }
   },
   "release": {
     "ci": false,
+    "branches": [
+      "main"
+    ],
     "repositoryUrl": "git@github.com:Common-Voice/sentence-collector.git",
     "plugins": [
       "@semantic-release/commit-analyzer",
@@ -48,7 +69,8 @@
         "@semantic-release/git",
         {
           "assets": [
-            "package.json"
+            "package.json",
+            "package-lock.json"
           ]
         }
       ],

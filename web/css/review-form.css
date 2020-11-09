@@ -135,7 +135,7 @@
   box-shadow: none;
 }
 
-.master-root {
+.main-root {
   margin: 20px auto;
   position: relative;
   height: calc(var(--sentence-box-height) + 2em);

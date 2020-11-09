@@ -32,6 +32,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'asturianu',
   },
   {
+    id: 'bas',
+    name: 'Basaa',
+    nativeName: 'Ɓàsàa',
+  },
+  {
     id: 'bxr',
     name: 'Russia Buriat',
     nativeName: 'буряад хэлэн',
@@ -40,6 +45,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'cak',
     name: 'Kaqchikel',
     nativeName: 'Kaqchikel',
+  },
+  {
+    id: 'ckb',
+    name: 'Kurdish',
+    nativeName: 'Kurdî',
   },
   {
     id: 'cnh',
@@ -85,6 +95,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'kpv',
     name: 'Komi-Zyrian',
     nativeName: 'Коми кыв',
+  },
+  {
+    id: 'ks',
+    name: 'Kashmiri',
+    nativeName: 'كٲشُر',
   },
   {
     id: 'mdf',
@@ -169,8 +184,10 @@ const ADDITIONAL_LANGUAGES = [
 ];
 
 const LANGUAGES_TO_REMOVE = [
+  'ku',
   'zh',
-  'nn' // coverted by nn-NO
+  'nn', // coverted by nn-NO
+  'ks', // re-added above as native name is wrong
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
@@ -193,9 +210,7 @@ function getAllLanguages() {
 }
 
 function removeLanguages(languages) {
-  return languages.filter((language) => {
-    return !LANGUAGES_TO_REMOVE.includes(language.id);
-  });
+  return languages.filter((language) => !LANGUAGES_TO_REMOVE.includes(language.code));
 }
 
 function addAdditionalLanguages(languages) {
