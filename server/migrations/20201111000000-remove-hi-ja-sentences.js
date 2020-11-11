@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 module.exports = {
   up: (queryInterface) => {
-    return  queryInterface.serialize.query(`
+    return  queryInterface.sequelize.query(`
       DELETE FROM Sentences
         WHERE (localeId="hi" AND source="https://tatoeba.org/eng")
 	  OR (localeId="ja" AND (
