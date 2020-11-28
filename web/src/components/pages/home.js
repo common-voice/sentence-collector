@@ -7,6 +7,8 @@ export default function Home() {
       <p>
         This is a website where we collect and review sentences
         for <a href="https://commonvoice.mozilla.org/">Common Voice</a>.
+        Check the Common Voice <a href="https://common-voice.github.io/community-playbook/">
+        Playbook</a> to find out more about the Common Voice project.
       </p>
     </div>
   );
