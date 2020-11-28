@@ -88,8 +88,8 @@ const ADDITIONAL_LANGUAGES = [
   },
   {
     id: 'kmr',
-    name: 'Kurmanji Kurdish',
-    nativeName: 'Kurmancî',
+    name: 'Northern Kurdish',
+    nativeName: 'Kurdî (Kurmancî)',
   },
   {
     id: 'kpv',
