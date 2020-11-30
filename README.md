@@ -69,6 +69,10 @@ docker build -t michaelkohler/sentence-collector:2.0.10 .
 
 ## Exporting to the official repository
 
+You don't need to manually export the sentences from the Sentence Collector to the Common Voice repository. This is done automatically once a week: https://github.com/common-voice/sentence-collector/actions?query=workflow%3Aexport
+
+However, if you have a need to do it, use the following procedure:
+
 This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
 
 1. Make sure you have forked the common-voice repo to your user.
