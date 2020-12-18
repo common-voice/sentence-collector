@@ -34,7 +34,7 @@ const ADDITIONAL_LANGUAGES = [
   {
     id: 'bas',
     name: 'Basaa',
-    nativeName: 'Ɓàsàa',
+    nativeName: 'Ɓàsàa',
   },
   {
     id: 'bxr',
