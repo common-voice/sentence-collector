@@ -181,6 +181,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Chinese - Hong Kong',
     nativeName: '中文 (香港)',
   },
+  {
+    id: 'yue',
+    name: 'Cantonese',
+    nativeName: '粵語',
+  },
 ];
 
 const LANGUAGES_TO_REMOVE = [
