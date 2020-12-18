@@ -34,7 +34,7 @@ const ADDITIONAL_LANGUAGES = [
   {
     id: 'bas',
     name: 'Basaa',
-    nativeName: 'Ɓàsàa',
+    nativeName: 'Ɓàsàa',
   },
   {
     id: 'bxr',
@@ -180,6 +180,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'zh-HK',
     name: 'Chinese - Hong Kong',
     nativeName: '中文 (香港)',
+  },
+  {
+    id: 'yue',
+    name: 'Cantonese',
+    nativeName: '粵語',
   },
 ];
 
