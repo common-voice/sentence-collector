@@ -137,7 +137,6 @@ function PersonalLanguageInfo(props) {
         </button>
         <ul>
           <li>{(languageStats[language.id] || {}).added || 0} added by you</li>
-          <li>of which {(languageStats[language.id] || {}).validated || 0} got validated</li>
         </ul>
       </li>
     ))}

@@ -3,7 +3,7 @@
 const debug = require('debug')('sentencecollector:sentences');
 const { QueryTypes } = require('sequelize');
 const { v4: uuidv4 } = require('uuid');
-const { sequelize, Sentence, Vote } = require('./models');
+const { sequelize, Sentence } = require('./models');
 const { FALLBACK_LOCALE } = require('./languages');
 const { validateSentences } = require('./validation');
 const votes = require('./votes');
@@ -155,16 +155,9 @@ function calculateStats(stats, sentenceInfo) {
   const localeId = sentenceInfo.localeId;
   stats[localeId] = stats[localeId] || {
     added: 0,
-    validated: 0,
   };
 
   stats[localeId].added++;
-
-  const approvals = sentenceInfo.Vote.filter((vote) => vote.approval);
-  const approved = approvals.length >= 2;
-  if (approved) {
-    stats[localeId].validated++;
-  }
 
   return stats;
 }
@@ -177,12 +170,6 @@ async function getUserAddedSentencesPerLocale(userId) {
     where: {
       userId,
     },
-    include: [{
-      model: Vote,
-      as: 'Vote',
-      attributes: ['approval'],
-      required: false,
-    }],
   };
   const sentences = await Sentence.findAll(options);
   const sentencesStats = sentences.reduce(calculateStats, {});
