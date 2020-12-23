@@ -52,6 +52,16 @@ test.serial('getApprovedSentencesForLocale: should get approved sentences for lo
   t.true(sequelize.query.calledOnce);
 });
 
+test.serial('getUndecidedSentencesForLocale: should get undecided sentences for locale', async (t) => {
+  await sentences.getUndecidedSentencesForLocale(localeId);
+  t.true(sequelize.query.calledOnce);
+});
+
+test.serial('getRejectedSentencesForLocale: should get undecided sentences for locale', async (t) => {
+  await sentences.getRejectedSentencesForLocale(localeId);
+  t.true(sequelize.query.calledOnce);
+});
+
 test.serial('getSentencesForReview: should query sentences', async (t) => {
   const foundSentences = await sentences.getSentencesForReview(localeId);
   t.true(sequelize.query.called);

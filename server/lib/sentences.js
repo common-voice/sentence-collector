@@ -13,6 +13,8 @@ const DUPLICATE_ERROR = 1062;
 module.exports = {
   getSentencesForLocale,
   getApprovedSentencesForLocale,
+  getUndecidedSentencesForLocale,
+  getRejectedSentencesForLocale,
   getSentencesForReview,
   getRejectedSentences,
   getStats,
@@ -41,6 +43,16 @@ async function getSentencesForLocale(localeId, sentenceFilter) {
 function getApprovedSentencesForLocale(locale) {
   const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
   return sequelize.query(validatedSentencesQuery, { type: QueryTypes.SELECT });
+}
+
+function getUndecidedSentencesForLocale(locale) {
+  const undecidedSentencesQuery = getUndecidedSentencesQuery({ locale });
+  return sequelize.query(undecidedSentencesQuery, { type: QueryTypes.SELECT });
+}
+
+function getRejectedSentencesForLocale(locale) {
+  const rejectedSentencesQuery = getRejectedSentencesQuery({ locale });
+  return sequelize.query(rejectedSentencesQuery, { type: QueryTypes.SELECT });
 }
 
 async function getSentencesForReview({ locale, userId }) {
@@ -251,6 +263,24 @@ function getReviewQuery({ locale, userId }) {
       AND NOT EXISTS (SELECT *
         FROM Votes
         WHERE Sentences.id = Votes.sentenceId AND Votes.userId = "${userId}")
+    GROUP BY Sentences.id
+    HAVING
+      number_of_votes < 2 OR # not enough votes yet
+      number_of_votes = 2 AND number_of_approving_votes = 1 # a tie at one each
+    ORDER BY number_of_votes DESC`;
+}
+
+// This is very similar to the Review Query, but without user. This could be incorporated
+// with the query above, but that would make it vastly more complicated.
+function getUndecidedSentencesQuery({ locale }) {
+  return `
+    SELECT
+      Sentences.sentence,
+      SUM(Votes.approval) as number_of_approving_votes,
+      COUNT(Votes.approval) as number_of_votes
+    FROM Sentences
+    LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
+    WHERE Sentences.localeId = "${locale}"
     GROUP BY Sentences.id
     HAVING
       number_of_votes < 2 OR # not enough votes yet

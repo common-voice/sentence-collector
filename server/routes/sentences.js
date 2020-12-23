@@ -97,6 +97,38 @@ router.get('/text/approved/:locale', async (req, res) => {
   }
 });
 
+router.get('/text/undecided/:locale', async (req, res) => {
+  debug('GET_OPEN_SENTENCES_TEXT');
+
+  try {
+    const foundSentences = await sentences.getUndecidedSentencesForLocale(req.params.locale);
+    const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
+    const sentencesPerLine = sentencesOnly.join('\n');
+    res.header('Content-Type', 'text/plain');
+    res.send(sentencesPerLine);
+  } catch (error) {
+    debug('GET_UNDECIDED_SENTENCES_TEXT_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
+});
+
+router.get('/text/rejected/:locale', async (req, res) => {
+  debug('GET_REJECTED_SENTENCES_TEXT');
+
+  try {
+    const foundSentences = await sentences.getRejectedSentencesForLocale(req.params.locale);
+    const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
+    const sentencesPerLine = sentencesOnly.join('\n');
+    res.header('Content-Type', 'text/plain');
+    res.send(sentencesPerLine);
+  } catch (error) {
+    debug('GET_UNDECIDED_SENTENCES_TEXT_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
+});
+
 router.get('/sources/:locale', async (req, res) => {
   debug('GET_SENTENCES_SOURCES');
 
