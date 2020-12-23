@@ -22,6 +22,8 @@ test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
   t.context.sandbox.stub(sentences, 'getSentencesForLocale').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getApprovedSentencesForLocale').resolves(sentencesMock);
+  t.context.sandbox.stub(sentences, 'getUndecidedSentencesForLocale').resolves(sentencesMock);
+  t.context.sandbox.stub(sentences, 'getRejectedSentencesForLocale').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getSentencesForReview').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getRejectedSentences').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'addSentences').resolves(sentencesMock);
@@ -95,6 +97,48 @@ test.serial('should pass error when getting approved sentences text only', async
 
   const response = await request(app)
     .get('/sentence-collector/sentences/text/approved/en');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should get undecided sentences text only', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/text/undecided/en');
+
+  t.is(response.status, 200);
+  t.true(sentences.getUndecidedSentencesForLocale.calledWith('en'));
+  t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
+});
+
+test.serial('should pass error when getting undecided sentences text only', async (t) => {
+  sentences.getUndecidedSentencesForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentence-collector/sentences/text/undecided/en');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should get rejected sentences text only', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/text/rejected/en');
+
+  t.is(response.status, 200);
+  t.true(sentences.getRejectedSentencesForLocale.calledWith('en'));
+  t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
+});
+
+test.serial('should pass error when getting rejected sentences text only', async (t) => {
+  sentences.getRejectedSentencesForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentence-collector/sentences/text/rejected/en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

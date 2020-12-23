@@ -174,7 +174,11 @@ SELECT Sentences.*
 
 ## API
 
-* Get info for a single sentence: `/sentence-collector/sentences/de?sentence=Wie%20zuverl%C3%A4ssig%20eine%20Versicherung%20zahlt,%20wei%C3%9F%20man%20erst,%20wenn%20man%20sie%20braucht.`. Replace `de` with the locale code for the language. In the browser you can just copy/paste the sentence and it will correctly handle spaces and symbols)
-* Get all sources: `/sentence-collector/sentences/sources/de`. Replace `de` with the locale code for the language.
-* Get all sentences as text: `/sentence-collector/sentences/text/de`. Replace `de` with the locale code for the language.
-* Get all approved sentences as text: `/sentence-collector/sentences/text/approved/de`. Replace `de` with the locale code for the language.
+| Purpose       | Endpoint     | Example     |
+| :------------ | :----------- | :---------- |
+| Get info for a single sentence. Replace `:locale` with the locale code for the language. In the browser you can just copy/paste the sentence and it will correctly handle spaces and symbols). | `/sentence-collector/sentences/:locale` | `/sentence-collector/sentences/de?sentence=Wie%20zuverl%C3%A4ssig%20eine%20Versicherung%20zahlt,%20wei%C3%9F%20man%20erst,%20wenn%20man%20sie%20braucht.` |
+| Get all sources. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/sources/:locale` | `/sentence-collector/sentences/sources/de` |
+| Get all sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/text/:locale` | `/sentence-collector/sentences/text/de` |
+| Get all approved sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/approved/:locale` | `/sentence-collector/sentences/approved/de` |
+| Get all undecided sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/undecided/:locale` | `/sentence-collector/sentences/undecided/de` |
+| Get all rejected sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/rejected/:locale` | `/sentence-collector/sentences/rejected/de` |
