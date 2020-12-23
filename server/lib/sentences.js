@@ -173,6 +173,7 @@ async function getUserAddedSentencesPerLocale(userId) {
   debug('GETTING_USER_ADDED_STATS');
 
   const options = {
+    attributes: ['localeId'],
     where: {
       userId,
     },
