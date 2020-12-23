@@ -1,3 +1,4 @@
+const bas = require('./languages/bas');
 const en = require('./languages/en');
 const it = require('./languages/it');
 const ne = require('./languages/ne');
@@ -8,6 +9,7 @@ const ur = require('./languages/ur');
 const or = require('./languages/or');
 
 const VALIDATORS = {
+  bas,
   en,
   it,
   kab,
@@ -72,6 +74,8 @@ function validateSentence(validator, sentence) {
     validationResult.error = 'Contains multiple sentences';
   } else if (!validateWithoutEnglishCharacters(validator, sentence)) {
     validationResult.error = 'Contains English characters';
+  } else if (!validateOthers(validator, sentence)) {
+    validationResult.error = 'Other issues';
   }
 
   return validationResult;
@@ -127,6 +131,15 @@ function validateWithoutEnglishCharacters(validator, sentence) {
     typeof validator.filterEnglishCharacters !== 'function'
       ? true
       : validator.filterEnglishCharacters(sentence);
+
+  return result;
+}
+
+function validateOthers(validator, sentence) {
+  const result =
+    typeof validator.filterOthers !== 'function'
+      ? true
+      : validator.filterOthers(sentence);
 
   return result;
 }
