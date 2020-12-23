@@ -77,3 +77,20 @@ test('validates invalid sentences - english chars', validate, 'ru', {
   sentence: 'This too',
   error: 'Contains English characters',
 }]);
+
+test('validates invalid sentences - other rules', validate, 'bas', {
+  unreviewed: ['This is valid', 'This is wrong .', 'This as well!.', 'No;', 'Definitely not,'],
+  validated: ['This too'],
+}, [{
+  sentence: 'This is wrong .',
+  error: 'Other issues',
+}, {
+  sentence: 'This as well!.',
+  error: 'Other issues',
+}, {
+  sentence: 'No;',
+  error: 'Other issues',
+}, {
+  sentence: 'Definitely not,',
+  error: 'Other issues',
+}]);
