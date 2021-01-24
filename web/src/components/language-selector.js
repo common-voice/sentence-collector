@@ -33,7 +33,7 @@ const Options = (props) => {
   }
 
   return [<NullOption key="null" />]
-    .concat(languages.map(
+    .concat(languages.filter(Boolean).map(
       lang => <Option key={lang.id} lang={lang} />
     ));
 };
