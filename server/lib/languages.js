@@ -191,6 +191,7 @@ const ADDITIONAL_LANGUAGES = [
 const LANGUAGES_TO_REMOVE = [
   'ku',
   'zh',
+  'nb',
   'nn', // coverted by nn-NO
   'ks', // re-added above as native name is wrong
 ];
