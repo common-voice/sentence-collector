@@ -123,8 +123,8 @@ const ADDITIONAL_LANGUAGES = [
   },
   {
     id: 'nb-NO',
-    name: 'Norwegian Bokmål',
-    nativeName: 'Bokmål',
+    name: 'Norwegian',
+    nativeName: 'Norsk bokmål',
   },
   {
     id: 'rm-sursilv',
