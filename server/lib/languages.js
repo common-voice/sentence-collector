@@ -127,6 +127,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Norsk bokmål',
   },
   {
+    id: 'nn-NO',
+    name: 'Norwegian',
+    nativeName: 'Norsk nynorsk',
+  },
+  {
     id: 'rm-sursilv',
     name: 'Romansh Sursilvan',
     nativeName: 'romontsch sursilvan',
