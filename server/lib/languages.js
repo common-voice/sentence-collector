@@ -123,8 +123,13 @@ const ADDITIONAL_LANGUAGES = [
   },
   {
     id: 'nb-NO',
-    name: 'Norwegian Bokmål',
-    nativeName: 'Bokmål',
+    name: 'Norwegian',
+    nativeName: 'Norsk bokmål',
+  },
+  {
+    id: 'nn-NO',
+    name: 'Norwegian',
+    nativeName: 'Norsk nynorsk',
   },
   {
     id: 'rm-sursilv',
@@ -191,7 +196,9 @@ const ADDITIONAL_LANGUAGES = [
 const LANGUAGES_TO_REMOVE = [
   'ku',
   'zh',
-  'nn', // coverted by nn-NO
+  'nb', // covered by nb-NO
+  'nn', // covered by nn-NO
+  'no', // covered by nb-NO and nn-NO
   'ks', // re-added above as native name is wrong
 ];
 
