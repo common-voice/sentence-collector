@@ -12,7 +12,7 @@ const LanguageSelector = (props) => (
 );
 
 const Options = (props) => {
-  let languages = props.languages;
+  let languages = props.languages.filter(Boolean);
 
   // For convenience, move English to the top of the list since
   // for now the website is localized in English only.
@@ -33,7 +33,7 @@ const Options = (props) => {
   }
 
   return [<NullOption key="null" />]
-    .concat(languages.filter(Boolean).map(
+    .concat(languages.map(
       lang => <Option key={lang.id} lang={lang} />
     ));
 };
