@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import * as redux from 'react-redux';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 
 import Header from './header';
 
@@ -9,14 +10,14 @@ beforeEach(() => {
   jest.spyOn(redux, 'useSelector');
 });
 
-test('should render logged out state sidebar', () => {
-  redux.useSelector.mockImplementation(() => ({ authed: false, migrationDone: false }));
-  let component = shallow(<Header />);
-  expect(component).toMatchSnapshot();
+test('should not render profile link when logged out', () => {
+  redux.useSelector.mockImplementation(() => ({ authed: false }));
+  render(<BrowserRouter><Header /></BrowserRouter>);
+  expect(screen.queryByText('Profile')).toBeNull();
 });
 
-test('should render logged in state sidebar', () => {
-  redux.useSelector.mockImplementation(() => ({ authed: true, migrationDone: false }));
-  let component = shallow(<Header />);
-  expect(component).toMatchSnapshot();
+test('should render profile link when logged in', () => {
+  redux.useSelector.mockImplementation(() => ({ authed: true }));
+  render(<BrowserRouter><Header /></BrowserRouter>);
+  expect(screen.getByText('Profile')).toBeTruthy();
 });
