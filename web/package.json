@@ -9,7 +9,7 @@
   "scripts": {
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
-    "lint": "eslint src",
+    "lint": "eslint src tests",
     "test": "npm run lint && jest"
   },
   "dependencies": {

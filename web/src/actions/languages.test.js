@@ -1,5 +1,5 @@
-import * as backend from '../../src/backend';
-import * as languages from '../../src/actions/languages';
+import * as backend from '../backend';
+import * as languages from './languages';
 
 const mockLanguages = ['en', 'fr'];
 let dispatch;

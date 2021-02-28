@@ -1,5 +1,5 @@
-import * as languages from '../../src/actions/languages';
-import languageReducer from '../../src/reducers/languages';
+import * as languages from '../actions/languages';
+import languageReducer from './languages';
 
 const mockLanguages = ['en', 'fr'];
 

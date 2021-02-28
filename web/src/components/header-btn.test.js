@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import HeaderBtn from '../../src/components/header-btn';
+import HeaderBtn from './header-btn';
 
 const clickHandler = jest.fn();
 

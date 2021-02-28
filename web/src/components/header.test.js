@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import * as redux from 'react-redux';
 
-import Header from '../../src/components/header';
+import Header from './header';
 
 beforeEach(() => {
   jest.clearAllMocks();
