@@ -59,7 +59,6 @@ export function uploadSentences({ locale, sentences, source }) {
       dispatch(submitSentencesDone());
 
       if (!results || !results.errors) {
-        dispatch(submitSentencesDone());
         return {};
       }
 
