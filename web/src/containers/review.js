@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { loadSentences, resetReviewMessage, reviewSentences } from '../../actions/sentences';
-import LanguageSelector from '../language-selector';
-import ReviewForm from '../review-form';
-import Modal from '../modal';
+import { loadSentences, resetReviewMessage, reviewSentences } from '../actions/sentences';
+import LanguageSelector from '../components/language-selector';
+import ReviewForm from '../components/review-form';
+import Modal from '../components/modal';
 
 export const getReviewUrl = (language) => {
   return `/review/${language || ''}`;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getReviewUrl } from './pages/review';
+import { getReviewUrl } from '../containers/review';
 
 const LanguageInfo = (props) => {
   const {

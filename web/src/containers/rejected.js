@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { loadRejectedSentences } from '../../actions/sentences';
+import { loadRejectedSentences } from '../actions/sentences';
 
 export default function Rejected() {
   const dispatch = useDispatch();

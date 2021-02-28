@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import {
   afterLogin,
   logout,
-} from '../../actions/login';
+} from '../actions/login';
 
 export function LoginSuccess() {
   const dispatch = useDispatch();
