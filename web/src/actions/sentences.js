@@ -43,19 +43,13 @@ export function loadSentences(language) {
   };
 }
 
-export function uploadSentences({ locale, sentences, source }) {
+export function uploadSentences(sentencesParams) {
   return async function(dispatch, getState) {
     dispatch(sendSubmitSentences());
     const state = getState();
 
-    const data = {
-      source,
-      locale,
-      sentences,
-    };
-
     try {
-      const results = await sendRequest('sentences', 'PUT', data);
+      const results = await sendRequest('sentences', 'PUT', sentencesParams);
       dispatch(submitSentencesDone());
 
       if (!results || !results.errors) {
@@ -65,8 +59,8 @@ export function uploadSentences({ locale, sentences, source }) {
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
       dispatch(submitSentencesFailure(errorsWithSentenceInfo));
 
-      if(!state.languages.languages.includes(locale)) {
-        dispatch(addLanguage(locale));
+      if(!state.languages.languages.includes(sentencesParams.locale)) {
+        dispatch(addLanguage(sentencesParams.locale));
       }
 
       return results;
