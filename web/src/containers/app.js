@@ -13,14 +13,14 @@ import { getLanguages } from '../actions/languages';
 import { checkCurrentUser } from '../actions/login';
 
 import Page from './page';
-import Home from '../containers/home';
-import HowTo from '../containers/how-to';
-import { LoginSuccess, LoginFailure, LogoutSuccess } from '../containers/login';
-import Profile from '../containers/profile';
-import Rejected from '../containers/rejected';
-import Add from '../containers/add';
-import Review from '../containers/review';
-import Stats from '../containers/stats';
+import Home from './home';
+import HowTo from './how-to';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
+import Profile from './profile';
+import Rejected from './rejected';
+import Add from './add';
+import Review from './review';
+import Stats from './stats';
 
 export default function App({ history }) {
   const {
