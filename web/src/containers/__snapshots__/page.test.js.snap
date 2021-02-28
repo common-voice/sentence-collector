@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render page 1`] = `
+<div>
+  ...Header...
+  <div
+    id="page"
+  >
+    ...HeaderBtn/...
+    <main />
+  </div>
+</div>
+`;

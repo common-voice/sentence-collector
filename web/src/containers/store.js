@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 
-import createRootReducer from './reducers';
+import createRootReducer from '../reducers';
 
 const ROOT_KEY = 'redux';
 const persistConfig = {
