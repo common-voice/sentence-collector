@@ -39,7 +39,7 @@ test('should reduce submission failure', async () => {
     sentence: '$$$$$',
   }];
   const newState = sentencesReducer({}, {
-    type: sentences.ACTION_SUBMIT_SENTENCES_FAILURE,
+    type: sentences.ACTION_SUBMIT_SENTENCES_ERRORS,
     errors: submissionFailures,
   });
 

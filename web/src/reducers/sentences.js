@@ -1,7 +1,7 @@
 import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_DONE,
-  ACTION_SUBMIT_SENTENCES_FAILURE,
+  ACTION_SUBMIT_SENTENCES_ERRORS,
   ACTION_LOAD_REJECTED_SENTENCES,
   ACTION_GOT_REJECTED_SENTENCES,
   ACTION_REJECTED_SENTENCES_FAILURE,
@@ -33,7 +33,7 @@ export default function(state = INITIAL_STATE, action) {
         isUploadingSentences: true,
       });
 
-    case ACTION_SUBMIT_SENTENCES_FAILURE:
+    case ACTION_SUBMIT_SENTENCES_ERRORS:
       return Object.assign({}, state, {
         sentenceSubmissionFailures: errors.reduce((groupedFiltered, filterResult) => {
           if (!groupedFiltered[filterResult.error]) {

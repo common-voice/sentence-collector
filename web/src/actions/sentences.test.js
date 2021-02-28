@@ -136,7 +136,7 @@ describe('uploadSentences', () => {
     backend.sendRequest.mockImplementation(() => ({ errors }));
     const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState);
     expect(dispatch.mock.calls[2][0]).toEqual({
-      type: sentences.ACTION_SUBMIT_SENTENCES_FAILURE,
+      type: sentences.ACTION_SUBMIT_SENTENCES_ERRORS,
       errors,
     });
     expect(returnedSentences).toEqual({ errors });
