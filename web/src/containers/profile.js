@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addLanguage, removeLanguage } from '../../actions/languages';
-import { setSetting } from '../../actions/settings';
-import LanguageSelector from '../language-selector';
+import { addLanguage, removeLanguage } from '../actions/languages';
+import { setSetting } from '../actions/settings';
+import LanguageSelector from '../components/language-selector';
 
-import '../../../css/profile.css';
+import '../../css/profile.css';
 
 export default function Profile() {
   const dispatch = useDispatch();

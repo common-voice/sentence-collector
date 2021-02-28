@@ -3,7 +3,7 @@ import { sendRequest } from '../backend';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_DONE = 'SUBMIT_SENTENCES_DONE';
-export const ACTION_SUBMIT_SENTENCES_FAILURE = 'SUBMIT_SENTENCES_FAILURE';
+export const ACTION_SUBMIT_SENTENCES_ERRORS = 'SUBMIT_SENTENCES_ERRORS';
 export const ACTION_LOAD_REJECTED_SENTENCES = 'LOAD_REJECTED_SENTENCES';
 export const ACTION_GOT_REJECTED_SENTENCES = 'GOT_REJECTED_SENTENCES';
 export const ACTION_REJECTED_SENTENCES_FAILURE = 'REJECTED_SENTENCES_FAILURE';
@@ -43,31 +43,24 @@ export function loadSentences(language) {
   };
 }
 
-export function uploadSentences({ locale, sentences, source }) {
+export function uploadSentences(sentencesParams) {
   return async function(dispatch, getState) {
     dispatch(sendSubmitSentences());
     const state = getState();
 
-    const data = {
-      source,
-      locale,
-      sentences,
-    };
-
     try {
-      const results = await sendRequest('sentences', 'PUT', data);
+      const results = await sendRequest('sentences', 'PUT', sentencesParams);
       dispatch(submitSentencesDone());
 
       if (!results || !results.errors) {
-        dispatch(submitSentencesDone());
         return {};
       }
 
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
-      dispatch(submitSentencesFailure(errorsWithSentenceInfo));
+      dispatch(submitSentencesErrors(errorsWithSentenceInfo));
 
-      if(!state.languages.languages.includes(locale)) {
-        dispatch(addLanguage(locale));
+      if(!state.languages.languages.includes(sentencesParams.locale)) {
+        dispatch(addLanguage(sentencesParams.locale));
       }
 
       return results;
@@ -102,9 +95,9 @@ function submitSentencesDone() {
   };
 }
 
-function submitSentencesFailure(errors) {
+function submitSentencesErrors(errors) {
   return {
-    type: ACTION_SUBMIT_SENTENCES_FAILURE,
+    type: ACTION_SUBMIT_SENTENCES_ERRORS,
     errors,
   };
 }

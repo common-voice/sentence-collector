@@ -9,7 +9,7 @@
   "scripts": {
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
-    "lint": "eslint src",
+    "lint": "eslint src tests",
     "test": "npm run lint && jest"
   },
   "dependencies": {
@@ -32,15 +32,14 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
     "@babel/runtime": "^7.12.5",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.8.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.1.0",
     "babel-preset-env": "^1.7.0",
     "copy-webpack-plugin": "^6.3.0",
     "css-loader": "^5.0.0",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.5",
-    "enzyme-to-json": "^3.6.1",
     "eslint": "^7.12.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-enzyme": "^0.2.0",
@@ -72,21 +71,15 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 0,
-        "functions": 0,
-        "lines": 0,
-        "statements": 0
+        "branches": 20,
+        "functions": 32,
+        "lines": 35,
+        "statements": 33
       }
     },
     "transform": {
       "^.+\\.js$": "babel-jest",
-      "\\.svg$": "<rootDir>/tests/file-transformer.js"
-    },
-    "setupFiles": [
-      "<rootDir>/tests/test-setup.js"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
+      "\\.svg$|\\.css$": "<rootDir>/tests/file-transformer.js"
+    }
   }
 }

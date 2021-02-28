@@ -3,7 +3,7 @@ import regeneratorRuntime from 'regenerator-runtime'; // eslint-disable-line no-
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Root from './components/root';
+import Root from './containers/root';
 
 async function main() {
   const root = document.getElementById('root');

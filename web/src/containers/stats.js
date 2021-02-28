@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { getStats } from '../../actions/languages';
-import SentenceCollectorInfo from '../sentence-collector-info';
-import LanguageInfo from '../language-info';
+import { getStats } from '../actions/languages';
+import SentenceCollectorInfo from '../components/sentence-collector-info';
+import LanguageInfo from '../components/language-info';
 
 export default function Stats() {
   const dispatch = useDispatch();

@@ -271,20 +271,6 @@ form button {
   padding-left: 0;
 }
 
-.notice {
-  padding: 10px;
-}
-
-.notice.error {
-  background-color: red;
-  color: #fff;
-}
-
-.notice.warning {
-  background-color: #f9df98;
-  color: #000;
-}
-
 .error-message {
   color: red;
 }

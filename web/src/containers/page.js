@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Header from './header';
-import HeaderBtn from './header-btn';
+import Header from '../components/header';
+import HeaderBtn from '../components/header-btn';
 
 export default function Page({ children }) {
   const [headerIsOpen, setHeaderShown] = useState(true);

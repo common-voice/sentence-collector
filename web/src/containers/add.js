@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { uploadSentences } from '../../actions/sentences';
+import { uploadSentences } from '../actions/sentences';
 
-import SubmitForm from '../submit-form';
-import ConfirmForm from '../confirm-form';
-import ReviewForm from '../review-form';
+import SubmitForm from '../components/submit-form';
+import ConfirmForm from '../components/confirm-form';
+import ReviewForm from '../components/review-form';
 
-import '../../../css/add.css';
+import '../../css/add.css';
 
 const SPLIT_ON = '\n';
 
