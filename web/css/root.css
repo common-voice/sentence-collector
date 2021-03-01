@@ -258,7 +258,7 @@ form button {
   margin: 1em 0;
 }
 
-.loadingText {
+.loading-text {
   display: inline-block;
   font-size: 80%;
   font-weight: 800;

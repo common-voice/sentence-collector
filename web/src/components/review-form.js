@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import Cards from './swipecard/Cards';
 import Card from "./swipecard/CardSwitcher";
-import SpinnerButton from './spinner-button';
+import Pager from './pager';
+import SubmitButton from './submit-button';
 
 import '../../css/review-form.css';
 
@@ -102,7 +103,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
           ))}
         </Cards>
         <section className="review-footer">
-          <ConfirmButtons pendingSentences={hasPendingSentences}/>
+          <SubmitButton pendingAction={hasPendingSentences} submitText="Finish&nbsp;Review"/>
         </section>
       </form>
     );
@@ -139,51 +140,15 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
 
       <section>
         { hasPendingSentences && (
-          <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+          <p className="loading-text">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
             Please don&apos;t close this website.</p>
         )}
       </section>
 
       <section className="review-footer">
-        <ConfirmButtons pendingSentences={hasPendingSentences}/>
+        <SubmitButton pendingAction={hasPendingSentences} submitText="Finish&nbsp;Review"/>
         <Pager page={page} lastPage={lastPage} onPage={setPage} />
       </section>
     </form>
   );
 }
-
-const Pager = ({ page, lastPage, onPage }) => (
-  <section className="pager-container">{
-    [
-      [0, '1'],
-      [page - 1, '<'],
-      [page, page + 1],
-      [page + 1, '>'],
-      [lastPage, lastPage + 1],
-    ].map(([ pageNumber, text ], index) => (
-      <span key={`idx${index+1}`}>{
-        (pageNumber >= 0 && pageNumber <= lastPage) ? (
-          <button
-            className={page === pageNumber ? 'active pager' : 'pager'}
-            onClick={(event) => {
-              event.preventDefault();
-              onPage && onPage(pageNumber);
-            }} key={`page-link-${pageNumber}`}>
-            {text}
-          </button>
-        ) : (
-          <button key={`page-link-${pageNumber}`} className="active pager">{text}</button>
-        )
-      }</span>
-    ))
-  }</section>
-);
-
-const ConfirmButtons = (props) => (
-  <section id="confirm-buttons" className="divCenter">
-    { props.pendingSentences ?
-      <SpinnerButton></SpinnerButton> :
-      <button type="submit">Finish&nbsp;Review</button>
-    }
-  </section>
-);
