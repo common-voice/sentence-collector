@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addLanguage, removeLanguage } from '../actions/languages';
 import { setSetting } from '../actions/settings';
+import PersonalLanguageInfo from '../components/personal-language-info';
 import LanguageSelector from '../components/language-selector';
 
 import '../../css/profile.css';
@@ -109,37 +110,5 @@ export default function Profile() {
         )}
       </section>
     </form>
-  );
-}
-
-function PersonalLanguageInfo(props) {
-  const {
-    languages,
-    allLanguages,
-    onRemove,
-    pending,
-    languageStats,
-  } = props;
-
-  const extendedLanguages = languages.map((lang) => {
-    const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
-    return extended;
-  }).filter(Boolean);
-
-  return (
-    <ul>
-    { extendedLanguages.map((language, i) => (
-      <li key={i}>
-        { language.nativeName } ({ language.name })
-        <button className="remove-lang" data-lang={language.id}
-                onClick={onRemove} disabled={pending}>
-          remove
-        </button>
-        <ul>
-          <li>{(languageStats[language.id] || {}).added || 0} added by you</li>
-        </ul>
-      </li>
-    ))}
-    </ul>
   );
 }

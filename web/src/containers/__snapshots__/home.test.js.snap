@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render home 1`] = `
+<div>
+  <div>
+    <h1>
+      Welcome to the Common Voice Sentence Collector
+    </h1>
+    <p>
+      This is a website where we collect and review sentences for 
+      <a
+        href="https://commonvoice.mozilla.org/"
+      >
+        Common Voice
+      </a>
+      . Check the Common Voice 
+      <a
+        href="https://common-voice.github.io/community-playbook/"
+      >
+        Playbook
+      </a>
+       to find out more about the Common Voice project.
+    </p>
+  </div>
+</div>
+`;

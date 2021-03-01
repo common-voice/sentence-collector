@@ -24,22 +24,21 @@ export default function ConfirmForm(props) {
         {`${submitted.length} sentences found.`}
       </p>
 
-      {invalidated.length > 0 && (
+      { invalidated.length > 0 && (
         <p style={{color: 'red'}}>
           {`${invalidated.length} rejected by you`}
         </p>
       )}
 
-      {validated.length + invalidated.length > 0 && (
+      { validated.length + invalidated.length > 0 && (
         <p>
-          {`-- ${validated.length + invalidated.length}`} {}
-          sentences are already reviewed. Great job!
+          {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
         </p>
       )}
 
       <p><strong>{`${readyCount} sentences ready for submission!`}</strong></p>
 
-      {unreviewed.length > 0 && (
+      { unreviewed.length > 0 && (
         <p>
           {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}&nbsp;
           <ReviewLink onReview={onReview}
@@ -55,7 +54,7 @@ export default function ConfirmForm(props) {
 
         { isUploadingSentences && (
           <div>
-            <p className="loadingText">
+            <p className="loading-text">
               Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
               Please do not close this website.
             </p>

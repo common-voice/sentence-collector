@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { loadSentences, resetReviewMessage, reviewSentences } from '../actions/sentences';
 import LanguageSelector from '../components/language-selector';
 import ReviewForm from '../components/review-form';
-import Modal from '../components/modal';
+import ReviewCriteria from '../components/review-criteria';
 
 export const getReviewUrl = (language) => {
   return `/review/${language || ''}`;
 };
 
-const getLanguageFromMatch = (match) => {
+const getLanguageFromMatch = ({ params = {} } = {}) => {
   // Always return an empty string if no lang specified.
   // This ensures we never have an undefined language.
-  let lang = match.params.language;
+  let lang = params.language;
   if (!lang) {
     lang = '';
   }
@@ -22,10 +22,9 @@ const getLanguageFromMatch = (match) => {
 };
 
 export default function Review({ match, history }) {
-  const [language, setLanguage] = useState(getLanguageFromMatch(match));
   const {
-    allLanguages,
-    languages,
+    allLanguages = [],
+    languages = [],
   } = useSelector((state) => state.languages);
   const {
     sentencesLoading,
@@ -33,6 +32,8 @@ export default function Review({ match, history }) {
     reviewMessage,
   } = useSelector((state) => state.sentences);
   const { useSwipeReview } = useSelector((state) => state.settings);
+
+  const [language, setLanguage] = useState(getLanguageFromMatch(match));
   const dispatch = useDispatch();
 
   // If user only has one language possible, use it.
@@ -41,7 +42,7 @@ export default function Review({ match, history }) {
   }
 
   // If user hasn't added any languages, ask them to do so.
-  if (!languages || languages.length === 0) {
+  if (languages.length === 0) {
     return (
       <p>
         You have not selected any languages. Please go to your&nbsp;
@@ -70,24 +71,15 @@ export default function Review({ match, history }) {
   };
 
   const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang));
+  const hasNoSentences = language && !sentencesLoading && (!sentences || sentences.length < 1);
+
   return (
     <div>
       <section>
         <h1>Review Sentences</h1>
         <LanguageSelector name="language-selector-review" languages={extendedLanguages}
                           selected={language} onChange={onSelectLanguage} />
-        <Modal text="ⓘ Review Criteria">
-          <h2 id="review-criteria">Review Criteria</h2>
-          <h3 id="make-sure-the-sentence-meets-the-following-criteria-">Make sure the sentence meets the following criteria:</h3>
-          <ol>
-            <li>The sentence must be spelled correctly.</li>
-            <li>The sentence must be grammatically correct.</li>
-            <li>The sentence must be speakable.</li>
-            <li>If the sentence meets the criteria, click the &quot;yes&quot; button on the right.</li>
-            <li>If the sentence does not meet the above criteria, click the &quot;no&quot; button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.</li>
-            <li>If you run out of sentences to review, please help us collect more sentences!</li>
-          </ol>
-        </Modal>
+        <ReviewCriteria/>
       </section>
 
       { sentencesLoading && (
@@ -98,7 +90,7 @@ export default function Review({ match, history }) {
         <p>Please select a language to review sentences.</p>
       )}
 
-      { language && !sentencesLoading && (!sentences || sentences.length < 1) && (
+      { hasNoSentences && (
         <p>
           No sentences to review.&nbsp;
           <Link to={'/add'}>Add more sentences now!</Link>
