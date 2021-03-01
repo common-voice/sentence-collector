@@ -32,8 +32,7 @@ export default function ConfirmForm(props) {
 
       {validated.length + invalidated.length > 0 && (
         <p>
-          {`-- ${validated.length + invalidated.length}`} {}
-          sentences are already reviewed. Great job!
+          {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
         </p>
       )}
 
