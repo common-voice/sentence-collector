@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render criteria 1`] = `
+<div>
+  <span>
+    <button
+      class="inverse"
+    >
+      ⓘ Review Criteria
+    </button>
+    <div
+      class="no-show"
+    >
+      <div
+        class="modal-box"
+      >
+        <button
+          class="close-modal"
+        >
+          x
+        </button>
+        <div>
+          <h2
+            id="review-criteria"
+          >
+            Review Criteria
+          </h2>
+          <h3>
+            Make sure the sentence meets the following criteria:
+          </h3>
+          <ol>
+            <li>
+              The sentence must be spelled correctly.
+            </li>
+            <li>
+              The sentence must be grammatically correct.
+            </li>
+            <li>
+              The sentence must be speakable.
+            </li>
+            <li>
+              If the sentence meets the criteria, click the "yes" button on the right.
+            </li>
+            <li>
+              If the sentence does not meet the above criteria, click the "no" button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.
+            </li>
+            <li>
+              If you run out of sentences to review, please help us collect more sentences!
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </span>
+</div>
+`;

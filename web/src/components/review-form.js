@@ -1,214 +1,178 @@
-import React from 'react';
-
-import '../../css/review-form.css';
-import SpinnerButton from './spinner-button';
+import React, { useState } from 'react';
 
 import Cards from './swipecard/Cards';
 import Card from "./swipecard/CardSwitcher";
+import SpinnerButton from './spinner-button';
+
+import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
-const DEFAULT_STATE = {
-  page: 0,
-};
 
-export default class ReviewForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = Object.assign({}, DEFAULT_STATE, {
-      sentences: this.props.sentences,
-    });
-    this.onSubmit = this.onSubmit.bind(this);
-    this.setPage = this.setPage.bind(this);
-    this.cardsRef = React.createRef();
-  }
+function mapSentencesIntoCategories(sentences) {
+  let validated = [];
+  let invalidated = [];
+  const unreviewed = sentences.filter((sentenceInfo) => {
+    if (sentenceInfo.reviewApproval) {
+      validated.push(sentenceInfo);
+      return false;
+    }
 
-  getTotalPages() {
-    return Math.ceil(this.props.sentences.length / PAGE_SIZE);
-  }
+    if (sentenceInfo.reviewApproval === false) {
+      invalidated.push(sentenceInfo);
+      return false;
+    }
 
-  getLastPage() {
-    return this.getTotalPages() - 1;
-  }
+    return true;
+  });
 
-  getOffset() {
-    return this.state.page * PAGE_SIZE;
-  }
+  return {
+    validated,
+    invalidated,
+    unreviewed,
+  };
+}
 
-  async onSubmit(evt) {
-    evt.preventDefault();
-    let validated = [];
-    let invalidated = [];
+export default function ReviewForm({ message, useSwipeReview, sentences: initialSentences, onReviewed }) {
+  const [page, setPage] = useState(0);
+  const [hasPendingSentences, setPendingSentences] = useState(false);
+  const [sentences, setSentences] = useState(initialSentences);
 
-    this.setState({
-      pendingSentences: true,
-    });
+  const cardsRef = React.createRef();
+  const totalPages = Math.ceil(sentences.length / PAGE_SIZE);
+  const lastPage = totalPages - 1;
+  const offset = page * PAGE_SIZE;
 
-    // Extract sentence that have been voted on.
-    const unreviewed = this.state.sentences.filter((sentenceInfo) => {
-      if (sentenceInfo.reviewApproval) {
-        validated.push(sentenceInfo);
-        return false;
-      }
+  const onSubmit = async (event) => {
+    event.preventDefault();
 
-      if (sentenceInfo.reviewApproval === false) {
-        invalidated.push(sentenceInfo);
-        return false;
-      }
+    setPendingSentences(true);
+    await onReviewed(mapSentencesIntoCategories(sentences));
+    setPendingSentences(false);
+  };
 
-      return true;
-    });
-
-    await this.props.onReviewed({
-      validated,
-      invalidated,
-      unreviewed,
-    });
-
-    this.setState({
-      pendingSentences: false,
-    });
-  }
-
-  setPage(page) {
-    this.setState({
-      page,
-    });
-  }
-
-  reviewSentence(index, approval) {
-    const sentences = this.state.sentences;
-
-    if (sentences[index].reviewApproval === approval) {
+  const reviewSentence = (index, approval) => {
+    const allSentences = [...sentences];
+    if (allSentences[index].reviewApproval === approval) {
       // already set before, deselecting now
-      sentences[index].reviewApproval = undefined;
+      allSentences[index].reviewApproval = undefined;
     } else {
-      sentences[index].reviewApproval = approval;
+      allSentences[index].reviewApproval = approval;
     }
 
-    this.setState({ sentences });
+    setSentences(allSentences);
+  };
+
+  if (!Array.isArray(sentences) || sentences.length < 1) {
+    return <h2>nothing to review</h2>;
   }
 
-  render() {
-    const {
-      message,
-      useSwipeReview,
-    } = this.props;
+  const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
-    const {
-      sentences = [],
-    } = this.state;
-
-    if (!Array.isArray(sentences) || sentences.length < 1) {
-      return <h2>nothing to review</h2>;
-    }
-
-    const offset = this.getOffset();
-    const curSentences = sentences.slice(offset, offset + PAGE_SIZE);
-
-    if (useSwipeReview) {
-      let message = (<p>You have not reviewed any sentences yet!</p>);
-      if (this.state.page !== 0) {
-        message = (<p>You have successfully reviewed your {this.state.page * PAGE_SIZE}th sentence!</p>);
-      }
-
-      return (
-        <form id="review-form" onSubmit={this.onSubmit}>
-          <p>Swipe right to approve sentence, swipe left to reject it.</p>
-          {message}
-          <Cards onEnd={() => {
-            if (this.state.page === this.getLastPage()) {
-              this.onSubmit({preventDefault: ()=>{}});
-            } else {
-              this.setPage(this.state.page + 1);
-              this.cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
-            }
-          }} className="main-root" ref={this.cardsRef}>
-            {curSentences.map((sentence, i) => (
-              <Card
-                key={offset + i}
-                onSwipeLeft={() => this.reviewSentence(offset + i, false)}
-                onSwipeRight={() => this.reviewSentence(offset + i, true)}
-              >
-                <div className="card-sentence-box">
-                  <p>{ sentence.sentence || sentence }</p>
-                  <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
-                </div>
-              </Card>
-            ))}
-          </Cards>
-          <section className="review-footer">
-            <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
-          </section>
-        </form>
-      );
+  if (useSwipeReview) {
+    let message = (<p>You have not reviewed any sentences yet!</p>);
+    if (page !== 0) {
+      message = (<p>You have successfully reviewed your {page * PAGE_SIZE}th sentence!</p>);
     }
 
     return (
-      <form id="review-form" onSubmit={this.onSubmit}>
-        {message && ( <p>{ message }</p> ) }
+      <form id="review-form" onSubmit={onSubmit}>
+        <p>Swipe right to approve sentence, swipe left to reject it.</p>
 
-        { curSentences.map((sentence, i) => (
-          <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
-            <div className="sentence-box">
-              <p>{ sentence.sentence || sentence }</p>
-              <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
-            </div>
-            <div className="button-group">
-              <button type="button"
-                      className={`secondary ${this.state.sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
-                      aria-pressed={this.state.sentences[offset + i].reviewApproval === true}
-                      onClick={() => this.reviewSentence(offset + i, true)}
-                      name={`validate-${offset + i}`}>
-                👍
-              </button>
-              <button type="button"
-                      className={`secondary ${this.state.sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
-                      aria-pressed={this.state.sentences[offset + i].reviewApproval === false}
-                      onClick={() => this.reviewSentence(offset + i, false)}
-                      name={`validate-${offset + i}`}>
-                👎
-              </button>
-            </div>
-          </section>
-        )) }
+        {message}
 
-        <section>
-          { this.state.pendingSentences && (
-            <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-              Please don&apos;t close this website.</p>
-          )}
-        </section>
-
+        <Cards onEnd={() => {
+          if (page === lastPage) {
+            onSubmit({preventDefault: () => {}});
+          } else {
+            setPage(page + 1);
+            cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
+          }
+        }} className="main-root" ref={cardsRef}>
+          { currentSentences.map((sentence, i) => (
+            <Card
+              key={offset + i}
+              onSwipeLeft={() => reviewSentence(offset + i, false)}
+              onSwipeRight={() => reviewSentence(offset + i, true)}
+            >
+              <div className="card-sentence-box">
+                <p>{sentence.sentence || sentence}</p>
+                <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
+              </div>
+            </Card>
+          ))}
+        </Cards>
         <section className="review-footer">
-          <ConfirmButtons pendingSentences={this.state.pendingSentences}/>
-          <Pager page={this.state.page} lastPage={this.getLastPage()}
-                 onPage={this.setPage} />
+          <ConfirmButtons pendingSentences={hasPendingSentences}/>
         </section>
       </form>
     );
   }
+
+  return (
+    <form id="review-form" onSubmit={onSubmit}>
+      { message && ( <p>{message}</p> ) }
+
+      { currentSentences.map((sentence, i) => (
+        <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
+          <div className="sentence-box">
+            <p>{sentence.sentence || sentence}</p>
+            <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
+          </div>
+          <div className="button-group">
+            <button type="button"
+                    className={`secondary ${sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
+                    aria-pressed={sentences[offset + i].reviewApproval === true}
+                    onClick={() => reviewSentence(offset + i, true)}
+                    name={`validate-${offset + i}`}>
+              👍
+            </button>
+            <button type="button"
+                    className={`secondary ${sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
+                    aria-pressed={sentences[offset + i].reviewApproval === false}
+                    onClick={() => reviewSentence(offset + i, false)}
+                    name={`validate-${offset + i}`}>
+              👎
+            </button>
+          </div>
+        </section>
+      )) }
+
+      <section>
+        { hasPendingSentences && (
+          <p className="loadingText">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
+            Please don&apos;t close this website.</p>
+        )}
+      </section>
+
+      <section className="review-footer">
+        <ConfirmButtons pendingSentences={hasPendingSentences}/>
+        <Pager page={page} lastPage={lastPage} onPage={setPage} />
+      </section>
+    </form>
+  );
 }
 
-const Pager = (props) => (
+const Pager = ({ page, lastPage, onPage }) => (
   <section className="pager-container">{
     [
       [0, '1'],
-      [props.page - 1, '<'],
-      [props.page, props.page + 1],
-      [props.page + 1, '>'],
-      [props.lastPage, props.lastPage + 1],
-    ].map(([ page, text ], index) => (
+      [page - 1, '<'],
+      [page, page + 1],
+      [page + 1, '>'],
+      [lastPage, lastPage + 1],
+    ].map(([ pageNumber, text ], index) => (
       <span key={`idx${index+1}`}>{
-        (page >= 0 && page <= props.lastPage) ? (
-          <button className={ props.page === page ? 'active pager' : 'pager' }
-            onClick={evt => {
-              evt.preventDefault();
-              props.onPage && props.onPage(page);
-            }} key={`page-link-${page}`}>
-          {text}
+        (pageNumber >= 0 && pageNumber <= lastPage) ? (
+          <button
+            className={page === pageNumber ? 'active pager' : 'pager'}
+            onClick={(event) => {
+              event.preventDefault();
+              onPage && onPage(pageNumber);
+            }} key={`page-link-${pageNumber}`}>
+            {text}
           </button>
         ) : (
-          <button key={`page-link-${page}`} className="active pager">{text}</button>
+          <button key={`page-link-${pageNumber}`} className="active pager">{text}</button>
         )
       }</span>
     ))

@@ -9,8 +9,8 @@ jest.mock('../components/header');
 jest.mock('../components/header-btn');
 
 test('should render page', () => {
-  Header.mockReturnValue('...Header...');
-  HeaderBtn.mockReturnValue('...HeaderBtn/...');
+  Header.mockReturnValue(<div>...Header...</div>);
+  HeaderBtn.mockReturnValue(<div>...HeaderBtn...</div>);
   const { container } = render(<Page/>);
   expect(container).toMatchSnapshot();
 });
