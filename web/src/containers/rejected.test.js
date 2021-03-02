@@ -14,7 +14,7 @@ beforeEach(() => {
   jest.spyOn(redux, 'useDispatch');
 
   redux.useDispatch.mockImplementation(() => dispatchMock);
-  RejectedSentencesList.mockReturnValue('<div>...RejectedSentencesList...</div>');
+  RejectedSentencesList.mockReturnValue(<div>...RejectedSentencesList...</div>);
 });
 
 test('should render Rejected', () => {
