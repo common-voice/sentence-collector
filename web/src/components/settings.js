@@ -1,17 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { setSetting } from '../actions/settings';
-
-export default function Settings() {
-  const dispatch = useDispatch();
-  const { useSwipeReview, errorMessage } = useSelector((state) => state.settings);
-
-  const toggleSwipeReview = (evt) => {
-    evt.preventDefault();
-    dispatch(setSetting('useSwipeReview', !useSwipeReview));
-  };
-
+export default function Settings({ errorMessage, useSwipeReview, onToggleSwipeReview }) {
   return (
     <section>
       <h2>Settings</h2>
@@ -28,10 +17,10 @@ export default function Settings() {
       </p>
 
       {!useSwipeReview && (
-        <button onClick={toggleSwipeReview}>Use Swiping Review Tool</button>
+        <button onClick={onToggleSwipeReview}>Use Swiping Review Tool</button>
       )}
       {useSwipeReview && (
-        <button onClick={toggleSwipeReview}>Use Normal Review Tool</button>
+        <button onClick={onToggleSwipeReview}>Use Normal Review Tool</button>
       )}
     </section>
   );

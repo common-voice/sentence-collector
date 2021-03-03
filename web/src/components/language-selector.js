@@ -5,10 +5,16 @@ import '../../css/language-selector.css';
 const ENGLISH_CODE = 'en';
 
 const LanguageSelector = (props) => (
-  <select onChange={evt => props.onChange && props.onChange(evt.target.value)}
-          disabled={props.disabled} value={props.selected} className='language-selector'>
-    <Options {...props} />
-  </select>
+  <React.Fragment>
+    <label className="language-selector-label" htmlFor="language-selector">
+      {props.labelText}
+    </label>
+    <select onChange={evt => props.onChange && props.onChange(evt.target.value)}
+            disabled={props.disabled} value={props.selected} className='language-selector'
+            id="language-selector">
+      <Options {...props} />
+    </select>
+  </React.Fragment>
 );
 
 const Options = (props) => {

@@ -3,6 +3,28 @@ import { render, screen, fireEvent } from '@testing-library/react';
 
 import LanguageSelector from './language-selector';
 
+test('should render label', () => {
+  const languages = [{
+    id: 'en',
+    name: 'English',
+    nativeName: 'English',
+  }, {
+    id: 'de',
+    name: 'German',
+    nativeName: 'Deutsch',
+  }];
+  const filters = [];
+
+  render(
+      <LanguageSelector
+        languages={languages}
+        filters={filters}
+        labelText="This is a label."
+      />
+  );
+  expect(screen.queryByLabelText('This is a label.')).toBeTruthy();
+});
+
 test('should single option without null option', () => {
   const languages = [{
     id: 'de',
@@ -13,6 +35,7 @@ test('should single option without null option', () => {
   render(
       <LanguageSelector
         languages={languages}
+        labelText="This is a label."
       />
   );
   expect(screen.queryByText('German (Deutsch)')).toBeTruthy();
@@ -33,6 +56,7 @@ test('should add null option', () => {
   render(
       <LanguageSelector
         languages={languages}
+        labelText="This is a label."
       />
   );
   expect(screen.queryByText('--')).toBeTruthy();
@@ -56,6 +80,7 @@ test('should filter options', () => {
       <LanguageSelector
         languages={languages}
         filters={filters}
+        labelText="This is a label."
       />
   );
   expect(screen.queryByText('German (Deutsch)')).toBeTruthy();
@@ -78,6 +103,7 @@ test('should select option', () => {
       <LanguageSelector
         languages={languages}
         onChange={onChange}
+        labelText="This is a label."
       />
   );
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import ReviewLink from './review-link';
 import SpinnerButton from './spinner-button';
@@ -12,8 +11,8 @@ export default function ConfirmForm(props) {
     unreviewed,
     onSubmit,
     onReview,
+    isUploadingSentences,
   } = props;
-  const { isUploadingSentences } = useSelector((state) => state.sentences);
 
   const readyCount = submitted.length - invalidated.length;
 

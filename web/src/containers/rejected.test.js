@@ -12,14 +12,21 @@ const dispatchMock = jest.fn();
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
+  jest.spyOn(redux, 'useSelector');
 
   redux.useDispatch.mockImplementation(() => dispatchMock);
+  redux.useSelector.mockImplementation(() => ({
+    rejectedSentences: [],
+    rejectedSentencesLoading: false,
+    rejectedSentencesError: '',
+  }));
   RejectedSentencesList.mockReturnValue(<div>...RejectedSentencesList...</div>);
 });
 
 test('should render Rejected', () => {
   render(<Rejected/>);
   expect(screen.getByText('Your rejected sentences')).toBeTruthy();
+  expect(screen.getByText('...RejectedSentencesList...')).toBeTruthy();
 });
 
 test('should dispatch load', () => {

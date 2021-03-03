@@ -1,23 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import LanguageSelector from './language-selector';
 
-export default function SubmitForm({ onSubmit, message, error }) {
-  const {
-    allLanguages,
-    languages,
-  } = useSelector((state) => state.languages);
-  const {
-    sentenceSubmissionFailures,
-  } = useSelector((state) => state.sentences);
-
-  let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
-  if (extendedLanguages.length < 1) {
-    extendedLanguages = allLanguages;
-  }
-
+export default function SubmitForm({ languages, onSubmit, message, error, sentenceSubmissionFailures }) {
   return (
     <React.Fragment>
       <form id="add-form" onSubmit={onSubmit}>
@@ -27,10 +13,7 @@ export default function SubmitForm({ onSubmit, message, error }) {
         { error && (<section className="form-error">{ error }</section>)}
 
         <section>
-          <label className="language-selector-label" htmlFor="language-selector">
-            Select Language
-          </label>
-          <LanguageSelector name="language-selector" languages={extendedLanguages}/>
+          <LanguageSelector name="language-selector" languages={languages} labelText="Select Language"/>
         </section>
         <section>
           <label htmlFor="sentences-input">

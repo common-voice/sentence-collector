@@ -6,7 +6,7 @@ import ProfileWidget from './profile-widget';
 import logoURL from '../../img/cv-logo-one-color-white.svg';
 
 export default function Header() {
-  const { authed } = useSelector((state) => state.login);
+  const { authed, username } = useSelector((state) => state.login);
 
   return (
     <header>
@@ -24,7 +24,9 @@ export default function Header() {
           <a href="/sentence-collector/login">Login</a>
         )}
       </nav>
-      <ProfileWidget />
+
+      <ProfileWidget authed={authed} username={username}/>
+
       <section id="external-links">
         <a target="_blank" rel="noopener noreferrer" href="https://discourse.mozilla.org/tags/c/voice/sentence-collection">Discourse</a>
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/Common-Voice/sentence-collector/issues">Report Bugs (GitHub)</a>
