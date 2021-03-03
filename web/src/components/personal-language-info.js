@@ -48,7 +48,7 @@ export default function PersonalLanguageInfo() {
                 remove
               </button>
               <ul>
-                <li>{(languageStats[language.id] || {}).added || 0} added by you</li>
+                <li>{`${(languageStats[language.id] || {}).added || 0} added by you`}</li>
               </ul>
             </li>
           ))}
