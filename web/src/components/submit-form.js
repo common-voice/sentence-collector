@@ -27,10 +27,7 @@ export default function SubmitForm({ onSubmit, message, error }) {
         { error && (<section className="form-error">{ error }</section>)}
 
         <section>
-          <label className="language-selector-label" htmlFor="language-selector">
-            Select Language
-          </label>
-          <LanguageSelector name="language-selector" languages={extendedLanguages}/>
+          <LanguageSelector name="language-selector" languages={extendedLanguages} labelText="Select Language"/>
         </section>
         <section>
           <label htmlFor="sentences-input">

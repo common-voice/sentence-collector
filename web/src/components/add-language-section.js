@@ -42,13 +42,11 @@ export default function AddLanguage() {
     <section>
       { error && ( <p className="error-message">{error}</p> ) }
 
-      <label className="language-selector-label" htmlFor="language-selector">
-        Add a language you want to contribute to
-      </label>
       <LanguageSelector disabled={pendingLanguages}
                         name="language-selector"
                         languages={allLanguages}
-                        filters={languages} />
+                        filters={languages}
+                        labelText="Add a language you want to contribute to" />
       <button disabled={pendingLanguages}
               onClick={onAdd} className="add-language">Add</button>
     </section>
