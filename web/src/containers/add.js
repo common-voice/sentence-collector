@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadSentences } from '../actions/sentences';
 
@@ -76,6 +76,20 @@ export default function Add() {
   const [validated, setValidated] = useState([]);
   const [invalidated, setInvalidated] = useState([]);
 
+  const {
+    allLanguages,
+    languages,
+  } = useSelector((state) => state.languages);
+  const {
+    isUploadingSentences,
+    sentenceSubmissionFailures,
+  } = useSelector((state) => state.sentences);
+
+  let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
+  if (extendedLanguages.length < 1) {
+    extendedLanguages = allLanguages;
+  }
+
   const resetState = () => {
     setLanguage('');
     setSource('');
@@ -151,11 +165,14 @@ export default function Add() {
                         submitted={submitted}
                         unreviewed={unreviewed}
                         validated={validated}
-                        invalidated={invalidated} />;
+                        invalidated={invalidated}
+                        isUploadingSentences={isUploadingSentences} />;
   } else {
     // The plain submission form allows copy & pasting
     return <SubmitForm onSubmit={onSubmit}
                        message={message}
-                       error={error} />;
+                       error={error}
+                       languages={extendedLanguages}
+                       sentenceSubmissionFailures={sentenceSubmissionFailures} />;
   }
 }

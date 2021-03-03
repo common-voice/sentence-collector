@@ -1,5 +1,4 @@
 import React from 'react';
-import * as redux from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -12,13 +11,6 @@ const unreviewed = ['Hi.'];
 const onSubmit = jest.fn();
 const onReview = jest.fn();
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  jest.spyOn(redux, 'useSelector');
-
-  redux.useSelector.mockImplementation(() => ({ isUploadingSentences: false }));
-});
-
 test('should render full form', () => {
   render(
     <ConfirmForm
@@ -28,6 +20,7 @@ test('should render full form', () => {
       unreviewed={unreviewed}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -49,6 +42,7 @@ test('should not render review if none to review', () => {
       unreviewed={[]}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -64,6 +58,7 @@ test('should not render invalidated if there are none', () => {
       unreviewed={unreviewed}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -79,6 +74,7 @@ test('should not render already validated if there are none', () => {
       unreviewed={unreviewed}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -98,6 +94,7 @@ test('should render working submit button', async () => {
       unreviewed={unreviewed}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -115,6 +112,7 @@ test('should disable submit button if no sentences', async () => {
       unreviewed={[]}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={false}
     />
   );
 
@@ -122,8 +120,6 @@ test('should disable submit button if no sentences', async () => {
 });
 
 test('should not show submit button while uploading sentences', async () => {
-  redux.useSelector.mockImplementation(() => ({ isUploadingSentences: true }));
-
   render(
     <ConfirmForm
       submitted={[]}
@@ -132,6 +128,7 @@ test('should not show submit button while uploading sentences', async () => {
       unreviewed={[]}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={true}
     />
   );
 
@@ -139,8 +136,6 @@ test('should not show submit button while uploading sentences', async () => {
 });
 
 test('should show submission notice while uploading', async () => {
-  redux.useSelector.mockImplementation(() => ({ isUploadingSentences: true }));
-
   render(
     <ConfirmForm
       submitted={[]}
@@ -149,6 +144,7 @@ test('should show submission notice while uploading', async () => {
       unreviewed={[]}
       onSubmit={onSubmit}
       onReview={onReview}
+      isUploadingSentences={true}
     />
   );
 

@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { loadRejectedSentences } from '../actions/sentences';
 import RejectedSentencesList from '../components/rejected-sentences-list';
 
 export default function Rejected() {
+  const {
+    rejectedSentences = [],
+    rejectedSentencesLoading,
+    rejectedSentencesError,
+  } = useSelector((state) => state.sentences);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +19,11 @@ export default function Rejected() {
   return (
     <React.Fragment>
       <h1>Your rejected sentences</h1>
-      <RejectedSentencesList/>
+      <RejectedSentencesList
+        sentences={rejectedSentences}
+        loading={rejectedSentencesLoading}
+        error={rejectedSentencesError}
+      />
     </React.Fragment>
   );
 }
