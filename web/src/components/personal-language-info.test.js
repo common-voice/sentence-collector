@@ -89,7 +89,7 @@ test('should disable button while languages are pending', () => {
   expect(screen.getByRole('button').disabled).toBeTruthy();
 });
 
-test('should dispatch on remove', async () => {
+test('should call callback onRemove', async () => {
   const onRemove = jest.fn();
   const props = {
     languageStats: {},
@@ -106,4 +106,42 @@ test('should dispatch on remove', async () => {
 
   await userEvent.click(screen.getByRole('button'));
   expect(onRemove).toHaveBeenCalled();
+});
+
+test('should show error when onRemove fails', async () => {
+  const onRemove = jest.fn(() => { throw new Error('nope'); });
+  const props = {
+    languageStats: {},
+    languages: [{
+      id: 'en',
+      name: 'English',
+      nativeName: 'English',
+    }],
+    pendingLanguages: false,
+    onRemove,
+  };
+
+  render(<PersonalLanguageInfo {...props}/>);
+
+  await userEvent.click(screen.getByRole('button'));
+  expect(screen.getByText(/Could not remove language/)).toBeTruthy();
+});
+
+test('should show error when no language id passed', async () => {
+  const onRemove = jest.fn(() => { throw new Error('nope'); });
+  const props = {
+    languageStats: {},
+    languages: [{
+      id: undefined,
+      name: 'English',
+      nativeName: 'English',
+    }],
+    pendingLanguages: false,
+    onRemove,
+  };
+
+  render(<PersonalLanguageInfo {...props}/>);
+
+  await userEvent.click(screen.getByRole('button'));
+  expect(screen.getByText(/language not found/)).toBeTruthy();
 });

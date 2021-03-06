@@ -9,59 +9,10 @@ import ReviewForm from '../components/review-form';
 
 import '../../css/add.css';
 
-const SPLIT_ON = '\n';
-
 function merge(arr1, arr2) {
   return arr1.reduce((accum, cur) => {
     return accum.indexOf(cur) === -1 ? accum.concat([cur]) : accum;
   }, arr2);
-}
-
-function getLanguageInput() {
-  const input = document.querySelector('#add-form select');
-  return input && input.value;
-}
-
-function getSentencesInput() {
-  const input = document.querySelector('#sentences-input');
-  return input && input.value;
-}
-
-function getSourceInput() {
-  const input = document.querySelector('#source-input');
-  return input && input.value;
-}
-
-function getConfirmInput() {
-  const input = document.querySelector('#agree');
-  return input && input.checked;
-}
-
-function validateForm() {
-  if (!getLanguageInput()) {
-    return 'Please select a language.';
-  }
-
-  if (!getSentencesInput()) {
-    return 'Please add sentences.';
-  }
-
-  if (!getSourceInput()) {
-    return 'Please add a source.';
-  }
-
-  if (!getConfirmInput()) {
-    return 'Please confirm that these sentences are public domain.';
-  }
-
-  return;
-}
-
-function parseSentences() {
-  const text = getSentencesInput();
-  const sentences = text.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
-  const dedupedSentences = Array.from(new Set(sentences));
-  return dedupedSentences;
 }
 
 export default function Add() {
@@ -102,17 +53,9 @@ export default function Add() {
     setInvalidated([]);
   };
 
-  const onSubmit = (evt) => {
-    evt.preventDefault();
-    const validationError = validateForm();
-    if (validationError) {
-      setMessage(validationError);
-      return false;
-    }
-
-    const sentences = parseSentences();
-    setLanguage(getLanguageInput());
-    setSource(getSourceInput());
+  const onSubmit = ({ language, sentences, source }) => {
+    setLanguage(language);
+    setSource(source);
     setSubmitted(sentences);
     setUnreviewed(sentences);
   };
@@ -139,11 +82,11 @@ export default function Add() {
       setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
     } catch (error) {
       resetState();
-      setMessage(`Submission Error: ${error.message}`);
+      setError(`Submission Error: ${error.message}`);
     }
   };
 
-  const onReview = () => {
+  const onReviewStart = () => {
     setReviewing(unreviewed.map((sentence) => ({ sentence })));
   };
 
@@ -161,7 +104,7 @@ export default function Add() {
   } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
     // The confirm form is a stats page where sentence submission happens.
     return <ConfirmForm onSubmit={onConfirm}
-                        onReview={onReview}
+                        onReview={onReviewStart}
                         submitted={submitted}
                         unreviewed={unreviewed}
                         validated={validated}

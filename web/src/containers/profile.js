@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addLanguage, removeLanguage } from '../actions/languages';
@@ -22,7 +22,6 @@ export default function Profile() {
     pendingLanguages,
   } = useSelector((state) => state.languages);
 
-  const [error, setError] = useState();
   const dispatch = useDispatch();
 
   const toggleSwipeReview = (evt) => {
@@ -30,42 +29,12 @@ export default function Profile() {
     dispatch(setSetting('useSwipeReview', !useSwipeReview));
   };
 
-  const onAdd = async (event) => {
-    setError('');
-
-    try {
-      event.preventDefault();
-      setError('');
-
-      const element = event.currentTarget.form.querySelector('.language-selector');
-      if (!element) {
-        throw new Error('No select found');
-      }
-
-      if (element.selectedIndex === 0) {
-        throw new Error('Please select a language');
-      }
-
-      const language = element.options[element.selectedIndex].value;
-      await dispatch(addLanguage(language));
-      element.selectedIndex = 0;
-    } catch (error) {
-      console.error(error);
-      setError(`Could not add language: ${error.message}`);
-    }
+  const onAdd = async (language) => {
+    await dispatch(addLanguage(language));
   };
 
-  const onRemove = async (event) => {
-    try {
-      event.preventDefault();
-      setError('');
-
-      const language = event.currentTarget.dataset.lang;
-      await dispatch(removeLanguage(language));
-    } catch (error) {
-      console.error(error);
-      setError(`Could not remove language: ${error.message}`);
-    }
+  const onRemove = async (language) => {
+    await dispatch(removeLanguage(language));
   };
 
   const extendedLanguages = languages.map((lang) => {
@@ -80,7 +49,6 @@ export default function Profile() {
       <PersonalLanguageInfo
         languages={extendedLanguages}
         languageStats={languageStats}
-        error={error}
         onRemove={onRemove}
         pendingLanguages={pendingLanguages}
       />
@@ -89,7 +57,6 @@ export default function Profile() {
         pendingLanguages={pendingLanguages}
         allLanguages={allLanguages}
         languages={languages}
-        error={error}
         onAdd={onAdd}
       />
 
