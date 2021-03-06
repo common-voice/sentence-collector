@@ -105,7 +105,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
         <SubmitButton submitText="Submit"/>
       </form>
 
-      { Object.keys(sentenceSubmissionFailures).length > 0 && (
+      { sentenceSubmissionFailures && Object.keys(sentenceSubmissionFailures).length > 0 && (
         <section>
           <h2>Filtered sentences due to requirements failing (please submit fixed versions as new sentences):</h2>
           <p>Please check the <Link to={'/how-to'}>guidelines</Link>.</p>
