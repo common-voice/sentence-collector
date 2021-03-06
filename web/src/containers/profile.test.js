@@ -13,6 +13,11 @@ jest.mock('../components/settings');
 
 const dispatchMock = jest.fn();
 const username = 'foo';
+const allLanguages = [{
+  id: 'en',
+  name: 'English',
+  nativeName: 'English',
+}];
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -26,7 +31,7 @@ beforeEach(() => {
   redux.useDispatch.mockImplementation(() => dispatchMock);
   redux.useSelector.mockImplementation(() => ({
     username,
-    allLanguages: [],
+    allLanguages,
     languages: [],
     stats: { user: {} },
     pendingLanguages: false,
