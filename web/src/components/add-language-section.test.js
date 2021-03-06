@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import AddLanguageSection from './add-language-section';
@@ -32,14 +32,18 @@ test('should enable button when language selected', () => {
   expect(screen.getByRole('button').disabled).toBe(false);
 });
 
-test('should call onAdd', async () => {
+test('should call onAdd and set button to disabled', async () => {
   const onAdd = jest.fn();
   render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages} onAdd={onAdd}/>);
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect(screen.getByRole('button').disabled).toBe(false);
 
-  await userEvent.click(screen.getByRole('button'));
-  expect(onAdd).toHaveBeenCalledWith('en');
+  await act(async () => {
+    await userEvent.click(screen.getByRole('button'));
+    expect(onAdd).toHaveBeenCalledWith('en');
+  });
+
+  expect(screen.getByRole('button').disabled).toBeTruthy();
 });
 
 test('should show error when adding fails', async () => {

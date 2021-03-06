@@ -9,7 +9,7 @@ const LanguageSelector = (props) => (
     <label className="language-selector-label" htmlFor="language-selector">
       {props.labelText}
     </label>
-    <select onChange={evt => props.onChange && props.onChange(evt.target.value)}
+    <select onChange={(event) => props.onChange && props.onChange(event.target.value)}
             disabled={props.disabled} value={props.selected} className='language-selector'
             id="language-selector">
       <Options {...props} />

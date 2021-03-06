@@ -20,6 +20,8 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
     } catch (error) {
       setError(`Could not add language: ${error.message}`);
     }
+
+    setLanguage();
   };
 
   return (
