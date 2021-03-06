@@ -35,7 +35,6 @@ function mapSentencesIntoCategories(sentences) {
 
 export default function ReviewForm({ message, useSwipeReview, sentences: initialSentences, onReviewed }) {
   const [page, setPage] = useState(0);
-  const [hasPendingSentences, setPendingSentences] = useState(false);
   const [sentences, setSentences] = useState(initialSentences);
 
   const cardsRef = React.createRef();
@@ -46,9 +45,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    setPendingSentences(true);
-    await onReviewed(mapSentencesIntoCategories(sentences));
-    setPendingSentences(false);
+    onReviewed(mapSentencesIntoCategories(sentences));
   };
 
   const reviewSentence = (index, approval) => {
@@ -103,7 +100,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
           ))}
         </Cards>
         <section className="review-footer">
-          <SubmitButton pendingAction={hasPendingSentences} submitText="Finish&nbsp;Review"/>
+          <SubmitButton submitText="Finish&nbsp;Review"/>
         </section>
       </form>
     );
@@ -138,15 +135,8 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
         </section>
       )) }
 
-      <section>
-        { hasPendingSentences && (
-          <p className="loading-text">Reviews are being uploaded. This can take several minutes depending on the number of sentences added.
-            Please don&apos;t close this website.</p>
-        )}
-      </section>
-
       <section className="review-footer">
-        <SubmitButton pendingAction={hasPendingSentences} submitText="Finish&nbsp;Review"/>
+        <SubmitButton submitText="Finish&nbsp;Review"/>
         <Pager page={page} lastPage={lastPage} onPage={setPage} />
       </section>
     </form>

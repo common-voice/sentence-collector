@@ -14,7 +14,7 @@ function parseSentences(sentenceText) {
 
 export default function SubmitForm({ languages, onSubmit, message, error, sentenceSubmissionFailures }) {
   const firstLanguage = languages.length === 1 && languages[0];
-  const [formError, setError] = useState(error);
+  const [formError, setError] = useState();
   const [formFields, setFormFields] = useState({});
   const [language, setLanguage] = useState(firstLanguage && firstLanguage.id);
 
@@ -77,6 +77,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
 
         { message && (<section className="form-message">{ message }</section>)}
         { formError && (<section className="form-error">{ formError }</section>)}
+        { error && (<section className="form-error">{ error }</section>)}
 
         <section>
           <LanguageSelector name="language-selector" languages={languages} labelText="Select Language" onChange={onLanguageSelect}/>
