@@ -6,7 +6,7 @@
   --second-bg-color: black;
   --second-font-color: white;
   --second-font-family: 'Zilla Slab', serif;
-  --active-font-color: red;
+  --active-font-color: #ff4f4f;
   --deactive-color: #d7d7db;
   --grey-color: #d7d7db;
   --dark-grey-color: #5e5c5b;
@@ -141,6 +141,7 @@ form input[type="checkbox"] {
   vertical-align: middle;
   position: relative;
   bottom: 1px;
+  margin: 0 10px 0 0;
 }
 
 form input[type="password"],
