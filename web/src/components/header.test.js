@@ -2,6 +2,7 @@ import React from 'react';
 import * as redux from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 
 import Header from './header';
 
@@ -19,5 +20,12 @@ test('should not render profile link when logged out', () => {
 test('should render profile link when logged in', () => {
   redux.useSelector.mockImplementation(() => ({ authed: true }));
   render(<BrowserRouter><Header /></BrowserRouter>);
-  expect(screen.getByText('Profile')).toBeTruthy();
+  expect(screen.getAllByText('Profile').length >= 1).toBeTruthy();
+});
+
+test('should not fail when toggling menu', async () => {
+  redux.useSelector.mockImplementation(() => ({ authed: true }));
+  render(<BrowserRouter><Header /></BrowserRouter>);
+  await userEvent.click(screen.getByRole('checkbox'));
+  expect(screen.getAllByText('Profile').length >= 1).toBeTruthy();
 });
