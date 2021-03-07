@@ -9,7 +9,7 @@ export default function Modal({ text, children }) {
 
   return (
     <span>
-      <button className="inverse" onClick={showModal}>{text}</button>
+      <button className="secondary" onClick={showModal}>{text}</button>
       <div className={modalIsOpen ? "overlay" : "no-show"} onClick={hideModal}>
         <div className="modal-box">
           <button className="close-modal">

@@ -5,13 +5,9 @@ exports[`should render page 1`] = `
   <div>
     ...Header...
   </div>
-  <div
-    id="page"
-  >
-    <div>
-      ...HeaderBtn...
-    </div>
-    <main />
+  <main />
+  <div>
+    ...Footer...
   </div>
 </div>
 `;

@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import Header from '../components/header';
-import HeaderBtn from '../components/header-btn';
+import Footer from '../components/footer';
 
 export default function Page({ children }) {
-  const [headerIsOpen, setHeaderShown] = useState(true);
-  const toggleHeader = () => { setHeaderShown(!headerIsOpen); };
-
-  const elements = [
-    <div id="page" key="page">
-      <HeaderBtn isOpen={headerIsOpen} handleClick={toggleHeader} />
+  return (
+    <React.Fragment>
+      <Header key="header" />
       <main key="main">
         {children}
       </main>
-    </div>
-  ];
-
-  if (headerIsOpen) {
-    elements.unshift(<Header key="header" />);
-  }
-
-  return elements;
+      <Footer key="footer" />
+    </React.Fragment>
+  );
 }

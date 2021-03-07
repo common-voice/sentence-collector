@@ -73,7 +73,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
   return (
     <React.Fragment>
       <form id="add-form" onSubmit={onSentencesSubmit}>
-        <h2>Add Sentences</h2>
+        <h1>Add Sentences</h1>
 
         { message && (<section className="form-message">{ message }</section>)}
         { formError && (<section className="form-error">{ formError }</section>)}

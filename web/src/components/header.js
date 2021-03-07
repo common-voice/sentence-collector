@@ -1,40 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 
+import logoURL from '../../img/cv-logo-one-color-black.svg';
+import '../../css/header.css';
+
 import ProfileWidget from './profile-widget';
-import logoURL from '../../img/cv-logo-one-color-white.svg';
+
+function NavItems({ authed, closeNavigation }) {
+  return (
+    <React.Fragment>
+      <NavLink to="/" exact onClick={closeNavigation}>Home</NavLink>
+      <NavLink to="/how-to" exact onClick={closeNavigation}>How-to</NavLink>
+      <NavLink to="/add" exact key="add" onClick={closeNavigation}>Add</NavLink>
+      <NavLink to="/review" key="review" onClick={closeNavigation}>Review</NavLink>
+      <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>Rejected Sentences</NavLink>
+      <NavLink to="/stats" key="stats" onClick={closeNavigation}>Statistics</NavLink>
+      { authed && (
+        <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>Profile</NavLink>
+      )}
+    </React.Fragment>
+  );
+}
 
 export default function Header() {
-  const { authed, username } = useSelector((state) => state.login);
+  const { authed } = useSelector((state) => state.login);
+  const [showMobileNav, setShowMobileNav] = useState(false);
+
+  const toggleMobileNav = () => {
+    const newState = !showMobileNav;
+    setShowMobileNav(newState);
+  };
+
+  const closeMobileNavigation = () => setShowMobileNav(false);
 
   return (
-    <header>
-      <Link to="/" href=""><img src={logoURL} /></Link>
-      <nav>
-        <NavLink to="/" exact>Home</NavLink>
-        <NavLink to="/how-to" exact>How-to</NavLink>
-        <NavLink to="/add" exact key="add">Add</NavLink>
-        <NavLink to="/review" key="review">Review</NavLink>
-        <NavLink to="/rejected" key="rejected">Rejected Sentences</NavLink>
-        <NavLink to="/stats" key="stats">Statistics</NavLink>
-        { authed ? (
-          <NavLink to="/profile" exact key="profile">Profile</NavLink>
-        ) : (
-          <a href="/sentence-collector/login">Login</a>
-        )}
-      </nav>
+    <React.Fragment>
+      <header>
+        <Link to="/" href=""><img src={logoURL} /></Link>
+        <nav id="desktopNav">
+          <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
+          <ProfileWidget authed={authed}/>
+        </nav>
 
-      <ProfileWidget authed={authed} username={username}/>
+        <div id="hamburgerIcon">
+          <label htmlFor="hamburger">&#9776;</label>
+          <input type="checkbox" id="hamburger" onChange={toggleMobileNav}/>
+        </div>
+      </header>
 
-      <section id="external-links">
-        <a target="_blank" rel="noopener noreferrer" href="https://discourse.mozilla.org/tags/c/voice/sentence-collection">Discourse</a>
-        <a target="_blank" rel="noopener noreferrer" href="https://github.com/Common-Voice/sentence-collector/issues">Report Bugs (GitHub)</a>
-        <a target="_blank" rel="noopener noreferrer" href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767">Report copyright issues</a>
-        <a target="_blank" rel="noopener noreferrer" href="https://commonvoice.mozilla.org/privacy">Privacy</a>
-        <a target="_blank" rel="noopener noreferrer" href="https://commonvoice.mozilla.org/terms">Terms</a>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.mozilla.org/en-US/privacy/websites/#cookies">Cookies</a>
+      <section id="mobileNav" className={showMobileNav ? 'shown' : 'hidden'}>
+        <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
+        <ProfileWidget authed={authed}/>
       </section>
-    </header>
+    </React.Fragment>
   );
 }

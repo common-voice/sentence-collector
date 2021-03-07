@@ -118,14 +118,14 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
           </div>
           <div className="button-group">
             <button type="button"
-                    className={`secondary ${sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
+                    className={`${sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
                     aria-pressed={sentences[offset + i].reviewApproval === true}
                     onClick={() => reviewSentence(offset + i, true)}
                     name={`validate-${offset + i}`}>
               👍
             </button>
             <button type="button"
-                    className={`secondary ${sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
+                    className={`${sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
                     aria-pressed={sentences[offset + i].reviewApproval === false}
                     onClick={() => reviewSentence(offset + i, false)}
                     name={`validate-${offset + i}`}>

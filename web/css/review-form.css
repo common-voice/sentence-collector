@@ -64,26 +64,22 @@
 }
 
 .validator .button-group button {
-  --button-padding: .7rem 1.3rem;
+  --button-padding: .45rem 1.3rem;
   border: 1px solid var(--grey-color);
+  border-radius: 0;
   font-size: 1.3em;
   margin: 0.2em;
   padding: var(--button-padding);
+  background-color: var(--main-bg-color);
+  color: var(--main-font-color);
 }
 
-.validator .button-group button.secondary.yes {
+.validator .button-group button.yes {
   background-color: var(--review-selected-color);
 }
 
-.validator .button-group button.secondary.no {
+.validator .button-group button.no {
   background-color: var(--review-selected-color);
-}
-
-#review-form #confirm-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
 
 #review-form .loading-text {
@@ -100,6 +96,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0;
 }
 
 .pager-container {
@@ -163,4 +160,10 @@
 
 .inactive {
   box-shadow: none;
+}
+
+@media screen and (max-width: 768px) {
+  .review-footer {
+    flex-direction: column-reverse;
+  }
 }

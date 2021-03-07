@@ -35,7 +35,7 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
                         labelText="Add a language you want to contribute to"
                         onChange={onLanguageSelect} />
       <button disabled={pendingLanguages || !language}
-              onClick={onLanguageAdd} className="add-language">Add</button>
+              onClick={onLanguageAdd} className="add-language">Add Language</button>
     </section>
   );
 }

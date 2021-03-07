@@ -1,0 +1,28 @@
+footer {
+  position: absolute;
+  bottom: 0;
+  color: var(--main-font-color);
+  padding: 1rem 0;
+  margin-top: var(--footer-margin-top);
+  min-height: var(--footer-height);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-top: 1px solid #e5e5e5;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+footer a {
+  padding: 0 1.2rem;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    flex-direction: column;
+  }
+}
