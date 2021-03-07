@@ -15,6 +15,9 @@
   --review-unselected-color: #ffffff;
   --base-font-size: 19px;
   --light-border-color: #efefef;
+  --header-height: 65px;
+  --footer-height: 60px;
+  --footer-margin-top: 1.5rem;
 }
 
 html {
@@ -128,11 +131,14 @@ select {
 
 #root {
   margin: 0 auto;
+  position: relative;
+  min-height: 100vh;
 }
 
 main {
   max-width: 85vw;
   margin: 0 auto;
+  padding-bottom: calc(var(--footer-height) + var(--footer-margin-top) + 50px);
 }
 
 form section {
@@ -174,13 +180,6 @@ form button:not(.standalone) {
   color: var(--warning-color);
   text-align: center;
   font-weight: bold;
-}
-
-#external-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.7rem;
 }
 
 .loading-text {

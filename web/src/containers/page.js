@@ -1,14 +1,16 @@
 import React from 'react';
 
 import Header from '../components/header';
+import Footer from '../components/footer';
 
 export default function Page({ children }) {
   return (
-    <div id="page" key="page">
+    <React.Fragment>
       <Header key="header" />
       <main key="main">
         {children}
       </main>
-    </div>
+      <Footer key="footer" />
+    </React.Fragment>
   );
 }
