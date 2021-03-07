@@ -2,14 +2,11 @@
 
 exports[`should render page 1`] = `
 <div>
-  <div>
-    ...Header...
-  </div>
   <div
     id="page"
   >
     <div>
-      ...HeaderBtn...
+      ...Header...
     </div>
     <main />
   </div>

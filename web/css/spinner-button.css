@@ -1,10 +1,5 @@
 .spinnerButton {
-  display: inline-block;
-  background: black;
-  color: white;
-  position: relative;
   transition: padding-right .3s ease;
-  font-weight: 700;
 }
 
 .spinnerButton.spinning {
