@@ -137,7 +137,7 @@ select {
 
 main {
   max-width: 85vw;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   padding-bottom: calc(var(--footer-height) + var(--footer-margin-top) + 50px);
 }
 
