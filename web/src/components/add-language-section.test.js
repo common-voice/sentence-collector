@@ -13,7 +13,7 @@ const allLanguages = [{
 test('should render submit button', () => {
   render(<AddLanguageSection allLanguages={allLanguages}/>);
   expect(screen.getByRole('button')).toBeTruthy();
-  expect(screen.getByText('Add')).toBeTruthy();
+  expect(screen.getByText('Add Language')).toBeTruthy();
 });
 
 test('should disable button on pending languages', () => {
