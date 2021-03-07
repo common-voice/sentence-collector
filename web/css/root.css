@@ -6,7 +6,7 @@
   --second-bg-color: black;
   --second-font-color: white;
   --second-font-family: 'Zilla Slab', serif;
-  --active-font-color: #ff4f4f;
+  --active-font-color: red;
   --deactive-color: #d7d7db;
   --grey-color: #d7d7db;
   --dark-grey-color: #5e5c5b;
@@ -42,6 +42,22 @@ h3,
 h4 {
   font-family: var(--second-font-family);
   margin: 0.5em 0;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+h4 {
+  font-size: 1rem;
 }
 
 a {
@@ -117,14 +133,6 @@ select {
 main {
   max-width: 85vw;
   margin: 0 auto;
-}
-
-form {
-  margin-top: 2rem;
-}
-
-form#login {
-  width: 20rem;
 }
 
 form section {

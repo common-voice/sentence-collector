@@ -44,7 +44,7 @@ export default function Profile() {
 
   return (
     <form>
-      <h2>Profile: { username }</h2>
+      <h1>Profile: { username }</h1>
 
       <PersonalLanguageInfo
         languages={extendedLanguages}
