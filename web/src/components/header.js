@@ -7,17 +7,17 @@ import '../../css/header.css';
 
 import ProfileWidget from './profile-widget';
 
-function NavItems({ authed }) {
+function NavItems({ authed, closeNavigation }) {
   return (
     <React.Fragment>
-      <NavLink to="/" exact>Home</NavLink>
-      <NavLink to="/how-to" exact>How-to</NavLink>
-      <NavLink to="/add" exact key="add">Add</NavLink>
-      <NavLink to="/review" key="review">Review</NavLink>
-      <NavLink to="/rejected" key="rejected">Rejected Sentences</NavLink>
-      <NavLink to="/stats" key="stats">Statistics</NavLink>
+      <NavLink to="/" exact onClick={closeNavigation}>Home</NavLink>
+      <NavLink to="/how-to" exact onClick={closeNavigation}>How-to</NavLink>
+      <NavLink to="/add" exact key="add" onClick={closeNavigation}>Add</NavLink>
+      <NavLink to="/review" key="review" onClick={closeNavigation}>Review</NavLink>
+      <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>Rejected Sentences</NavLink>
+      <NavLink to="/stats" key="stats" onClick={closeNavigation}>Statistics</NavLink>
       { authed && (
-        <NavLink to="/profile" exact key="profile">Profile</NavLink>
+        <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>Profile</NavLink>
       )}
     </React.Fragment>
   );
@@ -32,12 +32,14 @@ export default function Header() {
     setShowMobileNav(newState);
   };
 
+  const closeMobileNavigation = () => setShowMobileNav(false);
+
   return (
     <React.Fragment>
       <header>
         <Link to="/" href=""><img src={logoURL} /></Link>
         <nav id="desktopNav">
-          <NavItems authed={authed}/>
+          <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
           <ProfileWidget authed={authed}/>
         </nav>
 
@@ -48,7 +50,7 @@ export default function Header() {
       </header>
 
       <section id="mobileNav" className={showMobileNav ? 'shown' : 'hidden'}>
-        <NavItems authed={authed}/>
+        <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
         <ProfileWidget authed={authed}/>
       </section>
     </React.Fragment>
