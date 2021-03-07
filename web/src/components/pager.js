@@ -13,7 +13,7 @@ export default function Pager({ page, lastPage, onPage }) {
         <span key={`idx${index+1}`}>{
           (pageNumber >= 0 && pageNumber <= lastPage) ? (
             <button
-              className={page === pageNumber ? 'active pager' : 'pager'}
+              className={page === pageNumber ? 'active pager standalone' : 'pager standalone'}
               onClick={(event) => {
                 event.preventDefault();
                 onPage && onPage(pageNumber);
@@ -21,7 +21,7 @@ export default function Pager({ page, lastPage, onPage }) {
               {text}
             </button>
           ) : (
-            <button key={`page-link-${pageNumber}`} className="active pager">{text}</button>
+            <button key={`page-link-${pageNumber}`} className="active pager standalone">{text}</button>
           )
         }</span>
       ))

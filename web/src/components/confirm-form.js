@@ -45,7 +45,7 @@ export default function ConfirmForm(props) {
         </p>
       )}
 
-      <section id="confirm-buttons">
+      <section>
         { isUploadingSentences ?
           <SpinnerButton></SpinnerButton> :
           <button type="submit" disabled={readyCount === 0}>Confirm</button>

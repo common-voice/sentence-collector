@@ -136,7 +136,7 @@ main {
 }
 
 form section {
-  padding: 0.4rem;
+  padding: 0.4rem 0;
 }
 
 form label {
@@ -158,7 +158,7 @@ form input[type="text"] {
   margin-bottom: 0.5rem;
 }
 
-form button {
+form button:not(.standalone) {
   margin: 0.5rem;
   display: inline-block;
 }
@@ -181,11 +181,6 @@ form button {
   flex-direction: column;
   align-items: center;
   font-size: 0.7rem;
-}
-
-.divCenter {
-  text-align: center;
-  margin: 1em 0;
 }
 
 .loading-text {

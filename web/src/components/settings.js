@@ -17,10 +17,10 @@ export default function Settings({ errorMessage, useSwipeReview, onToggleSwipeRe
       </p>
 
       {!useSwipeReview && (
-        <button onClick={onToggleSwipeReview}>Use Swiping Review Tool</button>
+        <button className="standalone" onClick={onToggleSwipeReview}>Use Swiping Review Tool</button>
       )}
       {useSwipeReview && (
-        <button onClick={onToggleSwipeReview}>Use Normal Review Tool</button>
+        <button className="standalone" onClick={onToggleSwipeReview}>Use Normal Review Tool</button>
       )}
     </section>
   );
