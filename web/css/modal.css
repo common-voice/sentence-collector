@@ -8,7 +8,7 @@
   background-color: #fff;
   transform: translate(-50%, -50%);
   outline: transparent;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .overlay {
@@ -29,6 +29,11 @@
   border-color: transparent;
   color: black;
   background-color: var(--main-bg-color);
+}
+
+.close-modal:not(disabled):hover {
+  background-color: var(--main-bg-color);
+  color: black;
 }
 
 .no-show {
