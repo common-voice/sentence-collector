@@ -6,14 +6,15 @@
 }
 
 #contribute a {
-  text-decoration: none;;
+  text-decoration: none;
+  margin: 1rem 1rem;
+  width: 40%;
 }
 
 .contributeCard {
-  width: 100%;
   padding: 1rem;
-  margin: 1rem 0;
   border: 1px solid var(--dark-grey-color);
+  height: 100%;
 }
 
 @media screen and (max-width: 1500px) {
@@ -24,9 +25,6 @@
 
   #contribute a {
     width: 100%;
-  }
-
-  .contributeCard {
-
+    margin: 1rem 0;
   }
 }
