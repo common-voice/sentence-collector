@@ -5,7 +5,7 @@ import { NavLink, Link } from 'react-router-dom';
 import logoURL from '../../img/cv-logo-one-color-black.svg';
 import '../../css/header.css';
 
-import ProfileWidget from './profile-widget';
+import LoginButton from './login-button';
 
 function NavItems({ authed, closeNavigation }) {
   return (
@@ -40,7 +40,7 @@ export default function Header() {
         <Link to="/" href=""><img src={logoURL} /></Link>
         <nav id="desktopNav">
           <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
-          <ProfileWidget authed={authed}/>
+          <LoginButton authed={authed}/>
         </nav>
 
         <div id="hamburgerIcon">
@@ -51,7 +51,7 @@ export default function Header() {
 
       <section id="mobileNav" className={showMobileNav ? 'shown' : 'hidden'}>
         <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
-        <ProfileWidget authed={authed}/>
+        <LoginButton authed={authed}/>
       </section>
     </React.Fragment>
   );

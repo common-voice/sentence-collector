@@ -1,14 +1,14 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import ProfileWidget from './profile-widget';
+import LoginButton from './login-button';
 
 test('should render login button if logged out', () => {
-  render(<ProfileWidget authed={false} />);
+  render(<LoginButton authed={false} />);
   expect(screen.getByText('Login / Signup')).toBeTruthy();
 });
 
 test('should render logout button when logged in', () => {
-  render(<ProfileWidget authed={true} />);
+  render(<LoginButton authed={true} />);
   expect(screen.getByText('Logout')).toBeTruthy();
 });

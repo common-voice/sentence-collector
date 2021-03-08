@@ -11,9 +11,8 @@ header {
   border-bottom: 1px solid #e5e5e5;
 }
 
-header a,
-#mobileNav a {
-  padding: 0 1.2rem;
+header a {
+  padding: 0.5rem 1.2rem;
   text-decoration: none;
 }
 
@@ -26,12 +25,12 @@ nav {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+  align-items: center;
   text-transform: uppercase;
   padding-left: 2rem;
 }
 
 nav > .active {
-  padding-bottom: 10px;
   box-shadow: inset 0 -2px 0 0 var(--active-font-color);
 }
 
@@ -54,23 +53,12 @@ header label {
   text-align: center;
 }
 
-#mobileNav .profile-widget {
-  padding-right: 0;
-}
-
-#mobileNav a {
+#mobileNav > a,
+#mobileNav .login-widget {
   padding: 1.5rem 0;
   border-bottom: 1px solid var(--grey-color);
   width: 100%;
-}
-
-#desktopNav .profile-widget {
-  padding: 0 10vw;
-}
-
-.profile-widget {
-  text-align: center;
-  display: flex;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 1500px) {
