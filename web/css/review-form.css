@@ -97,6 +97,12 @@
   padding: 0;
 }
 
+.card-review-footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
 .pager-container {
   text-align: center;
   display: flex;

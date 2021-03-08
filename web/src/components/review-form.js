@@ -38,7 +38,6 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
   const [sentences, setSentences] = useState(initialSentences);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
 
-  const cardsRef = React.createRef();
   const totalPages = Math.ceil(sentences.length / PAGE_SIZE);
   const lastPage = totalPages - 1;
   const offset = page * PAGE_SIZE;
@@ -69,10 +68,27 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
   const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
   if (useSwipeReview) {
+    const cardsRef = React.createRef();
+
+    const skip = (event) => {
+      event.preventDefault();
+      const currentIndex = cardsRef.current.state.index;
+      cardsRef.current.setState({ index: currentIndex + 1 });
+    };
+
+    const onReviewButtonPress = (event, approval) => {
+      event.preventDefault();
+      const currentIndex = cardsRef.current.state.index;
+      reviewSentence(currentIndex, approval);
+      cardsRef.current.setState({ index: currentIndex + 1 });
+    };
+
     return (
       <form id="review-form" onSubmit={onSubmit}>
-        <p>Swipe right to approve the sentence, swipe left to reject it.</p>
-        <p>You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review!</p>
+        <p>Swipe right to approve the sentence. Swipe left to reject it.</p>
+        <p>You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review by clicking on the &quot;Finish Review&quot; button below!</p>
+
+        <SubmitButton submitText="Finish&nbsp;Review"/>
 
         { message && ( <p>{message}</p> ) }
 
@@ -94,8 +110,10 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
             </Card>
           ))}
         </Cards>
-        <section className="review-footer">
-          <SubmitButton submitText="Finish&nbsp;Review"/>
+        <section className="card-review-footer">
+          <button className="standalone secondary" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
+          <button className="standalone secondary" onClick={skip}>Skip</button>
+          <button className="standalone secondary" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
         </section>
       </form>
     );
