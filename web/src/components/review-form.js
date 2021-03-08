@@ -36,6 +36,7 @@ function mapSentencesIntoCategories(sentences) {
 export default function ReviewForm({ message, useSwipeReview, sentences: initialSentences, onReviewed }) {
   const [page, setPage] = useState(0);
   const [sentences, setSentences] = useState(initialSentences);
+  const [reviewedSentencesCount, setReviewedCount] = useState(0);
 
   const cardsRef = React.createRef();
   const totalPages = Math.ceil(sentences.length / PAGE_SIZE);
@@ -58,6 +59,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
     }
 
     setSentences(allSentences);
+    setReviewedCount((previousNumber) => previousNumber + 1);
   };
 
   if (!Array.isArray(sentences) || sentences.length < 1) {
@@ -67,26 +69,19 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
   const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
   if (useSwipeReview) {
-    let message = (<p>You have not reviewed any sentences yet!</p>);
-    if (page !== 0) {
-      message = (<p>You have successfully reviewed your {page * PAGE_SIZE}th sentence!</p>);
-    }
-
     return (
       <form id="review-form" onSubmit={onSubmit}>
-        <p>Swipe right to approve sentence, swipe left to reject it.</p>
+        <p>Swipe right to approve the sentence, swipe left to reject it.</p>
+        <p>You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review!</p>
 
-        {message}
+        { message && ( <p>{message}</p> ) }
 
         <Cards onEnd={() => {
           if (page === lastPage) {
             onSubmit({preventDefault: () => {}});
-          } else {
-            setPage(page + 1);
-            cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
           }
         }} className="main-root" ref={cardsRef}>
-          { currentSentences.map((sentence, i) => (
+          { sentences.map((sentence, i) => (
             <Card
               key={offset + i}
               onSwipeLeft={() => reviewSentence(offset + i, false)}
@@ -94,7 +89,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
             >
               <div className="card-sentence-box">
                 <p>{sentence.sentence || sentence}</p>
-                <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
+                <small className="card-source">{sentence.source ? `Source: ${sentence.source}` : ''}</small>
               </div>
             </Card>
           ))}
