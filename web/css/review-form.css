@@ -22,6 +22,7 @@
   display: flex;
   flex-direction: column;
   font-size: 1rem;
+  padding: 1rem;
 }
 
 .sentence-box small,
@@ -47,12 +48,11 @@
 }
 
 .validator .button-group button {
-  --button-padding: .45rem 1.3rem;
   border: 1px solid var(--grey-color);
   border-radius: 0;
   font-size: 1.3em;
   margin: 0.2em;
-  padding: var(--button-padding);
+  padding: 0.45rem 1.3rem;
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
 }
@@ -141,10 +141,6 @@
   box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
-.card-sentence-box {
-  padding: 1rem;
-}
-
 .card-source {
   position: absolute;
   bottom: 50px;
@@ -160,18 +156,6 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .validator {
-    --validator-height: 8.5rem;
-   }
-
-  #review-form {
-    --sentence-box-height: 8.25rem;
-  }
-
-   .validator .button-group button {
-    --button-padding: 1.75rem;
-  }
-
   .review-footer {
     flex-direction: column-reverse;
   }

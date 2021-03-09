@@ -26,9 +26,12 @@ html {
   color: var(--main-font-color);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  box-sizing: border-box;
 }
 
 input,
