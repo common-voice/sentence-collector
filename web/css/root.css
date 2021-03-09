@@ -125,6 +125,11 @@ button.secondary:active {
   color: var(--main-font-color);
 }
 
+.button.big,
+button.big {
+  padding: 0.5rem 1rem;
+}
+
 select {
   padding: 0.2rem 0;
 }

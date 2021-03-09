@@ -111,9 +111,9 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
           ))}
         </Cards>
         <section className="card-review-footer">
-          <button className="standalone secondary" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
-          <button className="standalone secondary" onClick={skip}>Skip</button>
-          <button className="standalone secondary" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
+          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
+          <button className="standalone secondary big" onClick={skip}>Skip</button>
+          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
         </section>
       </form>
     );
