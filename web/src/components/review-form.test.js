@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import ReviewForm from './review-form';
@@ -122,6 +122,8 @@ describe('Normal Review Tool', () => {
   });
 });
 
+// Testing the Swipe Review Form through the ReviewForm here so we can
+// test all the logic
 describe('Swipe Review Tool', () => {
   test('should render swipe review tool', () => {
     render(<ReviewForm sentences={sentences} useSwipeReview={true}/>);
@@ -145,70 +147,8 @@ describe('Swipe Review Tool', () => {
     expect(screen.getByText('Finish Review')).toBeTruthy();
   });
 
-  test('should skip sentence on swipe review tool skip button', async () => {
-    const onReviewed = jest.fn();
-    render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
-
-    await userEvent.click(screen.getByText('Skip'));
-
-    await act(async () => await userEvent.click(screen.getByText('Finish Review')));
-    expect(onReviewed).toHaveBeenCalledWith({
-      validated: [],
-      invalidated: [],
-      unreviewed: [{
-        sentence: 'Hi there',
-        source: 'Me',
-      }]
-    });
-  });
-
-  test('should approve sentence on approve button', async () => {
-    const onReviewed = jest.fn();
-    render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
-
-    await userEvent.click(screen.getByText('Approve'));
-
-    await act(async () => await userEvent.click(screen.getByText('Finish Review')));
-    expect(onReviewed).toHaveBeenCalledWith({
-      validated: [{
-        sentence: 'Hi there',
-        source: 'Me',
-      }],
-      invalidated: [],
-      unreviewed: []
-    });
-  });
-
-  test('should reject sentence on reject button', async () => {
-    const onReviewed = jest.fn();
-    render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
-
-    await userEvent.click(screen.getByText('Reject'));
-
-    await act(async () => await userEvent.click(screen.getByText('Finish Review')));
-    expect(onReviewed).toHaveBeenCalledWith({
-      validated: [],
-      invalidated: [{
-        sentence: 'Hi there',
-        source: 'Me',
-      }],
-      unreviewed: []
-    });
-  });
-
-  test('should set state of sentence on multiple button reviews', async () => {
-    const onReviewed = jest.fn();
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} useSwipeReview={true}/>);
-
-    await userEvent.click(screen.getByText('Reject'));
-    await userEvent.click(screen.getByText('Approve'));
-    await userEvent.click(screen.getByText('Skip'));
-    await userEvent.click(screen.getByText('Skip'));
-    await userEvent.click(screen.getByText('Approve'));
-    await userEvent.click(screen.getByText('Skip'));
-
-    await act(async () => await userEvent.click(screen.getByText('Finish Review')));
-    expect(onReviewed).toHaveBeenCalledWith({
+  describe('Reviews', () => {
+    const fullTestExpectedCategorization = {
       validated: [{
         sentence: 'Hi there two',
         source: 'Me',
@@ -233,6 +173,88 @@ describe('Swipe Review Tool', () => {
         sentence: 'Hi there seven',
         source: 'Me',
       }]
+    };
+
+    test('should skip sentence on swipe review tool skip button', async () => {
+      const onReviewed = jest.fn();
+      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
+
+      await userEvent.click(screen.getByText('Skip'));
+
+      await act(async () => await userEvent.click(screen.getByText('Finish Review')));
+      expect(onReviewed).toHaveBeenCalledWith({
+        validated: [],
+        invalidated: [],
+        unreviewed: [{
+          sentence: 'Hi there',
+          source: 'Me',
+        }]
+      });
+    });
+
+    test('should approve sentence on approve button', async () => {
+      const onReviewed = jest.fn();
+      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
+
+      await userEvent.click(screen.getByText('Approve'));
+
+      await act(async () => await userEvent.click(screen.getByText('Finish Review')));
+      expect(onReviewed).toHaveBeenCalledWith({
+        validated: [{
+          sentence: 'Hi there',
+          source: 'Me',
+        }],
+        invalidated: [],
+        unreviewed: []
+      });
+    });
+
+    test('should reject sentence on reject button', async () => {
+      const onReviewed = jest.fn();
+      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true}/>);
+
+      await userEvent.click(screen.getByText('Reject'));
+
+      await act(async () => await userEvent.click(screen.getByText('Finish Review')));
+      expect(onReviewed).toHaveBeenCalledWith({
+        validated: [],
+        invalidated: [{
+          sentence: 'Hi there',
+          source: 'Me',
+        }],
+        unreviewed: []
+      });
+    });
+
+    test('should set state of sentence on multiple button reviews', async () => {
+      const onReviewed = jest.fn();
+      render(<ReviewForm sentences={sentences} onReviewed={onReviewed} useSwipeReview={true}/>);
+
+      await userEvent.click(screen.getByText('Reject'));
+      await userEvent.click(screen.getByText('Approve'));
+      await userEvent.click(screen.getByText('Skip'));
+      await userEvent.click(screen.getByText('Skip'));
+      await userEvent.click(screen.getByText('Approve'));
+      await userEvent.click(screen.getByText('Skip'));
+
+      await act(async () => await userEvent.click(screen.getByText('Finish Review')));
+      expect(onReviewed).toHaveBeenCalledWith(fullTestExpectedCategorization);
+    });
+
+    test('should set state of sentence on multiple keyboard reviews', async () => {
+      const onReviewed = jest.fn();
+      render(<ReviewForm sentences={sentences} onReviewed={onReviewed} useSwipeReview={true}/>);
+
+      await fireEvent.keyDown(document, { key: 'n' });
+      await fireEvent.keyDown(document, { key: 'y' });
+      await fireEvent.keyDown(document, { key: 's' });
+      await fireEvent.keyDown(document, { key: 's' });
+      await fireEvent.keyDown(document, { key: 'y' });
+      await fireEvent.keyDown(document, { key: 's' });
+
+      await act(async () => await userEvent.click(screen.getByText('Finish Review')));
+      expect(onReviewed).toHaveBeenCalledWith(fullTestExpectedCategorization);
     });
   });
+
 });
