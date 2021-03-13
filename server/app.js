@@ -145,7 +145,7 @@ app.use(`${MOUNT_PATH}/sentences`, sentencesRoutes);
 app.use(`${MOUNT_PATH}/stats`, statsRoutes);
 app.use(`${MOUNT_PATH}/users`, usersRoutes);
 app.use(`${MOUNT_PATH}/votes`, votesRoutes);
-app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(`${MOUNT_PATH}/api`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist')));
 
 module.exports = app;
