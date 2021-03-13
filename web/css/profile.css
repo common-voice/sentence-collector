@@ -6,3 +6,9 @@ button.remove-lang {
   border: none;
   text-decoration: underline;
 }
+
+button.remove-lang:hover,
+button.remove-lang:active {
+  background-color: transparent;
+  color: inherit;
+}
