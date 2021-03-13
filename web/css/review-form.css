@@ -1,17 +1,5 @@
-/* media query */
-@media screen and (max-width: 1024px) {
-  .validator {
-    --validator-height: 10.5rem;
-   }
-
-  .sentence-box {
-    --sentence-box-height: 10.25rem;
-    --sentence-box-font-size: 1.5rem;
-  }
-
-   .validator .button-group button {
-    --button-padding: 1.75rem;
-  }
+#review-form {
+  --sentence-box-height: 6rem;
 }
 
 .validator {
@@ -25,7 +13,6 @@
 
 .sentence-box,
 .card-sentence-box {
-  --sentence-box-font-size: var(--base-font-size);
   height: var(--sentence-box-height);
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
@@ -34,11 +21,8 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  font-size: var(--sentence-box-font-size)
-}
-
-.sentence-box {
-  --sentence-box-height: 6rem;
+  font-size: 1rem;
+  padding: 1rem;
 }
 
 .sentence-box small,
@@ -64,12 +48,11 @@
 }
 
 .validator .button-group button {
-  --button-padding: .45rem 1.3rem;
   border: 1px solid var(--grey-color);
   border-radius: 0;
   font-size: 1.3em;
   margin: 0.2em;
-  padding: var(--button-padding);
+  padding: 0.45rem 1.3rem;
   background-color: var(--main-bg-color);
   color: var(--main-font-color);
 }
@@ -97,6 +80,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0;
+}
+
+.card-review-footer {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.card-review-footer .buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .pager-container {
@@ -133,24 +126,28 @@
 }
 
 .main-root {
-  margin: 20px auto;
+  margin: 50px auto;
   position: relative;
-  height: calc(var(--sentence-box-height) + 2em);
-  width: calc(250px + 2em);
+  height: calc(2 * var(--sentence-box-height));
+  width: 25vw;
   overflow: hidden;
-  border: 1px solid #e5e5e5;
 }
 
 .card {
   background-size: cover;
   position: absolute;
   background: #F8F3F3;
-  height: var(--sentence-box-height);
-  width: 250px;
-  transition: box-shadow .3s;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  height: calc(2 * var(--sentence-box-height));
+  width: 25vw;
   cursor: pointer;
   padding: 1em;
+  transition: box-shadow .3s;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.card-source {
+  position: absolute;
+  bottom: 50px;
 }
 
 .animate {
@@ -162,8 +159,20 @@
   box-shadow: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   .review-footer {
     flex-direction: column-reverse;
+  }
+
+  .card-review-footer {
+    justify-content: space-between;
+  }
+
+  .main-root {
+    width: 100%;
+  }
+
+  .card {
+    width: 100%;
   }
 }

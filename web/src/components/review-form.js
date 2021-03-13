@@ -1,108 +1,58 @@
 import React, { useState } from 'react';
 
-import Cards from './swipecard/Cards';
-import Card from "./swipecard/CardSwitcher";
 import Pager from './pager';
 import SubmitButton from './submit-button';
+import SwipeReviewForm from './swipe-review-form';
 
 import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-function mapSentencesIntoCategories(sentences) {
-  let validated = [];
-  let invalidated = [];
-  const unreviewed = sentences.filter((sentenceInfo) => {
-    if (sentenceInfo.reviewApproval) {
-      validated.push(sentenceInfo);
-      return false;
-    }
-
-    if (sentenceInfo.reviewApproval === false) {
-      invalidated.push(sentenceInfo);
-      return false;
-    }
-
-    return true;
-  });
-
-  return {
-    validated,
-    invalidated,
-    unreviewed,
-  };
-}
-
-export default function ReviewForm({ message, useSwipeReview, sentences: initialSentences, onReviewed }) {
+export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed }) {
   const [page, setPage] = useState(0);
-  const [sentences, setSentences] = useState(initialSentences);
+  const [reviewedSentencesCount, setReviewedCount] = useState(0);
+  const [reviewApproval, setReviewApproval] = useState({});
 
-  const cardsRef = React.createRef();
   const totalPages = Math.ceil(sentences.length / PAGE_SIZE);
   const lastPage = totalPages - 1;
   const offset = page * PAGE_SIZE;
+  const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    onReviewed(mapSentencesIntoCategories(sentences));
+    const categorizedSentences = mapSentencesAccordingToState(sentences, reviewApproval);
+    onReviewed(categorizedSentences);
+    setReviewApproval({});
   };
 
   const reviewSentence = (index, approval) => {
-    const allSentences = [...sentences];
-    if (allSentences[index].reviewApproval === approval) {
+    if (reviewApproval[index] === approval) {
       // already set before, deselecting now
-      allSentences[index].reviewApproval = undefined;
+      setReviewApproval((previousValue) => ({ ...previousValue, [index]: undefined }));
     } else {
-      allSentences[index].reviewApproval = approval;
+      setReviewApproval((previousValue) => ({ ...previousValue, [index]: approval }));
     }
 
-    setSentences(allSentences);
+    setReviewedCount((previousNumber) => previousNumber + 1);
   };
 
   if (!Array.isArray(sentences) || sentences.length < 1) {
-    return <h2>nothing to review</h2>;
+    return (<h2>nothing to review</h2>);
   }
 
-  const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
-
   if (useSwipeReview) {
-    let message = (<p>You have not reviewed any sentences yet!</p>);
-    if (page !== 0) {
-      message = (<p>You have successfully reviewed your {page * PAGE_SIZE}th sentence!</p>);
-    }
-
     return (
-      <form id="review-form" onSubmit={onSubmit}>
-        <p>Swipe right to approve sentence, swipe left to reject it.</p>
-
-        {message}
-
-        <Cards onEnd={() => {
-          if (page === lastPage) {
-            onSubmit({preventDefault: () => {}});
-          } else {
-            setPage(page + 1);
-            cardsRef.current.setState({index: -1}); //cardsRef.state.index modified due to Cards' inner card removal handling.
-          }
-        }} className="main-root" ref={cardsRef}>
-          { currentSentences.map((sentence, i) => (
-            <Card
-              key={offset + i}
-              onSwipeLeft={() => reviewSentence(offset + i, false)}
-              onSwipeRight={() => reviewSentence(offset + i, true)}
-            >
-              <div className="card-sentence-box">
-                <p>{sentence.sentence || sentence}</p>
-                <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
-              </div>
-            </Card>
-          ))}
-        </Cards>
-        <section className="review-footer">
-          <SubmitButton submitText="Finish&nbsp;Review"/>
-        </section>
-      </form>
+      <SwipeReviewForm
+        onReviewSentence={reviewSentence}
+        onSubmit={onSubmit}
+        sentences={sentences}
+        page={page}
+        lastPage={lastPage}
+        offset={offset}
+        message={message}
+        reviewedSentencesCount={reviewedSentencesCount}
+      />
     );
   }
 
@@ -118,15 +68,15 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
           </div>
           <div className="button-group">
             <button type="button"
-                    className={`${sentences[offset + i].reviewApproval === true ? 'yes' : ''}`}
-                    aria-pressed={sentences[offset + i].reviewApproval === true}
+                    className={`${reviewApproval[offset + i] === true ? 'yes' : ''}`}
+                    aria-pressed={reviewApproval[offset + i] === true}
                     onClick={() => reviewSentence(offset + i, true)}
                     name={`validate-${offset + i}`}>
               👍
             </button>
             <button type="button"
-                    className={`${sentences[offset + i].reviewApproval === false ? 'no' : ''}`}
-                    aria-pressed={sentences[offset + i].reviewApproval === false}
+                    className={`${reviewApproval[offset + i] === false ? 'no' : ''}`}
+                    aria-pressed={reviewApproval[offset + i] === false}
                     onClick={() => reviewSentence(offset + i, false)}
                     name={`validate-${offset + i}`}>
               👎
@@ -141,4 +91,18 @@ export default function ReviewForm({ message, useSwipeReview, sentences: initial
       </section>
     </form>
   );
+}
+
+function mapSentencesAccordingToState(sentences, reviewApproval) {
+  return sentences.reduce((acc, sentence, index) => {
+    if (reviewApproval[index] === true) {
+      acc.validated.push(sentence);
+    } else if (reviewApproval[index] === false) {
+      acc.invalidated.push(sentence);
+    } else {
+      acc.unreviewed.push(sentence);
+    }
+
+    return acc;
+  }, { validated: [], invalidated: [], unreviewed: [] });
 }

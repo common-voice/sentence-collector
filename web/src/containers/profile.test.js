@@ -32,7 +32,7 @@ beforeEach(() => {
   redux.useSelector.mockImplementation(() => ({
     username,
     allLanguages,
-    languages: [],
+    languages: ['en'],
     stats: { user: {} },
     pendingLanguages: false,
     useSwipeReview: false,

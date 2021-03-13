@@ -26,9 +26,12 @@ html {
   color: var(--main-font-color);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  box-sizing: border-box;
 }
 
 input,
@@ -123,6 +126,11 @@ button.secondary:active {
   background-color: var(--main-bg-color);
   border-color: var(--second-bg-color);
   color: var(--main-font-color);
+}
+
+.button.big,
+button.big {
+  padding: 0.5rem 1rem;
 }
 
 select {
