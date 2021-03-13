@@ -194,4 +194,4 @@ SELECT Sentences.*
 
 ## API
 
-You can find the API documentation for the public endpoints in the [OpenAPI spec](https://commonvoice.mozilla.org/sentence-collector/api).
+You can find the API documentation for the public endpoints in the [OpenAPI spec](https://commonvoice.mozilla.org/sentence-collector/api/).
