@@ -1,10 +1,12 @@
 # Common Voice Sentence Collector
 
+The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is part of the [Common Voice](https://commonvoice.mozilla.org/) project. Its purpose is to provide a tool for contributors to upload public domain sentences, which then can get reviewed and are exported to the Common Voice database. Once imported they will show up for contributors on Common Voice to read out aloud.
+
 ## Get involved
 
 - Fork the project and test that you can run the environment locally following the instructions below.
 - Is everything working as expected? If not, submit [a new issue](https://github.com/Common-Voice/sentence-collector/issues/new).
-- Review the pending issues in the [v2.0 project](https://github.com/Common-Voice/sentence-collector/projects/2).
+- Review the pending issues in the [project](https://github.com/Common-Voice/sentence-collector/projects/2).
 - Create a [new PR](https://github.com/Common-Voice/sentence-collector/compare) to fix any of the existing issues in the project.
 
 ## Prerequisites
@@ -14,6 +16,8 @@
  * [docker-compose](https://docs.docker.com/compose/install/)
 
 ## Local Development
+
+Start the MySQL database:
 
 ```
 docker-compose up
@@ -49,7 +53,29 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 4. Add `http://localhost:3333/callback` to the "Allowed Callback URLs" list.
 5. You can add more login options to your app from the "Connections" tab, but you don't have to
 6. These required domain, client ID and client secret are found in the same Settings tab as the "Allowed Callback URLs". Copy those into your run command from above.
-8. You will now be able to create a new user by clicking on "Login" and then switching over to the "Sign Up" tab on the login dialog. You don't need to use a valid email address.
+7. You will now be able to create a new user by clicking on "Login" and then switching over to the "Sign Up" tab on the login dialog. You don't need to use a valid email address.
+
+## Running automated tests
+
+### Backend
+
+Running the unit and integration tests:
+
+```
+cd server
+npm t
+```
+
+### Frontend
+
+Running the unit tests:
+
+```
+cd web
+npm t
+```
+
+If you need to update the snapshots, run `npm t -- -u`, but make sure that the new snapshots indeed match the expected outcome.
 
 ## Path special cases
 
@@ -60,12 +86,6 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 * Therefore we are serving the frontend on `/` locally, and the API lives at `/sentence-collector`
 * With that we have the same relative calls as we have in production
 * Apart from having a prefix that is either empty or not, we do not have any other special casing
-
-## Building the image
-
-```
-docker build -t michaelkohler/sentence-collector:2.0.10 .
-```
 
 ## Exporting to the official repository
 
