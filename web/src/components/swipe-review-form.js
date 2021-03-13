@@ -83,9 +83,12 @@ export default function SwipeReview(props) {
         ))}
       </Cards>
       <section className="card-review-footer">
-        <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
-        <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, undefined)}>Skip</button>
-        <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
+        <div className="buttons">
+          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
+          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, undefined)}>Skip</button>
+          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
+        </div>
+        <p className="small">You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip</p>
       </section>
     </form>
   );
