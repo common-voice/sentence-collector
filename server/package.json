@@ -27,8 +27,10 @@
     "passport-auth0": "^1.4.0",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
+    "swagger-ui-express": "^4.1.6",
     "talisman": "^1.1.2",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "ava": "^3.13.0",

@@ -9,6 +9,10 @@ const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yml');
+
 const models = require('./lib/models');
 const users = require('./lib/users');
 const sentencesRoutes = require('./routes/sentences');
@@ -141,6 +145,7 @@ app.use(`${MOUNT_PATH}/sentences`, sentencesRoutes);
 app.use(`${MOUNT_PATH}/stats`, statsRoutes);
 app.use(`${MOUNT_PATH}/users`, usersRoutes);
 app.use(`${MOUNT_PATH}/votes`, votesRoutes);
+app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist')));
 
 module.exports = app;

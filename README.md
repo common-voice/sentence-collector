@@ -194,11 +194,4 @@ SELECT Sentences.*
 
 ## API
 
-| Purpose       | Endpoint     | Example     |
-| :------------ | :----------- | :---------- |
-| Get info for a single sentence. Replace `:locale` with the locale code for the language. In the browser you can just copy/paste the sentence and it will correctly handle spaces and symbols). | `/sentence-collector/sentences/:locale` | `/sentence-collector/sentences/de?sentence=Wie%20zuverl%C3%A4ssig%20eine%20Versicherung%20zahlt,%20wei%C3%9F%20man%20erst,%20wenn%20man%20sie%20braucht.` |
-| Get all sources. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/sources/:locale` | `/sentence-collector/sentences/sources/de` |
-| Get all sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/text/:locale` | `/sentence-collector/sentences/text/de` |
-| Get all approved sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/text/approved/:locale` | `/sentence-collector/sentences/text/approved/de` |
-| Get all undecided sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/text/undecided/:locale` | `/sentence-collector/sentences/text/undecided/de` |
-| Get all rejected sentences as text. Replace `:locale` with the locale code for the language. | `/sentence-collector/sentences/text/rejected/:locale` | `/sentence-collector/sentences/text/rejected/de` |
+You can find the API documentation for the public endpoints in the [OpenAPI spec](https://commonvoice.mozilla.org/sentence-collector/api).

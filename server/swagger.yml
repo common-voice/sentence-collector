@@ -1,0 +1,149 @@
+swagger: "2.0"
+info:
+  description: "These are public endpoints for the Common Voice Sentence Collector."
+  version: "1.0.0"
+  title: "Sentence Collector"
+host: "commonvoice.mozilla.org"
+basePath: "/sentence-collector"
+schemes:
+- "https"
+paths:
+  /sentences/{localeId}:
+    get:
+      summary: "Get all sentences for a language"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      - in: "query"
+        name: "sentence"
+        type: "string"
+        description: "Sentence to filter for"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SentencesList"
+  /sentences/sources/{localeId}:
+    get:
+      summary: "Get all sources as list of text for a language"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/SourceText"
+  /sentences/text/{localeId}:
+    get:
+      summary: "Get all sentences as list of text for a language"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Text"
+  /sentences/text/approved/{localeId}:
+    get:
+      summary: "Get all approved sentences as list of text for a language"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Text"
+  /sentences/text/undecided/{localeId}:
+    get:
+      summary: "Get all undecided sentences as list of text for a language"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Text"
+  /sentences/text/rejected/{localeId}:
+    get:
+      summary: "Get all undecided sentences as list of text for a language"
+      description: ""
+      produces:
+      - "text/plain"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/Text"
+
+definitions:
+  SentencesList:
+    type: "array"
+    items:
+      $ref: "#/definitions/Sentence"
+  Sentence:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      sentence:
+        type: "string"
+      source:
+        type: "string"
+      batch:
+        type: "string"
+        format: "uuid"
+      localeId:
+        type: "string"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedAt:
+        type: "string"
+        format: "date-time"
+  Text:
+    type: "string"
+    example: "Sentence One\nSentence Two"
+  SourceText:
+    type: "string"
+    example: "Source A\nSource B"
