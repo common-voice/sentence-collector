@@ -17,9 +17,9 @@ The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is
 
 ## Architecture
 
-![Diagram](architecture.png)
+![Diagram](architecture.svg)
 
-To edit this diagram, load the `architecture.png` in the root of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
+To edit this diagram, load the `architecture.svg` in the root of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
 
 ## Local Development
 
