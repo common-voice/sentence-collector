@@ -15,6 +15,12 @@ The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is
  * [docker](https://docs.docker.com/install/)
  * [docker-compose](https://docs.docker.com/compose/install/)
 
+## Architecture
+
+![Diagram](architecture.png)
+
+To edit this diagram, load the `architecture.png` in the root of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
+
 ## Local Development
 
 Start the MySQL database:
