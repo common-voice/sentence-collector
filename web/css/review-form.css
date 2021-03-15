@@ -17,12 +17,11 @@
   border: 1px solid var(--grey-color);
   flex-basis: 100%;
   line-height: 1rem;
-  justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  padding: 1rem;
+  padding: 0.25rem 1rem;
 }
 
 .sentence-box small,
@@ -32,6 +31,9 @@
 
 .card-sentence-box {
   border: none;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .validator li {
@@ -129,7 +131,7 @@
   margin: 50px auto;
   position: relative;
   height: calc(2 * var(--sentence-box-height));
-  width: 25vw;
+  width: 50vw;
   overflow: hidden;
 }
 
@@ -138,7 +140,7 @@
   position: absolute;
   background: #F8F3F3;
   height: calc(2 * var(--sentence-box-height));
-  width: 25vw;
+  width: 50vw;
   cursor: pointer;
   padding: 1em;
   transition: box-shadow .3s;
@@ -147,7 +149,8 @@
 
 .card-source {
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
+  padding: 0 0.5rem;
 }
 
 .animate {
