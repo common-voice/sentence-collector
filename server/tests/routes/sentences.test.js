@@ -39,7 +39,12 @@ test.serial('should get sentences', async (t) => {
 
   t.is(response.status, 200);
   t.deepEqual(response.body, sentencesMock);
-  t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.true(sentences.getSentencesForLocale.calledWith({
+    localeId: 'en',
+    batch: undefined,
+    source: undefined,
+    sentence: undefined,
+  }));
 });
 
 test.serial('getting sentences should pass on error message', async (t) => {
@@ -54,12 +59,56 @@ test.serial('getting sentences should pass on error message', async (t) => {
   });
 });
 
-test.serial('should get specific sentence info', async (t) => {
+test.serial('should get specific sentence info by sentence', async (t) => {
   const response = await request(app)
     .get('/sentence-collector/sentences/en?sentence=Hi');
 
   t.is(response.status, 200);
-  t.true(sentences.getSentencesForLocale.calledWith('en', 'Hi'));
+  t.true(sentences.getSentencesForLocale.calledWith({
+    localeId: 'en',
+    sentence: 'Hi',
+    batch: undefined,
+    source: undefined,
+  }));
+});
+
+test.serial('should get specific sentence info by source', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/en?source=Foo');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith({
+    localeId: 'en',
+    source: 'Foo',
+    batch: undefined,
+    sentence: undefined,
+  }));
+});
+
+test.serial('should get specific sentence info by batch', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/en?batch=1234-1234');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith({
+    localeId: 'en',
+    batch: '1234-1234',
+    sentence: undefined,
+    source: undefined,
+  }));
+});
+
+test.serial('should get specific sentence info by multiple criteria', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/en?batch=1234-1234&sentence=Hi');
+
+  t.is(response.status, 200);
+  t.true(sentences.getSentencesForLocale.calledWith({
+    localeId: 'en',
+    batch: '1234-1234',
+    sentence: 'Hi',
+    source: undefined,
+  }));
 });
 
 test.serial('should get sentences text only', async (t) => {
@@ -67,7 +116,7 @@ test.serial('should get sentences text only', async (t) => {
     .get('/sentence-collector/sentences/text/en');
 
   t.is(response.status, 200);
-  t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.true(sentences.getSentencesForLocale.calledWith({ localeId: 'en' }));
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.sentence).join('\n'));
 });
 
@@ -151,7 +200,7 @@ test.serial('should get list of sources', async (t) => {
     .get('/sentence-collector/sentences/sources/en');
 
   t.is(response.status, 200);
-  t.true(sentences.getSentencesForLocale.calledWith('en'));
+  t.true(sentences.getSentencesForLocale.calledWith({ localeId: 'en' }));
   t.deepEqual(response.text, sentencesMock.map((sentence) => sentence.source).join('\n'));
 });
 

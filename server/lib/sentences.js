@@ -23,7 +23,7 @@ module.exports = {
   addSentences,
 };
 
-async function getSentencesForLocale(localeId, sentenceFilter) {
+async function getSentencesForLocale({ localeId, source, batch, sentence }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', localeId);
   const options = {
     attributes: { exclude: ['userId'] },
@@ -33,8 +33,16 @@ async function getSentencesForLocale(localeId, sentenceFilter) {
     }
   };
 
-  if (sentenceFilter) {
-    options.where.sentence = sentenceFilter;
+  if (sentence) {
+    options.where.sentence = sentence;
+  }
+
+  if (source) {
+    options.where.source = source;
+  }
+
+  if (batch) {
+    options.where.batch = batch;
   }
 
   return Sentence.findAll(options);

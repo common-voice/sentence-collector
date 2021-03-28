@@ -29,22 +29,34 @@ test.afterEach.always((t) => {
 });
 
 test.serial('getSentencesForLocale: should query sentences', async (t) => {
-  const foundSentences = await sentences.getSentencesForLocale(localeId);
+  const foundSentences = await sentences.getSentencesForLocale({ localeId });
   t.true(Sentence.findAll.called);
   t.is(foundSentences.length, 1);
 });
 
 test.serial('getSentencesForLocale: should order by createdAt', async (t) => {
-  await sentences.getSentencesForLocale(localeId);
+  await sentences.getSentencesForLocale({ localeId });
   const [queryParams] = Sentence.findAll.getCall(0).args;
   t.is(queryParams.order[0][0], 'createdAt');
   t.is(queryParams.order[0][1], 'DESC');
 });
 
 test.serial('getSentencesForLocale: should only get sentences for locale', async (t) => {
-  await sentences.getSentencesForLocale(localeId);
+  await sentences.getSentencesForLocale({ localeId });
   const [queryParams] = Sentence.findAll.getCall(0).args;
   t.is(queryParams.where.localeId, localeId);
+});
+
+test.serial('getSentencesForLocale: should get sentences by params', async (t) => {
+  const source = 'src';
+  const batch = '1234-1234';
+  const sentence = 'Hi';
+  await sentences.getSentencesForLocale({ localeId, source, batch, sentence });
+  const [queryParams] = Sentence.findAll.getCall(0).args;
+  t.is(queryParams.where.localeId, localeId);
+  t.is(queryParams.where.source, source);
+  t.is(queryParams.where.batch, batch);
+  t.is(queryParams.where.sentence, sentence);
 });
 
 test.serial('getApprovedSentencesForLocale: should get approved sentences for locale', async (t) => {

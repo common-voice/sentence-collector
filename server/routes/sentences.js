@@ -56,7 +56,12 @@ router.get('/:locale', async (req, res) => {
   debug('GET_SENTENCES');
 
   try {
-    const foundSentences = await sentences.getSentencesForLocale(req.params.locale, req.query.sentence);
+    const foundSentences = await sentences.getSentencesForLocale({
+      localeId: req.params.locale,
+      sentence: req.query.sentence,
+      source: req.query.source,
+      batch: req.query.batch,
+    });
     res.json(foundSentences);
   } catch (error) {
     debug('GET_SENTENCES_ERROR', error);
@@ -69,7 +74,7 @@ router.get('/text/:locale', async (req, res) => {
   debug('GET_SENTENCES_TEXT');
 
   try {
-    const foundSentences = await sentences.getSentencesForLocale(req.params.locale);
+    const foundSentences = await sentences.getSentencesForLocale({ localeId: req.params.locale });
     const sentencesOnly = foundSentences.map((sentence) => sentence.sentence);
     const sentencesPerLine = sentencesOnly.join('\n');
     res.header('Content-Type', 'text/plain');
@@ -133,7 +138,7 @@ router.get('/sources/:locale', async (req, res) => {
   debug('GET_SENTENCES_SOURCES');
 
   try {
-    const foundSentences = await sentences.getSentencesForLocale(req.params.locale);
+    const foundSentences = await sentences.getSentencesForLocale({ localeId: req.params.locale });
     const sources = Array.from(new Set(foundSentences.map((sentence) => sentence.source)));
     const sourcesPerLine = sources.join('\n');
     res.header('Content-Type', 'text/plain');

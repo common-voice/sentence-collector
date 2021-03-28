@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: "These are public endpoints for the Common Voice Sentence Collector."
-  version: "1.0.0"
+  version: "1.1.0"
   title: "Sentence Collector"
 host: "commonvoice.mozilla.org"
 basePath: "/sentence-collector"
@@ -24,6 +24,14 @@ paths:
         name: "sentence"
         type: "string"
         description: "Sentence to filter for"
+      - in: "query"
+        name: "batch"
+        type: "string"
+        description: "Submission/Batch ID to filter for"
+      - in: "query"
+        name: "source"
+        type: "string"
+        description: "Source to filter for"
       responses:
         "200":
           description: "Success"
@@ -48,7 +56,7 @@ paths:
             $ref: "#/definitions/SourceText"
   /sentences/text/{localeId}:
     get:
-      summary: "Get all sentences as list of text for a language"
+      summary: "Get sentences as list of text for a language"
       description: ""
       produces:
       - "text/plain"
