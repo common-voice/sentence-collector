@@ -62,6 +62,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'dolnoserbšćina',
   },
   {
+    id: 'ff',
+    name: 'Fulah',
+    nativeName: 'Pulaar-Fulfulde',
+  },
+  {
     id: 'fy-NL',
     name: 'Frisian',
     nativeName: 'Frysk',
@@ -200,6 +205,7 @@ const LANGUAGES_TO_REMOVE = [
   'nn', // covered by nn-NO
   'no', // covered by nb-NO and nn-NO
   'ks', // re-added above as native name is wrong
+  'ff', // re-added - https://discourse.mozilla.org/t/fulah-language-naming-consistency/78378
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
