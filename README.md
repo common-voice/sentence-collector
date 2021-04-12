@@ -8,6 +8,7 @@ The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is
 - Is everything working as expected? If not, submit [a new issue](https://github.com/Common-Voice/sentence-collector/issues/new).
 - Review the pending issues in the [project](https://github.com/Common-Voice/sentence-collector/projects/2).
 - Create a [new PR](https://github.com/Common-Voice/sentence-collector/compare) to fix any of the existing issues in the project.
+- To add new language or adjust sentence validation/cleanup: see [VALIDATION.md](https://github.com/common-voice/sentence-collector/blob/main/server/lib/validation/VALIDATION.md) and [CLEANUP.md](https://github.com/common-voice/sentence-collector/blob/main/server/lib/cleanup/CLEANUP.md).
 
 ## Prerequisites
 
