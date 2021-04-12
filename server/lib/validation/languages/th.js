@@ -53,9 +53,9 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
 // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
 //
-// Latin characters with length of 3 or more are disallowed as well,
-// as they can be foriegn (non-Thai) language.
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]{3,}/;
+// Latin characters are disallowed as well,
+// as they can introduce difficulty for pronunciation.
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
