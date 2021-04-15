@@ -8,7 +8,8 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
 
   const onLanguageSelect = (language) => { setLanguage(language); };
 
-  const onLanguageAdd = async () => {
+  const onLanguageAdd = async (event) => {
+    event.preventDefault();
     setError('');
 
     try {
