@@ -19,7 +19,7 @@ function clean(sentences) {
   return sentences.map((sentence) => {
     return sentence
       .replace(/[\u200b\u200c]/g, '')  // removes zero-width chars (occurs in some Thai texts)
-      .replace(/[^0-9\u200b\u200c\u0e01-\u0e2e\u0e30-\u0e39\u0e40-\u0e45\u0e47-\u0e4c‘’‚;:“”\u0020\u0022\u0027\u0060\-\.]/g, '')  // allowed_symbols_regex
+      .replace(/[^\s0-9\u0e01-\u0e2e\u0e30-\u0e39\u0e40-\u0e45\u0e47-\u0e4c\-\.‚;:“”‘’\u0022\u0027\u0060!\u003f]/g, '')  // allowed_symbols_regex
       .replace(/:/g, ' : ') // add a space before and after colon
       .replace(/\?/g, ' ? ') // adds a space before and after question mark
       .replace(/!/g, ' ! ') // adds a space before and after exclamation mark

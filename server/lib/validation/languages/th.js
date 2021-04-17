@@ -59,7 +59,8 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 //
 // Anything that is NOT in Thai character range, whitespaces,
 // and allowed set of puncutations (mainly to remove emojis).
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|[^0-9\u200b\u200c\u0e01-\u0e2e\u0e30-\u0e39\u0e40-\u0e45\u0e47-\u0e4c‘’‚;:“”\u0020\u0022\u0027\u0060\-\.]/;
+// (adapted from `allowed_symbols_regex` rule in cv-sentence-extractor)
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|[^\s\u200b\u200c\u0e01-\u0e2e\u0e30-\u0e39\u0e40-\u0e45\u0e47-\u0e4c\-\.‚;:“”‘’\u0022\u0027\u0060!\u003f]/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
