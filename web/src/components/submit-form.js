@@ -86,7 +86,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
           <label htmlFor="sentences-input">
             Add <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> sentences
           </label>
-          <textarea id="sentences-input" name="sentenceText" placeholder="One sentence per line" onChange={handleInputChange}/>
+          <textarea id="sentences-input" name="sentenceText" placeholder="One sentence per line" onChange={handleInputChange} lang={language}/>
         </section>
         <section>
           <label htmlFor="source-input">
