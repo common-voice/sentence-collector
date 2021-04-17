@@ -44,7 +44,8 @@ const BEGIN_REGEX = /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0
 /* eslint-disable-next-line no-misleading-character-class */
 const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 
-// The following symbols are disallowed, please update here as well and not just the regex
+// The following symbols are disallowed,
+// please update here as well and not just the regex
 // to make it easier to read:
 // < > + * \ # @ ^ [ ] ( ) /
 // Paiyannoi: \u0E2F ฯ (ellipsis, abbreviation)
@@ -55,7 +56,10 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 //
 // Latin characters are disallowed as well,
 // as they can introduce difficulty for pronunciation.
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+/;
+//
+// Anything that is NOT in Thai character range, whitespaces,
+// and allowed set of puncutations (mainly to remove emojis).
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|[^0-9\u200b\u200c\u0e01-\u0e2e\u0e30-\u0e39\u0e40-\u0e45\u0e47-\u0e4c‘’‚;:“”\u0020\u0022\u0027\u0060\-\.]/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
