@@ -54,7 +54,8 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
 // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
 // Latin characters (difficult to pronouce)
-// Emojis
+// Emoji range from https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1
+// and https://www.regextester.com/106421
 const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\u0001f1e0-\u0001f1ff\u0001f300-\u0001f5ff\u0001f600-\u0001f64f\u0001f680-\u0001f6ff\u0001f700-\u0001f77f\u0001f780-\u0001f7ff\u0001f800-\u0001f8ff\u0001f900-\u0001f9ff\u0001fa00-\u0001fa6f\u0001fa70-\u0001faff\u00002702-\u000027b0\u000024c2-\u0001f251])/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period

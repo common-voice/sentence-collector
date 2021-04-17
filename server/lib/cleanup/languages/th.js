@@ -15,6 +15,10 @@ function sortSentences(sentences) {
 // question mark http://www.royin.go.th/?page_id=10418
 // exclamation mark http://www.royin.go.th/?page_id=10433
 // Maiyamok http://www.royin.go.th/?page_id=10427
+//
+// Emoji range from
+// https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1
+// https://www.regextester.com/106421
 function clean(sentences) {
   return sentences.map((sentence) => {
     return sentence
