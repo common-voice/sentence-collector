@@ -9,8 +9,8 @@
 const MIN_LENGTH = 2;
 const MAX_LENGTH = 80;
 
-// Numbers that are not allowed in a sentence depending on the language. For
-// English this is 0-9 once or multiple times after each other.
+// Numbers that are not allowed in a sentence depending on the language.
+// For English this is 0-9 once or multiple times after each other.
 // Thai digits: \u0E50-\u0E59 (๐-๙)
 const NUMBERS_REGEX = /[0-9๐-๙]+/;
 

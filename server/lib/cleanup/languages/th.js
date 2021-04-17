@@ -29,7 +29,13 @@ function clean(sentences) {
       .replace(/(\u0E46\s*)+/g, '\u0E46') // condenses multiple Maiyamok to one Maiyamok
       .replace(/\u0E46/g, ' \u0E46 ') // adds a space before and after Maiyamok
       .replace(/\s+/g, ' ') // condenses multiple spaces to one space
-      .replace(/^\./, '') // removes periods at the beginning of the sentence
+      .replace(/^\.+/, '') // removes periods at the beginning of the sentence
+      .replace(/^,+/, '') // removes commas at the beginning of the sentence
+      .replace(/,+$/, '') // removes commas at the end of the sentence
+      .replace(/^:+/, '') // removes colons at the beginning of the sentence
+      .replace(/:+$/, '') // removes colons at the end of the sentence
+      .replace(/^;+/, '') // removes semicolons at the beginning of the sentence
+      .replace(/;+$/, '') // removes semicolons at the end of the sentence
       .replace(/^\s+/, '') // removes spaces at the beginning of the sentence
       .replace(/\s+$/, '') // removes spaces at the end of the sentence
       .replace(/\u0E40\u0E40/g, '\u0E41') // normalizes Sara E + Sara E -> Sara Ae
