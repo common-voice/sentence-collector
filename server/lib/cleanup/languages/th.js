@@ -23,7 +23,7 @@ function clean(sentences) {
   return sentences.map((sentence) => {
     return sentence
       .replace(/[\u200b\u200c]/g, '')  // remove zero-width chars (occurs in some Thai texts)
-      .replace(/\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\u0001f1e0-\u0001f1ff\u0001f300-\u0001f5ff\u0001f600-\u0001f64f\u0001f680-\u0001f6ff\u0001f700-\u0001f77f\u0001f780-\u0001f7ff\u0001f800-\u0001f8ff\u0001f900-\u0001f9ff\u0001fa00-\u0001fa6f\u0001fa70-\u0001faff\u00002702-\u000027b0\u000024c2-\u0001f251]/g, '')  // remove emoji
+      .replace(/\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\u{0001f1e0}-\u{0001f1ff}\u{0001f300}-\u{0001f5ff}\u{0001f600}-\u{0001f64f}\u{0001f680}-\u{0001f6ff}\u{0001f700}-\u{0001f77f}\u{0001f780}-\u{0001f7ff}\u{0001f800}-\u{0001f8ff}\u{0001f900}-\u{0001f9ff}\u{0001fa00}-\u{0001fa6f}\u{0001fa70}-\u{0001faff}\u{00002702}-\u{000027b0}\u{000024c2}-\u{0001f251}]/g, '')  // remove emoji
       .replace(/:/g, ' : ')  // add a space before and after colon
       .replace(/\?/g, ' ? ')  // add a space before and after question mark
       .replace(/!/g, ' ! ')  // add a space before and after exclamation mark
