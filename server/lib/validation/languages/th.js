@@ -9,8 +9,8 @@
 const MIN_LENGTH = 2;
 const MAX_LENGTH = 80;
 
-// Numbers that are not allowed in a sentence depending on the language. For
-// English this is 0-9 once or multiple times after each other.
+// Numbers that are not allowed in a sentence depending on the language.
+// For English this is 0-9 once or multiple times after each other.
 // Thai digits: \u0E50-\u0E59 (๐-๙)
 const NUMBERS_REGEX = /[0-9๐-๙]+/;
 
@@ -44,7 +44,8 @@ const BEGIN_REGEX = /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0
 /* eslint-disable-next-line no-misleading-character-class */
 const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 
-// The following symbols are disallowed, please update here as well and not just the regex
+// The following symbols are disallowed,
+// please update here as well and not just the regex
 // to make it easier to read:
 // < > + * \ # @ ^ [ ] ( ) /
 // Paiyannoi: \u0E2F ฯ (ellipsis, abbreviation)
@@ -52,10 +53,10 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // Fongman: \u0E4F ๏ (used as bullet)
 // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
 // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
-//
-// Latin characters are disallowed as well,
-// as they can introduce difficulty for pronunciation.
-const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+/;
+// Latin characters (difficult to pronouce)
+// Emoji range from https://www.regextester.com/106421 and
+// https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
+const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/;
 
 // Any words consisting of uppercase letters or uppercase letters with a period
 // inbetween are considered abbreviations or acronyms.
