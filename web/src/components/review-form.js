@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Pager from './pager';
+import Sentence from './sentence';
 import SubmitButton from './submit-button';
 import SwipeReviewForm from './swipe-review-form';
 
@@ -8,7 +9,7 @@ import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed }) {
+export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }) {
   const [page, setPage] = useState(0);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState({});
@@ -51,6 +52,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
         lastPage={lastPage}
         offset={offset}
         message={message}
+        language={language}
         reviewedSentencesCount={reviewedSentencesCount}
       />
     );
@@ -63,7 +65,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
       { currentSentences.map((sentence, i) => (
         <section id={`sentence-${offset + i}`} key={offset + i} className="validator">
           <div className="sentence-box">
-            <p>{sentence.sentence || sentence}</p>
+            <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
             <small>{sentence.source ? `Source: ${sentence.source}` : ''}</small>
           </div>
           <div className="button-group">

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 import Cards from './swipecard/Cards';
 import Card from "./swipecard/CardSwitcher";
+import Sentence from './sentence';
 import SubmitButton from './submit-button';
 
 export default function SwipeReview(props) {
@@ -13,6 +14,7 @@ export default function SwipeReview(props) {
     lastPage,
     offset,
     message,
+    language,
     reviewedSentencesCount,
   } = props;
 
@@ -76,7 +78,7 @@ export default function SwipeReview(props) {
             onSwipeRight={() => onReviewSentence(i, true)}
           >
             <div className="card-sentence-box">
-              <p>{sentence.sentence || sentence}</p>
+              <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
               <small className="card-source">{sentence.source ? `Source: ${sentence.source}` : ''}</small>
             </div>
           </Card>

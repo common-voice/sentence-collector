@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Sentence from './sentence';
+
 export default function RejectedSentencesList({ loading, sentences = [], error }) {
   const hasNoSentences = Object.keys(sentences).length === 0;
 
@@ -23,7 +25,7 @@ export default function RejectedSentencesList({ loading, sentences = [], error }
 
           <ul key={'list-' + language} className="no-bullets">
             { sentences[language].map((sentence) => (
-              <li key={sentence.id}>{sentence.sentence}</li>
+              <li key={sentence.id}><Sentence language={language}>{sentence.sentence}</Sentence></li>
             ))}
           </ul>
         </section>

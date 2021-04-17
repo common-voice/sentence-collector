@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import LanguageSelector from './language-selector';
+import Sentence from './sentence';
 import SubmitButton from './submit-button';
 
 const SPLIT_ON = '\n';
@@ -16,7 +17,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
   const firstLanguage = languages.length === 1 && languages[0];
   const [formError, setError] = useState();
   const [formFields, setFormFields] = useState({});
-  const [language, setLanguage] = useState(firstLanguage && firstLanguage.id);
+  const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : undefined);
 
   const handleInputChange = (event) => {
     const target = event.target;
@@ -117,7 +118,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
                 <h3 key="{filterKey}">{ filterKey }</h3>
                 {
                   sentenceSubmissionFailures[filterKey].map((filteredSentence) =>
-                    <p key={filteredSentence}>{filteredSentence}</p>
+                    <Sentence key={filteredSentence}>{filteredSentence}</Sentence>
                   )
                 }
               </React.Fragment>

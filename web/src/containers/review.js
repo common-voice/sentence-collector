@@ -102,6 +102,7 @@ export default function Review({ match, history }) {
           message={reviewMessage}
           onReviewed={onReviewed}
           sentences={sentences}
+          language={language}
           useSwipeReview={useSwipeReview} />
       )}
     </div>
