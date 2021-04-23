@@ -2,7 +2,7 @@ name: export
 
 on:
   schedule:
-    - cron: "30 15 * * 5"
+    - cron: "0 20 * * 5"
 
 jobs:
   export:
