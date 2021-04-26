@@ -32,7 +32,7 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // These classes of Thai characters have a specific legitimate order.
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come after lead and follow vowels
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come before above and below vowels
-const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'?!:;]{55,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
+const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
 // These Thai chars cannot start the word:
 // - All vowels except lead vowels
 // - Tone marks
@@ -53,7 +53,7 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // Fongman: \u0E4F ๏ (used as bullet)
 // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
 // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
-// Latin characters (difficult to pronouce)
+// Latin characters (difficult to pronounce)
 // Emoji range from https://www.regextester.com/106421 and
 // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
 const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/;
