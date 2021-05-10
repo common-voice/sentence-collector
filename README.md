@@ -40,6 +40,7 @@ Start the server in a new terminal window. For this you'll need parameters from 
 
 ```
 cd server
+npm run migrate
 env AUTH0_DOMAIN=yourusername.eu.auth0.com AUTH0_CLIENT_ID=fromauth0 AUTH0_CLIENT_SECRET=fromauth0 SESSION_SECRET=somerandomvalue npm start
 ```
 
