@@ -32,8 +32,8 @@ const NUMBERS_REGEX = /[0-9๐-๙]+/;
 // These classes of Thai characters have a specific legitimate order.
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come after lead and follow vowels
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come before above and below vowels
-//const STRUCTURE_REGEX = /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55,}|[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|\u0E30{2,}|[\u0E32\u0E33\u0E45]{2,}|[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}|[\u0E38\u0E39]{2,}|[\u0E48\u0E49\u0E4A\u0E4B]{2,}|\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}|[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]/;
-
+//
+// Five or more repeating consonants in a row is likely a non-formal spelling or difficult to read.
 const STRUCTURE_REGEX = new RegExp(''
   + /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55,}|/  // no running 55+ non-whitespace chars
   + /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}|/  // no repeat: lead vowels
@@ -50,7 +50,7 @@ const STRUCTURE_REGEX = new RegExp(''
   + /\u0E4E{2,}|/  // no repeat: Yamakkan
   + /[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]|/  // invalid sequence: symbols after lead/follow vowels
   + /[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E][\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]|/  // invalid sequence: symbols before above/below vowels
-  + /[ก-ฮ]{5,}/  // no repeat: 5 consonants in a row
+  + /[ก-ฮ]{5,}/  // no repeat: 5 or more consonants in a row
 );
 
 // These Thai chars cannot start the word:
@@ -76,19 +76,16 @@ const END_REGEX = /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/;
 // Latin characters (difficult to pronounce)
 // Emoji range from https://www.regextester.com/106421 and
 // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
-//const SYMBOL_REGEX = /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|[A-Za-z]+|(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/;
-
 const SYMBOL_REGEX = new RegExp(''
   + /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]|/  // symbols and Thai symbols
-  + /[A-Za-z]+|/  // Latin chars
+  + /[A-Za-z]|/  // Latin chars
   + /(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/  // emojis
 );
 
-// Any words consisting of uppercase letters or uppercase letters with a period
+// Any words consisting of letters with a period
 // inbetween are considered abbreviations or acronyms.
-// This currently also matches fooBAR but we most probably don't want that either
-// as users wouldn't know how to pronounce the uppercase letters.
-const ABBREVIATION_REGEX = /[A-Z]{2,}|[A-Z]+\.*[A-Z]+|[ก-ฮ]+\.([ก-ฮ]+\.)+/;
+// Abbreviations in Latin chars are disallowed by SYMBOL_REGEX already.
+const ABBREVIATION_REGEX = /[ก-ฮ]+\.([ก-ฮ]+\.)+/;
 
 module.exports = {
   filterNumbers,
