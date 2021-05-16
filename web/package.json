@@ -35,6 +35,7 @@
     "@babel/runtime": "^7.13.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.2",
+    "@types/history": "^4.7.8",
     "@types/jest": "^26.0.23",
     "@types/react-dom": "^17.0.5",
     "@types/regenerator-runtime": "^0.13.0",
@@ -86,10 +87,10 @@
     },
     "transform": {
       "^.+\\.js$": "babel-jest",
-      "\\.svg$|\\.css$": "<rootDir>/tests/file-transformer.js"
+      "\\.svg$|\\.css$": "<rootDir>/tests/file-transformer.ts"
     },
     "setupFiles": [
-      "./tests/setup.js"
+      "./tests/setup.ts"
     ]
   }
 }

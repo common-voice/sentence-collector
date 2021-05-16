@@ -13,21 +13,22 @@ jest.mock('../components/review-form');
 jest.mock('../components/review-criteria');
 
 const dispatchMock = jest.fn();
+const useSelectorMock = redux.useSelector as jest.Mock;
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
 
-  redux.useDispatch.mockImplementation(() => dispatchMock);
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  LanguageSelector.mockReturnValue(<div>...LanguageSelector...</div>);
-  ReviewForm.mockReturnValue(<div>...ReviewForm...</div>);
-  ReviewCriteria.mockReturnValue(<div>...ReviewCriteria...</div>);
+  (LanguageSelector as jest.Mock).mockReturnValue(<div>...LanguageSelector...</div>);
+  (ReviewForm as jest.Mock).mockReturnValue(<div>...ReviewForm...</div>);
+  (ReviewCriteria as jest.Mock).mockReturnValue(<div>...ReviewCriteria...</div>);
 });
 
 test('should set language from single user language', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [],
     languages: ['de'],
     sentencesLoading: false,
@@ -38,7 +39,7 @@ test('should set language from single user language', () => {
 });
 
 test('should ask to set language', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [],
     languages: [],
     sentencesLoading: false,
@@ -49,7 +50,7 @@ test('should ask to set language', () => {
 });
 
 test('should render loading', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: true,
@@ -60,7 +61,7 @@ test('should render loading', () => {
 });
 
 test('should render no language selected', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [],
     languages: ['en', 'de'],
     sentencesLoading: false,
@@ -71,7 +72,7 @@ test('should render no language selected', () => {
 });
 
 test('should render no sentences found', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: false,
@@ -97,7 +98,7 @@ test('should dispatch load', () => {
 });
 
 test('should only render form', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     allLanguages: [{ id: 'en' }],
     languages: ['en'],
     sentencesLoading: false,

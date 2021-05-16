@@ -14,13 +14,13 @@ beforeEach(() => {
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
 
-  redux.useDispatch.mockImplementation(() => dispatchMock);
-  redux.useSelector.mockImplementation(() => ({
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     rejectedSentences: [],
     rejectedSentencesLoading: false,
     rejectedSentencesError: '',
   }));
-  RejectedSentencesList.mockReturnValue(<div>...RejectedSentencesList...</div>);
+  (RejectedSentencesList as jest.Mock).mockReturnValue(<div>...RejectedSentencesList...</div>);
 });
 
 test('should render Rejected', () => {

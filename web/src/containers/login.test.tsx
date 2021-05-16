@@ -16,7 +16,7 @@ beforeEach(() => {
   jest.spyOn(redux, 'useDispatch');
   dispatchMock.mockReset();
 
-  redux.useDispatch.mockImplementation(() => dispatchMock);
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 });
 
 describe('LoginSuccess', () => {

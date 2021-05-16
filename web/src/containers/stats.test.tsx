@@ -10,16 +10,18 @@ jest.mock('../components/sentence-collector-info');
 jest.mock('../components/language-stats');
 
 const dispatchMock = jest.fn();
+const useDispatchMock = redux.useDispatch as jest.Mock;
+const useSelectorMock = redux.useSelector as jest.Mock;
 
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
 
-  SentenceCollectorInfo.mockReturnValue(<div>...SentenceCollectorInfo...</div>);
-  LanguageStats.mockReturnValue(<div>...LanguageStats...</div>);
+  (SentenceCollectorInfo as jest.Mock).mockReturnValue(<div>...SentenceCollectorInfo...</div>);
+  (LanguageStats as jest.Mock).mockReturnValue(<div>...LanguageStats...</div>);
 
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     all: {},
     userUnreviewed: {},
     allLanguages: [],
@@ -28,7 +30,7 @@ beforeEach(() => {
     statsUpdating: false,
   }));
 
-  redux.useDispatch.mockImplementation(() => dispatchMock);
+  useDispatchMock.mockImplementation(() => dispatchMock);
 });
 
 test('should dispatch getStats', () => {
@@ -45,7 +47,7 @@ test('should render stats', () => {
 });
 
 test('should render updating', () => {
-  redux.useSelector.mockImplementation(() => ({
+  useSelectorMock.mockImplementation(() => ({
     all: {},
     userUnreviewed: {},
     allLanguages: [],

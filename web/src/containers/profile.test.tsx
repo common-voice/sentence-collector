@@ -23,13 +23,13 @@ beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
+  
+  (PersonalLanguageInfo as jest.Mock).mockReturnValue(<div>...PersonalLanguageInfo...</div>);
+  (AddLanguage as jest.Mock).mockReturnValue(<div>...AddLanguage...</div>);
+  (Settings as jest.Mock).mockReturnValue(<div>...Settings...</div>);
 
-  PersonalLanguageInfo.mockReturnValue(<div>...PersonalLanguageInfo...</div>);
-  AddLanguage.mockReturnValue(<div>...AddLanguage...</div>);
-  Settings.mockReturnValue(<div>...Settings...</div>);
-
-  redux.useDispatch.mockImplementation(() => dispatchMock);
-  redux.useSelector.mockImplementation(() => ({
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     username,
     allLanguages,
     languages: ['en'],

@@ -7,7 +7,7 @@ import Root from './root';
 jest.mock('./app');
 
 test('should setup app', () => {
-  App.mockReturnValue('<App.../>');
+  (App as jest.Mock).mockReturnValue('<App.../>');
   const { container } = render(<Root/>);
   expect(container.firstNode).not.toBeNull();
 });
