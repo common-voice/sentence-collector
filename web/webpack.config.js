@@ -9,16 +9,38 @@ function getDevTool() {
   return false;
 }
 
+const babelLoader = {
+  loader: 'babel-loader',
+  options: {
+    cacheDirectory: true,
+    presets: ['@babel/preset-env'],
+  },
+};
+
 module.exports = {
   entry: {
-    main: './src/index.js'
+    main: './src/index.tsx'
   },
   output: {
     filename: './[name].js'
   },
   devtool: getDevTool(),
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
+  },
   module: {
     rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: [
+          babelLoader,
+          {
+            loader: 'ts-loader',
+          },
+        ],
+      },
+      // TODO: remove once everything is TS!
       {
         test: /\.js$/,
         exclude: /node_modules/,
