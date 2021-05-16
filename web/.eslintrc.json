@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module"
@@ -16,7 +16,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "no-console": "off",
@@ -25,6 +26,7 @@
     "react/prop-types": "off"
   },
   "plugins": [
+    "@typescript-eslint",
     "react"
   ]
 }
