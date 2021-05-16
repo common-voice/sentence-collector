@@ -59,89 +59,27 @@ function runValidation(validator, sentences = { unreviewed: [], validated: [] })
 
 function validateSentence(validator, sentence) {
   const validationResult = {
-    sentence
+    sentence,
   };
-
-  if (!validateCorrectLength(validator, sentence)) {
-    validationResult.error = 'Sentence too long';
-  } else if (!validateWithoutNumbers(validator, sentence)) {
-    validationResult.error = 'Contains numbers';
-  } else if (!validateWithoutAbbreviations(validator, sentence)) {
-    validationResult.error = 'Contains abbreviations';
-  } else if (!validateWithoutSymbols(validator, sentence)) {
-    validationResult.error = 'Contains symbols';
-  } else if (!validateStructure(validator, sentence)) {
-    validationResult.error = 'Contains multiple sentences';
-  } else if (!validateWithoutEnglishCharacters(validator, sentence)) {
-    validationResult.error = 'Contains English characters';
-  } else if (!validateOthers(validator, sentence)) {
-    validationResult.error = 'Other issues';
-  }
-
+  
+  // We use `some` so we stop once an invalid condition is found
+  validator.INVALIDATIONS.some((invalidation) => {
+    let invalid = false;
+    
+    if (invalidation.fn && typeof invalidation.fn === 'function') {
+      invalid = invalidation.fn(sentence);
+    } else if (invalidation.regex) {
+      invalid = sentence.match(invalidation.regex);
+    }
+    
+    if (invalid) {
+      validationResult.error = invalidation.error;
+    }
+    
+    return invalid;
+  });
+  
   return validationResult;
-}
-
-function validateCorrectLength(validator, sentence) {
-  const result =
-    typeof validator.filterNumbers !== 'function' ?
-      DEFAULT_VALIDATOR.filterLength(sentence) :
-      validator.filterLength(sentence);
-
-  return result;
-}
-
-function validateWithoutNumbers(validator, sentence) {
-  const result =
-    typeof validator.filterNumbers !== 'function' ?
-      DEFAULT_VALIDATOR.filterNumbers(sentence) :
-      validator.filterNumbers(sentence);
-
-  return result;
-}
-
-function validateWithoutAbbreviations(validator, sentence) {
-  const result =
-    typeof validator.filterAbbreviations !== 'function' ?
-      DEFAULT_VALIDATOR.filterAbbreviations(sentence) :
-      validator.filterAbbreviations(sentence);
-
-  return result;
-}
-
-function validateWithoutSymbols(validator, sentence) {
-  const result =
-    typeof validator.filterSymbols !== 'function' ?
-      DEFAULT_VALIDATOR.filterSymbols(sentence) :
-      validator.filterSymbols(sentence);
-
-  return result;
-}
-
-function validateStructure(validator, sentence) {
-  const result =
-    typeof validator.filterStructure !== 'function' ?
-      DEFAULT_VALIDATOR.filterStructure(sentence) :
-      validator.filterStructure(sentence);
-
-  return result;
-}
-
-function validateWithoutEnglishCharacters(validator, sentence) {
-  const result =
-    typeof validator.filterEnglishCharacters !== 'function'
-      ? true
-      : validator.filterEnglishCharacters(sentence);
-
-  return result;
-}
-
-function validateOthers(validator, sentence) {
-  const result =
-    typeof validator.filterOthers !== 'function'
-      ? true
-      : validator.filterOthers(sentence);
-
-  return result;
 }
 
 function getValidatorFor(language) {

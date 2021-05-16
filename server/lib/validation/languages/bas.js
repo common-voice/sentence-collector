@@ -1,10 +1,17 @@
-module.exports = {
-  filterOthers,
-};
+const INVALIDATIONS = [{
+  regex: /\s\.$/,
+  error: 'Sentence should not end with a space and a period',
+}, {
+  regex: /!\.$/,
+  error: 'Sentence should not end with a exclamation mark and a period',
+}, {
+  regex: /;$/,
+  error: 'Sentence should not end with a semicolon',
+}, {
+  regex: /,$/,
+  error: 'Sentence should not end with a comma',
+}];
 
-function filterOthers(sentence) {
-  return !sentence.endsWith(' .') &&
-    !sentence.endsWith('!.') &&
-    !sentence.endsWith(';') &&
-    !sentence.endsWith(',');
-}
+module.exports = {
+  INVALIDATIONS,
+};

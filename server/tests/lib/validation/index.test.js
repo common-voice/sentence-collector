@@ -17,10 +17,10 @@ test('validates invalid sentences - too long', validate, 'en', {
   validated: ['This is very very very very very very very very very very very very very very very very very very very very long too'],
 }, [{
   sentence: 'This is very very very very very very very very very very very very very very very very very very very very long',
-  error: 'Sentence too long',
+  error: 'Number of words must be between 1 and 14 (inclusive)',
 }, {
   sentence: 'This is very very very very very very very very very very very very very very very very very very very very long too',
-  error: 'Sentence too long',
+  error: 'Number of words must be between 1 and 14 (inclusive)',
 }]);
 
 test('validates invalid sentences - contains numbers', validate, 'en', {
@@ -28,10 +28,10 @@ test('validates invalid sentences - contains numbers', validate, 'en', {
   validated: ['This is 3valid'],
 }, [{
   sentence: 'This is 2valid',
-  error: 'Contains numbers',
+  error: 'Sentence should not contain numbers',
 }, {
   sentence: 'This is 3valid',
-  error: 'Contains numbers',
+  error: 'Sentence should not contain numbers',
 }]);
 
 test('validates invalid sentences - contains abbreviation', validate, 'en', {
@@ -39,21 +39,24 @@ test('validates invalid sentences - contains abbreviation', validate, 'en', {
   validated: ['This ABC too'],
 }, [{
   sentence: 'This is A.B.C.',
-  error: 'Contains abbreviations',
+  error: 'Sentence should not contain abbreviations',
 }, {
   sentence: 'This ABC too',
-  error: 'Contains abbreviations',
+  error: 'Sentence should not contain abbreviations',
 }]);
 
 test('validates invalid sentences - contains symbols', validate, 'en', {
   unreviewed: ['This is # test'],
-  validated: ['This is @ test'],
+  validated: ['This is @ test', 'This is / test'],
 }, [{
   sentence: 'This is # test',
-  error: 'Contains symbols',
+  error: 'Sentence should not contain symbols',
 }, {
   sentence: 'This is @ test',
-  error: 'Contains symbols',
+  error: 'Sentence should not contain symbols',
+}, {
+  sentence: 'This is / test',
+  error: 'Sentence should not contain symbols',
 }]);
 
 test('validates invalid sentences - multiple sentences', validate, 'it', {
@@ -61,10 +64,10 @@ test('validates invalid sentences - multiple sentences', validate, 'it', {
   validated: ['This is one. This is two.'],
 }, [{
   sentence: 'This is test. And more.',
-  error: 'Contains multiple sentences',
+  error: 'Sentence should not contain sentence punctuation inside a sentence',
 }, {
   sentence: 'This is one. This is two.',
-  error: 'Contains multiple sentences',
+  error: 'Sentence should not contain sentence punctuation inside a sentence',
 }]);
 
 test('validates invalid sentences - english chars', validate, 'ru', {
@@ -72,10 +75,10 @@ test('validates invalid sentences - english chars', validate, 'ru', {
   validated: ['This too'],
 }, [{
   sentence: 'This is test',
-  error: 'Contains English characters',
+  error: 'Sentence should not contain latin alphabet characters',
 }, {
   sentence: 'This too',
-  error: 'Contains English characters',
+  error: 'Sentence should not contain latin alphabet characters',
 }]);
 
 test('validates invalid sentences - other rules', validate, 'bas', {
@@ -83,14 +86,14 @@ test('validates invalid sentences - other rules', validate, 'bas', {
   validated: ['This too'],
 }, [{
   sentence: 'This is wrong .',
-  error: 'Other issues',
+  error: 'Sentence should not end with a space and a period',
 }, {
   sentence: 'This as well!.',
-  error: 'Other issues',
+  error: 'Sentence should not end with a exclamation mark and a period',
 }, {
   sentence: 'No;',
-  error: 'Other issues',
+  error: 'Sentence should not end with a semicolon',
 }, {
   sentence: 'Definitely not,',
-  error: 'Other issues',
+  error: 'Sentence should not end with a comma',
 }]);
