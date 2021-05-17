@@ -31,7 +31,7 @@ const INVALIDATIONS = [{
   error: `Number of characters must be between ${MIN_LENGTH} and ${MAX_LENGTH} (inclusive)`,
 }, {
   // Thai digits: \u0E50-\u0E59 (๐-๙)
-  regex: /[0-9๐-๙]+/,
+  regex: /[0-9๐-๙]/,
   error: 'Sentence should not contain numbers',
 }, {
   // < > + * \ # @ ^ [ ] ( ) /
@@ -56,43 +56,43 @@ const INVALIDATIONS = [{
   // - Tone marks
   // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
   /* eslint-disable-next-line no-misleading-character-class */
-  regex: /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
+  regex: /(^|\s)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
   error: 'Word should not start with unexpected characters',
 }, {
   // These Thai chars cannot end the word:
   // - Lead vowels
-  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/,
+  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s|$)/,
   error: 'Word should not end with leading vowels',
 }, {
   // Any words consisting of letters with a period
   // inbetween are considered abbreviations or acronyms.
   // Abbreviations in Latin chars are disallowed by previous rules already.
-  regex: /[ก-ฮ]+\.([ก-ฮ]+\.)+/,
+  regex: /[ก-ฮ]\.[ก-ฮ]{1,5}\./,
   error: 'Sentence should not contain abbreviations',
 }, {
   // Seven or more repeating characters in a row is likely a non-formal spelling or difficult to read.
-  regex: /(.)\1{6,}/,
+  regex: /(.)\1{6}/,
   error: 'Sentence should not contain 7 or more of the same characters in a row',
 }, {
-  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}/,
+  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2}/,
   error: 'Sentence should not contain repeating lead vowels',
 }, {
-  regex: /[\u0E32\u0E33\u0E45]{2,}/,
+  regex: /[\u0E32\u0E33\u0E45]{2}/,
   error: 'Sentence should not contain repeating follow vowels',
 }, {
-  regex: /\u0E30{2,}/,
+  regex: /\u0E30{2}/,
   error: 'Sentence should not contain repeating Sara A',
 }, {
-  regex: /\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}/,
+  regex: /\u0E3A{2}|\u0E4C{2}|\u0E4D{2}|\u0E4E{2}/,
   error: 'Sentence should not contain repeating Phinthu / Thanthakhat / Nikhahit / Yamakkan',
 }, {
-  regex: /[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}/,
+  regex: /[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2}/,
   error: 'Sentence should not contain repeating above vowels',
 }, {
-  regex: /[\u0E38\u0E39]{2,}/,
+  regex: /[\u0E38\u0E39]{2}/,
   error: 'Sentence should not contain repeating below vowels',
 }, {
-  regex: /[\u0E48\u0E49\u0E4A\u0E4B]{2,}/,
+  regex: /[\u0E48\u0E49\u0E4A\u0E4B]{2}/,
   error: 'Sentence should not contain repeating tone marks',
 }, {
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
@@ -107,7 +107,7 @@ const INVALIDATIONS = [{
   regex: /[\u0E30][\u0E32\u0E33\u0E45]/,
   error: 'Sentence should not contain Sara Aa, Sara Am or Lakkhangyao after Sara A',
 }, {
-  regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55,}/,
+  regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55}/,
   error: 'Sentence should not contain more than 54 characters without whitespace',
 }];
 
