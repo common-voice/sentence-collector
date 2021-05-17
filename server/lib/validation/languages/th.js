@@ -70,9 +70,9 @@ const INVALIDATIONS = [{
   regex: /[ก-ฮ]+\.([ก-ฮ]+\.)+/,
   error: 'Sentence should not contain abbreviations',
 }, {
-  // Five or more repeating consonants in a row is likely a non-formal spelling or difficult to read.
-  regex: /[ก-ฮ]{5,}/,
-  error: 'Sentence should not contain 5 or more consonants in a row',
+  // Seven or more repeating characters in a row is likely a non-formal spelling or difficult to read.
+  regex: /(.)\1{6,}/,
+  error: 'Sentence should not contain 7 or more of the same characters in a row',
 }, {
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}/,
   error: 'Sentence should not contain repeating lead vowels',
