@@ -116,7 +116,7 @@ test('should disable submit button if no sentences', async () => {
     />
   );
 
-  expect(screen.getByText('Confirm').disabled).toBeTruthy();
+  expect((screen.getByText('Confirm') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should not show submit button while uploading sentences', async () => {

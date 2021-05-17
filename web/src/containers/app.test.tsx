@@ -6,6 +6,7 @@ import Store from './store';
 import App from './app';
 
 test('should setup app', () => {
+  // @ts-ignore
   fetch.mockResponse(JSON.stringify({}));
 
   const history = createHashHistory();

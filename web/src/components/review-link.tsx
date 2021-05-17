@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function ReviewLink({ sentences, onReview }) {
+type Props = {
+  sentences: string[]
+  onReview: () => void
+}
+
+export default function ReviewLink({ sentences, onReview }: Props) {
   return sentences.length > 0 && (
     <a href="#" onClick={(evt) => {
       evt.preventDefault();

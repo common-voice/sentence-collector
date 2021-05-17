@@ -4,8 +4,10 @@ import userEvent from '@testing-library/user-event';
 
 import PersonalLanguageInfo from './personal-language-info';
 
+const onRemove = jest.fn();
+
 test('should render if not added languages', () => {
-  render(<PersonalLanguageInfo/>);
+  render(<PersonalLanguageInfo languages={[]} onRemove={onRemove} />);
   expect(screen.getByText('You have not added any languages yet.')).toBeTruthy();
 });
 
@@ -29,6 +31,7 @@ test('should list languages with stats', () => {
       nativeName: 'Deutsch',
     }],
     pendingLanguages: false,
+    onRemove,
   };
 
   render(<PersonalLanguageInfo {...props}/>);
@@ -48,6 +51,7 @@ test('should use 0 if no stats', () => {
       nativeName: 'English',
     }],
     pendingLanguages: false,
+    onRemove,
   };
 
   render(<PersonalLanguageInfo {...props}/>);
@@ -65,6 +69,7 @@ test('should render remove button', () => {
       nativeName: 'English',
     }],
     pendingLanguages: false,
+    onRemove,
   };
 
   render(<PersonalLanguageInfo {...props}/>);
@@ -82,15 +87,15 @@ test('should disable button while languages are pending', () => {
       nativeName: 'English',
     }],
     pendingLanguages: true,
+    onRemove,
   };
 
   render(<PersonalLanguageInfo {...props}/>);
 
-  expect(screen.getByRole('button').disabled).toBeTruthy();
+  expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should call callback onRemove', async () => {
-  const onRemove = jest.fn();
   const props = {
     languageStats: {},
     languages: [{

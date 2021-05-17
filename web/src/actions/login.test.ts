@@ -10,6 +10,7 @@ const userInfo = {
 };
 let dispatch;
 
+
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(backend, 'sendRequest');
@@ -26,10 +27,11 @@ describe('afterLogin', () => {
 });
 
 describe('checkCurrentUser', () => {
+  const backendSendRequestMock = backend.sendRequest as jest.Mock;
   test('should get current user', async () => {
-    backend.sendRequest.mockImplementation(() => userInfo);
+    backendSendRequestMock.mockImplementation(() => userInfo);
     await login.checkCurrentUser()(dispatch);
-    expect(backend.sendRequest.mock.calls[0][0]).toEqual('users/whoami');
+    expect(backendSendRequestMock.mock.calls[0][0]).toEqual('users/whoami');
     expect(dispatch.mock.calls[0][0]).toEqual({
       username: userInfo.email,
       type: login.ACTION_USER_INFO_RECEIVED,
@@ -47,7 +49,7 @@ describe('checkCurrentUser', () => {
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
     jest.spyOn(console, 'error').mockImplementation(() => {});
-    backend.sendRequest.mockImplementation(() => { throw error; });
+    backendSendRequestMock.mockImplementation(() => { throw error; });
     expect(login.checkCurrentUser()(dispatch)).resolves.not.toThrow();
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: login.ACTION_LOGOUT,

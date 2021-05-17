@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 
 import '../../css/modal.css';
 
-export default function Modal({ text, children }) {
+type Props = {
+  text?: string
+  children?: React.ReactNode
+}
+
+export default function Modal({ text, children }: Props) {
   const [modalIsOpen, setModalShown] = useState(false);
   const showModal = () => { setModalShown(true); };
   const hideModal = () => { setModalShown(false); };

@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import RejectedSentencesList from './rejected-sentences-list';
 
 test('should render loading notice', () => {
-  render(<RejectedSentencesList sentences={[]} loading={true}/>);
+  render(<RejectedSentencesList sentences={{}} loading={true}/>);
   expect(screen.getByText('Loading rejected sentences..')).toBeTruthy();
 });
 

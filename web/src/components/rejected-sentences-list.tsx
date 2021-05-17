@@ -1,8 +1,15 @@
 import React from 'react';
 
+import type { SentenceRecord } from '../types';
 import Sentence from './sentence';
 
-export default function RejectedSentencesList({ loading, sentences = [], error }) {
+type Props = {
+  loading?: boolean
+  sentences?: Record<string, SentenceRecord[]>
+  error?: string
+}
+
+export default function RejectedSentencesList({ loading, sentences = {}, error }: Props) {
   const hasNoSentences = Object.keys(sentences).length === 0;
 
   return (

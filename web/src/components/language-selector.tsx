@@ -38,10 +38,14 @@ const Options = (props) => {
     return <Option key="default" lang={languages[0]} />;
   }
 
-  return [<NullOption key="null" />]
-    .concat(languages.map(
-      lang => <Option key={lang.id} lang={lang} />
-    ));
+  return (
+    <>
+      <NullOption key="null" />
+      {languages.map((lang) => (
+        <Option key={lang.id} lang={lang} />
+      ))}
+    </>
+  );
 };
 
 const Option = (props) => (

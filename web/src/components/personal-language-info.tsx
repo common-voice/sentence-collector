@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 
-export default function PersonalLanguageInfo({ languages, onRemove, languageStats, pendingLanguages }) {
-  const [error, setError] = useState();
+import { Language, LanguageStatsEntry } from '../types';
+
+type Props = {
+  languages: Language[]
+  onRemove: (language: string) => void
+  languageStats?: LanguageStatsEntry
+  pendingLanguages?: boolean
+}
+
+export default function PersonalLanguageInfo({ languages, onRemove, languageStats, pendingLanguages }: Props) {
+  const [error, setError] = useState('');
 
   const onLanguageRemove = async (language) => {
     if (!language) {

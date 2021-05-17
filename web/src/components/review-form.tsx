@@ -9,7 +9,22 @@ import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }) {
+type SentenceWithSource = {
+  sentence: string
+  source: string
+}
+
+type CategorizedSentences = Record<string, SentenceWithSource>[]
+
+type Props = {
+  message?: string
+  useSwipeReview?: boolean
+  sentences: SentenceWithSource[]
+  onReviewed: (categorizedSentences: CategorizedSentences) => void
+  language: string
+}
+
+export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }: Props) {
   const [page, setPage] = useState(0);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState({});

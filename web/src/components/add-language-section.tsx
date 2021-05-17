@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import type { Language } from '../types';
 
 import LanguageSelector from './language-selector';
 
-export default function AddLanguage({ allLanguages, onAdd, languages, pendingLanguages }) {
-  const [language, setLanguage] = useState();
-  const [error, setError] = useState();
+type Props = {
+  allLanguages: Language[]
+  onAdd?: (language: string) => void
+  languages?: Language[]
+  pendingLanguages?: boolean
+}
+
+export default function AddLanguage({ allLanguages, onAdd, languages, pendingLanguages }: Props) {
+  const [language, setLanguage] = useState('');
+  const [error, setError] = useState('');
 
   const onLanguageSelect = (language) => { setLanguage(language); };
 
@@ -22,7 +30,7 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
       setError(`Could not add language: ${error.message}`);
     }
 
-    setLanguage();
+    setLanguage('');
   };
 
   return (
@@ -35,7 +43,7 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
                         filters={languages}
                         labelText="Add a language you want to contribute to"
                         onChange={onLanguageSelect} />
-      <button disabled={pendingLanguages || !language}
+      <button disabled={!!pendingLanguages || !language}
               onClick={onLanguageAdd} className="add-language">Add Language</button>
     </section>
   );

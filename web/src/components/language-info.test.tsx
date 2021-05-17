@@ -23,7 +23,7 @@ test('should render all stats', () => {
   expect(screen.queryByText('88 sentences in review.')).toBeTruthy();
   expect(screen.queryByText('65 sentences left for you to review.')).toBeTruthy();
   expect(screen.queryByText('Review now!')).toBeTruthy();
-  expect(screen.queryByText('Review now!').href).toBe('http://localhost/review/de');
+  expect((screen.queryByText('Review now!') as HTMLAnchorElement).href).toBe('http://localhost/review/de');
   expect(screen.queryByText('5 validated sentences.')).toBeTruthy();
   expect(screen.queryByText('7 rejected sentences.')).toBeTruthy();
 });
@@ -49,5 +49,5 @@ test('should render link to add if nothing to review', () => {
     </BrowserRouter>
   );
   expect(screen.queryByText('Add more sentences now!')).toBeTruthy();
-  expect(screen.queryByText('Add more sentences now!').href).toBe('http://localhost/add');
+  expect((screen.queryByText('Add more sentences now!') as HTMLAnchorElement).href).toBe('http://localhost/add');
 });

@@ -1,6 +1,8 @@
+export async function sendRequest(endpoint: string, method?: string, data?: unknown);
+
 export async function sendRequest(endpoint, method = 'GET', data) {
   const url = `/sentence-collector/${endpoint}`; // we always have the backend at that path, even locally
-  const options = {
+  const options: RequestInit = {
     method,
   };
 

@@ -37,7 +37,7 @@ const userUnreviewedStats = {
 beforeEach(() => {
   jest.clearAllMocks();
 
-  LanguageInfo.mockReturnValue(<div>...LanguageInfo...</div>);
+  (LanguageInfo as jest.Mock).mockReturnValue(<div>...LanguageInfo...</div>);
 });
 
 test('should render stats for all passed languages', () => {
