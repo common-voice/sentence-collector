@@ -5,7 +5,7 @@ import SubmitButton from './submit-button';
 
 test('should render submit button', () => {
   const text = 'Submit sentences';
-  render(<SubmitButton submitText={text}/>);
+  render(<SubmitButton pendingAction={false} submitText={text}/>);
   expect(screen.getByRole('button').textContent).toBe(text);
 });
 

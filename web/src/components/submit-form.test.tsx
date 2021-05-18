@@ -22,27 +22,31 @@ const sentences = [
 ];
 
 const source = 'Test';
+const onSubmit = jest.fn();
+
+beforeEach(() => {
+  jest.resetAllMocks();
+  onSubmit.mockReset();
+})
 
 test('should render submit button', () => {
-  render(<SubmitForm languages={languages}/>);
+  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
   expect(screen.getByText('Submit')).toBeTruthy();
 });
 
 test('should render message', () => {
   const message = 'Hi';
-  render(<SubmitForm languages={languages} message={message}/>);
+  render(<SubmitForm languages={languages} message={message} onSubmit={onSubmit}/>);
   expect(screen.getByText(message)).toBeTruthy();
 });
 
 test('should render error', () => {
   const error = 'Oh no!';
-  render(<SubmitForm languages={languages} error={error}/>);
+  render(<SubmitForm languages={languages} error={error} onSubmit={onSubmit}/>);
   expect(screen.getByText(error)).toBeTruthy();
 });
 
 test('should submit form if valid', async () => {
-  const onSubmit = jest.fn();
-
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
@@ -59,8 +63,6 @@ test('should submit form if valid', async () => {
 });
 
 test('should show error if no language', async () => {
-  const onSubmit = jest.fn();
-
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   await userEvent.click(screen.getByText('Submit'));
@@ -69,8 +71,6 @@ test('should show error if no language', async () => {
 });
 
 test('should show error if no sentences', async () => {
-  const onSubmit = jest.fn();
-
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
@@ -81,8 +81,6 @@ test('should show error if no sentences', async () => {
 });
 
 test('should show error if no source', async () => {
-  const onSubmit = jest.fn();
-
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
@@ -94,8 +92,6 @@ test('should show error if no source', async () => {
 });
 
 test('should show error if not confirmed', async () => {
-  const onSubmit = jest.fn();
-
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
@@ -115,7 +111,7 @@ test('should render failures', () => {
 
   render(
     <BrowserRouter>
-      <SubmitForm languages={languages} sentenceSubmissionFailures={sentenceSubmissionFailures}/>
+      <SubmitForm languages={languages} sentenceSubmissionFailures={sentenceSubmissionFailures} onSubmit={onSubmit}/>
     </BrowserRouter>
   );
   expect(screen.getByText('Too long')).toBeTruthy();

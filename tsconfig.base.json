@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": false,
+    "strictNullChecks": false,
     "allowJs": true,
     "sourceMap": true,
     "lib": ["es2017", "dom", "esnext.asynciterable"]

@@ -1,6 +1,15 @@
 import React from 'react';
 
-export default function SentenceCollectorInfo({ languageStats }) {
+type Stats {
+  total: number
+  languages: number
+}
+
+type Props = {
+  languageStats: Stats | undefined
+}
+
+export default function SentenceCollectorInfo({ languageStats }: Props) {
   return languageStats && (
     <p>
      The Common Voice Sentence Collector has

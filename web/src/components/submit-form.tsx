@@ -1,22 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import type { Language } from '../types';
 import LanguageSelector from './language-selector';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
 
 const SPLIT_ON = '\n';
 
-function parseSentences(sentenceText) {
+function parseSentences(sentenceText: string): string[] {
   const sentences = sentenceText.split(SPLIT_ON).map(s => s.trim()).filter(Boolean);
   const dedupedSentences = Array.from(new Set(sentences));
   return dedupedSentences;
 }
 
-export default function SubmitForm({ languages, onSubmit, message, error, sentenceSubmissionFailures }) {
+type SubmissionData = {
+  sentences: string[]
+  language: string
+  source: string
+}
+
+type Props = {
+  languages: Language[]
+  onSubmit: (data: SubmissionData) => void
+  message?: string
+  error?: string
+  sentenceSubmissionFailures?: Record<string, string[]>
+}
+
+type FormFields = {
+  sentenceText: string
+  source: string
+  confirmed: boolean
+}
+
+export default function SubmitForm({ languages, onSubmit, message, error, sentenceSubmissionFailures }: Props) {
   const firstLanguage = languages.length === 1 && languages[0];
-  const [formError, setError] = useState();
-  const [formFields, setFormFields] = useState({});
+  const [formError, setError] = useState('');
+  const [formFields, setFormFields] = useState<FormFields>({});
   const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : undefined);
 
   const handleInputChange = (event) => {
@@ -104,7 +125,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
           </label>
         </section>
 
-        <SubmitButton submitText="Submit"/>
+        <SubmitButton submitText="Submit" pendingAction={false}/>
       </form>
 
       { sentenceSubmissionFailures && Object.keys(sentenceSubmissionFailures).length > 0 && (

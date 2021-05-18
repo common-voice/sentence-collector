@@ -2,7 +2,12 @@ import React from 'react';
 
 import SpinnerButton from './spinner-button';
 
-export default function SubmitButton({ pendingAction, submitText }) {
+type Props = {
+  pendingAction: boolean
+  submitText: string
+}
+
+export default function SubmitButton({ pendingAction, submitText }: Props) {
   return (
     <section>
       { pendingAction ?

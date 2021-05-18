@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function Sentence({ children: text, language }) {
+type Props = {
+  children: React.ReactNode
+  language?: string
+}
+
+export default function Sentence({ children: text, language = 'en' }: Props) {
   return (
     <p dir="auto" lang={language} translate="no">
       {text}

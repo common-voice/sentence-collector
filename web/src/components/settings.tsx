@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function Settings({ errorMessage, useSwipeReview, onToggleSwipeReview }) {
+type Props = {
+  onToggleSwipeReview: () => void
+  errorMessage?: string
+  useSwipeReview?: boolean
+}
+
+export default function Settings({ errorMessage, useSwipeReview, onToggleSwipeReview }: Props) {
   return (
     <section>
       <h2>Settings</h2>

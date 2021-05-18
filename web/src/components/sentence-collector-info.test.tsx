@@ -14,6 +14,6 @@ test('should render sentence collector info according to input', () => {
 });
 
 test('should not render sentence collector info without stats', () => {
-  render(<SentenceCollectorInfo/>);
+  render(<SentenceCollectorInfo languageStats={undefined}/>);
   expect(screen.queryByText('The Common Voice Sentence Collector has')).toBeNull();
 });

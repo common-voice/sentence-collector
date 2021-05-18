@@ -103,7 +103,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
       )) }
 
       <section className="review-footer">
-        <SubmitButton submitText="Finish&nbsp;Review"/>
+        <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false}/>
         <Pager page={page} lastPage={lastPage} onPage={setPage} />
       </section>
     </form>
