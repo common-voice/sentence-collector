@@ -41,8 +41,9 @@ const INVALIDATIONS = [{
   // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
   // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
   regex: /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]/,
-  error: 'Sentence should not contain symbols',
+  error: 'Sentence should not contain symbols, including Paiyannoi and Maiyamok',
 }, {
+  // Latin character (foreign language) is not allowed
   regex: /[A-Za-z]/,
   error: 'Sentence should not contain latin alphabet characters',
 }, {
@@ -57,7 +58,7 @@ const INVALIDATIONS = [{
   // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
   /* eslint-disable-next-line no-misleading-character-class */
   regex: /(^|\s)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
-  error: 'Word should not start with unexpected characters',
+  error: 'Word should not start with unexpected characters, like follow vowel and tone mark',
 }, {
   // These Thai chars cannot end the word:
   // - Lead vowels
@@ -67,12 +68,12 @@ const INVALIDATIONS = [{
   // Any words consisting of letters with a period
   // inbetween are considered abbreviations or acronyms.
   // Abbreviations in Latin chars are disallowed by previous rules already.
-  regex: /[ก-ฮ]\.[ก-ฮ]{1,5}\./,
+  regex: /[ก-ฮ]\.[ก-ฮ]+\./,
   error: 'Sentence should not contain abbreviations',
 }, {
   // Seven or more repeating characters in a row is likely a non-formal spelling or difficult to read.
   regex: /(.)\1{6}/,
-  error: 'Sentence should not contain 7 or more of the same characters in a row',
+  error: 'Sentence should not contain 7 or more of the same character in a row',
 }, {
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2}/,
   error: 'Sentence should not contain repeating lead vowels',
@@ -108,10 +109,9 @@ const INVALIDATIONS = [{
   error: 'Sentence should not contain Sara Aa, Sara Am or Lakkhangyao after Sara A',
 }, {
   regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55}/,
-  error: 'Sentence should not contain more than 54 characters without whitespace',
+  error: 'Sentence should not contain more than 54 characters running without whitespace',
 }];
 
 module.exports = {
   INVALIDATIONS,
 };
-
