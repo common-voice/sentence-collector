@@ -31,7 +31,7 @@ const INVALIDATIONS = [{
   error: `Number of characters must be between ${MIN_LENGTH} and ${MAX_LENGTH} (inclusive)`,
 }, {
   // Thai digits: \u0E50-\u0E59 (๐-๙)
-  regex: /[0-9๐-๙]+/,
+  regex: /[0-9๐-๙]/,
   error: 'Sentence should not contain numbers',
 }, {
   // < > + * \ # @ ^ [ ] ( ) /
@@ -41,8 +41,9 @@ const INVALIDATIONS = [{
   // Angkhankhu: \u0E5A ๚ (used to mark end of section/verse)
   // Khomut: \u0E5B ๛ (used to mark end of chapter/document)
   regex: /[<>+*\\#@^[\]()/\u0E2F\u0E46\u0E4F\u0E5A\u0E5B]/,
-  error: 'Sentence should not contain symbols',
+  error: 'Sentence should not contain symbols, including Paiyannoi and Maiyamok',
 }, {
+  // Latin character (foreign language) is not allowed
   regex: /[A-Za-z]/,
   error: 'Sentence should not contain latin alphabet characters',
 }, {
@@ -56,43 +57,43 @@ const INVALIDATIONS = [{
   // - Tone marks
   // - Phinthu, Thanthakhat, Nikhahit, Yamakkan
   /* eslint-disable-next-line no-misleading-character-class */
-  regex: /(^|\s+)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
-  error: 'Word should not start with unexpected characters',
+  regex: /(^|\s)[\u0E30\u0E32\u0E33\u0E45\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
+  error: 'Word should not start with unexpected characters, like follow vowel and tone mark',
 }, {
   // These Thai chars cannot end the word:
   // - Lead vowels
-  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s+|$)/,
+  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s|$)/,
   error: 'Word should not end with leading vowels',
 }, {
   // Any words consisting of letters with a period
   // inbetween are considered abbreviations or acronyms.
   // Abbreviations in Latin chars are disallowed by previous rules already.
-  regex: /[ก-ฮ]+\.([ก-ฮ]+\.)+/,
+  regex: /[ก-ฮ]\.[ก-ฮ]+\./,
   error: 'Sentence should not contain abbreviations',
 }, {
-  // Five or more repeating consonants in a row is likely a non-formal spelling or difficult to read.
-  regex: /[ก-ฮ]{5,}/,
-  error: 'Sentence should not contain 5 or more consonants in a row',
+  // Seven or more repeating characters in a row is likely a non-formal spelling or difficult to read.
+  regex: /(.)\1{6}/,
+  error: 'Sentence should not contain 7 or more of the same character in a row',
 }, {
-  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2,}/,
+  regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2}/,
   error: 'Sentence should not contain repeating lead vowels',
 }, {
-  regex: /[\u0E32\u0E33\u0E45]{2,}/,
+  regex: /[\u0E32\u0E33\u0E45]{2}/,
   error: 'Sentence should not contain repeating follow vowels',
 }, {
-  regex: /\u0E30{2,}/,
+  regex: /\u0E30{2}/,
   error: 'Sentence should not contain repeating Sara A',
 }, {
-  regex: /\u0E3A{2,}|\u0E4C{2,}|\u0E4D{2,}|\u0E4E{2,}/,
+  regex: /\u0E3A{2}|\u0E4C{2}|\u0E4D{2}|\u0E4E{2}/,
   error: 'Sentence should not contain repeating Phinthu / Thanthakhat / Nikhahit / Yamakkan',
 }, {
-  regex: /[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2,}/,
+  regex: /[\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47]{2}/,
   error: 'Sentence should not contain repeating above vowels',
 }, {
-  regex: /[\u0E38\u0E39]{2,}/,
+  regex: /[\u0E38\u0E39]{2}/,
   error: 'Sentence should not contain repeating below vowels',
 }, {
-  regex: /[\u0E48\u0E49\u0E4A\u0E4B]{2,}/,
+  regex: /[\u0E48\u0E49\u0E4A\u0E4B]{2}/,
   error: 'Sentence should not contain repeating tone marks',
 }, {
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44\u0E30\u0E32\u0E33\u0E45][\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E]/,
@@ -107,11 +108,10 @@ const INVALIDATIONS = [{
   regex: /[\u0E30][\u0E32\u0E33\u0E45]/,
   error: 'Sentence should not contain Sara Aa, Sara Am or Lakkhangyao after Sara A',
 }, {
-  regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55,}/,
-  error: 'Sentence should not contain more than 54 characters without whitespace',
+  regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55}/,
+  error: 'Sentence should not contain more than 54 characters running without whitespace',
 }];
 
 module.exports = {
   INVALIDATIONS,
 };
-
