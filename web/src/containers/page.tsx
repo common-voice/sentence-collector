@@ -3,7 +3,11 @@ import React from 'react';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
-export default function Page({ children }) {
+type Props = {
+  children?: React.ReactNode
+}
+
+export default function Page({ children }: Props) {
   return (
     <React.Fragment>
       <Header key="header" />

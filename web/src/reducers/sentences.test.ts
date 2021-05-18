@@ -1,8 +1,19 @@
 import * as sentences from '../actions/sentences';
 import sentencesReducer from './sentences';
 
+const combineState = (fields) => {
+  const initialState = sentencesReducer(undefined, {
+    type: 'inexistant',
+  });
+  
+  return {
+    ...initialState,
+    fields,
+  };
+}
+
 test('should use initial state', async () => {
-  const newState = sentencesReducer(undefined, {
+  const newState = sentencesReducer(combineState({}), {
     type: 'inexistant',
   });
 
@@ -19,7 +30,7 @@ test('should use initial state', async () => {
 });
 
 test('should reduce submit request', async () => {
-  const newState = sentencesReducer({ sentenceSubmissionFailures: ['oh no'] }, {
+  const newState = sentencesReducer(combineState({ sentenceSubmissionFailures: ['oh no'] }), {
     type: sentences.ACTION_SUBMIT_SENTENCES_REQUEST,
   });
 
@@ -38,7 +49,7 @@ test('should reduce submission failure', async () => {
     error: 'Has symbols',
     sentence: '$$$$$',
   }];
-  const newState = sentencesReducer({}, {
+  const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_SUBMIT_SENTENCES_ERRORS,
     errors: submissionFailures,
   });
@@ -53,7 +64,7 @@ test('should reduce submission failure', async () => {
 });
 
 test('should reduce submit done', async () => {
-  const newState = sentencesReducer({ isUploadingSentences: true }, {
+  const newState = sentencesReducer(combineState({ isUploadingSentences: true }), {
     type: sentences.ACTION_SUBMIT_SENTENCES_DONE,
   });
 
@@ -61,7 +72,7 @@ test('should reduce submit done', async () => {
 });
 
 test('should reduce rejected sentences request', async () => {
-  const newState = sentencesReducer({ rejectedSentencesError: 'oh no' }, {
+  const newState = sentencesReducer(combineState({ rejectedSentencesError: 'oh no' }), {
     type: sentences.ACTION_LOAD_REJECTED_SENTENCES,
   });
 
@@ -71,7 +82,7 @@ test('should reduce rejected sentences request', async () => {
 
 test('should reduce rejected sentences', async () => {
   const testSentences = ['Hi', 'All good?'];
-  const newState = sentencesReducer({}, {
+  const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_GOT_REJECTED_SENTENCES,
     sentences: testSentences,
   });
@@ -82,7 +93,7 @@ test('should reduce rejected sentences', async () => {
 
 test('should reduce rejected sentences failure', async () => {
   const errorMessage = 'oh no';
-  const newState = sentencesReducer({ rejectedSentencesLoading: true }, {
+  const newState = sentencesReducer(combineState({ rejectedSentencesLoading: true }), {
     type: sentences.ACTION_REJECTED_SENTENCES_FAILURE,
     errorMessage,
   });
@@ -93,7 +104,7 @@ test('should reduce rejected sentences failure', async () => {
 });
 
 test('should reduce loading sentences', async () => {
-  const newState = sentencesReducer({}, {
+  const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_LOAD_SENTENCES,
   });
 
@@ -102,7 +113,7 @@ test('should reduce loading sentences', async () => {
 
 test('should reduce sentences', async () => {
   const testSentences = ['Hi', 'All good?'];
-  const newState = sentencesReducer({ sentencesLoading: true }, {
+  const newState = sentencesReducer(combineState({ sentencesLoading: true }), {
     type: sentences.ACTION_GOT_SENTENCES,
     sentences: testSentences,
   });
@@ -112,7 +123,7 @@ test('should reduce sentences', async () => {
 });
 
 test('should reduce reviewed sentences', async () => {
-  const newState = sentencesReducer({}, {
+  const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_REVIEWED_SENTENCES,
     votes: 10,
   });
@@ -122,7 +133,7 @@ test('should reduce reviewed sentences', async () => {
 
 test('should reduce reviewed sentences failure', async () => {
   const errorMessage = 'oh no';
-  const newState = sentencesReducer({}, {
+  const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_REVIEW_SENTENCES_FAILURE,
     errorMessage,
   });
@@ -131,7 +142,7 @@ test('should reduce reviewed sentences failure', async () => {
 });
 
 test('should reduce review message reset', async () => {
-  const newState = sentencesReducer({ reviewMessage: 'hi' }, {
+  const newState = sentencesReducer(combineState({ reviewMessage: 'hi' }), {
     type: sentences.ACTION_REVIEW_RESET_MESSAGE,
   });
 

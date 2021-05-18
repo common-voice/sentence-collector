@@ -1,8 +1,19 @@
 import * as settings from '../actions/settings';
 import settingsReducer from './settings';
 
+const combineState = (fields) => {
+  const initialState = settingsReducer(undefined, {
+    type: 'inexistant',
+  });
+  
+  return {
+    ...initialState,
+    fields,
+  };
+}
+
 test('should use initial state', async () => {
-  const newState = settingsReducer(undefined, {
+  const newState = settingsReducer(combineState({}), {
     type: 'inexistant',
   });
 
@@ -13,21 +24,19 @@ test('should use initial state', async () => {
 
 test('should reduce settings changed success', async () => {
   const newSettings = {
-    newSettingA: 'foo',
-    newSettingB: 0,
+    useSwipeReview: true,
   };
-  const newState = settingsReducer({ errorMessage: 'oh no!' }, {
+  const newState = settingsReducer(combineState({ errorMessage: 'oh no!' }), {
     type: settings.ACTION_SETTINGS_CHANGED,
     newSettings,
   });
 
   expect(newState.errorMessage).toEqual('');
-  expect(newState.newSettingA).toEqual(newSettings.newSettingA);
-  expect(newState.newSettingB).toEqual(newSettings.newSettingB);
+  expect(newState.useSwipeReview).toEqual(true);
 });
 
 test('should reduce settings changed error', async () => {
-  const newState = settingsReducer({}, {
+  const newState = settingsReducer(combineState({}), {
     type: settings.ACTION_SETTINGS_CHANGED_FAILURE,
   });
 

@@ -6,7 +6,7 @@ import LanguageSelector from './language-selector';
 type Props = {
   allLanguages: Language[]
   onAdd?: (language: string) => void
-  languages?: Language[]
+  languages?: string[]
   pendingLanguages?: boolean
 }
 

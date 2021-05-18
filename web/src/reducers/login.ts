@@ -4,12 +4,17 @@ import {
   ACTION_USER_INFO_RECEIVED,
 } from '../actions/login';
 
-export const INITIAL_STATE = {
+export type LoginState = {
+  authed: boolean
+  username: string
+}
+
+export const INITIAL_STATE: LoginState = {
   authed: false,
   username: '',
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action): LoginState {
   switch(action.type) {
     case ACTION_LOGOUT:
       return Object.assign({}, state, INITIAL_STATE);

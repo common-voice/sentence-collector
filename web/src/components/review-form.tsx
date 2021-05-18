@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import type { SentenceWithSource } from '../types';
+
 import Pager from './pager';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
@@ -9,19 +11,14 @@ import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-type SentenceWithSource = {
-  sentence: string
-  source: string
-}
-
 type CategorizedSentences = Record<string, SentenceWithSource>[]
 
 type Props = {
-  message?: string
-  useSwipeReview?: boolean
   sentences: SentenceWithSource[]
   onReviewed: (categorizedSentences: CategorizedSentences) => void
-  language: string
+  message?: string
+  language?: string
+  useSwipeReview?: boolean
 }
 
 export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }: Props) {

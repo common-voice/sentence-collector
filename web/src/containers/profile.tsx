@@ -6,21 +6,22 @@ import { setSetting } from '../actions/settings';
 import PersonalLanguageInfo from '../components/personal-language-info';
 import AddLanguage from '../components/add-language-section';
 import Settings from '../components/settings';
+import type { RootState } from '../types';
 
 import '../../css/profile.css';
 
 export default function Profile() {
-  const { username } = useSelector((state) => state.login);
+  const { username } = useSelector((state: RootState) => state.login);
   const {
     useSwipeReview,
     errorMessage: settingsErrorMessage,
-  } = useSelector((state) => state.settings);
+  } = useSelector((state: RootState) => state.settings);
   const {
     stats: { user: languageStats = {} },
     allLanguages,
     languages,
     pendingLanguages,
-  } = useSelector((state) => state.languages);
+  } = useSelector((state: RootState) => state.languages);
 
   const dispatch = useDispatch();
 

@@ -31,7 +31,7 @@ export function resetReviewMessage() {
   };
 }
 
-export function loadSentences(language) {
+export function loadSentences(language: string) {
   return async function(dispatch) {
     dispatch(loadSentencesStart());
     try {
@@ -44,7 +44,7 @@ export function loadSentences(language) {
 }
 
 export function uploadSentences(sentencesParams) {
-  return async function(dispatch, getState) {
+  return async function(dispatch, getState): Promise<{ errors?: number, duplicates?: number}> {
     dispatch(sendSubmitSentences());
     const state = getState();
 
@@ -71,7 +71,7 @@ export function uploadSentences(sentencesParams) {
   };
 }
 
-export function reviewSentences(data, language) {
+export function reviewSentences(data, language: string) {
   return async function(dispatch) {
     try {
       const { votes } = await sendRequest('votes', 'PUT', data);

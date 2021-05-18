@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import type { Language } from '../types';
+import type { Language, SubmissionFailures } from '../types';
 import LanguageSelector from './language-selector';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
@@ -25,7 +25,7 @@ type Props = {
   onSubmit: (data: SubmissionData) => void
   message?: string
   error?: string
-  sentenceSubmissionFailures?: Record<string, string[]>
+  sentenceSubmissionFailures?: SubmissionFailures
 }
 
 type FormFields = {
@@ -37,7 +37,11 @@ type FormFields = {
 export default function SubmitForm({ languages, onSubmit, message, error, sentenceSubmissionFailures }: Props) {
   const firstLanguage = languages.length === 1 && languages[0];
   const [formError, setError] = useState('');
-  const [formFields, setFormFields] = useState<FormFields>({});
+  const [formFields, setFormFields] = useState<FormFields>({
+    sentenceText: '',
+    source: '',
+    confirmed: false,
+  });
   const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : undefined);
 
   const handleInputChange = (event) => {

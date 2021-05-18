@@ -1,6 +1,17 @@
 import * as login from '../actions/login';
 import loginReducer from './login';
 
+const combineState = (fields) => {
+  const initialState = loginReducer(undefined, {
+    type: 'inexistant',
+  });
+  
+  return {
+    ...initialState,
+    fields,
+  };
+}
+
 test('should use initial state', async () => {
   const newState = loginReducer(undefined, {
     type: 'inexistant',
@@ -13,7 +24,7 @@ test('should use initial state', async () => {
 });
 
 test('should reduce login success', async () => {
-  const newState = loginReducer({}, {
+  const newState = loginReducer(combineState({}), {
     type: login.ACTION_LOGIN_SUCCESS,
   });
 
@@ -21,7 +32,7 @@ test('should reduce login success', async () => {
 });
 
 test('should reduce logout success', async () => {
-  const newState = loginReducer({}, {
+  const newState = loginReducer(combineState({}), {
     type: login.ACTION_LOGOUT,
   });
 
@@ -31,7 +42,7 @@ test('should reduce logout success', async () => {
 
 test('should reduce user info', async () => {
   const username = 'testUser';
-  const newState = loginReducer({}, {
+  const newState = loginReducer(combineState({}), {
     type: login.ACTION_USER_INFO_RECEIVED,
     username,
   });

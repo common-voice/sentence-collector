@@ -3,8 +3,19 @@ import languageReducer from './languages';
 
 const mockLanguages = ['en', 'fr'];
 
+const combineState = (fields) => {
+  const initialState = languageReducer(undefined, {
+    type: 'inexistant',
+  });
+  
+  return {
+    ...initialState,
+    fields,
+  };
+}
+
 test('should use initial state', async () => {
-  const newState = languageReducer(undefined, {
+  const newState = languageReducer(combineState({}), {
     type: 'inexistant',
   });
 
@@ -19,7 +30,7 @@ test('should use initial state', async () => {
 });
 
 test('should reduce getting stats', async () => {
-  const newState = languageReducer({}, {
+  const newState = languageReducer(combineState({}), {
     type: languages.ACTION_GET_STATS,
   });
 
@@ -28,7 +39,7 @@ test('should reduce getting stats', async () => {
 
 test('should reduce stats', async () => {
   const stats = [{ foo: 'bar' }];
-  const newState = languageReducer({}, {
+  const newState = languageReducer(combineState({}), {
     type: languages.ACTION_GOT_STATS,
     stats,
   });
@@ -39,7 +50,7 @@ test('should reduce stats', async () => {
 });
 
 test('should reduce stats status reset', async () => {
-  const newState = languageReducer({ statsUpdating: true }, {
+  const newState = languageReducer(combineState({ statsUpdating: true }), {
     type: languages.ACTION_RESET_STATS_STATUS,
   });
 
@@ -47,7 +58,7 @@ test('should reduce stats status reset', async () => {
 });
 
 test('should reduce languages', async () => {
-  const newState = languageReducer({}, {
+  const newState = languageReducer(combineState({}), {
     type: languages.ACTION_GOT_LANGUAGES,
     languages: mockLanguages,
   });
@@ -56,7 +67,7 @@ test('should reduce languages', async () => {
 });
 
 test('should reduce add language request', async () => {
-  const newState = languageReducer({}, {
+  const newState = languageReducer(combineState({}), {
     type: languages.ACTION_ADD_LANGUAGE_REQUEST,
   });
 
@@ -64,7 +75,7 @@ test('should reduce add language request', async () => {
 });
 
 test('should reduce add languages', async () => {
-  const newState = languageReducer({ pendingLanguages: true }, {
+  const newState = languageReducer(combineState({ pendingLanguages: true }), {
     type: languages.ACTION_ADD_LANGUAGE_SUCCESS,
     languages: mockLanguages,
   });
@@ -74,7 +85,7 @@ test('should reduce add languages', async () => {
 });
 
 test('should reduce add language failure', async () => {
-  const newState = languageReducer({ pendingLanguages: true }, {
+  const newState = languageReducer(combineState({ pendingLanguages: true }), {
     type: languages.ACTION_ADD_LANGUAGE_FAILURE,
   });
 
@@ -82,7 +93,7 @@ test('should reduce add language failure', async () => {
 });
 
 test('should reduce remove language request', async () => {
-  const newState = languageReducer({}, {
+  const newState = languageReducer(combineState({}), {
     type: languages.ACTION_REMOVE_LANGUAGE_REQUEST,
   });
 
@@ -90,7 +101,7 @@ test('should reduce remove language request', async () => {
 });
 
 test('should reduce remove languages', async () => {
-  const newState = languageReducer({ pendingLanguages: true }, {
+  const newState = languageReducer(combineState({ pendingLanguages: true }), {
     type: languages.ACTION_REMOVE_LANGUAGE_SUCCESS,
     languages: mockLanguages,
   });
@@ -100,7 +111,7 @@ test('should reduce remove languages', async () => {
 });
 
 test('should reduce remove language failure', async () => {
-  const newState = languageReducer({ pendingLanguages: true }, {
+  const newState = languageReducer(combineState({ pendingLanguages: true }), {
     type: languages.ACTION_REMOVE_LANGUAGE_FAILURE,
   });
 

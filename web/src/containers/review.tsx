@@ -6,12 +6,21 @@ import { loadSentences, resetReviewMessage, reviewSentences } from '../actions/s
 import LanguageSelector from '../components/language-selector';
 import ReviewForm from '../components/review-form';
 import ReviewCriteria from '../components/review-criteria';
+import type { RootState } from '../types';
 
 export const getReviewUrl = (language) => {
   return `/review/${language || ''}`;
 };
 
-const getLanguageFromMatch = ({ params = {} } = {}) => {
+type RouteMatch = {
+  params?: {
+    language?: string
+  }
+}
+
+type LanguageMatchFunction = (params: RouteMatch) => string
+
+const getLanguageFromMatch: LanguageMatchFunction = ({ params = {} } = {}) => {
   // Always return an empty string if no lang specified.
   // This ensures we never have an undefined language.
   let lang = params.language;
@@ -21,17 +30,22 @@ const getLanguageFromMatch = ({ params = {} } = {}) => {
   return lang;
 };
 
-export default function Review({ match, history }) {
+type Props = {
+  match: RouteMatch
+  history: string[]
+}
+
+export default function Review({ match, history }: Props) {
   const {
     allLanguages = [],
     languages = [],
-  } = useSelector((state) => state.languages);
+  } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
     sentences,
     reviewMessage,
-  } = useSelector((state) => state.sentences);
-  const { useSwipeReview } = useSelector((state) => state.settings);
+  } = useSelector((state: RootState) => state.sentences);
+  const { useSwipeReview } = useSelector((state: RootState) => state.settings);
 
   const [language, setLanguage] = useState(getLanguageFromMatch(match));
   const dispatch = useDispatch();

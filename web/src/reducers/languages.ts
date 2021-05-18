@@ -10,9 +10,19 @@ import {
   ACTION_GOT_STATS,
   ACTION_RESET_STATS_STATUS,
 } from '../actions/languages';
+import type { Language, LanguageStats } from '../types';
 
-export const INITIAL_STATE = {
-  stats: [],
+export type LanguageState = {
+  stats: LanguageStats
+  languages: string[]
+  allLanguages: Language[]
+  pendingLanguages: boolean
+  lastStatsUpdate: number
+  statsUpdating: boolean
+}
+
+export const INITIAL_STATE: LanguageState = {
+  stats: {},
   languages: [],
   allLanguages: [],
   pendingLanguages: false,
@@ -20,7 +30,7 @@ export const INITIAL_STATE = {
   statsUpdating: false,
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action): LanguageState {
   switch(action.type) {
     case ACTION_GET_STATS:
       return Object.assign({}, state, {

@@ -1,12 +1,9 @@
 import React from 'react';
 
-type Stats {
-  total: number
-  languages: number
-}
+import type { StatsEntry } from '../types';
 
 type Props = {
-  languageStats: Stats | undefined
+  languageStats: StatsEntry | undefined
 }
 
 export default function SentenceCollectorInfo({ languageStats }: Props) {

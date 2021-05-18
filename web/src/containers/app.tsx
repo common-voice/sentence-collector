@@ -11,6 +11,7 @@ import {
 import { ConnectedRouter } from 'connected-react-router';
 import { getLanguages } from '../actions/languages';
 import { checkCurrentUser } from '../actions/login';
+import type { RootState } from '../types';
 
 import Page from './page';
 import Home from './home';
@@ -25,7 +26,7 @@ import Stats from './stats';
 export default function App({ history }) {
   const {
     authed,
-  } = useSelector((state) => state.login);
+  } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,7 +67,7 @@ const PrivateRoute = (props) => {
         return <Component {...props} />;
       }
 
-      window.location = '/sentence-collector/login';
+      window.location.href = '/sentence-collector/login';
       return;
     }}
   />;

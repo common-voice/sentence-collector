@@ -1,11 +1,11 @@
 import React from 'react';
 
-import type { SentenceRecord } from '../types';
+import type { RejectedSentences } from '../types';
 import Sentence from './sentence';
 
 type Props = {
   loading?: boolean
-  sentences?: Record<string, SentenceRecord[]>
+  sentences?: RejectedSentences
   error?: string
 }
 

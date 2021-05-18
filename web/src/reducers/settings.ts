@@ -3,11 +3,16 @@ import {
   ACTION_SETTINGS_CHANGED_FAILURE,
 } from '../actions/settings';
 
-export const INITIAL_STATE = {
+export type SettingsState = {
+  errorMessage: string
+  useSwipeReview?: boolean
+}
+
+export const INITIAL_STATE: SettingsState = {
   errorMessage: '',
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action): SettingsState {
   switch(action.type) {
     case ACTION_SETTINGS_CHANGED:
       return Object.assign({}, state, action.newSettings, {

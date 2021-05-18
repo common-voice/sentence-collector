@@ -1,7 +1,7 @@
 import React from 'react';
 
 type Props = {
-  onToggleSwipeReview: () => void
+  onToggleSwipeReview: (event?: unknown) => void
   errorMessage?: string
   useSwipeReview?: boolean
 }

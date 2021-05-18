@@ -5,6 +5,7 @@ import { NavLink, Link } from 'react-router-dom';
 import logoURL from '../../img/cv-logo-one-color-black.svg';
 import '../../css/header.css';
 
+import type { RootState } from '../types';
 import LoginButton from './login-button';
 
 function NavItems({ authed, closeNavigation }) {
@@ -24,7 +25,7 @@ function NavItems({ authed, closeNavigation }) {
 }
 
 export default function Header() {
-  const { authed } = useSelector((state) => state.login);
+  const { authed } = useSelector((state: RootState) => state.login);
   const [showMobileNav, setShowMobileNav] = useState(false);
 
   const toggleMobileNav = () => {

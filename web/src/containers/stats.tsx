@@ -4,19 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getStats } from '../actions/languages';
 import SentenceCollectorInfo from '../components/sentence-collector-info';
 import LanguageStats from '../components/language-stats';
+import type { RootState } from '../types';
 
 export default function Stats() {
   const dispatch = useDispatch();
   const {
     all: languageStats,
     userUnreviewed,
-  } = useSelector((state) => state.languages.stats);
+  } = useSelector((state: RootState) => state.languages.stats);
   const {
     allLanguages,
     languages,
     lastStatsUpdate,
     statsUpdating,
-  } = useSelector((state) => state.languages);
+  } = useSelector((state: RootState) => state.languages);
 
   useEffect(() => {
     dispatch(getStats(languages, lastStatsUpdate));

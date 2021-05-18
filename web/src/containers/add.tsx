@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import type { RootState } from '../types';
+
 import { uploadSentences } from '../actions/sentences';
 
 import SubmitForm from '../components/submit-form';
@@ -30,11 +32,11 @@ export default function Add() {
   const {
     allLanguages,
     languages,
-  } = useSelector((state) => state.languages);
+  } = useSelector((state: RootState) => state.languages);
   const {
     isUploadingSentences,
     sentenceSubmissionFailures,
-  } = useSelector((state) => state.sentences);
+  } = useSelector((state: RootState) => state.sentences);
 
   let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
   if (extendedLanguages.length < 1) {

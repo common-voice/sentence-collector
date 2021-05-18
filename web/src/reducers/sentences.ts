@@ -12,24 +12,37 @@ import {
   ACTION_REVIEW_RESET_MESSAGE,
 } from '../actions/sentences';
 
-export const INITIAL_STATE = {
-  sentenceSubmissionFailures: [],
+import type { RejectedSentences, SentenceWithSource, SubmissionFailures } from '../types';
+
+export type SentencesState = {
+  sentenceSubmissionFailures: SubmissionFailures
+  isUploadingSentences: boolean
+  rejectedSentencesLoading: boolean
+  rejectedSentences: RejectedSentences
+  rejectedSentencesError: string
+  sentences: SentenceWithSource[]
+  sentencesLoading: boolean
+  reviewMessage: string
+}
+
+export const INITIAL_STATE: SentencesState = {
+  sentenceSubmissionFailures: {},
   isUploadingSentences: false,
   rejectedSentencesLoading: false,
-  rejectedSentences: [],
+  rejectedSentences: {},
   rejectedSentencesError: null,
   sentences: [],
   sentencesLoading: false,
   reviewMessage: null,
 };
 
-export default function(state = INITIAL_STATE, action) {
+export default function(state = INITIAL_STATE, action): SentencesState {
   const errors = action.errors || [];
 
   switch(action.type) {
     case ACTION_SUBMIT_SENTENCES_REQUEST:
       return Object.assign({}, state, {
-        sentenceSubmissionFailures: [],
+        sentenceSubmissionFailures: {},
         isUploadingSentences: true,
       });
 
@@ -65,7 +78,7 @@ export default function(state = INITIAL_STATE, action) {
     case ACTION_REJECTED_SENTENCES_FAILURE:
       return Object.assign({}, state, {
         rejectedSentencesLoading: false,
-        rejectedSentences: [],
+        rejectedSentences: {},
         rejectedSentencesError: action.errorMessage,
       });
 
