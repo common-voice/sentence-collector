@@ -1,9 +1,9 @@
 import React from 'react';
 
-import type { StatsEntry } from '../types';
+import type { AllStats } from '../types';
 
 type Props = {
-  languageStats: StatsEntry | undefined
+  languageStats: AllStats | undefined
 }
 
 export default function SentenceCollectorInfo({ languageStats }: Props) {

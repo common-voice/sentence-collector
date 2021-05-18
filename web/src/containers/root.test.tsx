@@ -9,5 +9,5 @@ jest.mock('./app');
 test('should setup app', () => {
   (App as jest.Mock).mockReturnValue('<App.../>');
   const { container } = render(<Root/>);
-  expect(container.firstNode).not.toBeNull();
+  expect(container).not.toBeNull();
 });

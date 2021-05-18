@@ -66,6 +66,8 @@ export default function Add() {
     evt.preventDefault();
 
     try {
+      // TODO: set up Redux types so that thunk middleware typing works...
+      // @ts-ignore
       const { errors, duplicates } = await dispatch(uploadSentences({
         sentences: {
           unreviewed,

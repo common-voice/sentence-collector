@@ -16,22 +16,25 @@ export type Language = {
   nativeName: string
 }
 
-export type StatsEntry = {
+export type LanguageStatsEntry = {
+  validated: number
+  rejected: number
+  added: number
+}
+
+type StatsRecordByLanguage = Record<string, LanguageStatsEntry>
+
+export type AllStats = {
+  [key: string]: LanguageStatsEntry
   total: number
   languages: number
 }
 
-export type LanguageStatsEntry = {
-  validated?: number
-  rejected?: number
-  added?: number
+export type LanguageStats = {
+  userUnreviewed: Record<string, number>
+  user: StatsRecordByLanguage
+  all: AllStats
 }
-
-type UserStats = {
-  user: LanguageStatsEntry
-}
-
-export type LanguageStats = Record<string, LanguageStatsEntry> | StatsEntry & UserStats
 
 export type SentenceRecord = {
   id: number

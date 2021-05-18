@@ -15,5 +15,5 @@ test('should setup app', () => {
       <App history={history} />
     </Store>
   );
-  expect(container.firstNode).not.toBeNull();
+  expect(container).not.toBeNull();
 });

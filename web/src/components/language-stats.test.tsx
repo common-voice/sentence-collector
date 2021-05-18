@@ -28,6 +28,8 @@ const languageStats = {
     validated: 0,
     rejected: 0,
   },
+  total: 0,
+  languages: 0,
 };
 const userUnreviewedStats = {
   en: 0,
