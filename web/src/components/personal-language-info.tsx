@@ -5,7 +5,7 @@ import { Language, PersonalLanguageStatsEntry } from '../types';
 type Props = {
   languages: Language[]
   onRemove: (language: string) => void
-  languageStats?: Record<string, PersonalLanguageStatsEntry>
+  languageStats: Record<string, PersonalLanguageStatsEntry>
   pendingLanguages?: boolean
 }
 

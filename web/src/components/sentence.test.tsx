@@ -10,10 +10,10 @@ test('should render sentence', () => {
 
 test('should set lang attribute', () => {
   render(<Sentence language="en">foo</Sentence>);
-  expect(screen.queryByText('foo').lang).toBe('en');
+  expect(screen.queryByText('foo')?.lang).toBe('en');
 });
 
 test('should set direction auto', () => {
   render(<Sentence language="en">foo</Sentence>);
-  expect(screen.queryByText('foo').dir).toBe('auto');
+  expect(screen.queryByText('foo')?.dir).toBe('auto');
 });

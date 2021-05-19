@@ -30,11 +30,11 @@ export default function Profile() {
     dispatch(setSetting('useSwipeReview', !useSwipeReview));
   };
 
-  const onAdd = async (language) => {
+  const onAdd = async (language: string) => {
     await dispatch(addLanguage(language));
   };
 
-  const onRemove = async (language) => {
+  const onRemove = async (language: string) => {
     await dispatch(removeLanguage(language));
   };
 
@@ -57,7 +57,7 @@ export default function Profile() {
       <AddLanguage
         pendingLanguages={pendingLanguages}
         allLanguages={allLanguages}
-        languages={languages}
+        filterLanguages={languages}
         onAdd={onAdd}
       />
 

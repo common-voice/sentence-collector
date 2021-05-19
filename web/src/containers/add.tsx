@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState } from '../types';
+import type { RootState, SentenceWithSource } from '../types';
 
 import { uploadSentences } from '../actions/sentences';
 
@@ -19,15 +19,15 @@ function merge(arr1, arr2) {
 
 export default function Add() {
   const dispatch = useDispatch();
-  const [language, setLanguage] = useState('');
-  const [source, setSource] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const [submitted, setSubmitted] = useState([]);
-  const [unreviewed, setUnreviewed] = useState([]);
-  const [reviewing, setReviewing] = useState([]);
-  const [validated, setValidated] = useState([]);
-  const [invalidated, setInvalidated] = useState([]);
+  const [language, setLanguage] = useState<string>('');
+  const [source, setSource] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [submitted, setSubmitted] = useState<string[]>([]);
+  const [unreviewed, setUnreviewed] = useState<string[]>([]);
+  const [reviewing, setReviewing] = useState<SentenceWithSource[]>([]);
+  const [validated, setValidated] = useState<string[]>([]);
+  const [invalidated, setInvalidated] = useState<string[]>([]);
 
   const {
     allLanguages,
@@ -92,7 +92,7 @@ export default function Add() {
   };
 
   const onReviewStart = () => {
-    setReviewing(unreviewed.map((sentence) => ({ sentence })));
+    setReviewing(unreviewed.map((sentence) => ({ sentence, source })));
   };
 
   const onReviewed = (reviewedState) => {

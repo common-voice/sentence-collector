@@ -9,7 +9,8 @@
     "jsx": "react",
     "lib": ["dom", "esnext"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictNullChecks": true
   },
   "include": ["src/**/*"]
 }

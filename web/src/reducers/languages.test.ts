@@ -32,7 +32,7 @@ test('should use initial state', async () => {
     languages: [],
     allLanguages: [],
     pendingLanguages: false,
-    lastStatsUpdate: null,
+    lastStatsUpdate: 0,
     statsUpdating: false,
   });
 });

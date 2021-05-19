@@ -18,10 +18,9 @@ export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
-export function getStats(locales: string[], lastUpdate?: number);
-export function getStats(locales = [], lastUpdate?: number) {
+export function getStats(locales, lastUpdate?: number) {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
-    if (Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
+    if (!lastUpdate || Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
       dispatch(resetStatsStatus());
       return;
     }

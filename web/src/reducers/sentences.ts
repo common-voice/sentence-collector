@@ -30,10 +30,10 @@ export const INITIAL_STATE: SentencesState = {
   isUploadingSentences: false,
   rejectedSentencesLoading: false,
   rejectedSentences: {},
-  rejectedSentencesError: null,
+  rejectedSentencesError: '',
   sentences: [],
   sentencesLoading: false,
-  reviewMessage: null,
+  reviewMessage: '',
 };
 
 export default function(state = INITIAL_STATE, action): SentencesState {

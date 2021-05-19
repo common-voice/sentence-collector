@@ -5,12 +5,12 @@ import LanguageSelector from './language-selector';
 
 type Props = {
   allLanguages: Language[]
-  onAdd?: (language: string) => void
-  languages?: string[]
+  onAdd: (language: string) => void
+  filterLanguages?: string[]
   pendingLanguages?: boolean
 }
 
-export default function AddLanguage({ allLanguages, onAdd, languages, pendingLanguages }: Props) {
+export default function AddLanguage({ allLanguages, onAdd, filterLanguages, pendingLanguages }: Props) {
   const [language, setLanguage] = useState('');
   const [error, setError] = useState('');
 
@@ -40,7 +40,7 @@ export default function AddLanguage({ allLanguages, onAdd, languages, pendingLan
       <LanguageSelector disabled={pendingLanguages}
                         name="language-selector"
                         languages={allLanguages}
-                        filters={languages}
+                        filters={filterLanguages}
                         labelText="Add a language you want to contribute to"
                         onChange={onLanguageSelect} />
       <button disabled={!!pendingLanguages || !language}

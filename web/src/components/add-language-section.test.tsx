@@ -10,30 +10,31 @@ const allLanguages = [{
   nativeName: 'English',
 }];
 
+const onAdd = jest.fn();
+
 test('should render submit button', () => {
-  render(<AddLanguageSection allLanguages={allLanguages}/>);
+  render(<AddLanguageSection allLanguages={allLanguages} onAdd={onAdd}/>);
   expect(screen.getByRole('button')).toBeTruthy();
   expect(screen.getByText('Add Language')).toBeTruthy();
 });
 
 test('should disable button on pending languages', () => {
-  render(<AddLanguageSection pendingLanguages={true} allLanguages={allLanguages}/>);
+  render(<AddLanguageSection pendingLanguages={true} allLanguages={allLanguages} onAdd={onAdd}/>);
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should disable button when no language selected', () => {
-  render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages}/>);
+  render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages} onAdd={onAdd}/>);
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should enable button when language selected', () => {
-  render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages}/>);
+  render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages} onAdd={onAdd}/>);
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
 });
 
 test('should call onAdd and set button to disabled', async () => {
-  const onAdd = jest.fn();
   render(<AddLanguageSection pendingLanguages={false} allLanguages={allLanguages} onAdd={onAdd}/>);
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);

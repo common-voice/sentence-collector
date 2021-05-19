@@ -42,7 +42,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
     source: '',
     confirmed: false,
   });
-  const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : undefined);
+  const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : '');
 
   const handleInputChange = (event) => {
     const target = event.target;

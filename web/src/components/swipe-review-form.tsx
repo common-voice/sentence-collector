@@ -18,7 +18,7 @@ export default function SwipeReview(props) {
     reviewedSentencesCount,
   } = props;
 
-  const cardsRef = useRef(null);
+  const cardsRef = useRef<Cards>(null);
 
   const onReviewButtonPress = (event, approval) => {
     event.preventDefault();
@@ -26,6 +26,10 @@ export default function SwipeReview(props) {
   };
 
   const processReviewOnCurrentCard = (approval) => {
+    if (!cardsRef || !cardsRef.current) {
+      return;
+    }
+    
     const currentIndex = cardsRef.current.state.index;
 
     if (typeof approval !== 'undefined') {

@@ -7,7 +7,7 @@ import PersonalLanguageInfo from './personal-language-info';
 const onRemove = jest.fn();
 
 test('should render if not added languages', () => {
-  render(<PersonalLanguageInfo languages={[]} onRemove={onRemove} />);
+  render(<PersonalLanguageInfo languages={[]} languageStats={{}} onRemove={onRemove} />);
   expect(screen.getByText('You have not added any languages yet.')).toBeTruthy();
 });
 
@@ -130,23 +130,4 @@ test('should show error when onRemove fails', async () => {
 
   await userEvent.click(screen.getByRole('button'));
   expect(screen.getByText(/Could not remove language/)).toBeTruthy();
-});
-
-test('should show error when no language id passed', async () => {
-  const onRemove = jest.fn(() => { throw new Error('nope'); });
-  const props = {
-    languageStats: {},
-    languages: [{
-      id: undefined,
-      name: 'English',
-      nativeName: 'English',
-    }],
-    pendingLanguages: false,
-    onRemove,
-  };
-
-  render(<PersonalLanguageInfo {...props}/>);
-
-  await userEvent.click(screen.getByRole('button'));
-  expect(screen.getByText(/language not found/)).toBeTruthy();
 });

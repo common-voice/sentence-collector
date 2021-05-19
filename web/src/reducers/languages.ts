@@ -34,7 +34,7 @@ export const INITIAL_STATE: LanguageState = {
   languages: [],
   allLanguages: [],
   pendingLanguages: false,
-  lastStatsUpdate: null,
+  lastStatsUpdate: 0,
   statsUpdating: false,
 };
 
