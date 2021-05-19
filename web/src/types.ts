@@ -22,18 +22,22 @@ export type LanguageStatsEntry = {
   added: number
 }
 
-type StatsRecordByLanguage = Record<string, LanguageStatsEntry>
+export type PersonalLanguageStatsEntry = {
+  added: number
+}
 
-export type AllStats = {
-  [key: string]: LanguageStatsEntry
+export type StatsRecordByLanguage = Record<string, LanguageStatsEntry>
+
+export type TotalStats = {
   total: number
   languages: number
 }
 
 export type LanguageStats = {
   userUnreviewed: Record<string, number>
-  user: StatsRecordByLanguage
-  all: AllStats
+  user: Record<string, PersonalLanguageStatsEntry>
+  all: StatsRecordByLanguage
+  totals: TotalStats
 }
 
 export type SentenceRecord = {

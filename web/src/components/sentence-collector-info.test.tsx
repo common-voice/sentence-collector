@@ -8,12 +8,12 @@ test('should render sentence collector info according to input', () => {
     total: 500,
     languages: 20,
   };
-  render(<SentenceCollectorInfo languageStats={stats}/>);
+  render(<SentenceCollectorInfo totals={stats}/>);
   expect(screen.queryByText('500')).toBeTruthy();
   expect(screen.queryByText('20')).toBeTruthy();
 });
 
 test('should not render sentence collector info without stats', () => {
-  render(<SentenceCollectorInfo languageStats={undefined}/>);
+  render(<SentenceCollectorInfo totals={undefined}/>);
   expect(screen.queryByText('The Common Voice Sentence Collector has')).toBeNull();
 });

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { Language, LanguageStatsEntry } from '../types';
+import { Language, PersonalLanguageStatsEntry } from '../types';
 
 type Props = {
   languages: Language[]
   onRemove: (language: string) => void
-  languageStats?: LanguageStatsEntry
+  languageStats?: Record<string, PersonalLanguageStatsEntry>
   pendingLanguages?: boolean
 }
 

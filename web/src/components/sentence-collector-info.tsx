@@ -1,17 +1,17 @@
 import React from 'react';
 
-import type { AllStats } from '../types';
+import type { TotalStats } from '../types';
 
 type Props = {
-  languageStats: AllStats | undefined
+  totals: TotalStats | undefined
 }
 
-export default function SentenceCollectorInfo({ languageStats }: Props) {
-  return languageStats && (
+export default function SentenceCollectorInfo({ totals }: Props) {
+  return totals && (
     <p>
      The Common Voice Sentence Collector has
-     collected <strong>{languageStats.total}</strong> sentences
-     in <strong>{languageStats.languages}</strong> languages!
+     collected <strong>{totals.total}</strong> sentences
+     in <strong>{totals.languages}</strong> languages!
     </p>
   ) || null;
 }

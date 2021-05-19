@@ -11,6 +11,7 @@ export default function Stats() {
   const {
     all: languageStats,
     userUnreviewed,
+    totals,
   } = useSelector((state: RootState) => state.languages.stats);
   const {
     allLanguages,
@@ -31,7 +32,7 @@ export default function Stats() {
 
       { lastStatsUpdate && (
         <React.Fragment>
-          <SentenceCollectorInfo languageStats={languageStats} />
+          <SentenceCollectorInfo totals={totals} />
           <LanguageStats
             languages={languages}
             allLanguages={allLanguages}

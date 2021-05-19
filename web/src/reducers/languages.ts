@@ -22,7 +22,15 @@ export type LanguageState = {
 }
 
 export const INITIAL_STATE: LanguageState = {
-  stats: {},
+  stats: {
+    all: {},
+    user: {},
+    userUnreviewed: {},
+    totals: {
+      total: 0,
+      languages: 0,
+    },
+  },
   languages: [],
   allLanguages: [],
   pendingLanguages: false,

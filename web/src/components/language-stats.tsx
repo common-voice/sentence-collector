@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import type { AllStats, Language } from '../types';
+import type { Language, StatsRecordByLanguage } from '../types';
 import LanguageInfo from './language-info';
 
 type Props = {
   languages: string[]
   allLanguages: Language[]
-  languageStats?: AllStats
+  languageStats?: StatsRecordByLanguage
   userUnreviewedStats?: Record<string, number>
 }
 
