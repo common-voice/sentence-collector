@@ -3,7 +3,7 @@ import languageReducer from './languages';
 
 const mockLanguages = ['en', 'fr'];
 
-const combineState = (fields) => {
+const combineState = (fields: Record<string, unknown>) => {
   const initialState = languageReducer(undefined, {
     type: 'inexistant',
   });

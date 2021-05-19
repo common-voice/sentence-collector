@@ -1,7 +1,7 @@
 import * as settings from '../actions/settings';
 import settingsReducer from './settings';
 
-const combineState = (fields) => {
+const combineState = (fields: Record<string, unknown>) => {
   const initialState = settingsReducer(undefined, {
     type: 'inexistant',
   });

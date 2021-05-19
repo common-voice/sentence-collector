@@ -3,7 +3,7 @@ import * as languages from './languages';
 
 const mockLanguages = ['en', 'fr'];
 const mockStats = { en: 2 };
-let dispatch;
+let dispatch: jest.Mock;
 
 beforeEach(() => {
   jest.clearAllMocks();

@@ -8,7 +8,7 @@ const userInfo = {
   languages: ['en'],
   settings: {},
 };
-let dispatch;
+let dispatch: jest.Mock;
 
 
 beforeEach(() => {

@@ -1,16 +1,17 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "inlineSources": true,
-    "outDir": "dist",
-    "jsx": "react",
-    "lib": ["dom", "esnext"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "inlineSources": true,
+    "jsx": "react",
+    "lib": ["dom", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "dist",
+    "strictNullChecks": true,
+    "target": "es2015"
   },
   "include": ["src/**/*"]
 }

@@ -1,7 +1,7 @@
 import * as backend from '../backend';
 import * as settings from './settings';
 
-let dispatch;
+let dispatch: jest.Mock;
 
 beforeEach(() => {
   jest.clearAllMocks();

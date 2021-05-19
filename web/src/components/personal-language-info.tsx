@@ -12,7 +12,7 @@ type Props = {
 export default function PersonalLanguageInfo({ languages, onRemove, languageStats, pendingLanguages }: Props) {
   const [error, setError] = useState('');
 
-  const onLanguageRemove = async (language) => {
+  const onLanguageRemove = async (language: string) => {
     if (!language) {
       setError('Could not remove language: language not found');
       return;

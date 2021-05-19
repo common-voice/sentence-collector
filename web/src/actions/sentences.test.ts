@@ -2,8 +2,8 @@ import * as backend from '../backend';
 import * as languages from './languages';
 import * as sentences from './sentences';
 
-let dispatch;
-let getState;
+let dispatch: jest.Mock;
+let getState: jest.Mock;
 const exampleSentences = [
   'This is a test.',
   'This too!',

@@ -1,7 +1,7 @@
 import * as login from '../actions/login';
 import loginReducer from './login';
 
-const combineState = (fields) => {
+const combineState = (fields: Record<string, unknown>) => {
   const initialState = loginReducer(undefined, {
     type: 'inexistant',
   });

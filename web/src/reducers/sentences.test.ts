@@ -1,7 +1,7 @@
 import * as sentences from '../actions/sentences';
 import sentencesReducer from './sentences';
 
-const combineState = (fields) => {
+const combineState = (fields: Record<string, unknown>) => {
   const initialState = sentencesReducer(undefined, {
     type: 'inexistant',
   });
