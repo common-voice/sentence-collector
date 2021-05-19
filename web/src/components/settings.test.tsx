@@ -9,7 +9,7 @@ const swipeToggleMock = jest.fn();
 beforeEach(() => {
   jest.resetAllMocks();
   swipeToggleMock.mockReset();
-})
+});
 
 test('should render title', () => {
   render(<Settings onToggleSwipeReview={swipeToggleMock}/>);

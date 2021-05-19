@@ -10,9 +10,9 @@ const combineState = (fields) => {
   
   return {
     ...initialState,
-    fields,
+    ...fields,
   };
-}
+};
 
 test('should use initial state', async () => {
   const newState = languageReducer(combineState({}), {
@@ -20,7 +20,15 @@ test('should use initial state', async () => {
   });
 
   expect(newState).toEqual({
-    stats: [],
+    stats: {
+      all: {},
+      user: {},
+      userUnreviewed: {},
+      totals: {
+        total: 0,
+        languages: 0,
+      },
+    },
     languages: [],
     allLanguages: [],
     pendingLanguages: false,

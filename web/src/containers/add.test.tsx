@@ -19,15 +19,12 @@ const sentences = [
 
 const source = 'Test';
 
-const useSelectorMock = redux.useSelector as jest.Mock;
-const useDispatchMock = redux.useDispatch as jest.Mock;
-
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
 
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: languages,
     languages: ['en'],
     isUploadingSentences: false,
@@ -40,7 +37,7 @@ test('should submit sentences including review', async () => {
     duplicates: 0,
     errors: [],
   }));
-  useDispatchMock.mockImplementation(() => dispatchMock);
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   render(<Add/>);
 
@@ -77,7 +74,7 @@ test('should submit sentences including review - with errors', async () => {
     duplicates: 3,
     errors: [{}, {}],
   }));
-  useDispatchMock.mockImplementation(() => dispatchMock);
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   render(<Add/>);
 
@@ -113,7 +110,7 @@ test('should submit sentences including review - with unexpected server response
   const dispatchMock = jest.fn(() => Promise.resolve({
     duplicates: 3, // errors missing...
   }));
-  useDispatchMock.mockImplementation(() => dispatchMock);
+  (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   render(<Add/>);
 

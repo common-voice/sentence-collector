@@ -1,5 +1,7 @@
-import { addLanguage } from './languages';
+import type { Dispatch } from 'redux';
 import { sendRequest } from '../backend';
+import type { GenericAction } from '../types';
+import { addLanguage } from './languages';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_DONE = 'SUBMIT_SENTENCES_DONE';
@@ -14,7 +16,7 @@ export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
 export const ACTION_REVIEW_RESET_MESSAGE = 'REVIEW_RESET_MESSAGE';
 
 export function loadRejectedSentences() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     dispatch(loadRejectedSentencesStart());
     try {
       const results = await sendRequest('sentences/rejected');
@@ -26,13 +28,13 @@ export function loadRejectedSentences() {
 }
 
 export function resetReviewMessage() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     dispatch(resetMessage());
   };
 }
 
 export function loadSentences(language: string) {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     dispatch(loadSentencesStart());
     try {
       const results = await sendRequest(`sentences/review?locale=${language}`);
@@ -44,7 +46,7 @@ export function loadSentences(language: string) {
 }
 
 export function uploadSentences(sentencesParams) {
-  return async function(dispatch, getState): Promise<{ errors?: number, duplicates?: number}> {
+  return async function(dispatch: Dispatch<GenericAction>, getState): Promise<{ errors?: number, duplicates?: number}> {
     dispatch(sendSubmitSentences());
     const state = getState();
 
@@ -60,6 +62,9 @@ export function uploadSentences(sentencesParams) {
       dispatch(submitSentencesErrors(errorsWithSentenceInfo));
 
       if(!state.languages.languages.includes(sentencesParams.locale)) {
+        // TODO: set up Redux types so that thunk middleware typing works...
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         dispatch(addLanguage(sentencesParams.locale));
       }
 

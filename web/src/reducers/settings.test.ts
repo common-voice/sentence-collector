@@ -8,9 +8,9 @@ const combineState = (fields) => {
   
   return {
     ...initialState,
-    fields,
+    ...fields,
   };
-}
+};
 
 test('should use initial state', async () => {
   const newState = settingsReducer(combineState({}), {

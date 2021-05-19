@@ -67,6 +67,7 @@ export default function Add() {
 
     try {
       // TODO: set up Redux types so that thunk middleware typing works...
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const { errors, duplicates } = await dispatch(uploadSentences({
         sentences: {

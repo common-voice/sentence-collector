@@ -9,7 +9,7 @@
   "scripts": {
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
-    "lint": "eslint src tests",
+    "lint": "eslint src",
     "test": "npm run lint && jest",
     "test:unit": "jest"
   },
@@ -57,6 +57,7 @@
     "react-test-renderer": "^17.0.2",
     "redux-mock-store": "^1.5.3",
     "style-loader": "^2.0.0",
+    "ts-jest": "^26.5.6",
     "ts-loader": "^9.1.2",
     "webpack": "^5.31.2",
     "webpack-cli": "^4.6.0",
@@ -65,7 +66,7 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "**/*.{js,jsx,ts,tsx}",
       "!**/coverage/**",
       "!**/dist/**",
       "!**/node_modules/**",
@@ -85,8 +86,10 @@
         "statements": 91
       }
     },
+    "preset": "ts-jest",
     "transform": {
-      "^.+\\.js$": "babel-jest",
+      "^.+\\.js?$": "babel-jest",
+      "^.+\\.ts?$": "ts-jest",
       "\\.svg$|\\.css$": "<rootDir>/tests/file-transformer.ts"
     },
     "setupFiles": [

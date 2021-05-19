@@ -1,10 +1,12 @@
+import type { Dispatch } from 'redux';
 import { sendRequest } from '../backend';
+import type { GenericAction } from '../types';
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
 
 export function setSetting(key, value) {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>) {
     try {
       await sendRequest('users/settings', 'POST', { key, value });
       dispatch(settingsChanged({

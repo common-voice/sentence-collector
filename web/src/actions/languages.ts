@@ -1,4 +1,7 @@
+import type { Dispatch } from 'redux';
+
 import { sendRequest } from '../backend';
+import type { GenericAction } from '../types';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -15,8 +18,9 @@ export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
+export function getStats(locales: string[], lastUpdate?: number);
 export function getStats(locales = [], lastUpdate?: number) {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     if (Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
       dispatch(resetStatsStatus());
       return;
@@ -35,7 +39,7 @@ export function getStats(locales = [], lastUpdate?: number) {
 }
 
 export function getLanguages() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       const languages = await sendRequest('languages');
       dispatch(gotLanguages(languages));
@@ -45,8 +49,8 @@ export function getLanguages() {
   };
 }
 
-export function addLanguage(language) {
-  return async function(dispatch) {
+export function addLanguage(language: string) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       dispatch(sendAddLanguage());
       const updatedLanguages = await sendRequest('users/languages', 'PUT', { language });
@@ -58,8 +62,8 @@ export function addLanguage(language) {
   };
 }
 
-export function removeLanguage(language) {
-  return async function(dispatch) {
+export function removeLanguage(language: string) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       dispatch(sendRemoveLanguage());
       const updatedLanguages = await sendRequest(`users/languages/${language}`, 'DELETE');

@@ -68,7 +68,7 @@ export default function SwipeReview(props) {
 
       <Cards onEnd={() => {
         if (page === lastPage) {
-          onSubmit({preventDefault: () => {}});
+          onSubmit({preventDefault: () => { /* ignore */ }});
         }
       }} className="main-root" ref={cardsRef}>
         { sentences.map((sentence, i) => (

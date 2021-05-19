@@ -8,9 +8,9 @@ const combineState = (fields) => {
   
   return {
     ...initialState,
-    fields,
+    ...fields,
   };
-}
+};
 
 test('should use initial state', async () => {
   const newState = sentencesReducer(combineState({}), {
@@ -18,10 +18,10 @@ test('should use initial state', async () => {
   });
 
   expect(newState).toEqual({
-    sentenceSubmissionFailures: [],
+    sentenceSubmissionFailures: {},
     isUploadingSentences: false,
     rejectedSentencesLoading: false,
-    rejectedSentences: [],
+    rejectedSentences: {},
     rejectedSentencesError: null,
     sentences: [],
     sentencesLoading: false,
@@ -34,7 +34,7 @@ test('should reduce submit request', async () => {
     type: sentences.ACTION_SUBMIT_SENTENCES_REQUEST,
   });
 
-  expect(newState.sentenceSubmissionFailures).toEqual([]);
+  expect(newState.sentenceSubmissionFailures).toEqual({});
   expect(newState.isUploadingSentences).toEqual(true);
 });
 
@@ -99,7 +99,7 @@ test('should reduce rejected sentences failure', async () => {
   });
 
   expect(newState.rejectedSentencesLoading).toEqual(false);
-  expect(newState.rejectedSentences).toEqual([]);
+  expect(newState.rejectedSentences).toEqual({});
   expect(newState.rejectedSentencesError).toEqual(errorMessage);
 });
 

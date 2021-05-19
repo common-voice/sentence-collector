@@ -27,7 +27,7 @@ const onSubmit = jest.fn();
 beforeEach(() => {
   jest.resetAllMocks();
   onSubmit.mockReset();
-})
+});
 
 test('should render submit button', () => {
   render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);

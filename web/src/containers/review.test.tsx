@@ -13,7 +13,6 @@ jest.mock('../components/review-form');
 jest.mock('../components/review-criteria');
 
 const dispatchMock = jest.fn();
-const useSelectorMock = redux.useSelector as jest.Mock;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -28,7 +27,7 @@ beforeEach(() => {
 });
 
 test('should set language from single user language', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['de'],
     sentencesLoading: false,
@@ -39,7 +38,7 @@ test('should set language from single user language', () => {
 });
 
 test('should ask to set language', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: [],
     sentencesLoading: false,
@@ -50,7 +49,7 @@ test('should ask to set language', () => {
 });
 
 test('should render loading', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: true,
@@ -61,7 +60,7 @@ test('should render loading', () => {
 });
 
 test('should render no language selected', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en', 'de'],
     sentencesLoading: false,
@@ -72,7 +71,7 @@ test('should render no language selected', () => {
 });
 
 test('should render no sentences found', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: false,
@@ -98,7 +97,7 @@ test('should dispatch load', () => {
 });
 
 test('should only render form', () => {
-  useSelectorMock.mockImplementation(() => ({
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [{ id: 'en' }],
     languages: ['en'],
     sentencesLoading: false,

@@ -23,7 +23,8 @@
     "no-console": "off",
     "semi": "error",
     "no-prototype-builtins": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "plugins": [
     "@typescript-eslint",

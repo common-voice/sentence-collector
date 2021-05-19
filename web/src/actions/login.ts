@@ -1,4 +1,6 @@
+import type { Dispatch } from 'redux';
 import { sendRequest } from '../backend';
+import type { GenericAction } from '../types';
 import { addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
@@ -14,7 +16,7 @@ export function afterLogin() {
 }
 
 export function checkCurrentUser() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       const userInfo = await sendRequest('users/whoami');
       dispatch(userInfoReceived(userInfo));
@@ -27,7 +29,7 @@ export function checkCurrentUser() {
 }
 
 export function logout() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     dispatch(logoutSuccess());
   };
 }

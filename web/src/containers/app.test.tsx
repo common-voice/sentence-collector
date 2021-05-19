@@ -6,6 +6,7 @@ import Store from '../store';
 import App from './app';
 
 test('should setup app', () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   fetch.mockResponse(JSON.stringify({}));
 

@@ -14,6 +14,7 @@ let dispatch;
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(backend, 'sendRequest');
+  jest.spyOn(console, 'error');
   dispatch = jest.fn();
 });
 
@@ -27,11 +28,10 @@ describe('afterLogin', () => {
 });
 
 describe('checkCurrentUser', () => {
-  const backendSendRequestMock = backend.sendRequest as jest.Mock;
   test('should get current user', async () => {
-    backendSendRequestMock.mockImplementation(() => userInfo);
+    (backend.sendRequest as jest.Mock).mockImplementation(() => userInfo);
     await login.checkCurrentUser()(dispatch);
-    expect(backendSendRequestMock.mock.calls[0][0]).toEqual('users/whoami');
+    expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('users/whoami');
     expect(dispatch.mock.calls[0][0]).toEqual({
       username: userInfo.email,
       type: login.ACTION_USER_INFO_RECEIVED,
@@ -48,8 +48,8 @@ describe('checkCurrentUser', () => {
 
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
-    jest.spyOn(console, 'error').mockImplementation(() => {});
-    backendSendRequestMock.mockImplementation(() => { throw error; });
+    (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
     expect(login.checkCurrentUser()(dispatch)).resolves.not.toThrow();
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: login.ACTION_LOGOUT,
