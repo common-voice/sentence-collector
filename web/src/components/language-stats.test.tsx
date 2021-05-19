@@ -59,6 +59,8 @@ test('should render note if no languages', () => {
       <LanguageStats
         languages={[]}
         allLanguages={[]}
+        languageStats={{}}
+        userUnreviewedStats={{}}
       />
     </BrowserRouter>
   );

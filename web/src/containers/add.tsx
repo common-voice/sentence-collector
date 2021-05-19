@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import type { RootState, SentenceWithSource } from '../types';
-
 import { uploadSentences } from '../actions/sentences';
-
 import SubmitForm from '../components/submit-form';
 import ConfirmForm from '../components/confirm-form';
 import ReviewForm from '../components/review-form';
+
+import truthyFilter from '../truthyFilter';
+import type { RootState, SentenceWithSource } from '../types';
 
 import '../../css/add.css';
 
@@ -38,7 +38,7 @@ export default function Add() {
     sentenceSubmissionFailures,
   } = useSelector((state: RootState) => state.sentences);
 
-  let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
+  let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(truthyFilter);
   if (extendedLanguages.length < 1) {
     extendedLanguages = allLanguages;
   }

@@ -6,6 +6,7 @@ import { setSetting } from '../actions/settings';
 import PersonalLanguageInfo from '../components/personal-language-info';
 import AddLanguage from '../components/add-language-section';
 import Settings from '../components/settings';
+import truthyFilter from '../truthyFilter';
 import type { RootState } from '../types';
 
 import '../../css/profile.css';
@@ -41,7 +42,7 @@ export default function Profile() {
   const extendedLanguages = languages.map((lang) => {
     const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
     return extended;
-  }).filter(Boolean);
+  }).filter(truthyFilter);
 
   return (
     <form>

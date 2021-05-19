@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import truthyFilter from '../truthyFilter';
 import type { Language, StatsRecordByLanguage } from '../types';
 import LanguageInfo from './language-info';
 
 type Props = {
   languages: string[]
   allLanguages: Language[]
-  languageStats?: StatsRecordByLanguage
-  userUnreviewedStats?: Record<string, number>
+  languageStats: StatsRecordByLanguage
+  userUnreviewedStats: Record<string, number>
 }
 
 export default function LanguageStats({ languages, allLanguages, languageStats, userUnreviewedStats }: Props) {
@@ -21,7 +22,7 @@ export default function LanguageStats({ languages, allLanguages, languageStats, 
     );
   }
 
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(Boolean);
+  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(truthyFilter);
 
   return (
     <>
