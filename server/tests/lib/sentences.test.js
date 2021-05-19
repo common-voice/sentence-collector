@@ -194,18 +194,22 @@ test.serial('getStats: should fetch all stats correctly', async (t) => {
 
   const stats = await sentences.getStats(locales);
   t.deepEqual(stats, {
-    en: {
-      added: 10,
-      validated: 3,
-      rejected: 2,
+    all: {
+      en: {
+        added: 10,
+        validated: 3,
+        rejected: 2,
+      },
+      de: {
+        added: 15,
+        validated: 4,
+        rejected: 1,
+      },
     },
-    de: {
-      added: 15,
-      validated: 4,
-      rejected: 1,
-    },
-    total: 1000,
-    languages: 5,
+    totals: {
+      total: 1000,
+      languages: 5,
+    }
   });
 });
 
