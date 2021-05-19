@@ -22,10 +22,10 @@ test('should use initial state', async () => {
     isUploadingSentences: false,
     rejectedSentencesLoading: false,
     rejectedSentences: {},
-    rejectedSentencesError: null,
+    rejectedSentencesError: '',
     sentences: [],
     sentencesLoading: false,
-    reviewMessage: null,
+    reviewMessage: '',
   });
 });
 

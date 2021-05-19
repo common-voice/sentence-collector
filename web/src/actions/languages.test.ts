@@ -35,7 +35,7 @@ describe('getLanguages', () => {
 describe('getStats', () => {
   test('should fetch stats', async () => {
     (backend.sendRequest as jest.Mock).mockImplementation(() => mockStats);
-    await languages.getStats(['en', 'de'])(dispatch);
+    await languages.getStats(['en', 'de'], 0)(dispatch);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('stats?locales=en,de');
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: languages.ACTION_GET_STATS,
@@ -59,7 +59,7 @@ describe('getStats', () => {
     const error = new Error('NOPE');
     (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
-    expect(languages.getStats([])(dispatch)).resolves.not.toThrow();
+    expect(languages.getStats([], 0)(dispatch)).resolves.not.toThrow();
     expect((console.error as jest.Mock).mock.calls[0][0]).toEqual('Failed to fetch stats');
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: languages.ACTION_RESET_STATS_STATUS,
