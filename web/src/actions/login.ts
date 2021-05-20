@@ -9,8 +9,14 @@ export const ACTION_LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const ACTION_NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 export const ACTION_USER_INFO_RECEIVED = 'USER_INFO_RECEIVED';
 
+type UserInfo = {
+  languages: string[]
+  settings: Record<string, unknown>
+  email: string
+}
+
 export function afterLogin() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>) {
     dispatch(loginSuccess());
   };
 }
@@ -18,7 +24,7 @@ export function afterLogin() {
 export function checkCurrentUser() {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
-      const userInfo = await sendRequest('users/whoami');
+      const userInfo = await sendRequest<UserInfo>('users/whoami');
       dispatch(userInfoReceived(userInfo));
       dispatch(addLanguageSuccess(userInfo.languages));
       dispatch(settingsChanged(userInfo.settings));
@@ -46,7 +52,7 @@ export function loginSuccess() {
   };
 }
 
-export function userInfoReceived(userInfo) {
+export function userInfoReceived(userInfo: UserInfo) {
   return {
     type: ACTION_USER_INFO_RECEIVED,
     username: userInfo.email,

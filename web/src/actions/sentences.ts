@@ -1,6 +1,11 @@
 import type { Dispatch } from 'redux';
 import { sendRequest } from '../backend';
-import type { GenericAction } from '../types';
+import type {
+  GenericAction,
+  SentenceWithSource,
+  SubmissionFailures,
+  RejectedSentences,
+} from '../types';
 import { addLanguage } from './languages';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
@@ -37,7 +42,7 @@ export function loadSentences(language: string) {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     dispatch(loadSentencesStart());
     try {
-      const results = await sendRequest(`sentences/review?locale=${language}`);
+      const results = await sendRequest<SentenceWithSource[]>(`sentences/review?locale=${language}`);
       dispatch(loadSentencesDone(results));
     } catch (error) {
       console.error(error);
@@ -77,10 +82,13 @@ export function uploadSentences(sentencesParams) {
 }
 
 export function reviewSentences(data, language: string) {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<GenericAction>) {
     try {
       const { votes } = await sendRequest('votes', 'PUT', data);
       dispatch(reviewSentencesDone(votes));
+      // TODO: set up Redux types so that thunk middleware typing works...
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       dispatch(loadSentences(language));
     } catch (error) {
       dispatch(reviewSentencesFailure(error.message));
@@ -100,7 +108,7 @@ function submitSentencesDone() {
   };
 }
 
-function submitSentencesErrors(errors) {
+function submitSentencesErrors(errors: SubmissionFailures) {
   return {
     type: ACTION_SUBMIT_SENTENCES_ERRORS,
     errors,
@@ -113,14 +121,14 @@ function loadRejectedSentencesStart() {
   };
 }
 
-function loadRejectedSentencesDone(sentences) {
+function loadRejectedSentencesDone(sentences: RejectedSentences) {
   return {
     type: ACTION_GOT_REJECTED_SENTENCES,
     sentences,
   };
 }
 
-function loadRejectedSentencesFailure(errorMessage) {
+function loadRejectedSentencesFailure(errorMessage: string) {
   return {
     type: ACTION_REJECTED_SENTENCES_FAILURE,
     errorMessage,
@@ -133,7 +141,7 @@ function loadSentencesStart() {
   };
 }
 
-function loadSentencesDone(sentences) {
+function loadSentencesDone(sentences: SentenceWithSource[]) {
   return {
     type: ACTION_GOT_SENTENCES,
     sentences,
@@ -147,7 +155,7 @@ function reviewSentencesDone(votes) {
   };
 }
 
-function reviewSentencesFailure(errorMessage) {
+function reviewSentencesFailure(errorMessage: string) {
   return {
     type: ACTION_REVIEW_SENTENCES_FAILURE,
     errorMessage,

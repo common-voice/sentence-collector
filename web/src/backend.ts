@@ -1,6 +1,5 @@
-export async function sendRequest(endpoint: string, method?: string, data?: unknown);
-
-export async function sendRequest(endpoint, method = 'GET', data) {
+export async function sendRequest<T>(endpoint: string, method?: string, data?: unknown): Promise<T>;
+export async function sendRequest<T>(endpoint: string, method = 'GET', data: unknown): Promise<T> {
   const url = `/sentence-collector/${endpoint}`; // we always have the backend at that path, even locally
   const options: RequestInit = {
     method,

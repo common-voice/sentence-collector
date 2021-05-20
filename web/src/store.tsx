@@ -6,6 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
+import type { History } from 'history';
 
 import createRootReducer from './reducers';
 
@@ -15,7 +16,7 @@ const persistConfig = {
   storage,
 };
 
-function getStore(history) {
+function getStore(history: History) {
   const rootReducer = createRootReducer(history);
   const persistedRecuder = persistReducer(persistConfig, rootReducer);
 
@@ -29,7 +30,12 @@ function getStore(history) {
   );
 }
 
-export default function Store(props) {
+type Props = {
+  history: History
+  children: React.ReactNode
+}
+
+export default function Store(props: Props) {
   const history = props.history;
   const store = getStore(history);
   const persistor = persistStore(store);

@@ -1,7 +1,7 @@
 import type { Dispatch } from 'redux';
 
 import { sendRequest } from '../backend';
-import type { GenericAction } from '../types';
+import type { GenericAction, Language, LanguageStats } from '../types';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -18,7 +18,7 @@ export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
-export function getStats(locales, lastUpdate?: number) {
+export function getStats(locales: string[], lastUpdate?: number) {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     if (lastUpdate && Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
       dispatch(resetStatsStatus());
@@ -28,7 +28,7 @@ export function getStats(locales, lastUpdate?: number) {
     dispatch(gettingStats());
     const joinedLocales = locales.join(',');
     try {
-      const stats = await sendRequest(`stats?locales=${joinedLocales}`);
+      const stats = await sendRequest<LanguageStats>(`stats?locales=${joinedLocales}`);
       dispatch(gotStats(stats));
     } catch (error) {
       console.error('Failed to fetch stats', error);
@@ -40,7 +40,7 @@ export function getStats(locales, lastUpdate?: number) {
 export function getLanguages() {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
-      const languages = await sendRequest('languages');
+      const languages = await sendRequest<Language[]>('languages');
       dispatch(gotLanguages(languages));
     } catch (error) {
       console.error('Failed to fetch languages', error);
@@ -52,7 +52,7 @@ export function addLanguage(language: string) {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       dispatch(sendAddLanguage());
-      const updatedLanguages = await sendRequest('users/languages', 'PUT', { language });
+      const updatedLanguages = await sendRequest<string[]>('users/languages', 'PUT', { language });
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(addLanguageFailure());
@@ -65,7 +65,7 @@ export function removeLanguage(language: string) {
   return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
     try {
       dispatch(sendRemoveLanguage());
-      const updatedLanguages = await sendRequest(`users/languages/${language}`, 'DELETE');
+      const updatedLanguages = await sendRequest<string[]>(`users/languages/${language}`, 'DELETE');
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(removeLanguageFailure());
@@ -80,7 +80,7 @@ export function gettingStats() {
   };
 }
 
-export function gotStats(stats) {
+export function gotStats(stats: LanguageStats) {
   return {
     type: ACTION_GOT_STATS,
     stats,
@@ -93,7 +93,7 @@ export function resetStatsStatus() {
   };
 }
 
-export function gotLanguages(languages) {
+export function gotLanguages(languages: Language[]) {
   return {
     type: ACTION_GOT_LANGUAGES,
     languages,
@@ -106,7 +106,7 @@ export function sendAddLanguage() {
   };
 }
 
-export function addLanguageSuccess(languages) {
+export function addLanguageSuccess(languages: string[]) {
   return {
     type: ACTION_ADD_LANGUAGE_SUCCESS,
     languages,
@@ -125,7 +125,7 @@ export function sendRemoveLanguage() {
   };
 }
 
-export function removeLanguageSuccess(languages) {
+export function removeLanguageSuccess(languages: string[]) {
   return {
     type: ACTION_REMOVE_LANGUAGE_SUCCESS,
     languages,

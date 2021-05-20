@@ -1,5 +1,6 @@
 import * as backend from '../backend';
 import * as languages from './languages';
+import type { Language } from '../types';
 
 const mockLanguages = ['en', 'fr'];
 const mockStats = { en: 2 };
@@ -99,7 +100,7 @@ describe('addLanguage', () => {
 describe('removeLanguage', () => {
   test('should remove language', async () => {
     const language = 'en';
-    const allLanguages = [];
+    const allLanguages: Language[] = [];
     (backend.sendRequest as jest.Mock).mockImplementation(() => allLanguages);
     await languages.removeLanguage(language)(dispatch);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual(`users/languages/${language}`);
