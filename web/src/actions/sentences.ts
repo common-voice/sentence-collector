@@ -4,10 +4,9 @@ import type { ThunkAction } from 'redux-thunk';
 import { sendRequest } from '../backend';
 import type {
   BackendSentenceFailure,
-  SentenceSubmission,
-  SentenceWithSource,
   RejectedSentences,
   RootState,
+  SentenceRecord,
 } from '../types';
 import { addLanguage } from './languages';
 
@@ -22,6 +21,15 @@ export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
 export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
 export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
 export const ACTION_REVIEW_RESET_MESSAGE = 'REVIEW_RESET_MESSAGE';
+
+type SentenceSubmission = {
+  sentences: {
+    validated: string[]
+    unreviewed: string[]
+  }
+  source: string
+  locale: string
+}
 
 type SentencePutResponse = {
   errors: BackendSentenceFailure[]
@@ -60,7 +68,7 @@ export function loadSentences(language: string): ThunkAction<void, RootState, un
   return async function(dispatch) {
     dispatch(loadSentencesStart());
     try {
-      const results = await sendRequest<SentenceWithSource[]>(`sentences/review?locale=${language}`);
+      const results = await sendRequest<SentenceRecord[]>(`sentences/review?locale=${language}`);
       dispatch(loadSentencesDone(results));
     } catch (error) {
       console.error(error);
@@ -85,9 +93,6 @@ export function uploadSentences(sentencesParams: SentenceSubmission): ThunkActio
       dispatch(submitSentencesErrors(errorsWithSentenceInfo));
 
       if(!state.languages.languages.includes(sentencesParams.locale)) {
-        // TODO: set up Redux types so that thunk middleware typing works...
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         dispatch(addLanguage(sentencesParams.locale));
       }
 
@@ -104,9 +109,6 @@ export function reviewSentences(data: ReviewedSentences, language: string): Thun
     try {
       const { votes } = await sendRequest<VotesResponse>('votes', 'PUT', data);
       dispatch(reviewSentencesDone(votes));
-      // TODO: set up Redux types so that thunk middleware typing works...
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       dispatch(loadSentences(language));
     } catch (error) {
       dispatch(reviewSentencesFailure(error.message));
@@ -159,7 +161,7 @@ function loadSentencesStart() {
   };
 }
 
-function loadSentencesDone(sentences: SentenceWithSource[]) {
+function loadSentencesDone(sentences: SentenceRecord[]) {
   return {
     type: ACTION_GOT_SENTENCES,
     sentences,

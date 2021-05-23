@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import type { SentenceWithSource } from '../types';
+import type { SentenceRecord } from '../types';
 import Cards from './swipecard/Cards';
 import Card from "./swipecard/CardSwitcher";
 import Sentence from './sentence';
@@ -8,7 +8,7 @@ import SubmitButton from './submit-button';
 type Props = {
   onReviewSentence: (index: number, approval: boolean) => void
   onSubmit: (config: { preventDefault?: () => void }) => void
-  sentences: SentenceWithSource[]
+  sentences: SentenceRecord[]
   page: number
   lastPage: number
   offset: number

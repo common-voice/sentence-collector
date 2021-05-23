@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { SentenceWithSource } from '../types';
+import type { SentenceRecord } from '../types';
 import ReviewForm from './review-form';
 
 const sentences = [{
@@ -58,7 +58,7 @@ describe('Normal Review Tool', () => {
   });
 
   test('should render message with no sentences', () => {
-    const noSentences: SentenceWithSource[] = [];
+    const noSentences: SentenceRecord[] = [];
     render(<ReviewForm sentences={noSentences} onReviewed={onReviewed} language="en"/>);
     expect(screen.getByText('nothing to review')).toBeTruthy();
   });
@@ -137,7 +137,7 @@ describe('Swipe Review Tool', () => {
   });
 
   test('should render message with no sentences', () => {
-    const noSentences: SentenceWithSource[] = [];
+    const noSentences: SentenceRecord[] = [];
     render(<ReviewForm sentences={noSentences} useSwipeReview={true} onReviewed={onReviewed} language="en"/>);
     expect(screen.getByText('nothing to review')).toBeTruthy();
   });

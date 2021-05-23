@@ -41,13 +41,9 @@ export type LanguageStats = {
 }
 
 export type SentenceRecord = {
-  id: number
+  id?: number
   sentence: string
-}
-
-export type SentenceWithSource = {
-  sentence: string
-  source: string
+  source?: string
 }
 
 export type SubmissionFailures = Record<string, string[]>
@@ -57,14 +53,10 @@ export type BackendSentenceFailure = {
   error: string
 }
 
-export type SentenceSubmission = {
-  sentences: string[]
-  source: string
-  locale: string
-}
-
 export type RejectedSentences = Record<string, SentenceRecord[]>
 
-export type Settings = {
-  useSwipeReview: boolean
+export type ReviewedState = {
+  validated: SentenceRecord[]
+  invalidated: SentenceRecord[]
+  unreviewed: SentenceRecord[]
 }

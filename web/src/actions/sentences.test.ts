@@ -110,7 +110,10 @@ describe('uploadSentences', () => {
     const data = {
       source: 'Test Source',
       locale: 'en',
-      sentences: exampleSentences,
+      sentences: {
+        validated: [],
+        unreviewed: exampleSentences,
+      },
     };
     (backend.sendRequest as jest.Mock).mockImplementation(() => { /* ignore */ });
     const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState, null);
@@ -123,14 +126,20 @@ describe('uploadSentences', () => {
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: sentences.ACTION_SUBMIT_SENTENCES_DONE,
     });
-    expect(returnedSentences).toEqual({});
+    expect(returnedSentences).toEqual({
+      duplicates: 0,
+      errors: [],
+    });
   });
 
   test('should set failed sentences', async () => {
     const data = {
       source: 'Test Source',
       locale: 'en',
-      sentences: exampleSentences,
+      sentences: {
+        validated: [],
+        unreviewed: exampleSentences,
+      },
     };
     const errors = [{
       sentence: 'I failed',
@@ -148,7 +157,10 @@ describe('uploadSentences', () => {
     const data = {
       source: 'Test Source',
       locale: 'en',
-      sentences: exampleSentences,
+      sentences: {
+        validated: [],
+        unreviewed: exampleSentences,
+      },
     };
     getState.mockReturnValue({ languages: { languages: [] } });
     (backend.sendRequest as jest.Mock).mockImplementation(() => ({ errors: [] }));
@@ -165,7 +177,10 @@ describe('uploadSentences', () => {
     const data = {
       source: 'Test Source',
       locale: 'en',
-      sentences: exampleSentences,
+      sentences: {
+        validated: [],
+        unreviewed: exampleSentences,
+      },
     };
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
     expect(sentences.uploadSentences(data)(dispatch, getState, null)).rejects.toThrow(error);

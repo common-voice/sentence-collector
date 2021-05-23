@@ -9,6 +9,7 @@ import {
   Route
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import type { History } from 'history';
 import { getLanguages } from '../actions/languages';
 import { checkCurrentUser } from '../actions/login';
 import type { RootState } from '../types';
@@ -23,7 +24,7 @@ import Add from './add';
 import Review from './review';
 import Stats from './stats';
 
-export default function App({ history }) {
+export default function App({ history }: { history: History }) {
   const {
     authed,
   } = useSelector((state: RootState) => state.login);
@@ -58,7 +59,14 @@ export default function App({ history }) {
   );
 }
 
-const PrivateRoute = (props) => {
+type PrivateRouteProps = {
+  authed: boolean,
+  path: string
+  component: React.JSXElementConstructor<any>
+  exact?: boolean
+}
+
+const PrivateRoute = (props: PrivateRouteProps) => {
   const { authed, component: Component } = props;
   return <Route
     path={props.path}

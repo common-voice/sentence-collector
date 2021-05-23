@@ -8,7 +8,7 @@ type Props = {
   invalidated: string[]
   validated: string[]
   unreviewed: string[]
-  onSubmit: () => void
+  onSubmit: (evt: React.FormEvent<HTMLFormElement>) => void
   onReview: () => void
   isUploadingSentences: boolean
 }

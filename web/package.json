@@ -90,6 +90,7 @@
       }
     },
     "preset": "ts-jest",
+    "resetMocks": false,
     "transform": {
       "^.+\\.js?$": "babel-jest",
       "^.+\\.ts?$": "ts-jest",

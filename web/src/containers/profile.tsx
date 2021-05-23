@@ -26,7 +26,7 @@ export default function Profile() {
 
   const dispatch = useDispatch();
 
-  const toggleSwipeReview = (evt) => {
+  const toggleSwipeReview = (evt: React.FormEvent<HTMLButtonElement>) => {
     evt.preventDefault();
     dispatch(setSetting('useSwipeReview', !useSwipeReview));
   };

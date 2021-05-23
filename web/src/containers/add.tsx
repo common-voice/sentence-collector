@@ -7,11 +7,11 @@ import ConfirmForm from '../components/confirm-form';
 import ReviewForm from '../components/review-form';
 
 import truthyFilter from '../truthyFilter';
-import type { RootState, SentenceWithSource } from '../types';
+import type { ReviewedState, RootState, SentenceRecord } from '../types';
 
 import '../../css/add.css';
 
-function merge(arr1, arr2) {
+function merge<T>(arr1: T[], arr2: T[]) {
   return arr1.reduce((accum, cur) => {
     return accum.indexOf(cur) === -1 ? accum.concat([cur]) : accum;
   }, arr2);
@@ -25,7 +25,7 @@ export default function Add() {
   const [error, setError] = useState<string>('');
   const [submitted, setSubmitted] = useState<string[]>([]);
   const [unreviewed, setUnreviewed] = useState<string[]>([]);
-  const [reviewing, setReviewing] = useState<SentenceWithSource[]>([]);
+  const [reviewing, setReviewing] = useState<SentenceRecord[]>([]);
   const [validated, setValidated] = useState<string[]>([]);
   const [invalidated, setInvalidated] = useState<string[]>([]);
 
@@ -55,14 +55,20 @@ export default function Add() {
     setInvalidated([]);
   };
 
-  const onSubmit = ({ language, sentences, source }) => {
+  type OnSubmitProps = {
+    language: string
+    sentences: string[]
+    source: string
+  }
+  
+  const onSubmit = ({ language, sentences, source }: OnSubmitProps) => {
     setLanguage(language);
     setSource(source);
     setSubmitted(sentences);
     setUnreviewed(sentences);
   };
 
-  const onConfirm = async (evt) => {
+  const onConfirm = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     try {
@@ -95,7 +101,7 @@ export default function Add() {
     setReviewing(unreviewed.map((sentence) => ({ sentence, source })));
   };
 
-  const onReviewed = (reviewedState) => {
+  const onReviewed = (reviewedState: ReviewedState) => {
     setReviewing([]);
     setUnreviewed(reviewedState.unreviewed.map((info) => info.sentence));
     setValidated(merge(validated, reviewedState.validated.map((info) => info.sentence)));

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import type { SentenceWithSource } from '../types';
+import type { ReviewedState, SentenceRecord } from '../types';
 
 import Pager from './pager';
 import Sentence from './sentence';
@@ -11,15 +11,9 @@ import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-type SentenceStateAccumulator = {
-  validated: SentenceWithSource[]
-  invalidated: SentenceWithSource[]
-  unreviewed: SentenceWithSource[]
-}
-
 type Props = {
-  sentences: SentenceWithSource[]
-  onReviewed: (categorizedSentences: SentenceStateAccumulator) => void
+  sentences: SentenceRecord[]
+  onReviewed: (categorizedSentences: ReviewedState) => void
   message?: string
   language?: string
   useSwipeReview?: boolean
@@ -115,8 +109,8 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
   );
 }
 
-function mapSentencesAccordingToState(sentences: SentenceWithSource[], reviewApproval: ReviewApproval) {
-  return sentences.reduce((acc: SentenceStateAccumulator, sentence, index: number) => {
+function mapSentencesAccordingToState(sentences: SentenceRecord[], reviewApproval: ReviewApproval) {
+  return sentences.reduce((acc: ReviewedState, sentence, index: number) => {
     if (reviewApproval[index] === true) {
       acc.validated.push(sentence);
     } else if (reviewApproval[index] === false) {

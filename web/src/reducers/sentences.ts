@@ -17,7 +17,7 @@ import {
 import type {
   BackendSentenceFailure,
   RejectedSentences,
-  SentenceWithSource,
+  SentenceRecord,
   SubmissionFailures,
 } from '../types';
 
@@ -27,7 +27,7 @@ export type SentencesState = {
   rejectedSentencesLoading: boolean
   rejectedSentences: RejectedSentences
   rejectedSentencesError: string
-  sentences: SentenceWithSource[]
+  sentences: SentenceRecord[]
   sentencesLoading: boolean
   reviewMessage: string
 }

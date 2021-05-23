@@ -6,9 +6,10 @@ import { loadSentences, resetReviewMessage, reviewSentences } from '../actions/s
 import LanguageSelector from '../components/language-selector';
 import ReviewForm from '../components/review-form';
 import ReviewCriteria from '../components/review-criteria';
-import type { RootState } from '../types';
+import truthyFilter from '../truthyFilter';
+import type { RootState, ReviewedState } from '../types';
 
-export const getReviewUrl = (language) => {
+export const getReviewUrl = (language: string | undefined) => {
   return `/review/${language || ''}`;
 };
 
@@ -77,22 +78,27 @@ export default function Review({ match, history }: Props) {
     history.push(getReviewUrl(language));
   };
 
-  const onReviewed = (reviewedState) => {
+  const onReviewed = (reviewedState: ReviewedState) => {
     dispatch(reviewSentences({
-      validated: reviewedState.validated.map((info) => info.id),
-      invalidated: reviewedState.invalidated.map((info) => info.id),
+      validated: reviewedState.validated.map((info) => info.id!),
+      invalidated: reviewedState.invalidated.map((info) => info.id!),
     }, language));
   };
 
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang));
+  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
+    .filter(truthyFilter);
   const hasNoSentences = language && !sentencesLoading && (!sentences || sentences.length < 1);
 
   return (
     <div>
       <section>
         <h1>Review Sentences</h1>
-        <LanguageSelector name="language-selector-review" languages={extendedLanguages}
-                          selected={language} onChange={onSelectLanguage} />
+        <LanguageSelector
+          labelText=""
+          languages={extendedLanguages}
+          selected={language}
+          onChange={onSelectLanguage}
+        />
         <ReviewCriteria/>
       </section>
 
