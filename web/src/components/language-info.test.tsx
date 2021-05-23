@@ -33,6 +33,12 @@ test('should not render review link if none to review', () => {
     <BrowserRouter>
       <LanguageInfo
         unreviewedByYou={0}
+        total={0}
+        validated={0}
+        rejected={0}
+        language="en"
+        languageName="English"
+        nativeLanguageName="English"
       />
     </BrowserRouter>
   );
@@ -45,6 +51,11 @@ test('should render link to add if nothing to review', () => {
       <LanguageInfo
         total={100}
         validated={100}
+        unreviewedByYou={0}
+        rejected={0}
+        language="en"
+        languageName="English"
+        nativeLanguageName="English"
       />
     </BrowserRouter>
   );

@@ -44,8 +44,8 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
   });
   const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : '');
 
-  const handleInputChange = (event) => {
-    const target = event.target;
+  const handleInputChange = (event: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const target = event.target as HTMLInputElement;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
     setFormFields({
@@ -54,7 +54,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
     });
   };
 
-  const onLanguageSelect = (language) => {
+  const onLanguageSelect = (language: string) => {
     setLanguage(language);
   };
 
@@ -82,7 +82,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
     return true;
   };
 
-  const onSentencesSubmit = (event) => {
+  const onSentencesSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!validateForm()) {
       return false;
@@ -106,7 +106,7 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
         { error && (<section className="form-error">{ error }</section>)}
 
         <section>
-          <LanguageSelector name="language-selector" languages={languages} labelText="Select Language" onChange={onLanguageSelect}/>
+          <LanguageSelector languages={languages} labelText="Select Language" onChange={onLanguageSelect}/>
         </section>
         <section>
           <label htmlFor="sentences-input">

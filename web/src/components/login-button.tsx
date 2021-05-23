@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default function LoginButton({ authed }) {
+type Props = {
+  authed: boolean
+}
+
+export default function LoginButton({ authed }: Props) {
   return (
     <div className="login-widget">
       { !authed && (<a href="/sentence-collector/login"><button>Login / Signup</button></a>) }

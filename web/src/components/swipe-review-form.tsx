@@ -1,11 +1,23 @@
 import React, { useEffect, useRef } from 'react';
-
+import type { SentenceWithSource } from '../types';
 import Cards from './swipecard/Cards';
 import Card from "./swipecard/CardSwitcher";
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
 
-export default function SwipeReview(props) {
+type Props = {
+  onReviewSentence: (index: number, approval: boolean) => void
+  onSubmit: (config: { preventDefault?: () => void }) => void
+  sentences: SentenceWithSource[]
+  page: number
+  lastPage: number
+  offset: number
+  message?: string
+  language?: string
+  reviewedSentencesCount: number
+}
+
+export default function SwipeReview(props: Props) {
   const {
     onReviewSentence,
     onSubmit,
@@ -20,12 +32,12 @@ export default function SwipeReview(props) {
 
   const cardsRef = useRef<Cards>(null);
 
-  const onReviewButtonPress = (event, approval) => {
+  const onReviewButtonPress = (event: React.FormEvent<HTMLButtonElement>, approval: boolean | undefined) => {
     event.preventDefault();
     processReviewOnCurrentCard(approval);
   };
 
-  const processReviewOnCurrentCard = (approval) => {
+  const processReviewOnCurrentCard = (approval: boolean | undefined) => {
     if (!cardsRef || !cardsRef.current) {
       return;
     }
@@ -40,7 +52,7 @@ export default function SwipeReview(props) {
   };
 
   useEffect(() => {
-    const handler = ({ key }) => {
+    const handler = ({ key }: { key: string }) => {
       if (key === 'y') {
         return processReviewOnCurrentCard(true);
       }
@@ -72,7 +84,7 @@ export default function SwipeReview(props) {
 
       <Cards onEnd={() => {
         if (page === lastPage) {
-          onSubmit({preventDefault: () => { /* ignore */ }});
+          onSubmit({ preventDefault: () => { /* ignore */ } });
         }
       }} className="main-root" ref={cardsRef}>
         { sentences.map((sentence, i) => (

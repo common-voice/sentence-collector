@@ -3,7 +3,17 @@ import React from 'react';
 import ReviewLink from './review-link';
 import SpinnerButton from './spinner-button';
 
-export default function ConfirmForm(props) {
+type Props = {
+  submitted: string[]
+  invalidated: string[]
+  validated: string[]
+  unreviewed: string[]
+  onSubmit: () => void
+  onReview: () => void
+  isUploadingSentences: boolean
+}
+
+export default function ConfirmForm(props: Props) {
   const {
     submitted,
     invalidated,

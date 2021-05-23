@@ -11,27 +11,35 @@ import '../../css/review-form.css';
 
 const PAGE_SIZE = 5;
 
-type CategorizedSentences = Record<string, SentenceWithSource>[]
+type SentenceStateAccumulator = {
+  validated: SentenceWithSource[]
+  invalidated: SentenceWithSource[]
+  unreviewed: SentenceWithSource[]
+}
 
 type Props = {
   sentences: SentenceWithSource[]
-  onReviewed: (categorizedSentences: CategorizedSentences) => void
+  onReviewed: (categorizedSentences: SentenceStateAccumulator) => void
   message?: string
   language?: string
   useSwipeReview?: boolean
 }
 
+type ReviewApproval = {
+  [key: number]: boolean | undefined
+}
+
 export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }: Props) {
   const [page, setPage] = useState(0);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
-  const [reviewApproval, setReviewApproval] = useState({});
+  const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
 
   const totalPages = Math.ceil(sentences.length / PAGE_SIZE);
   const lastPage = totalPages - 1;
   const offset = page * PAGE_SIZE;
   const currentSentences = sentences.slice(offset, offset + PAGE_SIZE);
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.MouseEvent | React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const categorizedSentences = mapSentencesAccordingToState(sentences, reviewApproval);
@@ -39,7 +47,7 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
     setReviewApproval({});
   };
 
-  const reviewSentence = (index, approval) => {
+  const reviewSentence = (index: number, approval: boolean) => {
     if (reviewApproval[index] === approval) {
       // already set before, deselecting now
       setReviewApproval((previousValue) => ({ ...previousValue, [index]: undefined }));
@@ -107,8 +115,8 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
   );
 }
 
-function mapSentencesAccordingToState(sentences, reviewApproval) {
-  return sentences.reduce((acc, sentence, index) => {
+function mapSentencesAccordingToState(sentences: SentenceWithSource[], reviewApproval: ReviewApproval) {
+  return sentences.reduce((acc: SentenceStateAccumulator, sentence, index: number) => {
     if (reviewApproval[index] === true) {
       acc.validated.push(sentence);
     } else if (reviewApproval[index] === false) {

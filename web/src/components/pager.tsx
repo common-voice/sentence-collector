@@ -1,6 +1,12 @@
 import React from 'react';
 
-export default function Pager({ page, lastPage, onPage }) {
+type Props = {
+  page: number
+  lastPage: number
+  onPage: (pageNumber: number) => void
+}
+
+export default function Pager({ page, lastPage, onPage }: Props) {
   return (
     <section className="pager-container">{
       [
@@ -9,7 +15,7 @@ export default function Pager({ page, lastPage, onPage }) {
         [page, page + 1],
         [page + 1, '>'],
         [lastPage, lastPage + 1],
-      ].map(([ pageNumber, text ], index) => (
+      ].map(([ pageNumber, text ]: [number, string | number], index) => (
         <span key={`idx${index+1}`}>{
           (pageNumber >= 0 && pageNumber <= lastPage) ? (
             <button

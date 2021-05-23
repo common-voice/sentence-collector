@@ -2,7 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getReviewUrl } from '../containers/review';
 
-const LanguageInfo = (props) => {
+type Props = {
+  total: number
+  validated: number
+  rejected: number
+  unreviewedByYou: number
+  language: string
+  languageName: string
+  nativeLanguageName: string
+}
+
+const LanguageInfo = (props: Props) => {
   const {
     total,
     validated,

@@ -1,10 +1,21 @@
 import React from 'react';
 
+import type { Language } from '../types';
+
 import '../../css/language-selector.css';
 
 const ENGLISH_CODE = 'en';
 
-const LanguageSelector = (props) => (
+type LanguageSelectorProps = {
+  labelText: string
+  disabled?: boolean
+  selected?: string
+  onChange: (value: string) => void
+  languages: Language[]
+  filters?: string[]
+}
+
+const LanguageSelector = (props: LanguageSelectorProps) => (
   <React.Fragment>
     <label className="language-selector-label" htmlFor="language-selector">
       {props.labelText}
@@ -17,7 +28,7 @@ const LanguageSelector = (props) => (
   </React.Fragment>
 );
 
-const Options = (props) => {
+const Options = (props: LanguageSelectorProps) => {
   let languages = props.languages.filter(Boolean);
 
   // For convenience, move English to the top of the list since
@@ -30,8 +41,7 @@ const Options = (props) => {
   }
 
   if (props.filters) {
-    languages = languages.filter(
-      ({ id }) => props.filters.indexOf(id) === -1);
+    languages = languages.filter(({ id }) => props.filters!.indexOf(id) === -1);
   }
 
   if (languages.length === 1) {
@@ -48,7 +58,11 @@ const Options = (props) => {
   );
 };
 
-const Option = (props) => (
+type OptionProps = {
+  lang: Language
+}
+
+const Option = (props: OptionProps) => (
   <option value={props.lang.id}>
     {`${props.lang.name} (${props.lang.nativeName})`}
   </option>

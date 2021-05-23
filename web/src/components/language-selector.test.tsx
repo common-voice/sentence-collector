@@ -3,6 +3,12 @@ import { render, screen, fireEvent } from '@testing-library/react';
 
 import LanguageSelector from './language-selector';
 
+let onChange: jest.Mock;
+
+beforeEach(() => {
+  onChange = jest.fn();
+});
+
 test('should render label', () => {
   const languages = [{
     id: 'en',
@@ -13,10 +19,13 @@ test('should render label', () => {
     name: 'German',
     nativeName: 'Deutsch',
   }];
-  const filters = [];
+  const filters: string[] = [];
 
   render(
       <LanguageSelector
+        onChange={onChange}
+        disabled={false}
+        selected={languages[0].id}
         languages={languages}
         filters={filters}
         labelText="This is a label."
@@ -34,6 +43,10 @@ test('should single option without null option', () => {
 
   render(
       <LanguageSelector
+        onChange={onChange}
+        disabled={false}
+        selected={languages[0].id}
+        filters={[]}
         languages={languages}
         labelText="This is a label."
       />
@@ -55,6 +68,10 @@ test('should add null option', () => {
 
   render(
       <LanguageSelector
+        onChange={onChange}
+        disabled={false}
+        selected={languages[0].id}
+        filters={[]}
         languages={languages}
         labelText="This is a label."
       />
@@ -78,6 +95,9 @@ test('should filter options', () => {
 
   render(
       <LanguageSelector
+        onChange={onChange}
+        disabled={false}
+        selected={languages[0].id}
         languages={languages}
         filters={filters}
         labelText="This is a label."
@@ -97,10 +117,12 @@ test('should select option', () => {
     name: 'German',
     nativeName: 'Deutsch',
   }];
-  const onChange = jest.fn();
 
   render(
       <LanguageSelector
+        disabled={false}
+        selected={languages[0].id}
+        filters={[]}
         languages={languages}
         onChange={onChange}
         labelText="This is a label."

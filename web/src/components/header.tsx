@@ -8,7 +8,12 @@ import '../../css/header.css';
 import type { RootState } from '../types';
 import LoginButton from './login-button';
 
-function NavItems({ authed, closeNavigation }) {
+type Props = {
+  authed: boolean
+  closeNavigation: () => void
+}
+
+function NavItems({ authed, closeNavigation }: Props) {
   return (
     <React.Fragment>
       <NavLink to="/" exact onClick={closeNavigation}>Home</NavLink>

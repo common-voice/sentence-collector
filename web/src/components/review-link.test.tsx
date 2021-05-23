@@ -25,7 +25,7 @@ test('should call onReview on click', async () => {
 });
 
 test('should not render review link', () => {
-  const sentences = [];
+  const sentences: string[] = [];
   render(<ReviewLink sentences={sentences} onReview={onReview}/>);
   expect(screen.queryByText('Review')).toBeNull();
 });
