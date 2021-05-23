@@ -1,6 +1,6 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "inlineSources": true,
@@ -10,6 +10,7 @@
     "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "dist",
+    "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2015"
   },
