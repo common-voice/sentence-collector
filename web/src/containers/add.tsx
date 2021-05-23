@@ -1,0 +1,132 @@
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { uploadSentences } from '../actions/sentences';
+import SubmitForm from '../components/submit-form';
+import ConfirmForm from '../components/confirm-form';
+import ReviewForm from '../components/review-form';
+
+import truthyFilter from '../truthyFilter';
+import type { ReviewedState, RootState, SentenceRecord } from '../types';
+
+import '../../css/add.css';
+
+function merge<T>(arr1: T[], arr2: T[]) {
+  return arr1.reduce((accum, cur) => {
+    return accum.indexOf(cur) === -1 ? accum.concat([cur]) : accum;
+  }, arr2);
+}
+
+export default function Add() {
+  const dispatch = useDispatch();
+  const [language, setLanguage] = useState<string>('');
+  const [source, setSource] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [submitted, setSubmitted] = useState<string[]>([]);
+  const [unreviewed, setUnreviewed] = useState<string[]>([]);
+  const [reviewing, setReviewing] = useState<SentenceRecord[]>([]);
+  const [validated, setValidated] = useState<string[]>([]);
+  const [invalidated, setInvalidated] = useState<string[]>([]);
+
+  const {
+    allLanguages,
+    languages,
+  } = useSelector((state: RootState) => state.languages);
+  const {
+    isUploadingSentences,
+    sentenceSubmissionFailures,
+  } = useSelector((state: RootState) => state.sentences);
+
+  let extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(truthyFilter);
+  if (extendedLanguages.length < 1) {
+    extendedLanguages = allLanguages;
+  }
+
+  const resetState = () => {
+    setLanguage('');
+    setSource('');
+    setMessage('');
+    setError('');
+    setSubmitted([]);
+    setUnreviewed([]);
+    setReviewing([]);
+    setValidated([]);
+    setInvalidated([]);
+  };
+
+  type OnSubmitProps = {
+    language: string
+    sentences: string[]
+    source: string
+  }
+  
+  const onSubmit = ({ language, sentences, source }: OnSubmitProps) => {
+    setLanguage(language);
+    setSource(source);
+    setSubmitted(sentences);
+    setUnreviewed(sentences);
+  };
+
+  const onConfirm = async (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    try {
+      // TODO: set up Redux types so that thunk middleware typing works...
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const { errors, duplicates } = await dispatch(uploadSentences({
+        sentences: {
+          unreviewed,
+          validated,
+        },
+        locale: language,
+        source,
+      }));
+
+      if (typeof errors === 'undefined') {
+        throw new Error('Unexpected response returned from server');
+      }
+
+      resetState();
+      setMessage(`Submitted sentences. ${duplicates} sentences were rejected as duplicates.`);
+      setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
+    } catch (error) {
+      resetState();
+      setError(`Submission Error: ${error.message}`);
+    }
+  };
+
+  const onReviewStart = () => {
+    setReviewing(unreviewed.map((sentence) => ({ sentence, source })));
+  };
+
+  const onReviewed = (reviewedState: ReviewedState) => {
+    setReviewing([]);
+    setUnreviewed(reviewedState.unreviewed.map((info) => info.sentence));
+    setValidated(merge(validated, reviewedState.validated.map((info) => info.sentence)));
+    setInvalidated(merge(invalidated, reviewedState.invalidated.map((info) => info.sentence)));
+  };
+
+  if (reviewing.length > 0) {
+    // The review form allows us to examine, and validate sentences.
+    return <ReviewForm onReviewed={onReviewed}
+                       sentences={reviewing} />;
+  } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
+    // The confirm form is a stats page where sentence submission happens.
+    return <ConfirmForm onSubmit={onConfirm}
+                        onReview={onReviewStart}
+                        submitted={submitted}
+                        unreviewed={unreviewed}
+                        validated={validated}
+                        invalidated={invalidated}
+                        isUploadingSentences={isUploadingSentences} />;
+  } else {
+    // The plain submission form allows copy & pasting
+    return <SubmitForm onSubmit={onSubmit}
+                       message={message}
+                       error={error}
+                       languages={extendedLanguages}
+                       sentenceSubmissionFailures={sentenceSubmissionFailures} />;
+  }
+}

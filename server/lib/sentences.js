@@ -112,9 +112,11 @@ async function getStats(locales) {
   }
 
   return {
-    ...totalStats,
-    total: await Sentence.count(),
-    languages: await Sentence.count({ distinct: true, col: 'localeId'}),
+    all: totalStats,
+    totals: {
+      total: await Sentence.count(),
+      languages: await Sentence.count({ distinct: true, col: 'localeId'}), 
+    }
   };
 }
 

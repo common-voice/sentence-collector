@@ -5,28 +5,34 @@ import app from '../../app';
 import sentences from '../../lib/sentences';
 
 const allStats = {
-  'en': {
+  en: {
     added: 5,
     validated: 3,
   },
+};
+
+const totalStats = {
   total: 5,
   languages: 1,
 };
 
 const userStats = {
-  'en': {
+  en: {
     total: 5,
     validated: 3,
   },
 };
 
 const userUnreviewedStats = {
-  'en': 2,
+  en: 2,
 };
 
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
-  t.context.sandbox.stub(sentences, 'getStats').resolves(allStats);
+  t.context.sandbox.stub(sentences, 'getStats').resolves({
+    all: allStats,
+    totals: totalStats,
+  });
   t.context.sandbox.stub(sentences, 'getUserAddedSentencesPerLocale').resolves(userStats);
   t.context.sandbox.stub(sentences, 'getUnreviewedByYouCountForLocales').resolves(userUnreviewedStats);
 });
@@ -44,6 +50,7 @@ test.serial('should get stats', async (t) => {
   t.is(response.status, 200);
   t.deepEqual(response.body, {
     all: allStats,
+    totals: totalStats,
     user: userStats,
     userUnreviewed: userUnreviewedStats,
   });
@@ -57,9 +64,13 @@ test.serial('should return default stats if no locale passed', async (t) => {
 
   t.is(response.status, 200);
   t.deepEqual(response.body, {
-    all: 0,
-    user: 0,
-    userUnreviewed: 0,
+    all: {},
+    totals: {
+      total: 0,
+      languages: 0,
+    },
+    user: {},
+    userUnreviewed: {},
   });
 });
 
