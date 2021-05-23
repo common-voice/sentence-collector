@@ -1,12 +1,16 @@
-import type { Dispatch } from 'redux';
+import type { AnyAction } from 'redux';
+import type { ThunkAction } from 'redux-thunk';
+
 import { sendRequest } from '../backend';
-import type { GenericAction } from '../types';
+import type { RootState, Settings } from '../types';
 
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
 
-export function setSetting(key, value) {
-  return async function(dispatch: Dispatch<GenericAction>) {
+type SettingsValue = string | boolean | number
+
+export function setSetting(key: string, value: SettingsValue): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
       await sendRequest('users/settings', 'POST', { key, value });
       dispatch(settingsChanged({
@@ -19,7 +23,7 @@ export function setSetting(key, value) {
   };
 }
 
-export function settingsChanged(newSettings) {
+export function settingsChanged(newSettings: Partial<Settings>) {
   return {
     type: ACTION_SETTINGS_CHANGED,
     newSettings,

@@ -1,3 +1,5 @@
+import type { AnyAction } from 'redux';
+
 import {
   ACTION_ADD_LANGUAGE_REQUEST,
   ACTION_ADD_LANGUAGE_SUCCESS,
@@ -38,7 +40,7 @@ export const INITIAL_STATE: LanguageState = {
   statsUpdating: false,
 };
 
-export default function(state = INITIAL_STATE, action): LanguageState {
+export default function(state = INITIAL_STATE, action: AnyAction): LanguageState {
   switch(action.type) {
     case ACTION_GET_STATS:
       return Object.assign({}, state, {

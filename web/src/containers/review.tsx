@@ -72,7 +72,7 @@ export default function Review({ match, history }: Props) {
     }
   }, [language]);
 
-  const onSelectLanguage = (language) => {
+  const onSelectLanguage = (language: string) => {
     setLanguage(language);
     history.push(getReviewUrl(language));
   };

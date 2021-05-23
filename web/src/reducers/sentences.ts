@@ -1,3 +1,5 @@
+import type { AnyAction } from 'redux';
+
 import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
   ACTION_SUBMIT_SENTENCES_DONE,
@@ -12,7 +14,12 @@ import {
   ACTION_REVIEW_RESET_MESSAGE,
 } from '../actions/sentences';
 
-import type { RejectedSentences, SentenceWithSource, SubmissionFailures } from '../types';
+import type {
+  BackendSentenceFailure,
+  RejectedSentences,
+  SentenceWithSource,
+  SubmissionFailures,
+} from '../types';
 
 export type SentencesState = {
   sentenceSubmissionFailures: SubmissionFailures
@@ -36,7 +43,7 @@ export const INITIAL_STATE: SentencesState = {
   reviewMessage: '',
 };
 
-export default function(state = INITIAL_STATE, action): SentencesState {
+export default function(state = INITIAL_STATE, action: AnyAction): SentencesState {
   const errors = action.errors || [];
 
   switch(action.type) {
@@ -48,7 +55,7 @@ export default function(state = INITIAL_STATE, action): SentencesState {
 
     case ACTION_SUBMIT_SENTENCES_ERRORS:
       return Object.assign({}, state, {
-        sentenceSubmissionFailures: errors.reduce((groupedFiltered, filterResult) => {
+        sentenceSubmissionFailures: errors.reduce((groupedFiltered: SubmissionFailures, filterResult: BackendSentenceFailure) => {
           if (!groupedFiltered[filterResult.error]) {
             groupedFiltered[filterResult.error] = [];
           }

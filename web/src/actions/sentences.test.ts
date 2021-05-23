@@ -20,7 +20,7 @@ beforeEach(() => {
 describe('loadRejectedSentences', () => {
   test('should load rejected sentences', async () => {
     (backend.sendRequest as jest.Mock).mockImplementation(() => exampleSentences);
-    await sentences.loadRejectedSentences()(dispatch);
+    await sentences.loadRejectedSentences()(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('sentences/rejected');
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: sentences.ACTION_LOAD_REJECTED_SENTENCES,
@@ -34,7 +34,7 @@ describe('loadRejectedSentences', () => {
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
-    expect(sentences.loadRejectedSentences()(dispatch)).resolves.not.toThrow(error);
+    expect(sentences.loadRejectedSentences()(dispatch, getState, null)).resolves.not.toThrow(error);
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: sentences.ACTION_REJECTED_SENTENCES_FAILURE,
       errorMessage: 'NOPE',
@@ -44,7 +44,7 @@ describe('loadRejectedSentences', () => {
 
 describe('resetReviewMessage', () => {
   test('should reset message', async () => {
-    await sentences.resetReviewMessage()(dispatch);
+    await sentences.resetReviewMessage()(dispatch, getState, null);
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: sentences.ACTION_REVIEW_RESET_MESSAGE,
     });
@@ -55,7 +55,7 @@ describe('loadSentences', () => {
   test('should load sentences', async () => {
     const language = 'en';
     (backend.sendRequest as jest.Mock).mockImplementation(() => exampleSentences);
-    await sentences.loadSentences(language)(dispatch);
+    await sentences.loadSentences(language)(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual(`sentences/review?locale=${language}`);
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: sentences.ACTION_LOAD_SENTENCES,
@@ -70,16 +70,17 @@ describe('loadSentences', () => {
     const error = new Error('NOPE');
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
     (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
-    expect(sentences.loadSentences('en')(dispatch)).resolves.not.toThrow(error);
+    expect(sentences.loadSentences('en')(dispatch, getState, null)).resolves.not.toThrow(error);
     expect((console.error as jest.Mock).mock.calls[0][0]).toEqual(error);
   });
 });
 
 describe('reviewSentences', () => {
+  const data = { invalidated: [1], validated: [2, 3] };
+  
   test('should upload votes and fetch latest sentences', async () => {
-    const data = { foo: 'bar' };
     (backend.sendRequest as jest.Mock).mockImplementation(() => exampleSentences);
-    await sentences.reviewSentences(data, 'en')(dispatch);
+    await sentences.reviewSentences(data, 'en')(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('votes');
     expect((backend.sendRequest as jest.Mock).mock.calls[0][1]).toEqual('PUT');
     expect((backend.sendRequest as jest.Mock).mock.calls[0][2]).toEqual(data);
@@ -96,7 +97,7 @@ describe('reviewSentences', () => {
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
-    expect(sentences.reviewSentences({}, 'en')(dispatch)).resolves.not.toThrow(error);
+    expect(sentences.reviewSentences(data, 'en')(dispatch, getState, null)).resolves.not.toThrow(error);
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: sentences.ACTION_REVIEW_SENTENCES_FAILURE,
       errorMessage: 'NOPE',
@@ -112,7 +113,7 @@ describe('uploadSentences', () => {
       sentences: exampleSentences,
     };
     (backend.sendRequest as jest.Mock).mockImplementation(() => { /* ignore */ });
-    const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState);
+    const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('sentences');
     expect((backend.sendRequest as jest.Mock).mock.calls[0][1]).toEqual('PUT');
     expect((backend.sendRequest as jest.Mock).mock.calls[0][2]).toEqual(data);
@@ -135,7 +136,7 @@ describe('uploadSentences', () => {
       sentence: 'I failed',
     }];
     (backend.sendRequest as jest.Mock).mockImplementation(() => ({ errors }));
-    const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState);
+    const returnedSentences = await sentences.uploadSentences(data)(dispatch, getState, null);
     expect(dispatch.mock.calls[2][0]).toEqual({
       type: sentences.ACTION_SUBMIT_SENTENCES_ERRORS,
       errors,
@@ -151,7 +152,7 @@ describe('uploadSentences', () => {
     };
     getState.mockReturnValue({ languages: { languages: [] } });
     (backend.sendRequest as jest.Mock).mockImplementation(() => ({ errors: [] }));
-    await sentences.uploadSentences(data)(dispatch, getState);
+    await sentences.uploadSentences(data)(dispatch, getState, null);
     const addLanguageAction = dispatch.mock.calls[3][0];
     addLanguageAction(dispatch);
     expect(dispatch.mock.calls[4][0]).toEqual({
@@ -167,7 +168,7 @@ describe('uploadSentences', () => {
       sentences: exampleSentences,
     };
     (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
-    expect(sentences.uploadSentences(data)(dispatch, getState)).rejects.toThrow(error);
+    expect(sentences.uploadSentences(data)(dispatch, getState, null)).rejects.toThrow(error);
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: sentences.ACTION_SUBMIT_SENTENCES_DONE,
     });

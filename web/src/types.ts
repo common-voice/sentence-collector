@@ -52,9 +52,19 @@ export type SentenceWithSource = {
 
 export type SubmissionFailures = Record<string, string[]>
 
+export type BackendSentenceFailure = {
+  sentence: string
+  error: string
+}
+
+export type SentenceSubmission = {
+  sentences: string[]
+  source: string
+  locale: string
+}
+
 export type RejectedSentences = Record<string, SentenceRecord[]>
 
-export type GenericAction = {
-  type: string,
-  payload?: unknown
+export type Settings = {
+  useSwipeReview: boolean
 }

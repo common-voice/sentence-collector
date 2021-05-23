@@ -1,3 +1,5 @@
+import type { AnyAction } from 'redux';
+
 import {
   ACTION_LOGOUT,
   ACTION_LOGIN_SUCCESS,
@@ -14,7 +16,7 @@ export const INITIAL_STATE: LoginState = {
   username: '',
 };
 
-export default function(state = INITIAL_STATE, action): LoginState {
+export default function(state = INITIAL_STATE, action: AnyAction): LoginState {
   switch(action.type) {
     case ACTION_LOGOUT:
       return Object.assign({}, state, INITIAL_STATE);

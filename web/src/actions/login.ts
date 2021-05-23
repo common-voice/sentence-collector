@@ -1,6 +1,8 @@
-import type { Dispatch } from 'redux';
+import type { AnyAction } from 'redux';
+import type { ThunkAction } from 'redux-thunk';
+
 import { sendRequest } from '../backend';
-import type { GenericAction } from '../types';
+import type { RootState } from '../types';
 import { addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
@@ -15,14 +17,14 @@ type UserInfo = {
   email: string
 }
 
-export function afterLogin() {
-  return async function(dispatch: Dispatch<GenericAction>) {
+export function afterLogin(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     dispatch(loginSuccess());
   };
 }
 
-export function checkCurrentUser() {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function checkCurrentUser(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
       const userInfo = await sendRequest<UserInfo>('users/whoami');
       dispatch(userInfoReceived(userInfo));
@@ -34,8 +36,8 @@ export function checkCurrentUser() {
   };
 }
 
-export function logout() {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function logout(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     dispatch(logoutSuccess());
   };
 }

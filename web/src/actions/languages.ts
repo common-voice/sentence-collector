@@ -1,7 +1,8 @@
-import type { Dispatch } from 'redux';
+import type { AnyAction } from 'redux';
+import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
-import type { GenericAction, Language, LanguageStats } from '../types';
+import type { Language, LanguageStats, RootState } from '../types';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -18,8 +19,8 @@ export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
-export function getStats(locales: string[], lastUpdate?: number) {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function getStats(locales: string[], lastUpdate?: number): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     if (lastUpdate && Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
       dispatch(resetStatsStatus());
       return;
@@ -37,8 +38,8 @@ export function getStats(locales: string[], lastUpdate?: number) {
   };
 }
 
-export function getLanguages() {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function getLanguages(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
       const languages = await sendRequest<Language[]>('languages');
       dispatch(gotLanguages(languages));
@@ -48,8 +49,8 @@ export function getLanguages() {
   };
 }
 
-export function addLanguage(language: string) {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function addLanguage(language: string): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
       dispatch(sendAddLanguage());
       const updatedLanguages = await sendRequest<string[]>('users/languages', 'PUT', { language });
@@ -61,8 +62,8 @@ export function addLanguage(language: string) {
   };
 }
 
-export function removeLanguage(language: string) {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function removeLanguage(language: string): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
       dispatch(sendRemoveLanguage());
       const updatedLanguages = await sendRequest<string[]>(`users/languages/${language}`, 'DELETE');

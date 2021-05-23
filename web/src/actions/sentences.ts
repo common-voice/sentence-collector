@@ -1,10 +1,13 @@
-import type { Dispatch } from 'redux';
+import type { AnyAction } from 'redux';
+import type { ThunkAction } from 'redux-thunk';
+
 import { sendRequest } from '../backend';
 import type {
-  GenericAction,
+  BackendSentenceFailure,
+  SentenceSubmission,
   SentenceWithSource,
-  SubmissionFailures,
   RejectedSentences,
+  RootState,
 } from '../types';
 import { addLanguage } from './languages';
 
@@ -20,11 +23,26 @@ export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
 export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
 export const ACTION_REVIEW_RESET_MESSAGE = 'REVIEW_RESET_MESSAGE';
 
-export function loadRejectedSentences() {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+type SentencePutResponse = {
+  errors: BackendSentenceFailure[]
+  duplicates: number
+}
+
+type ReviewedSentences = {
+  invalidated: number[]
+  validated: number[]
+}
+
+type VotesResponse = {
+  votes: number
+  failedVotes: number
+}
+
+export function loadRejectedSentences(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch){
     dispatch(loadRejectedSentencesStart());
     try {
-      const results = await sendRequest('sentences/rejected');
+      const results = await sendRequest<RejectedSentences>('sentences/rejected');
       dispatch(loadRejectedSentencesDone(results));
     } catch (error) {
       dispatch(loadRejectedSentencesFailure(error.message));
@@ -32,14 +50,14 @@ export function loadRejectedSentences() {
   };
 }
 
-export function resetReviewMessage() {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function resetReviewMessage(): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     dispatch(resetMessage());
   };
 }
 
-export function loadSentences(language: string) {
-  return async function(dispatch: Dispatch<GenericAction>): Promise<void> {
+export function loadSentences(language: string): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     dispatch(loadSentencesStart());
     try {
       const results = await sendRequest<SentenceWithSource[]>(`sentences/review?locale=${language}`);
@@ -50,17 +68,17 @@ export function loadSentences(language: string) {
   };
 }
 
-export function uploadSentences(sentencesParams) {
-  return async function(dispatch: Dispatch<GenericAction>, getState): Promise<{ errors?: number, duplicates?: number}> {
+export function uploadSentences(sentencesParams: SentenceSubmission): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch, getState): Promise<SentencePutResponse> {
     dispatch(sendSubmitSentences());
     const state = getState();
 
     try {
-      const results = await sendRequest('sentences', 'PUT', sentencesParams);
+      const results = await sendRequest<SentencePutResponse>('sentences', 'PUT', sentencesParams);
       dispatch(submitSentencesDone());
 
       if (!results || !results.errors) {
-        return {};
+        return { errors: [], duplicates: 0 };
       }
 
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
@@ -81,10 +99,10 @@ export function uploadSentences(sentencesParams) {
   };
 }
 
-export function reviewSentences(data, language: string) {
-  return async function(dispatch: Dispatch<GenericAction>) {
+export function reviewSentences(data: ReviewedSentences, language: string): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function(dispatch) {
     try {
-      const { votes } = await sendRequest('votes', 'PUT', data);
+      const { votes } = await sendRequest<VotesResponse>('votes', 'PUT', data);
       dispatch(reviewSentencesDone(votes));
       // TODO: set up Redux types so that thunk middleware typing works...
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -108,7 +126,7 @@ function submitSentencesDone() {
   };
 }
 
-function submitSentencesErrors(errors: SubmissionFailures) {
+function submitSentencesErrors(errors: BackendSentenceFailure[]) {
   return {
     type: ACTION_SUBMIT_SENTENCES_ERRORS,
     errors,
@@ -148,7 +166,7 @@ function loadSentencesDone(sentences: SentenceWithSource[]) {
   };
 }
 
-function reviewSentencesDone(votes) {
+function reviewSentencesDone(votes: number) {
   return {
     type: ACTION_REVIEWED_SENTENCES,
     votes,
