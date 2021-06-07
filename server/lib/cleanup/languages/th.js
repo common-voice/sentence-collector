@@ -26,8 +26,12 @@ function sortSentences(sentences) {
 function clean(sentences) {
   return sentences.map((sentence) => {
     return sentence
-      .replace(/[\u200b\u200c\u2063]/g, '')  // remove zero-width chars (occurs in some Thai texts)
-      .replace(/\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff]/g, '')  // remove emoji
+      // remove zero-width chars (occurs in some Thai texts)
+      .replace(/[\u200b\u200c\u2063]/g, '')
+      // remove emoji
+      .replace(/\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff]/g, '')
+      // remove erroneous tone marks, Phinthu, Thanthakhat, Nikhahit, Yamakkan, above/below vowels at the beginning of a word
+      .replace(/(^|\s)[\u0E48\u0E49\u0E4A\u0E4B\u0E3A\u0E4C\u0E4D\u0E4E\u0E31\u0E34\u0E35\u0E36\u0E37\u0E4D\u0E47\u0E38\u0E39]+/g, '')
       .replace(/:/g, ' : ')  // add a space before and after colon
       .replace(/\?/g, ' ? ')  // add a space before and after question mark
       .replace(/!/g, ' ! ')  // add a space before and after exclamation mark
