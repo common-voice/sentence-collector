@@ -37,7 +37,7 @@ function clean(sentences) {
       .replace(/(\u0E46\s*)+/g, '\u0E46')  // condense multiple Maiyamok to one Maiyamok
       .replace(/\u0E46/g, ' \u0E46 ')  // add a space before and after Maiyamok
       .replace(/\s+/g, ' ')  // condense multiple spaces to one space
-      .replace(/([:?!\u0E46\.]) (['"”’])/g, '\$1\$2')  // remove a space after (: ? ! Maiyamok .) and before (' " ” ’)
+      .replace(/([:?!\u0E46.]) (['"”’])/g, '$1$2')  // remove a space after (: ? ! Maiyamok .) and before (' " ” ’)
       .replace(/^\.+/, '')  // remove periods at the beginning of the sentence
       .replace(/^,+/, '')  // remove commas at the beginning of the sentence
       .replace(/,+$/, '')  // remove commas at the end of the sentence
