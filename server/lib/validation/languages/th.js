@@ -20,9 +20,15 @@
 // - Tone marks/Pinthu/Thanthakat/Nikhahit/Yamakkan can't immediately come before above and below vowels
 
 // We count chars to validate instead of words.
-// Target max time length for recorded speech: 7-10 seconds
+// Target min time length for recorded speech: 1 sec
+// Target max time length for recorded speech: 10 sec
+// These numbers are defined by
+// MIN_RECORDING_MS and  MAX_RECORDING_MS constants in:
+// https://github.com/common-voice/common-voice/blob/1d6a861a234e5cd8cd075031b95095ba0ed9428b/web/src/components/pages/contribution/speak/speak.tsx#L50
+// We can read about 8-12 characters in 1 sec:
+// https://github.com/common-voice/sentence-collector/issues/442
 const MIN_LENGTH = 2;
-const MAX_LENGTH = 80;
+const MAX_LENGTH = 100;
 
 const INVALIDATIONS = [{
   fn: (sentence) => {
@@ -47,10 +53,11 @@ const INVALIDATIONS = [{
   regex: /[A-Za-z]/,
   error: 'Sentence should not contain latin alphabet characters',
 }, {
-  // Emoji range from https://www.regextester.com/106421 and
-  // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
-  regex: /(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/,
-  error: 'Sentence should not contain emojis',
+  // Any words consisting of letters with a period
+  // inbetween are considered abbreviations or acronyms.
+  // Abbreviations in Latin chars are disallowed by Latin character rule already.
+  regex: /[ก-ฮ]\.[ก-ฮ]+\./,
+  error: 'Sentence should not contain abbreviations',
 }, {
   // These Thai chars cannot start the word:
   // - All vowels except lead vowels
@@ -64,16 +71,6 @@ const INVALIDATIONS = [{
   // - Lead vowels
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44](\s|$)/,
   error: 'Word should not end with leading vowels',
-}, {
-  // Any words consisting of letters with a period
-  // inbetween are considered abbreviations or acronyms.
-  // Abbreviations in Latin chars are disallowed by previous rules already.
-  regex: /[ก-ฮ]\.[ก-ฮ]+\./,
-  error: 'Sentence should not contain abbreviations',
-}, {
-  // Seven or more repeating characters in a row is likely a non-formal spelling or difficult to read.
-  regex: /(.)\1{6}/,
-  error: 'Sentence should not contain 7 or more of the same character in a row',
 }, {
   regex: /[\u0E40\u0E41\u0E42\u0E43\u0E44]{2}/,
   error: 'Sentence should not contain repeating lead vowels',
@@ -108,8 +105,26 @@ const INVALIDATIONS = [{
   regex: /[\u0E30][\u0E32\u0E33\u0E45]/,
   error: 'Sentence should not contain Sara Aa, Sara Am or Lakkhangyao after Sara A',
 }, {
-  regex: /[\u0E01-\u0E4Ea-zA-Z.,\-"'“”‘’\u0060?!:;]{55}/,
-  error: 'Sentence should not contain more than 54 characters running without whitespace',
+  // 71 or more consonants/vowels running without a space is difficult to read
+  regex: /[\u200b\u200c\u2063\u0E01-\u0E4E]{71}/,
+  error: 'Sentence should not contain more than 70 consonants and vowels running without a space',
+}, {
+  // 81 or more characters running wihtout a space is difficult to read
+  regex: /[\u200b\u200c\u2063\u0E01-\u0E4E.,\-"'“”‘’\u0060?!:;]{81}/,
+  error: 'Sentence should not contain more than 80 characters running without a space',
+}, {
+  // 31 or more repeating consonants running without a space likely difficult to read.
+  regex: /[\u200b\u200c\u2063ก-ฮ]{31}/,
+  error: 'Sentence should not contain more than 30 consonants running without a space',
+}, {
+  // 7 or more repeating characters in a row is likely a non-formal spelling or difficult to read.
+  regex: /(.)\1{6}/,
+  error: 'Sentence should not contain more than 7 of the same character in a row',
+}, {
+  // Emoji range from https://www.regextester.com/106421 and
+  // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
+  regex: /(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/,
+  error: 'Sentence should not contain emojis or other special Unicode symbols',
 }];
 
 module.exports = {
