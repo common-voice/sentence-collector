@@ -115,7 +115,7 @@ const INVALIDATIONS = [{
 }, {
   // 31 or more repeating consonants running without a space likely difficult to read.
   regex: /[\u200b\u200c\u2063ก-ฮ]{31}/,
-  error: 'Sentence should not contain more than 30 of consonants running wihtout a space',
+  error: 'Sentence should not contain more than 30 consonants running without a space',
 }, {
   // 7 or more repeating characters in a row is likely a non-formal spelling or difficult to read.
   regex: /(.)\1{6}/,
