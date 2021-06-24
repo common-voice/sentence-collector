@@ -19,7 +19,7 @@
   left: 0;
   background-color: rgba(0, 0, 0, .4);
   overflow: scroll;
-  z-index: 50;
+  z-index: 9999;
 }
 
 .close-modal {
