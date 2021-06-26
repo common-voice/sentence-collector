@@ -246,6 +246,7 @@ const LANGUAGES_TO_REMOVE = [
   'no', // covered by nb-NO and nn-NO
   'ks', // re-added above as native name is wrong
   'ff', // re-added - https://discourse.mozilla.org/t/fulah-language-naming-consistency/78378
+  'ga', // covered by ga-IE
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
