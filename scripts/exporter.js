@@ -12,11 +12,6 @@ const cleanup = require('../server/lib/cleanup');
 const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
-// Mapping from PONTOON locale -> SC locale code
-const LANGUAGE_MAPPING = {
-  'pa-IN': 'pa',
-};
-
 const {
   API_BASE_URL,
   COMMON_VOICE_PATH,
@@ -48,9 +43,8 @@ async function startExport() {
 async function exportLanguage(languageCode) {
   console.log(`Starting export for ${languageCode}..`);
 
-  const dbLanguageCode = LANGUAGE_MAPPING[languageCode] || languageCode;
   const cvPath = `${exportPath}/${languageCode}`;
-  const approvedSentencesUrl = `${API_BASE_URL}/sentences/text/approved/${dbLanguageCode}`;
+  const approvedSentencesUrl = `${API_BASE_URL}/sentences/text/approved/${languageCode}`;
 
   const approvedSentencesResponse = await fetch(approvedSentencesUrl);
   const approvedSentencesText = await approvedSentencesResponse.text();
@@ -64,8 +58,8 @@ async function exportLanguage(languageCode) {
   prepareExport(cvPath);
 
   console.log(`  - Cleaning up sentences`);
-  const cleanedUpSentences = cleanup.cleanupSentences(dbLanguageCode, approvedSentences);
-  const dedupedSentences = dedupeSentences(dbLanguageCode, cleanedUpSentences, cvPath);
+  const cleanedUpSentences = cleanup.cleanupSentences(languageCode, approvedSentences);
+  const dedupedSentences = dedupeSentences(languageCode, cleanedUpSentences, cvPath);
 
   writeExport(cvPath, dedupedSentences);
 }

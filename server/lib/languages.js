@@ -2,14 +2,8 @@ const ISO6391 = require('iso-639-1');
 
 const FALLBACK_LOCALE = 'en';
 
-const LANGUAGE_MAPPING = {
-  // CV - Sentence Collector
-  'pa-IN': 'pa',
-};
-
 module.exports = {
   FALLBACK_LOCALE,
-  LANGUAGE_MAPPING,
   getAllLanguages,
 };
 
@@ -164,6 +158,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Norwegian',
     nativeName: 'Norsk nynorsk',
   },
+  {
+    id: 'pa-IN',
+    name: 'Panjabi',
+    nativeName: 'ਪੰਜਾਬੀ',
+  },
   { // https://github.com/common-voice/common-voice/issues/3044
     id: 'pap-AW',
     name: 'Papiamento - Aruba',
@@ -257,6 +256,7 @@ const LANGUAGES_TO_REMOVE = [
   'ga', // covered by ga-IE
   'sv', // covered by sv-SE
   'ne', // covered by ne-NP
+  'pa', // covered by pa-IN
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
