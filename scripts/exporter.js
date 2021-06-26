@@ -14,7 +14,6 @@ const OUTPUT_TXT = 'sentence-collector.txt';
 
 // Mapping from PONTOON locale -> SC locale code
 const LANGUAGE_MAPPING = {
-  'ne-NP': 'ne',
   'pa-IN': 'pa',
 };
 

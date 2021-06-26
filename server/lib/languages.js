@@ -4,7 +4,6 @@ const FALLBACK_LOCALE = 'en';
 
 const LANGUAGE_MAPPING = {
   // CV - Sentence Collector
-  'ne-NP': 'ne',
   'pa-IN': 'pa',
 };
 
@@ -145,6 +144,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Erzya',
     nativeName: 'эрзянь кель',
   },
+  {
+    id: 'ne-NP',
+    name: 'Nepali',
+    nativeName: 'नेपाली',
+  },
   { // https://github.com/common-voice/common-voice/issues/3160
     id: 'nia',
     name: 'Nias',
@@ -252,6 +256,7 @@ const LANGUAGES_TO_REMOVE = [
   'ff', // re-added - https://discourse.mozilla.org/t/fulah-language-naming-consistency/78378
   'ga', // covered by ga-IE
   'sv', // covered by sv-SE
+  'ne', // covered by ne-NP
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
