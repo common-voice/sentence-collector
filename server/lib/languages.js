@@ -92,6 +92,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Taqbaylit',
   },
   {
+    id: 'kbd',
+    name: 'Kabardian',
+    nativeName: 'Адыгэбзэ',
+  },
+  {
     id: 'kmr',
     name: 'Northern Kurdish',
     nativeName: 'Kurdî (Kurmancî)',
@@ -107,6 +112,16 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'كٲشُر',
   },
   {
+    id: 'lij',
+    name: 'Ligurian',
+    nativeName: 'Lìgure',
+  },
+  { // https://github.com/common-voice/common-voice/issues/3043
+    id: 'mai',
+    name: 'Maithili',
+    nativeName: 'मैथिली',
+  },
+  {
     id: 'mdf',
     name: 'Moksha',
     nativeName: 'мокшень кяль',
@@ -115,6 +130,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'mhr',
     name: 'Eastern Mari',
     nativeName: 'Eastern Mari',
+  },
+  { // https://github.com/common-voice/common-voice/issues/2945
+    id: 'mos',
+    name: 'Mossi',
+    nativeName: 'Mooré',
   },
   {
     id: 'mrj',
@@ -126,6 +146,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Erzya',
     nativeName: 'эрзянь кель',
   },
+  { // https://github.com/common-voice/common-voice/issues/3160
+    id: 'nia',
+    name: 'Nias',
+    nativeName: 'Li Niha',
+  },
   {
     id: 'nb-NO',
     name: 'Norwegian',
@@ -135,6 +160,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'nn-NO',
     name: 'Norwegian',
     nativeName: 'Norsk nynorsk',
+  },
+  { // https://github.com/common-voice/common-voice/issues/3044
+    id: 'pap-AW',
+    name: 'Papiamento - Aruba',
+    nativeName: 'Papiamento',
   },
   {
     id: 'rm-sursilv',
@@ -155,6 +185,16 @@ const ADDITIONAL_LANGUAGES = [
     id: 'scn',
     name: 'Sicilian',
     nativeName: 'sicilianu',
+  },
+  { // https://github.com/common-voice/common-voice/issues/3032
+    id: 'shi',
+    name: 'Shilha',
+    nativeName: 'Taclḥit',
+  },
+  {
+    id: 'syr',
+    name: 'Syriac',
+    nativeName: 'ܣܘܼܪܝܝܐ',
   },
   {
     id: 'uby',
