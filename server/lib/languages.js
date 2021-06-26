@@ -5,7 +5,6 @@ const FALLBACK_LOCALE = 'en';
 const LANGUAGE_MAPPING = {
   // CV - Sentence Collector
   'ne-NP': 'ne',
-  'sv-SE': 'sv',
   'pa-IN': 'pa',
 };
 
@@ -192,6 +191,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Taclḥit',
   },
   {
+    id: 'sv-SE',
+    name: 'Swedish',
+    nativeName: 'Svenska',
+  },
+  {
     id: 'syr',
     name: 'Syriac',
     nativeName: 'ܣܘܼܪܝܝܐ',
@@ -247,6 +251,7 @@ const LANGUAGES_TO_REMOVE = [
   'ks', // re-added above as native name is wrong
   'ff', // re-added - https://discourse.mozilla.org/t/fulah-language-naming-consistency/78378
   'ga', // covered by ga-IE
+  'sv', // covered by sv-SE
 ];
 
 const isoLanguages = ISO6391.getLanguages(ISO6391.getAllCodes());
