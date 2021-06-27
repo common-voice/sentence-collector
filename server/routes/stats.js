@@ -17,7 +17,6 @@ router.get('/', async (req, res) => {
   if (locales.length === 1 && !locales[0]) {
     return res.json({
       all: {},
-      user: {},
       userUnreviewed: {},
       totals: { total: 0, languages: 0},
     });
@@ -26,16 +25,14 @@ router.get('/', async (req, res) => {
   debug('GET_STATS', sessionUserId);
 
   try {
-    const [{ all, totals }, user, userUnreviewed] = await Promise.all([
+    const [{ all, totals }, userUnreviewed] = await Promise.all([
       sentences.getStats(locales),
-      sentences.getUserAddedSentencesPerLocale(sessionUserId),
       sentences.getUnreviewedByYouCountForLocales(locales, sessionUserId),
     ]);
 
     res.json({
       all,
       totals,
-      user,
       userUnreviewed,
     });
   } catch (error) {

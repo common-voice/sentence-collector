@@ -22,7 +22,6 @@ test('should use initial state', async () => {
   expect(newState).toEqual({
     stats: {
       all: {},
-      user: {},
       userUnreviewed: {},
       totals: {
         total: 0,

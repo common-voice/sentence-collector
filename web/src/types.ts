@@ -35,10 +35,11 @@ export type TotalStats = {
 
 export type LanguageStats = {
   userUnreviewed: Record<string, number>
-  user: Record<string, PersonalLanguageStatsEntry>
   all: StatsRecordByLanguage
   totals: TotalStats
 }
+
+export type UserStats = Record<string, PersonalLanguageStatsEntry>
 
 export type SentenceRecord = {
   id?: number

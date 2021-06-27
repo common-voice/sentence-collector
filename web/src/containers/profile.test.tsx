@@ -33,7 +33,7 @@ beforeEach(() => {
     username,
     allLanguages,
     languages: ['en'],
-    stats: { user: {} },
+    userStats: {},
     pendingLanguages: false,
     useSwipeReview: false,
     errorMessage: '',

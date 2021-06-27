@@ -18,11 +18,11 @@ export default function Profile() {
     errorMessage: settingsErrorMessage,
   } = useSelector((state: RootState) => state.settings);
   const {
-    stats: { user: languageStats = {} },
     allLanguages,
     languages,
     pendingLanguages,
   } = useSelector((state: RootState) => state.languages);
+  const { userStats } = useSelector((state: RootState) => state.login);
 
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ export default function Profile() {
 
       <PersonalLanguageInfo
         languages={extendedLanguages}
-        languageStats={languageStats}
+        languageStats={userStats}
         onRemove={onRemove}
         pendingLanguages={pendingLanguages}
       />

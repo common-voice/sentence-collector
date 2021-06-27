@@ -1,5 +1,7 @@
 import type { AnyAction } from 'redux';
 
+import type { UserStats } from '../types';
+
 import {
   ACTION_LOGOUT,
   ACTION_LOGIN_SUCCESS,
@@ -9,11 +11,13 @@ import {
 export type LoginState = {
   authed: boolean
   username: string
+  userStats: UserStats
 }
 
 export const INITIAL_STATE: LoginState = {
   authed: false,
   username: '',
+  userStats: {},
 };
 
 export default function(state = INITIAL_STATE, action: AnyAction): LoginState {
@@ -30,6 +34,7 @@ export default function(state = INITIAL_STATE, action: AnyAction): LoginState {
       return  Object.assign({}, state, {
         authed: true,
         username: action.username,
+        userStats: action.userStats,
       });
 
     default:

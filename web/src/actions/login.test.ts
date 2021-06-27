@@ -7,6 +7,7 @@ const userInfo = {
   email: 'foo@example.com',
   languages: ['en'],
   settings: {},
+  userStats: {},
 };
 let dispatch: jest.Mock;
 let getState: jest.Mock;
@@ -34,16 +35,17 @@ describe('checkCurrentUser', () => {
     await login.checkCurrentUser()(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('users/whoami');
     expect(dispatch.mock.calls[0][0]).toEqual({
-      username: userInfo.email,
       type: login.ACTION_USER_INFO_RECEIVED,
+      username: userInfo.email,
+      userStats: userInfo.userStats,
     });
     expect(dispatch.mock.calls[1][0]).toEqual({
-      languages: userInfo.languages,
       type: languages.ACTION_ADD_LANGUAGE_SUCCESS,
+      languages: userInfo.languages,
     });
     expect(dispatch.mock.calls[2][0]).toEqual({
-      newSettings: userInfo.settings,
       type: settings.ACTION_SETTINGS_CHANGED,
+      newSettings: userInfo.settings,
     });
   });
 

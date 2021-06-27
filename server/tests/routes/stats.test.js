@@ -16,13 +16,6 @@ const totalStats = {
   languages: 1,
 };
 
-const userStats = {
-  en: {
-    total: 5,
-    validated: 3,
-  },
-};
-
 const userUnreviewedStats = {
   en: 2,
 };
@@ -33,7 +26,6 @@ test.beforeEach((t) => {
     all: allStats,
     totals: totalStats,
   });
-  t.context.sandbox.stub(sentences, 'getUserAddedSentencesPerLocale').resolves(userStats);
   t.context.sandbox.stub(sentences, 'getUnreviewedByYouCountForLocales').resolves(userUnreviewedStats);
 });
 
@@ -51,7 +43,6 @@ test.serial('should get stats', async (t) => {
   t.deepEqual(response.body, {
     all: allStats,
     totals: totalStats,
-    user: userStats,
     userUnreviewed: userUnreviewedStats,
   });
 });
@@ -69,13 +60,12 @@ test.serial('should return default stats if no locale passed', async (t) => {
       total: 0,
       languages: 0,
     },
-    user: {},
     userUnreviewed: {},
   });
 });
 
 test.serial('should pass on error message', async (t) => {
-  sentences.getUserAddedSentencesPerLocale.rejects(new Error('nope'));
+  sentences.getUnreviewedByYouCountForLocales.rejects(new Error('nope'));
 
   const response = await request(app)
     .get('/sentence-collector/stats?locales=en,de');
