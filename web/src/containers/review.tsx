@@ -49,7 +49,7 @@ export default function Review({ match, history }: Props) {
   const {
     sentencesLoading,
     sentences,
-    skippedSentences,
+    skippedSentences = [],
     reviewMessage,
   } = useSelector((state: RootState) => state.sentences);
   const { useSwipeReview } = useSelector((state: RootState) => state.settings);
