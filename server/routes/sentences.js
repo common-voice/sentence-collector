@@ -37,6 +37,31 @@ router.get('/rejected', async (req, res) => {
     });
 });
 
+router.get('/my', async (req, res) => {
+  const userId = req.user && req.user.email;
+  debug('GET_MY_SENTENCES', userId);
+  sentences.getMySentences({ userId })
+    .then((foundSentences) => res.json(foundSentences))
+    .catch((error) => {
+      debug('GET_MY_SENTENCES_ERROR', error);
+      res.status(STATUS_ERROR);
+      res.json({ message: error.message });
+    });
+});
+
+router.post('/delete', async (req, res) => {
+  const userId = req.user && req.user.email;
+  const sentenceIds = req.body.sentences;
+  debug('DELETE_MY_SENTENCES', userId);
+  sentences.deleteMySentences({ userId, sentenceIds })
+    .then(() => res.json({}))
+    .catch((error) => {
+      debug('DELETE_SENTENCES_ERROR', error);
+      res.status(STATUS_ERROR);
+      res.json({ message: error.message });
+    });
+});
+
 router.put('/', async (req, res) => {
   const userId = req.user && req.user.email;
   debug('CREATE_SENTENCES', req.body, userId);

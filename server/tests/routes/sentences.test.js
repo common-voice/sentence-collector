@@ -26,6 +26,8 @@ test.beforeEach((t) => {
   t.context.sandbox.stub(sentences, 'getRejectedSentencesForLocale').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getSentencesForReview').resolves(sentencesMock);
   t.context.sandbox.stub(sentences, 'getRejectedSentences').resolves(sentencesMock);
+  t.context.sandbox.stub(sentences, 'getMySentences').resolves(sentencesMock);
+  t.context.sandbox.stub(sentences, 'deleteMySentences').resolves({});
   t.context.sandbox.stub(sentences, 'addSentences').resolves(sentencesMock);
 });
 
@@ -251,6 +253,50 @@ test.serial('getting rejected sentences should pass on error message', async (t)
 
   const response = await request(app)
     .get('/sentence-collector/sentences/rejected');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should get my sentences', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/sentences/my');
+
+  t.is(response.status, 200);
+  t.deepEqual(response.body, sentencesMock);
+  t.true(sentences.getMySentences.calledWith({ userId: undefined }));
+});
+
+test.serial('getting my sentences should pass on error message', async (t) => {
+  sentences.getMySentences.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentence-collector/sentences/my');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should delete my sentences', async (t) => {
+  const response = await request(app)
+    .post('/sentence-collector/sentences/delete')
+    .send({ sentences: [1] });
+
+  t.is(response.status, 200);
+  t.log(sentences.deleteMySentences.getCall(0).args);
+  t.true(sentences.deleteMySentences.calledWith({ userId: undefined, sentenceIds: [1] }));
+});
+
+test.serial('deleting sentences should pass on error message', async (t) => {
+  sentences.deleteMySentences.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .post('/sentence-collector/sentences/delete')
+    .send({ sentences: [1] });
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

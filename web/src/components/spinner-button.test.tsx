@@ -8,3 +8,9 @@ test('should render spinner button', () => {
   expect(screen.queryByRole('button')).toBeTruthy();
   expect(screen.queryByText('Submitting...')).toBeTruthy();
 });
+
+test('should render spinner button with custom text', () => {
+  render(<SpinnerButton text="Hi..." />);
+  expect(screen.queryByRole('button')).toBeTruthy();
+  expect(screen.queryByText('Hi...')).toBeTruthy();
+});

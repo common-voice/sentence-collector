@@ -1,0 +1,19 @@
+.language-section {
+  padding-bottom: 4rem;
+}
+
+.submission-section {
+  padding-bottom: 2rem;
+}
+
+.submission-section li input {
+  vertical-align: middle;
+}
+
+.submission-section li p {
+  margin-top: 0;
+  margin-bottom: 0;
+  display: inline-block;
+  margin-left: 1rem;
+  vertical-align: middle;
+}

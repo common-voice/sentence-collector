@@ -42,6 +42,55 @@ describe('loadRejectedSentences', () => {
   });
 });
 
+describe('loadMySentences', () => {
+  test('should load my sentences', async () => {
+    (backend.sendRequest as jest.Mock).mockImplementation(() => exampleSentences);
+    await sentences.loadMySentences()(dispatch, getState, null);
+    expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('sentences/my');
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: sentences.ACTION_LOAD_MY_SENTENCES,
+    });
+    expect(dispatch.mock.calls[1][0]).toEqual({
+      type: sentences.ACTION_GOT_MY_SENTENCES,
+      sentences: exampleSentences,
+    });
+  });
+
+  test('should not throw on error', async () => {
+    const error = new Error('NOPE');
+    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    expect(sentences.loadMySentences()(dispatch, getState, null)).resolves.not.toThrow(error);
+    expect(dispatch.mock.calls[1][0]).toEqual({
+      type: sentences.ACTION_MY_SENTENCES_FAILURE,
+      errorMessage: 'NOPE',
+    });
+  });
+});
+
+describe('deleteSentences', () => {
+  test('should delete sentences', async () => {
+    (backend.sendRequest as jest.Mock).mockImplementation(() => ({}));
+    await sentences.deleteSentences([1])(dispatch, getState, null);
+    expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('sentences/delete');
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: sentences.ACTION_DELETE_SENTENCES,
+    });
+    expect(dispatch.mock.calls[1][0]).toEqual({
+      type: sentences.ACTION_DELETE_SENTENCES_DONE,
+    });
+  });
+
+  test('should not throw on error', async () => {
+    const error = new Error('NOPE');
+    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    expect(sentences.deleteSentences([1])(dispatch, getState, null)).resolves.not.toThrow(error);
+    expect(dispatch.mock.calls[1][0]).toEqual({
+      type: sentences.ACTION_DELETE_SENTENCES_FAILURE,
+      errorMessage: 'NOPE',
+    });
+  });
+});
+
 describe('resetReviewMessage', () => {
   test('should reset message', async () => {
     await sentences.resetReviewMessage()(dispatch, getState, null);

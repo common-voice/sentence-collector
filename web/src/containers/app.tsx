@@ -20,6 +20,7 @@ import HowTo from './how-to';
 import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
 import Profile from './profile';
 import Rejected from './rejected';
+import MySentences from './sentences';
 import Add from './add';
 import Review from './review';
 import Stats from './stats';
@@ -49,6 +50,7 @@ export default function App({ history }: { history: History }) {
           <PrivateRoute exact authed={authed} path="/review" component={Review} />
           <PrivateRoute authed={authed} path="/review/:language" component={Review} />
           <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
+          <PrivateRoute authed={authed} path="/sentences" component={MySentences} />
           <PrivateRoute authed={authed} path="/stats" component={Stats} />
           <Route render={() => (
             <Redirect to={{ pathname: "/", }} />

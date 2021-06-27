@@ -17,6 +17,8 @@ module.exports = {
   getRejectedSentencesForLocale,
   getSentencesForReview,
   getRejectedSentences,
+  getMySentences,
+  deleteMySentences,
   getStats,
   getUserAddedSentencesPerLocale,
   getUnreviewedByYouCountForLocales,
@@ -86,6 +88,48 @@ async function getRejectedSentences({ userId }) {
     return perLocale;
   }, {});
   return sentencesPerLocale;
+}
+
+async function getMySentences({ userId }) {
+  debug('GETTING_MY_SENTENCES');
+
+  const options = {
+    where: {
+      userId,
+    },
+  };
+
+  const sentences = await Sentence.findAll(options);
+
+  const sentencesPerLocale = sentences.reduce((perLocale, sentenceInfo) => {
+    perLocale[sentenceInfo.localeId] = perLocale[sentenceInfo.localeId] || {};
+
+    const batch = sentenceInfo.batch || 0;
+    perLocale[sentenceInfo.localeId][batch] = perLocale[sentenceInfo.localeId][batch] || {
+      source: sentenceInfo.source,
+      sentences: []
+    };
+    perLocale[sentenceInfo.localeId][batch].sentences.push(sentenceInfo);
+
+    return perLocale;
+  }, {});
+
+  return sentencesPerLocale;
+}
+
+async function deleteMySentences({ userId, sentenceIds }) {
+  debug('DELETING_MY_SENTENCES');
+
+  const options = {
+    where: {
+      id: sentenceIds,
+      // Passing the userId here as well makes sure that sentences that
+      // do not belong to this user would silently be ignored.
+      userId,
+    },
+  };
+
+  await Sentence.destroy(options);
 }
 
 async function getStats(locales) {

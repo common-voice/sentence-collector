@@ -7,6 +7,12 @@ import {
   ACTION_LOAD_REJECTED_SENTENCES,
   ACTION_GOT_REJECTED_SENTENCES,
   ACTION_REJECTED_SENTENCES_FAILURE,
+  ACTION_LOAD_MY_SENTENCES,
+  ACTION_GOT_MY_SENTENCES,
+  ACTION_MY_SENTENCES_FAILURE,
+  ACTION_DELETE_SENTENCES,
+  ACTION_DELETE_SENTENCES_DONE,
+  ACTION_DELETE_SENTENCES_FAILURE,
   ACTION_LOAD_SENTENCES,
   ACTION_GOT_SENTENCES,
   ACTION_REVIEWED_SENTENCES,
@@ -19,6 +25,7 @@ import {
 import type {
   BackendSentenceFailure,
   RejectedSentences,
+  MySentences,
   SentenceRecord,
   SubmissionFailures,
 } from '../types';
@@ -29,6 +36,11 @@ export type SentencesState = {
   rejectedSentencesLoading: boolean
   rejectedSentences: RejectedSentences
   rejectedSentencesError: string
+  mySentencesLoading: boolean
+  mySentences: MySentences
+  mySentencesError: string
+  deleteSentencesLoading: boolean
+  deleteSentencesError: string
   sentences: SentenceRecord[]
   sentencesLoading: boolean
   reviewMessage: string
@@ -41,6 +53,11 @@ export const INITIAL_STATE: SentencesState = {
   rejectedSentencesLoading: false,
   rejectedSentences: {},
   rejectedSentencesError: '',
+  mySentencesLoading: false,
+  mySentences: {},
+  mySentencesError: '',
+  deleteSentencesLoading: false,
+  deleteSentencesError: '',
   sentences: [],
   sentencesLoading: false,
   reviewMessage: '',
@@ -91,6 +108,42 @@ export default function(state = INITIAL_STATE, action: AnyAction): SentencesStat
         rejectedSentencesLoading: false,
         rejectedSentences: {},
         rejectedSentencesError: action.errorMessage,
+      });
+
+    case ACTION_LOAD_MY_SENTENCES:
+      return Object.assign({}, state, {
+        mySentencesLoading: true,
+        mySentencesError: null,
+      });
+
+    case ACTION_GOT_MY_SENTENCES:
+      return Object.assign({}, state, {
+        mySentencesLoading: false,
+        mySentences: action.sentences,
+      });
+
+    case ACTION_MY_SENTENCES_FAILURE:
+      return Object.assign({}, state, {
+        mySentencesLoading: false,
+        mySentences: {},
+        mySentencesError: action.errorMessage,
+      });
+
+    case ACTION_DELETE_SENTENCES:
+      return Object.assign({}, state, {
+        deleteSentencesLoading: true,
+        deleteSentencesError: null,
+      });
+
+    case ACTION_DELETE_SENTENCES_DONE:
+      return Object.assign({}, state, {
+        deleteSentencesLoading: false,
+      });
+
+    case ACTION_DELETE_SENTENCES_FAILURE:
+      return Object.assign({}, state, {
+        deleteSentencesLoading: false,
+        deleteSentencesError: action.errorMessage,
       });
 
     case ACTION_LOAD_SENTENCES:

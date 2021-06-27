@@ -16,6 +16,7 @@ test.beforeEach((t) => {
   t.context.sandbox.stub(Sentence, 'count').resolves(0);
   t.context.sandbox.stub(Sentence, 'create').resolves(exampleSentenceRecord);
   t.context.sandbox.stub(Sentence, 'findAll').resolves([exampleSentenceRecord]);
+  t.context.sandbox.stub(Sentence, 'destroy').resolves();
   t.context.sandbox.stub(sequelize, 'query').resolves([exampleSentenceRecord]);
   t.context.transactionMock = {
     commit: t.context.sandbox.stub(),
@@ -248,4 +249,74 @@ test.serial('getUserAddedSentencesPerLocale: should fetch user stats correctly',
       added: 1,
     },
   });
+});
+
+test.serial('getMySentences: should fetch correctly', async (t) => {
+  const userId = ['foo'];
+  Sentence.findAll.resolves([{
+    id: 1,
+    sentence: 'Hi',
+    source: 'bla',
+    localeId: 'en',
+    batch: 1,
+  }, {
+    id: 2,
+    sentence: 'Hi there',
+    source: 'bla',
+    localeId: 'en',
+    batch: 1,
+  }, {
+    id: 3,
+    sentence: 'Hallo',
+    source: 'meh',
+    localeId: 'de',
+    batch: 2,
+  }]);
+
+  const stats = await sentences.getMySentences({ userId });
+  t.deepEqual(stats, {
+    en: {
+      '1': {
+        source: 'bla',
+        sentences: [{
+          id: 1,
+          sentence: 'Hi',
+          source: 'bla',
+          localeId: 'en',
+          batch: 1,
+        }, {
+          id: 2,
+          sentence: 'Hi there',
+          source: 'bla',
+          localeId: 'en',
+          batch: 1,
+        }],
+      },
+    },
+    de: {
+      '2': {
+        source: 'meh',
+        sentences: [{
+          id: 3,
+          sentence: 'Hallo',
+          source: 'meh',
+          localeId: 'de',
+          batch: 2,
+        }],
+      },
+    },
+  });
+});
+
+test.serial('deleteMySentences: should delete correctly', async (t) => {
+  const userId = ['foo'];
+  Sentence.destroy.resolves();
+
+  await sentences.deleteMySentences({ userId, sentenceIds: [1, 2] });
+  t.true(Sentence.destroy.calledWith({
+    where: {
+      id: [1, 2],
+      userId,
+    },
+  }));
 });

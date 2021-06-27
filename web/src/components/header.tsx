@@ -21,6 +21,7 @@ function NavItems({ authed, closeNavigation }: Props) {
       <NavLink to="/add" exact key="add" onClick={closeNavigation}>Add</NavLink>
       <NavLink to="/review" key="review" onClick={closeNavigation}>Review</NavLink>
       <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>Rejected Sentences</NavLink>
+      <NavLink to="/sentences" key="sentences" onClick={closeNavigation}>My Sentences</NavLink>
       <NavLink to="/stats" key="stats" onClick={closeNavigation}>Statistics</NavLink>
       { authed && (
         <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>Profile</NavLink>

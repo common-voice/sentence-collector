@@ -23,6 +23,11 @@ test('should use initial state', async () => {
     rejectedSentencesLoading: false,
     rejectedSentences: {},
     rejectedSentencesError: '',
+    mySentencesLoading: false,
+    mySentences: {},
+    mySentencesError: '',
+    deleteSentencesError: '',
+    deleteSentencesLoading: false,
     sentences: [],
     sentencesLoading: false,
     reviewMessage: '',
@@ -102,6 +107,38 @@ test('should reduce rejected sentences failure', async () => {
   expect(newState.rejectedSentencesLoading).toEqual(false);
   expect(newState.rejectedSentences).toEqual({});
   expect(newState.rejectedSentencesError).toEqual(errorMessage);
+});
+
+test('should reduce my sentences request', async () => {
+  const newState = sentencesReducer(combineState({ mySentencesError: 'oh no' }), {
+    type: sentences.ACTION_LOAD_MY_SENTENCES,
+  });
+
+  expect(newState.mySentencesLoading).toEqual(true);
+  expect(newState.mySentencesError).toEqual(null);
+});
+
+test('should reduce my sentences', async () => {
+  const testSentences = ['Hi', 'All good?'];
+  const newState = sentencesReducer(combineState({}), {
+    type: sentences.ACTION_GOT_MY_SENTENCES,
+    sentences: testSentences,
+  });
+
+  expect(newState.mySentencesLoading).toEqual(false);
+  expect(newState.mySentences).toEqual(testSentences);
+});
+
+test('should reduce my sentences failure', async () => {
+  const errorMessage = 'oh no';
+  const newState = sentencesReducer(combineState({ mySentencesLoading: true }), {
+    type: sentences.ACTION_MY_SENTENCES_FAILURE,
+    errorMessage,
+  });
+
+  expect(newState.mySentencesLoading).toEqual(false);
+  expect(newState.mySentences).toEqual({});
+  expect(newState.mySentencesError).toEqual(errorMessage);
 });
 
 test('should reduce loading sentences', async () => {
