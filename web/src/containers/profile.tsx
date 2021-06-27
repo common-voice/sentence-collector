@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addLanguage, removeLanguage } from '../actions/languages';
+import { resetSkippedSentences } from '../actions/sentences';
 import { setSetting } from '../actions/settings';
 import PersonalLanguageInfo from '../components/personal-language-info';
 import AddLanguage from '../components/add-language-section';
@@ -22,6 +23,7 @@ export default function Profile() {
     languages,
     pendingLanguages,
   } = useSelector((state: RootState) => state.languages);
+  const { skippedSentences } = useSelector((state: RootState) => state.sentences);
   const { userStats } = useSelector((state: RootState) => state.login);
 
   const dispatch = useDispatch();
@@ -38,6 +40,12 @@ export default function Profile() {
   const onRemove = async (language: string) => {
     await dispatch(removeLanguage(language));
   };
+
+  const resetSkipped = (event: React.MouseEvent) => {
+    event.preventDefault();
+    dispatch(resetSkippedSentences());
+  };
+  const onResetSkipped = skippedSentences && skippedSentences.length > 0 ? resetSkipped : undefined;
 
   const extendedLanguages = languages.map((lang) => {
     const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
@@ -66,6 +74,7 @@ export default function Profile() {
         errorMessage={settingsErrorMessage}
         useSwipeReview={useSwipeReview}
         onToggleSwipeReview={toggleSwipeReview}
+        onResetSkipped={onResetSkipped}
       />
     </form>
   );

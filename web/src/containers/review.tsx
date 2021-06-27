@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { loadSentences, resetReviewMessage, reviewSentences } from '../actions/sentences';
+import {
+  loadSentences,
+  resetReviewMessage,
+  reviewSentences,
+  saveSkippedSentences,
+} from '../actions/sentences';
 import LanguageSelector from '../components/language-selector';
 import ReviewForm from '../components/review-form';
 import ReviewCriteria from '../components/review-criteria';
 import truthyFilter from '../truthyFilter';
-import type { RootState, ReviewedState } from '../types';
+import type { RootState, ReviewedState, SentenceRecord } from '../types';
 
 export const getReviewUrl = (language: string | undefined) => {
   return `/review/${language || ''}`;
@@ -44,11 +49,13 @@ export default function Review({ match, history }: Props) {
   const {
     sentencesLoading,
     sentences,
+    skippedSentences,
     reviewMessage,
   } = useSelector((state: RootState) => state.sentences);
   const { useSwipeReview } = useSelector((state: RootState) => state.settings);
 
   const [language, setLanguage] = useState(getLanguageFromMatch(match));
+  const [newlySkippedSentences, setNewlySkippedSentences] = useState<number[]>([]);
   const dispatch = useDispatch();
 
   // If user only has one language possible, use it.
@@ -83,11 +90,28 @@ export default function Review({ match, history }: Props) {
       validated: reviewedState.validated.map((info) => info.id!),
       invalidated: reviewedState.invalidated.map((info) => info.id!),
     }, language));
+    dispatch(saveSkippedSentences(newlySkippedSentences));
   };
+
+  const onSkip = (sentenceId: number) => {
+    setNewlySkippedSentences((previousValue) => ([...previousValue, sentenceId]));
+  };
+
+  const sentencesToReview = sentences.filter((sentence) => {
+    if (typeof sentence.id !== 'undefined') {
+      return !skippedSentences.includes(sentence.id);
+    }
+
+    return true;
+  });
 
   const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
     .filter(truthyFilter);
-  const hasNoSentences = language && !sentencesLoading && (!sentences || sentences.length < 1);
+
+  const hasNoSentences =
+    language &&
+    !sentencesLoading &&
+    (!sentencesToReview || sentencesToReview.length < 1);
 
   return (
     <div>
@@ -121,7 +145,8 @@ export default function Review({ match, history }: Props) {
         <ReviewForm
           message={reviewMessage}
           onReviewed={onReviewed}
-          sentences={sentences}
+          onSkip={onSkip}
+          sentences={sentencesToReview}
           language={language}
           useSwipeReview={useSwipeReview} />
       )}

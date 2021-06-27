@@ -108,9 +108,15 @@ export default function Add() {
     setInvalidated(merge(invalidated, reviewedState.invalidated.map((info) => info.sentence)));
   };
 
+  const onSkip = () => {
+    // For the "Add" page we do not want to save skipped sentences, as
+    // the user might want to review them after submitting...
+  };
+
   if (reviewing.length > 0) {
     // The review form allows us to examine, and validate sentences.
     return <ReviewForm onReviewed={onReviewed}
+                       onSkip={onSkip}
                        sentences={reviewing} />;
   } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
     // The confirm form is a stats page where sentence submission happens.

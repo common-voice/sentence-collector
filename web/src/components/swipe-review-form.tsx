@@ -7,6 +7,7 @@ import SubmitButton from './submit-button';
 
 type Props = {
   onReviewSentence: (index: number, approval: boolean) => void
+  onSkip: (index: number) => void
   onSubmit: (config: { preventDefault?: () => void }) => void
   sentences: SentenceRecord[]
   page: number
@@ -20,6 +21,7 @@ type Props = {
 export default function SwipeReview(props: Props) {
   const {
     onReviewSentence,
+    onSkip,
     onSubmit,
     sentences,
     page,
@@ -29,6 +31,10 @@ export default function SwipeReview(props: Props) {
     language,
     reviewedSentencesCount,
   } = props;
+
+  if (!Array.isArray(sentences) || sentences.length === 0) {
+    return null;
+  }
 
   const cardsRef = useRef<Cards>(null);
 
@@ -46,6 +52,8 @@ export default function SwipeReview(props: Props) {
 
     if (typeof approval !== 'undefined') {
       onReviewSentence(currentIndex, approval);
+    } else {
+      onSkip(currentIndex);
     }
 
     cardsRef.current.setState({ index: currentIndex + 1 });

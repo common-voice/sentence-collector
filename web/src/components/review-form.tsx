@@ -14,6 +14,7 @@ const PAGE_SIZE = 5;
 type Props = {
   sentences: SentenceRecord[]
   onReviewed: (categorizedSentences: ReviewedState) => void
+  onSkip: (sentenceId: number) => void
   message?: string
   language?: string
   useSwipeReview?: boolean
@@ -23,7 +24,14 @@ type ReviewApproval = {
   [key: number]: boolean | undefined
 }
 
-export default function ReviewForm({ message, useSwipeReview, sentences, onReviewed, language }: Props) {
+export default function ReviewForm({
+  message,
+  useSwipeReview,
+  language,
+  sentences,
+  onReviewed,
+  onSkip,
+}: Props) {
   const [page, setPage] = useState(0);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
@@ -52,14 +60,22 @@ export default function ReviewForm({ message, useSwipeReview, sentences, onRevie
     setReviewedCount((previousNumber) => previousNumber + 1);
   };
 
+  const skip = (index: number) => {
+    const sentence = sentences[index];
+    if (typeof sentence.id !== 'undefined') {
+      onSkip(sentence.id);
+    }
+  };
+
   if (!Array.isArray(sentences) || sentences.length < 1) {
-    return (<h2>nothing to review</h2>);
+    return null;
   }
 
   if (useSwipeReview) {
     return (
       <SwipeReviewForm
         onReviewSentence={reviewSentence}
+        onSkip={skip}
         onSubmit={onSubmit}
         sentences={sentences}
         page={page}

@@ -29,6 +29,7 @@ const sentences = [{
 
 const setStateMock = jest.fn();
 const onReviewed = jest.fn();
+const onSkip = jest.fn();
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -47,35 +48,65 @@ beforeEach(() => {
 
 describe('Normal Review Tool', () => {
   test('should render normal review tool', () => {
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.queryByText(/Swipe right to approve the sentence/)).toBeNull();
   });
 
   test('should render message', () => {
     const message = 'Hi there!';
-    render(<ReviewForm sentences={sentences} message={message} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        message={message}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.getByText(message)).toBeTruthy();
   });
 
-  test('should render message with no sentences', () => {
-    const noSentences: SentenceRecord[] = [];
-    render(<ReviewForm sentences={noSentences} onReviewed={onReviewed} language="en"/>);
-    expect(screen.getByText('nothing to review')).toBeTruthy();
-  });
-
   test('should render sentences with source', () => {
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.queryAllByText(/Hi there/).length).toBe(5);
     expect(screen.queryAllByText(/Me/).length).toBe(5);
   });
 
   test('should render submit button', () => {
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.getByText('Finish Review')).toBeTruthy();
   });
 
   test('should paginate', async () => {
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
 
     expect(screen.getByText('Hi there two')).toBeTruthy();
     await act(async () => await userEvent.click(screen.getByText('>')));
@@ -84,7 +115,14 @@ describe('Normal Review Tool', () => {
   });
 
   test('should call onReviewed with correct status', async () => {
-    render(<ReviewForm sentences={sentences} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
 
     await userEvent.click(screen.getAllByText('👍')[0]);
     await userEvent.click(screen.getAllByText('👍')[1]);
@@ -126,24 +164,43 @@ describe('Normal Review Tool', () => {
 // test all the logic
 describe('Swipe Review Tool', () => {
   test('should render swipe review tool', () => {
-    render(<ReviewForm sentences={sentences} useSwipeReview={true} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        useSwipeReview={true}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.getByText(/Swipe right to approve the sentence/)).toBeTruthy();
   });
 
   test('should render message', () => {
     const message = 'Hi there!';
-    render(<ReviewForm sentences={sentences} message={message} useSwipeReview={true} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        message={message}
+        useSwipeReview={true}
+        onSkip={onSkip}
+        onReviewed={onReviewed}
+        language="en"
+      />
+    );
     expect(screen.getByText(message)).toBeTruthy();
   });
 
-  test('should render message with no sentences', () => {
-    const noSentences: SentenceRecord[] = [];
-    render(<ReviewForm sentences={noSentences} useSwipeReview={true} onReviewed={onReviewed} language="en"/>);
-    expect(screen.getByText('nothing to review')).toBeTruthy();
-  });
-
   test('should render submit button', () => {
-    render(<ReviewForm sentences={sentences} useSwipeReview={true} onReviewed={onReviewed} language="en"/>);
+    render(
+      <ReviewForm
+        sentences={sentences}
+        useSwipeReview={true}
+        onReviewed={onReviewed}
+        onSkip={onSkip}
+        language="en"
+      />
+    );
     expect(screen.getByText('Finish Review')).toBeTruthy();
   });
 
@@ -176,7 +233,15 @@ describe('Swipe Review Tool', () => {
     };
 
     test('should skip sentence on swipe review tool skip button', async () => {
-      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true} language="en"/>);
+      render(
+        <ReviewForm
+          sentences={[sentences[0]]}
+          onReviewed={onReviewed}
+          onSkip={onSkip}
+          useSwipeReview={true}
+          language="en"
+        />
+      );
 
       await userEvent.click(screen.getByText('Skip'));
 
@@ -192,7 +257,15 @@ describe('Swipe Review Tool', () => {
     });
 
     test('should approve sentence on approve button', async () => {
-      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true} language="en"/>);
+      render(
+        <ReviewForm
+          sentences={[sentences[0]]}
+          onReviewed={onReviewed}
+          onSkip={onSkip}
+          useSwipeReview={true}
+          language="en"
+        />
+      );
 
       await userEvent.click(screen.getByText('Approve'));
 
@@ -208,7 +281,15 @@ describe('Swipe Review Tool', () => {
     });
 
     test('should reject sentence on reject button', async () => {
-      render(<ReviewForm sentences={[sentences[0]]} onReviewed={onReviewed} useSwipeReview={true} language="en"/>);
+      render(
+        <ReviewForm
+          sentences={[sentences[0]]}
+          onReviewed={onReviewed}
+          onSkip={onSkip}
+          useSwipeReview={true}
+          language="en"
+        />
+      );
 
       await userEvent.click(screen.getByText('Reject'));
 
@@ -224,7 +305,15 @@ describe('Swipe Review Tool', () => {
     });
 
     test('should set state of sentence on multiple button reviews', async () => {
-      render(<ReviewForm sentences={sentences} onReviewed={onReviewed} useSwipeReview={true} language="en"/>);
+      render(
+        <ReviewForm
+          sentences={sentences}
+          onReviewed={onReviewed}
+          onSkip={onSkip}
+          useSwipeReview={true}
+          language="en"
+        />
+      );
 
       await userEvent.click(screen.getByText('Reject'));
       await userEvent.click(screen.getByText('Approve'));
@@ -238,7 +327,15 @@ describe('Swipe Review Tool', () => {
     });
 
     test('should set state of sentence on multiple keyboard reviews', async () => {
-      render(<ReviewForm sentences={sentences} onReviewed={onReviewed} useSwipeReview={true} language="en"/>);
+      render(
+        <ReviewForm
+          sentences={sentences}
+          onReviewed={onReviewed}
+          onSkip={onSkip}
+          useSwipeReview={true}
+          language="en"
+        />
+      );
 
       await fireEvent.keyDown(document, { key: 'n' });
       await fireEvent.keyDown(document, { key: 'y' });

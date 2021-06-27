@@ -81,6 +81,21 @@ test('should render no sentences found', () => {
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
 });
 
+test('should render no sentences found if all sentences are skipped', () => {
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
+    allLanguages: [],
+    languages: ['en'],
+    sentencesLoading: false,
+    sentences: [{
+      id: 1,
+      sentence: 'Hi',
+    }],
+    skippedSentences: [1],
+  }));
+  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  expect(screen.getByText(/No sentences to review./)).toBeTruthy();
+});
+
 test('should render language selector', () => {
   render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
   expect(screen.getByText(/LanguageSelector/)).toBeTruthy();

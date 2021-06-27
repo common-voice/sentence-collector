@@ -26,6 +26,7 @@ test('should use initial state', async () => {
     sentences: [],
     sentencesLoading: false,
     reviewMessage: '',
+    skippedSentences: [],
   });
 });
 
@@ -139,6 +140,32 @@ test('should reduce reviewed sentences failure', async () => {
   });
 
   expect(newState.reviewMessage).toEqual(errorMessage);
+});
+
+test('should reduce initial skipped sentences', async () => {
+  const newState = sentencesReducer(combineState({}), {
+    type: sentences.ACTION_REVIEW_SAVE_SKIPPED_SENTENCES,
+    sentenceIds: [10],
+  });
+
+  expect(newState.skippedSentences).toEqual([10]);
+});
+
+test('should reduce subsequent skipped sentences', async () => {
+  const newState = sentencesReducer(combineState({ skippedSentences: [1] }), {
+    type: sentences.ACTION_REVIEW_SAVE_SKIPPED_SENTENCES,
+    sentenceIds: [10, 11],
+  });
+
+  expect(newState.skippedSentences).toEqual([1, 10, 11]);
+});
+
+test('should reduce skipped sentence reset', async () => {
+  const newState = sentencesReducer(combineState({ skippedSentences: [1] }), {
+    type: sentences.ACTION_REVIEW_RESET_SKIPPED_SENTENCES,
+  });
+
+  expect(newState.skippedSentences).toEqual([]);
 });
 
 test('should reduce review message reset', async () => {

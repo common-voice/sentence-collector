@@ -21,6 +21,8 @@ export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
 export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
 export const ACTION_REVIEW_SENTENCES_FAILURE = 'REVIEW_SENTENCES_FAILURE';
 export const ACTION_REVIEW_RESET_MESSAGE = 'REVIEW_RESET_MESSAGE';
+export const ACTION_REVIEW_SAVE_SKIPPED_SENTENCES = 'ACTION_REVIEW_SAVE_SKIPPED_SENTENCES';
+export const ACTION_REVIEW_RESET_SKIPPED_SENTENCES = 'ACTION_REVIEW_RESET_SKIPPED_SENTENCES';
 
 type SentenceSubmission = {
   sentences: {
@@ -113,6 +115,19 @@ export function reviewSentences(data: ReviewedSentences, language: string): Thun
     } catch (error) {
       dispatch(reviewSentencesFailure(error.message));
     }
+  };
+}
+
+export function saveSkippedSentences(sentenceIds: number[]) {
+  return {
+    type: ACTION_REVIEW_SAVE_SKIPPED_SENTENCES,
+    sentenceIds,
+  };
+}
+
+export function resetSkippedSentences() {
+  return {
+    type: ACTION_REVIEW_RESET_SKIPPED_SENTENCES,
   };
 }
 

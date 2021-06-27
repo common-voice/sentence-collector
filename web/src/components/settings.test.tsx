@@ -5,10 +5,12 @@ import userEvent from '@testing-library/user-event';
 import Settings from './settings';
 
 const swipeToggleMock = jest.fn();
+const resetSkippedMock = jest.fn();
 
 beforeEach(() => {
   jest.resetAllMocks();
   swipeToggleMock.mockReset();
+  resetSkippedMock.mockReset();
 });
 
 test('should render title', () => {
@@ -38,9 +40,40 @@ test('should render button to use normal review tool', () => {
 });
 
 test('should call onToggleSwipeReview when review tool button is clicked', async () => {
-  
   render(<Settings onToggleSwipeReview={swipeToggleMock}/>);
   await userEvent.click(screen.getByText('Use Swiping Review Tool'));
   expect(swipeToggleMock).toHaveBeenCalled();
+});
+
+test('should render button to reset skipped sentences', () => {
+  render(
+    <Settings
+      useSwipeReview={true}
+      onToggleSwipeReview={swipeToggleMock}
+      onResetSkipped={resetSkippedMock}
+    />
+  );
+  expect(screen.getByText('Show all skipped sentences again')).toBeTruthy();
+});
+
+test('should not render button to reset skipped sentences if no callback passed', () => {
+  render(
+    <Settings
+      useSwipeReview={true}
+      onToggleSwipeReview={swipeToggleMock}
+    />
+  );
+  expect(screen.queryByText('Show all skipped sentences again')).toBeNull();
+});
+
+test('should call onResetSkipped when reset button is clicked', async () => {
+  render(
+    <Settings
+      onToggleSwipeReview={swipeToggleMock}
+      onResetSkipped={resetSkippedMock}
+    />
+  );
+  await userEvent.click(screen.getByText('Show all skipped sentences again'));
+  expect(resetSkippedMock).toHaveBeenCalled();
 });
 

@@ -37,6 +37,7 @@ beforeEach(() => {
     pendingLanguages: false,
     useSwipeReview: false,
     errorMessage: '',
+    skippedSentences: [],
   }));
 });
 

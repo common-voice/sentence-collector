@@ -12,6 +12,8 @@ import {
   ACTION_REVIEWED_SENTENCES,
   ACTION_REVIEW_SENTENCES_FAILURE,
   ACTION_REVIEW_RESET_MESSAGE,
+  ACTION_REVIEW_SAVE_SKIPPED_SENTENCES,
+  ACTION_REVIEW_RESET_SKIPPED_SENTENCES,
 } from '../actions/sentences';
 
 import type {
@@ -30,6 +32,7 @@ export type SentencesState = {
   sentences: SentenceRecord[]
   sentencesLoading: boolean
   reviewMessage: string
+  skippedSentences: number[]
 }
 
 export const INITIAL_STATE: SentencesState = {
@@ -41,6 +44,7 @@ export const INITIAL_STATE: SentencesState = {
   sentences: [],
   sentencesLoading: false,
   reviewMessage: '',
+  skippedSentences: [],
 };
 
 export default function(state = INITIAL_STATE, action: AnyAction): SentencesState {
@@ -108,6 +112,18 @@ export default function(state = INITIAL_STATE, action: AnyAction): SentencesStat
     case ACTION_REVIEW_SENTENCES_FAILURE:
       return Object.assign({}, state, {
         reviewMessage: action.errorMessage,
+      });
+
+    case ACTION_REVIEW_SAVE_SKIPPED_SENTENCES:
+      return Object.assign({}, state, {
+        skippedSentences: state.skippedSentences ?
+          [...state.skippedSentences, ...action.sentenceIds] :
+          [...action.sentenceIds],
+      });
+
+    case ACTION_REVIEW_RESET_SKIPPED_SENTENCES:
+      return Object.assign({}, state, {
+        skippedSentences: [],
       });
 
     case ACTION_REVIEW_RESET_MESSAGE:
