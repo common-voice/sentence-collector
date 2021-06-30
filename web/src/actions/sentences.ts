@@ -83,8 +83,8 @@ export function deleteSentences(sentences: number[]): ThunkAction<void, RootStat
   return async function(dispatch){
     dispatch(deleteSentencesStart());
     try {
-      const results = await sendRequest<Record<string, never>>('sentences/delete', 'POST', { sentences });
-      dispatch(deleteSentencesDone(results));
+      await sendRequest<Record<string, never>>('sentences/delete', 'POST', { sentences });
+      dispatch(deleteSentencesDone());
       dispatch(loadMySentences());
     } catch (error) {
       dispatch(deleteSentencesFailure(error.message));
