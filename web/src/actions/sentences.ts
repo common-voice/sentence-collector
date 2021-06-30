@@ -228,7 +228,7 @@ function deleteSentencesStart() {
   };
 }
 
-function deleteSentencesDone(sentences: MySentences) {
+function deleteSentencesDone() {
   return {
     type: ACTION_DELETE_SENTENCES_DONE,
   };

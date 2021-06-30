@@ -12,7 +12,7 @@ import LanguageSelector from '../components/language-selector';
 import ReviewForm from '../components/review-form';
 import ReviewCriteria from '../components/review-criteria';
 import truthyFilter from '../truthyFilter';
-import type { RootState, ReviewedState, SentenceRecord } from '../types';
+import type { RootState, ReviewedState } from '../types';
 
 export const getReviewUrl = (language: string | undefined) => {
   return `/review/${language || ''}`;

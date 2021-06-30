@@ -94,6 +94,33 @@ test('should render sentences', () => {
 });
 
 test('should render delete button', () => {
+  const sentences = {
+    de: {
+      '1': {
+        source: 'foo',
+        sentences: [{
+          id: 1,
+          sentence: 'Hi.',
+        }],
+      },
+    },
+  };
+
+  render(
+    <MySentencesList
+      sentences={sentences}
+      loading={false}
+      error=""
+      deleteSentencesError=""
+      deleteSentencesLoading={false}
+      onDelete={deleteMock}
+      onSelectSentence={selectMock}
+    />
+  );
+  expect(screen.getByText('Delete selected sentences')).toBeTruthy();
+});
+
+test('should not render delete button if no sentences', () => {
   render(
     <MySentencesList
       sentences={{}}
@@ -105,7 +132,7 @@ test('should render delete button', () => {
       onSelectSentence={selectMock}
     />
   );
-  expect(screen.getByText('Delete selected sentences')).toBeTruthy();
+  expect(screen.queryByText('Delete selected sentences')).toBeNull();
 });
 
 test('should render delete loading notice', () => {

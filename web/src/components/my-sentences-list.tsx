@@ -44,7 +44,7 @@ export default function MySentencesList({
         at the bottom. Please only remove sentences if absolutely necessary, for example if you noticed
         after the fact that a sentence is copyright protected.
       </p>
-      
+
       { loading && (
         <p>Loading your sentences..</p>
       )}
@@ -56,7 +56,7 @@ export default function MySentencesList({
       { hasNoSentences && !loading && (
         <p>No sentences found!</p>
       )}
-      
+
       { Object.keys(sentences).map((language) => (
         <section key={'section-' + language} className="language-section">
           <h2 key={language}>{language}</h2>
@@ -81,7 +81,7 @@ export default function MySentencesList({
         </section>
       ))}
 
-      { !deleteSentencesLoading && (
+      { !deleteSentencesLoading && !hasNoSentences && (
         <button className="standalone" onClick={deleteSelected}>Delete selected sentences</button>
       )}
       

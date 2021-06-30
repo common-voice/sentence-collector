@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { SentenceRecord } from '../types';
 import ReviewForm from './review-form';
 
 const sentences = [{
