@@ -8,7 +8,7 @@ const INVALIDATIONS = [{
     fn: (sentence) => {
         return sentence.length < MIN_LENGTH || sentence.length > MAX_LENGTH;
     },
-    error: `Number of words must be between ${MIN_WORDS} and ${MAX_WORDS} (inclusive)`,
+    error: `Number of characters must be between ${MIN_LENGTH} and ${MAX_LENGTH} (inclusive)`,
 }, {
     regex: /[0-9]+/,
     error: 'Sentence should not contain numbers',
