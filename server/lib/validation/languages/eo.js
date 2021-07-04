@@ -16,8 +16,8 @@ const INVALIDATIONS = [{
   regex: /[0-9]+/,
   error: 'Sentence should not contain numbers',
 }, {
-  regex: /[<>+*#@^[\]()/xXyYwW]/,
-  error: 'Sentence should not contain symbols or the letterss X Y or W',
+  regex: /[<>+*#@^[\]()/xXyYwWäÄöÖüÜßððÀÁÂÃÅÆÇÈÉÊËÌÍİÎÏÐÑÒÓÔÕØÙÚÛÛÝŽàáâãåæçèéêëìíîïðñòóôõøùúûýþÿāăąćċčďđēĕėęěğġģħĩīĭįıķĸĺļľŀłńņņṫšЎḃḋḟṁṗṡẁẃẅẛỳαβΓγΔδεζηΘθικΛλμνΞξΠπρΣσςτșếōůūŁşşǐżőňựňžịŌŏČŠřś]/,
+  error: 'Sentence should not contain symbols or the letterss X Y or W or any letter that is not part of the EO alphabet',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
   // inbetween are considered abbreviations or acronyms.
