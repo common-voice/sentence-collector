@@ -1,43 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../../css/sentences-list.css';
 
-import type { MySentences } from '../types';
+import { sendRequest } from '../backend';
+import truthyFilter from '../truthyFilter';
+import type { SentenceRecord } from '../types';
 import Sentence from './sentence';
 import SpinnerButton from './spinner-button';
 
-type Props = {
-  onSelectSentence: (sentenceId: string, checked: boolean) => void
-  onDelete: () => void
-  loading: boolean
-  sentences: MySentences
-  error: string
-  deleteSentencesLoading: boolean
-  deleteSentencesError: string
+type MySentenceBatch = {
+  source: string
+  sentences: SentenceRecord[]
 }
 
-export default function MySentencesList({
-  loading,
-  sentences = {},
-  error,
-  deleteSentencesLoading,
-  deleteSentencesError,
-  onSelectSentence,
-  onDelete,
-}: Props) {
+export type MySentences = Record<string, Record<string, MySentenceBatch>>
+
+export default function MySentencesList() {
+  const [sentencesToDelete, setSentencesToDelete] = useState<Record<number, boolean>>({});
+  const [sentencesLoading, setSentencesLoading] = useState<boolean>(false);
+  const [sentences, setSentences] = useState<MySentences>({});
+  const [error, setError] = useState<Error>();
+  const [sentencesDeleting, setSentencesDeleting] = useState<boolean>(false);
+  const [deletionError, setDeletionError] = useState<Error>();
   const hasNoSentences = Object.keys(sentences).length === 0;
-  
-  const onSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onSelectSentence(event.target.name, event.target.checked);
+
+  const fetchSentences = async () => {
+    try {
+      setError(undefined);
+      setSentencesLoading(true);
+      const results = await sendRequest<MySentences>('sentences/my');
+      setSentencesLoading(false);
+      setSentences(results);
+    } catch (error) {
+      setError(error);
+    }
   };
-  
-  const deleteSelected = (event: React.MouseEvent) => {
+
+  useEffect(() => {
+    fetchSentences();
+  }, []);
+
+  const onSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSentencesToDelete((previousValue) => {
+      return Object.assign({}, previousValue, {
+        [event.target.name]: event.target.checked,
+      });
+    });
+  };
+
+  const deleteSelected = async (event: React.MouseEvent) => {
     event.preventDefault();
-    onDelete();
+
+    const sentences = Object.entries(sentencesToDelete).map(([sentenceId, toDelete]) => {
+      if (!toDelete) {
+        return;
+      }
+
+      return parseInt(sentenceId, 10);
+    }).filter(truthyFilter);
+
+    try {
+      setDeletionError(undefined);
+      setSentencesDeleting(true);
+      await sendRequest<Record<string, never>>('sentences/delete', 'POST', { sentences });
+      setSentencesDeleting(false);
+      await fetchSentences();
+    } catch (error) {
+      setDeletionError(error);
+    } finally {
+      setSentencesToDelete({});
+    }
   };
 
   return (
     <React.Fragment>
+      <h1>My Sentences</h1>
       <p>
         This page gives you an overview of all your submitted sentencens. You may also delete already
         submitted sentences if needed by marking the checkbox next to it and clicking on &quot;Remove sentences&quot;
@@ -45,15 +82,15 @@ export default function MySentencesList({
         after the fact that a sentence is copyright protected.
       </p>
 
-      { loading && (
+      { sentencesLoading && (
         <p>Loading your sentences..</p>
       )}
 
       { error && (
-        <p>Error while fetching your sentences: {error}</p>
+        <p>Error while fetching your sentences. Please try again.</p>
       )}
 
-      { hasNoSentences && !loading && (
+      { hasNoSentences && !sentencesLoading && (
         <p>No sentences found!</p>
       )}
 
@@ -81,15 +118,15 @@ export default function MySentencesList({
         </section>
       ))}
 
-      { !deleteSentencesLoading && !hasNoSentences && (
+      { !sentencesDeleting && !hasNoSentences && !error && (
         <button className="standalone" onClick={deleteSelected}>Delete selected sentences</button>
       )}
-      
-      { deleteSentencesLoading && (
+
+      { sentencesDeleting && (
         <SpinnerButton text="Deleting selected sentences..."></SpinnerButton>
       )}
-      
-      { deleteSentencesError && (
+
+      { deletionError && (
         <p>Failed to delete selected sentences.. Please try again!</p>
       )}
     </React.Fragment>

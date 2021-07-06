@@ -54,15 +54,6 @@ export type BackendSentenceFailure = {
   error: string
 }
 
-export type RejectedSentences = Record<string, SentenceRecord[]>
-
-type MySentenceBatch = {
-  source: string
-  sentences: SentenceRecord[]
-}
-
-export type MySentences = Record<string, Record<string, MySentenceBatch>>
-
 export type ReviewedState = {
   validated: SentenceRecord[]
   invalidated: SentenceRecord[]

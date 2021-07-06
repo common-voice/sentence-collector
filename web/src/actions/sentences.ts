@@ -4,8 +4,6 @@ import type { ThunkAction } from 'redux-thunk';
 import { sendRequest } from '../backend';
 import type {
   BackendSentenceFailure,
-  RejectedSentences,
-  MySentences,
   RootState,
   SentenceRecord,
 } from '../types';
@@ -14,15 +12,6 @@ import { addLanguage } from './languages';
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
 export const ACTION_SUBMIT_SENTENCES_DONE = 'SUBMIT_SENTENCES_DONE';
 export const ACTION_SUBMIT_SENTENCES_ERRORS = 'SUBMIT_SENTENCES_ERRORS';
-export const ACTION_LOAD_REJECTED_SENTENCES = 'LOAD_REJECTED_SENTENCES';
-export const ACTION_GOT_REJECTED_SENTENCES = 'GOT_REJECTED_SENTENCES';
-export const ACTION_REJECTED_SENTENCES_FAILURE = 'REJECTED_SENTENCES_FAILURE';
-export const ACTION_LOAD_MY_SENTENCES = 'LOAD_MY_SENTENCES';
-export const ACTION_GOT_MY_SENTENCES = 'GOT_MY_SENTENCES';
-export const ACTION_MY_SENTENCES_FAILURE = 'MY_SENTENCES_FAILURE';
-export const ACTION_DELETE_SENTENCES = 'DELETE_SENTENCES';
-export const ACTION_DELETE_SENTENCES_DONE = 'DELETE_SENTENCES_DONE';
-export const ACTION_DELETE_SENTENCES_FAILURE = 'DELETE_SENTENCES_FAILURE';
 export const ACTION_LOAD_SENTENCES = 'LOAD_SENTENCES';
 export const ACTION_GOT_SENTENCES = 'GOT_SENTENCES';
 export const ACTION_REVIEWED_SENTENCES = 'REVIEWED_SENTENCES';
@@ -53,43 +42,6 @@ type ReviewedSentences = {
 type VotesResponse = {
   votes: number
   failedVotes: number
-}
-
-export function loadRejectedSentences(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch){
-    dispatch(loadRejectedSentencesStart());
-    try {
-      const results = await sendRequest<RejectedSentences>('sentences/rejected');
-      dispatch(loadRejectedSentencesDone(results));
-    } catch (error) {
-      dispatch(loadRejectedSentencesFailure(error.message));
-    }
-  };
-}
-
-export function loadMySentences(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch){
-    dispatch(loadMySentencesStart());
-    try {
-      const results = await sendRequest<MySentences>('sentences/my');
-      dispatch(loadMySentencesDone(results));
-    } catch (error) {
-      dispatch(loadMySentencesFailure(error.message));
-    }
-  };
-}
-
-export function deleteSentences(sentences: number[]): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch){
-    dispatch(deleteSentencesStart());
-    try {
-      await sendRequest<Record<string, never>>('sentences/delete', 'POST', { sentences });
-      dispatch(deleteSentencesDone());
-      dispatch(loadMySentences());
-    } catch (error) {
-      dispatch(deleteSentencesFailure(error.message));
-    }
-  };
 }
 
 export function resetReviewMessage(): ThunkAction<void, RootState, unknown, AnyAction> {
@@ -179,65 +131,6 @@ function submitSentencesErrors(errors: BackendSentenceFailure[]) {
   return {
     type: ACTION_SUBMIT_SENTENCES_ERRORS,
     errors,
-  };
-}
-
-function loadRejectedSentencesStart() {
-  return {
-    type: ACTION_LOAD_REJECTED_SENTENCES,
-  };
-}
-
-function loadRejectedSentencesDone(sentences: RejectedSentences) {
-  return {
-    type: ACTION_GOT_REJECTED_SENTENCES,
-    sentences,
-  };
-}
-
-function loadRejectedSentencesFailure(errorMessage: string) {
-  return {
-    type: ACTION_REJECTED_SENTENCES_FAILURE,
-    errorMessage,
-  };
-}
-
-function loadMySentencesStart() {
-  return {
-    type: ACTION_LOAD_MY_SENTENCES,
-  };
-}
-
-function loadMySentencesDone(sentences: MySentences) {
-  return {
-    type: ACTION_GOT_MY_SENTENCES,
-    sentences,
-  };
-}
-
-function loadMySentencesFailure(errorMessage: string) {
-  return {
-    type: ACTION_MY_SENTENCES_FAILURE,
-    errorMessage,
-  };
-}
-
-function deleteSentencesStart() {
-  return {
-    type: ACTION_DELETE_SENTENCES,
-  };
-}
-
-function deleteSentencesDone() {
-  return {
-    type: ACTION_DELETE_SENTENCES_DONE,
-  };
-}
-
-function deleteSentencesFailure(errorMessage: string) {
-  return {
-    type: ACTION_DELETE_SENTENCES_FAILURE,
-    errorMessage,
   };
 }
 
