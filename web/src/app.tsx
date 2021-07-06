@@ -10,20 +10,20 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import type { History } from 'history';
-import { getLanguages } from '../actions/languages';
-import { checkCurrentUser } from '../actions/login';
-import type { RootState } from '../types';
+import { getLanguages } from './actions/languages';
+import { checkCurrentUser } from './actions/login';
+import type { RootState } from './types';
 
-import MySentences from '../components/my-sentences-list';
-import RejectedSentences from '../components/rejected-sentences-list';
-import Page from './page';
-import Home from './home';
-import HowTo from './how-to';
-import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
-import Profile from './profile';
-import Add from './add';
-import Review from './review';
-import Stats from './stats';
+import MySentences from './components/my-sentences-list';
+import RejectedSentences from './components/rejected-sentences-list';
+import Page from './containers/page';
+import Home from './containers/home';
+import HowTo from './containers/how-to';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './containers/login';
+import Profile from './containers/profile';
+import Add from './containers/add';
+import Review from './containers/review';
+import Stats from './containers/stats';
 
 export default function App({ history }: { history: History }) {
   const {
