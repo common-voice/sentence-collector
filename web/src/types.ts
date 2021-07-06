@@ -22,7 +22,7 @@ export type LanguageStatsEntry = {
   added: number
 }
 
-export type PersonalLanguageStatsEntry = {
+type PersonalLanguageStatsEntry = {
   added: number
 }
 

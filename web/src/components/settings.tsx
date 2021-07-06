@@ -1,18 +1,27 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetSkippedSentences } from '../actions/sentences';
+import { setSetting } from '../actions/settings';
+import type { RootState } from '../types';
 
-type Props = {
-  onToggleSwipeReview: (event?: unknown) => void
-  onResetSkipped?: (event?: unknown) => void
-  errorMessage?: string
-  useSwipeReview?: boolean
-}
+export default function Settings() {
+  const { skippedSentences } = useSelector((state: RootState) => state.sentences);
+  const {
+    useSwipeReview,
+    errorMessage,
+  } = useSelector((state: RootState) => state.settings);
+  const dispatch = useDispatch();
 
-export default function Settings({
-  errorMessage,
-  useSwipeReview,
-  onToggleSwipeReview,
-  onResetSkipped,
-}: Props) {
+  const toggleSwipeReview = (evt: React.FormEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    dispatch(setSetting('useSwipeReview', !useSwipeReview));
+  };
+
+  const resetSkipped = (event: React.MouseEvent) => {
+    event.preventDefault();
+    dispatch(resetSkippedSentences());
+  };
+
   return (
     <section>
       <h2>Settings</h2>
@@ -31,21 +40,21 @@ export default function Settings({
         </p>
 
         {!useSwipeReview && (
-          <button className="standalone" onClick={onToggleSwipeReview}>Use Swiping Review Tool</button>
+          <button className="standalone" onClick={toggleSwipeReview}>Use Swiping Review Tool</button>
         )}
         {useSwipeReview && (
-          <button className="standalone" onClick={onToggleSwipeReview}>Use Normal Review Tool</button>
+          <button className="standalone" onClick={toggleSwipeReview}>Use Normal Review Tool</button>
         )}
       </section>
 
-      {!!onResetSkipped && (
+      { skippedSentences && skippedSentences.length > 0 && (
         <section>
           <h3>Reset skipped sentences</h3>
           <p>
             You previously skipped sentences while reviewing. Resetting skipped sentences will show all skipped sentences again.
             This is independent of the language.
           </p>
-          <button className="standalone" onClick={onResetSkipped}>Show all skipped sentences again</button>
+          <button className="standalone" onClick={resetSkipped}>Show all skipped sentences again</button>
         </section>
       )}
     </section>

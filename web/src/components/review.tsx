@@ -8,11 +8,12 @@ import {
   reviewSentences,
   saveSkippedSentences,
 } from '../actions/sentences';
-import LanguageSelector from '../components/language-selector';
-import ReviewForm from '../components/review-form';
-import ReviewCriteria from '../components/review-criteria';
 import truthyFilter from '../truthyFilter';
 import type { RootState, ReviewedState } from '../types';
+
+import LanguageSelector from './language-selector';
+import ReviewForm from './review-form';
+import ReviewCriteria from './review-criteria';
 
 export const getReviewUrl = (language: string | undefined) => {
   return `/review/${language || ''}`;

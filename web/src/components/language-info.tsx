@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getReviewUrl } from '../containers/review';
+import { getReviewUrl } from './review';
 
 type Props = {
   total: number

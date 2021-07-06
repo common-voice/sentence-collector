@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadSentences } from '../actions/sentences';
-import SubmitForm from '../components/submit-form';
-import ConfirmForm from '../components/confirm-form';
-import ReviewForm from '../components/review-form';
-
 import truthyFilter from '../truthyFilter';
 import type { ReviewedState, RootState, SentenceRecord } from '../types';
+
+import SubmitForm from './submit-form';
+import ConfirmForm from './confirm-form';
+import ReviewForm from './review-form';
 
 import '../../css/add.css';
 

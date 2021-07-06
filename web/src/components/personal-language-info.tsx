@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Language, PersonalLanguageStatsEntry } from '../types';
+import { removeLanguage } from '../actions/languages';
+import truthyFilter from '../truthyFilter';
+import { RootState } from '../types';
 
-type Props = {
-  languages: Language[]
-  onRemove: (language: string) => void
-  languageStats: Record<string, PersonalLanguageStatsEntry>
-  pendingLanguages?: boolean
-}
-
-export default function PersonalLanguageInfo({ languages, onRemove, languageStats, pendingLanguages }: Props) {
+export default function PersonalLanguageInfo() {
+  const { userStats } = useSelector((state: RootState) => state.login);
+  const {
+    allLanguages,
+    languages,
+    pendingLanguages,
+  } = useSelector((state: RootState) => state.languages);
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  
+  const extendedLanguages = languages.map((lang) => {
+    const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
+    return extended;
+  }).filter(truthyFilter);
 
   const onLanguageRemove = async (language: string) => {
     if (!language) {
@@ -20,7 +28,7 @@ export default function PersonalLanguageInfo({ languages, onRemove, languageStat
 
     try {
       setError('');
-      await onRemove(language);
+      await dispatch(removeLanguage(language));
     } catch (error) {
       setError(`Could not remove language: ${error.message}`);
     }
@@ -30,20 +38,20 @@ export default function PersonalLanguageInfo({ languages, onRemove, languageStat
     <section>
       { error && ( <p className="error-message">{error}</p> ) }
 
-      { languages && languages.length > 0 ? (
+      { extendedLanguages && extendedLanguages.length > 0 ? (
         <section>
           <p>Your languages:</p>
           <ul>
-          { languages.map((language, i) => (
+          { extendedLanguages.map((language, i) => (
             <li key={i}>
               { language.nativeName } ({ language.name })
               <button className="remove-lang"
-                      onClick={() => onLanguageRemove(language.id)}
+                      onClick={(event) => { event.preventDefault(); onLanguageRemove(language.id); }}
                       disabled={pendingLanguages}>
                 remove
               </button>
               <ul>
-                <li>{`${(languageStats[language.id] || {}).added || 0} added by you`}</li>
+                <li>{`${(userStats[language.id] || {}).added || 0} added by you`}</li>
               </ul>
             </li>
           ))}

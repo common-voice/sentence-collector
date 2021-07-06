@@ -14,16 +14,16 @@ import { getLanguages } from './actions/languages';
 import { checkCurrentUser } from './actions/login';
 import type { RootState } from './types';
 
+import Add from './components/add';
+import Home from './components/home';
+import HowTo from './components/how-to';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './components/login';
 import MySentences from './components/my-sentences-list';
+import Page from './components/page';
+import Profile from './components/profile';
 import RejectedSentences from './components/rejected-sentences-list';
-import Page from './containers/page';
-import Home from './containers/home';
-import HowTo from './containers/how-to';
-import { LoginSuccess, LoginFailure, LogoutSuccess } from './containers/login';
-import Profile from './containers/profile';
-import Add from './containers/add';
-import Review from './containers/review';
-import Stats from './containers/stats';
+import Review from './components/review';
+import Stats from './components/stats';
 
 export default function App({ history }: { history: History }) {
   const {
