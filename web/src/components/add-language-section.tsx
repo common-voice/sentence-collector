@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import type { Language } from '../types';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addLanguage } from '../actions/languages';
+import type { RootState } from '../types';
 
 import LanguageSelector from './language-selector';
 
-type Props = {
-  allLanguages: Language[]
-  onAdd: (language: string) => void
-  filterLanguages?: string[]
-  pendingLanguages?: boolean
-}
-
-export default function AddLanguage({ allLanguages, onAdd, filterLanguages = [], pendingLanguages = false }: Props) {
+export default function AddLanguage() {
+  const {
+    allLanguages,
+    languages,
+    pendingLanguages,
+  } = useSelector((state: RootState) => state.languages);
   const [language, setLanguage] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
 
   const onLanguageSelect = (language: string) => { setLanguage(language); };
 
@@ -25,7 +27,7 @@ export default function AddLanguage({ allLanguages, onAdd, filterLanguages = [],
         throw new Error('Please select a language');
       }
 
-      await onAdd(language);
+      await dispatch(addLanguage(language));
     } catch (error) {
       setError(`Could not add language: ${error.message}`);
     }
@@ -41,7 +43,7 @@ export default function AddLanguage({ allLanguages, onAdd, filterLanguages = [],
         selected={language}
         disabled={pendingLanguages}
         languages={allLanguages}
-        filters={filterLanguages}
+        filters={languages}
         labelText="Add a language you want to contribute to"
         onChange={onLanguageSelect}
       />

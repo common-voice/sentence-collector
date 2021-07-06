@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import type { RejectedSentences } from '../types';
+import { sendRequest } from '../backend';
+import type { SentenceRecord } from '../types';
 import Sentence from './sentence';
 
-type Props = {
-  loading?: boolean
-  sentences?: RejectedSentences
-  error?: string
-}
+export type RejectedSentences = Record<string, SentenceRecord[]>
 
-export default function RejectedSentencesList({ loading, sentences = {}, error }: Props) {
+export default function RejectedSentencesList() {
+  const [sentencesLoading, setSentencesLoading] = useState<boolean>(false);
+  const [sentences, setSentences] = useState<RejectedSentences>({});
+  const [error, setError] = useState<Error>();
   const hasNoSentences = Object.keys(sentences).length === 0;
+
+  const fetchSentences = async () => {
+    try {
+      setError(undefined);
+      setSentencesLoading(true);
+      const results = await sendRequest<RejectedSentences>('sentences/rejected');
+      setSentencesLoading(false);
+      setSentences(results);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSentences();
+  }, []);
 
   return (
     <React.Fragment>
-      { loading && (
+      <h1>Rejected Sentences</h1>
+      
+      { sentencesLoading && (
         <p>Loading rejected sentences..</p>
       )}
 
       { error && (
-        <p>Error while fetching rejected sentences: {error}</p>
+        <p>Error while fetching rejected sentences. Please try again.</p>
       )}
 
-      { hasNoSentences && !loading && (
+      { hasNoSentences && !sentencesLoading && !error && (
         <p>No rejected sentences found!</p>
       )}
 

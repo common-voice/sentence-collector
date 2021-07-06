@@ -22,7 +22,7 @@ export type LanguageStatsEntry = {
   added: number
 }
 
-export type PersonalLanguageStatsEntry = {
+type PersonalLanguageStatsEntry = {
   added: number
 }
 
@@ -53,15 +53,6 @@ export type BackendSentenceFailure = {
   sentence: string
   error: string
 }
-
-export type RejectedSentences = Record<string, SentenceRecord[]>
-
-type MySentenceBatch = {
-  source: string
-  sentences: SentenceRecord[]
-}
-
-export type MySentences = Record<string, Record<string, MySentenceBatch>>
 
 export type ReviewedState = {
   validated: SentenceRecord[]

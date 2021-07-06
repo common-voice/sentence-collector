@@ -3,14 +3,14 @@ import * as redux from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-import LanguageSelector from '../components/language-selector';
-import ReviewForm from '../components/review-form';
-import ReviewCriteria from '../components/review-criteria';
+import LanguageSelector from './language-selector';
+import ReviewForm from './review-form';
+import ReviewCriteria from './review-criteria';
 import Review from './review';
 
-jest.mock('../components/language-selector');
-jest.mock('../components/review-form');
-jest.mock('../components/review-criteria');
+jest.mock('./language-selector');
+jest.mock('./review-form');
+jest.mock('./review-criteria');
 
 const dispatchMock = jest.fn();
 

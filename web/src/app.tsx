@@ -10,20 +10,20 @@ import {
 } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import type { History } from 'history';
-import { getLanguages } from '../actions/languages';
-import { checkCurrentUser } from '../actions/login';
-import type { RootState } from '../types';
+import { getLanguages } from './actions/languages';
+import { checkCurrentUser } from './actions/login';
+import type { RootState } from './types';
 
-import Page from './page';
-import Home from './home';
-import HowTo from './how-to';
-import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
-import Profile from './profile';
-import Rejected from './rejected';
-import MySentences from './sentences';
-import Add from './add';
-import Review from './review';
-import Stats from './stats';
+import Add from './components/add';
+import Home from './components/home';
+import HowTo from './components/how-to';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './components/login';
+import MySentences from './components/my-sentences-list';
+import Page from './components/page';
+import Profile from './components/profile';
+import RejectedSentences from './components/rejected-sentences-list';
+import Review from './components/review';
+import Stats from './components/stats';
 
 export default function App({ history }: { history: History }) {
   const {
@@ -49,7 +49,7 @@ export default function App({ history }: { history: History }) {
           <PrivateRoute exact authed={authed} path="/add" component={Add} />
           <PrivateRoute exact authed={authed} path="/review" component={Review} />
           <PrivateRoute authed={authed} path="/review/:language" component={Review} />
-          <PrivateRoute authed={authed} path="/rejected" component={Rejected} />
+          <PrivateRoute authed={authed} path="/rejected" component={RejectedSentences} />
           <PrivateRoute authed={authed} path="/sentences" component={MySentences} />
           <PrivateRoute authed={authed} path="/stats" component={Stats} />
           <Route render={() => (

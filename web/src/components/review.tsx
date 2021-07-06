@@ -8,11 +8,12 @@ import {
   reviewSentences,
   saveSkippedSentences,
 } from '../actions/sentences';
-import LanguageSelector from '../components/language-selector';
-import ReviewForm from '../components/review-form';
-import ReviewCriteria from '../components/review-criteria';
 import truthyFilter from '../truthyFilter';
 import type { RootState, ReviewedState } from '../types';
+
+import LanguageSelector from './language-selector';
+import ReviewForm from './review-form';
+import ReviewCriteria from './review-criteria';
 
 export const getReviewUrl = (language: string | undefined) => {
   return `/review/${language || ''}`;
@@ -63,6 +64,13 @@ export default function Review({ match, history }: Props) {
     setLanguage(languages[0]);
   }
 
+  useEffect(() => {
+    if (language) {
+      dispatch(resetReviewMessage());
+      dispatch(loadSentences(language));
+    }
+  }, [language]);
+
   // If user hasn't added any languages, ask them to do so.
   if (languages.length === 0) {
     return (
@@ -72,13 +80,6 @@ export default function Review({ match, history }: Props) {
       </p>
     );
   }
-
-  useEffect(() => {
-    if (language) {
-      dispatch(resetReviewMessage());
-      dispatch(loadSentences(language));
-    }
-  }, [language]);
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language);

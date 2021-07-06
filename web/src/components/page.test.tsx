@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
+import Header from './header';
+import Footer from './footer';
 import Page from './page';
-import Header from '../components/header';
-import Footer from '../components/footer';
 
-jest.mock('../components/header');
-jest.mock('../components/footer');
+jest.mock('./header');
+jest.mock('./footer');
 
 test('should render page', () => {
   (Header as jest.Mock).mockReturnValue(<div>...Header...</div>);
