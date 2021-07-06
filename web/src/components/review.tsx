@@ -64,6 +64,13 @@ export default function Review({ match, history }: Props) {
     setLanguage(languages[0]);
   }
 
+  useEffect(() => {
+    if (language) {
+      dispatch(resetReviewMessage());
+      dispatch(loadSentences(language));
+    }
+  }, [language]);
+
   // If user hasn't added any languages, ask them to do so.
   if (languages.length === 0) {
     return (
@@ -73,13 +80,6 @@ export default function Review({ match, history }: Props) {
       </p>
     );
   }
-
-  useEffect(() => {
-    if (language) {
-      dispatch(resetReviewMessage());
-      dispatch(loadSentences(language));
-    }
-  }, [language]);
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language);
