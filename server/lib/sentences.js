@@ -172,7 +172,7 @@ async function getAllStatsForLocale(locale) {
     getValidatedSentencesCountForLocale(locale),
     getRejectedSentencesCountForLocale(locale),
     Sentence.count({ where: { localeId: locale }}),
-    Sentence.count({ distinct: true, col: 'userId'}),
+    Sentence.count({ distinct: true, col: 'userId', where: { localeId: locale }}),
   ]);
 
   return {
