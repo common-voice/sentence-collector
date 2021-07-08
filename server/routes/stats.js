@@ -42,4 +42,19 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/general/:localeId', async (req, res) => {
+  const localeId = req.params.localeId;
+  debug('GET_STATS_FOR_LANGUAGE', localeId);
+
+  try {
+    const stats = await sentences.getAllStatsForLocale(localeId);
+
+    res.json(stats);
+  } catch (error) {
+    debug('GET_STATS_FOR_LANGUAGE_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
+});
+
 module.exports = router;

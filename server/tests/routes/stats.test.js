@@ -20,6 +20,13 @@ const userUnreviewedStats = {
   en: 2,
 };
 
+const generalStats = {
+  validated: 2,
+  rejected: 1,
+  added: 3,
+  contributors: 3,
+};
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
   t.context.sandbox.stub(sentences, 'getStats').resolves({
@@ -27,6 +34,7 @@ test.beforeEach((t) => {
     totals: totalStats,
   });
   t.context.sandbox.stub(sentences, 'getUnreviewedByYouCountForLocales').resolves(userUnreviewedStats);
+  t.context.sandbox.stub(sentences, 'getAllStatsForLocale').resolves(generalStats);
 });
 
 test.afterEach.always((t) => {
@@ -69,6 +77,28 @@ test.serial('should pass on error message', async (t) => {
 
   const response = await request(app)
     .get('/sentence-collector/stats?locales=en,de');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should query general stats for locale', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/stats/general/en');
+
+  t.log(response);
+
+  t.is(response.status, 200);
+  t.deepEqual(response.body, generalStats);
+});
+
+test.serial('should pass on error message when querying general stats', async (t) => {
+  sentences.getAllStatsForLocale.rejects(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentence-collector/stats/general/en');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {

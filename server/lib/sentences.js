@@ -20,6 +20,7 @@ module.exports = {
   getMySentences,
   deleteMySentences,
   getStats,
+  getAllStatsForLocale,
   getUserAddedSentencesPerLocale,
   getUnreviewedByYouCountForLocales,
   addSentences,
@@ -161,6 +162,24 @@ async function getStats(locales) {
       total: await Sentence.count(),
       languages: await Sentence.count({ distinct: true, col: 'localeId'}), 
     }
+  };
+}
+
+async function getAllStatsForLocale(locale) {
+  debug('GETTING_STATS_FOR_LOCALE');
+
+  const [validated, rejected, added, contributors] = await Promise.all([
+    getValidatedSentencesCountForLocale(locale),
+    getRejectedSentencesCountForLocale(locale),
+    Sentence.count({ where: { localeId: locale }}),
+    Sentence.count({ distinct: true, col: 'userId'}),
+  ]);
+
+  return {
+    validated,
+    rejected,
+    added,
+    contributors,
   };
 }
 

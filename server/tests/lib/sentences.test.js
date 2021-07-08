@@ -214,6 +214,21 @@ test.serial('getStats: should fetch all stats correctly', async (t) => {
   });
 });
 
+test.serial('getAllStatsForLocale: should fetch all stats correctly', async (t) => {
+  sequelize.query.onCall(0).resolves([{ 'COUNT(*)': 4 }]);
+  sequelize.query.onCall(1).resolves([{ 'COUNT(*)': 3 }]);
+  Sentence.count.onCall(0).resolves(10);
+  Sentence.count.onCall(1).resolves(5);
+
+  const stats = await sentences.getAllStatsForLocale('en');
+  t.deepEqual(stats, {
+    validated: 4,
+    rejected: 3,
+    added: 10,
+    contributors: 5,
+  });
+});
+
 test.serial('getUnreviewedByYouCountForLocales: should fetch unreviewed stats correctly', async (t) => {
   const locales = ['en', 'de'];
   const user = ['foo'];
