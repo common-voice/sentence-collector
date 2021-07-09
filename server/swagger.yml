@@ -54,6 +54,23 @@ paths:
           description: "Success"
           schema:
             $ref: "#/definitions/SourceText"
+  /sentences/stats/general/{localeId}:
+    get:
+      summary: "Get general stats for a language"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "localeId"
+        type: "string"
+        description: "Locale ISO code to query for"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/GeneralStats"
   /sentences/text/{localeId}:
     get:
       summary: "Get sentences as list of text for a language"
@@ -155,3 +172,18 @@ definitions:
   SourceText:
     type: "string"
     example: "Source A\nSource B"
+  GeneralStats:
+    type: "object"
+    properties:
+      added:
+        type: "integer"
+        format: "int64"
+      validated:
+        type: "integer"
+        format: "int64"
+      rejected:
+        type: "integer"
+        format: "int64"
+      contributors:
+        type: "integer"
+        format: "int64"
