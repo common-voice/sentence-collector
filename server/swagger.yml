@@ -141,10 +141,21 @@ paths:
             $ref: "#/definitions/Text"
 
 definitions:
-  SentencesList:
-    type: "array"
-    items:
-      $ref: "#/definitions/Sentence"
+  GeneralStats:
+    type: "object"
+    properties:
+      added:
+        type: "integer"
+        format: "int64"
+      validated:
+        type: "integer"
+        format: "int64"
+      rejected:
+        type: "integer"
+        format: "int64"
+      contributors:
+        type: "integer"
+        format: "int64"
   Sentence:
     type: "object"
     properties:
@@ -166,24 +177,13 @@ definitions:
       updatedAt:
         type: "string"
         format: "date-time"
-  Text:
-    type: "string"
-    example: "Sentence One\nSentence Two"
+  SentencesList:
+    type: "array"
+    items:
+      $ref: "#/definitions/Sentence"
   SourceText:
     type: "string"
     example: "Source A\nSource B"
-  GeneralStats:
-    type: "object"
-    properties:
-      added:
-        type: "integer"
-        format: "int64"
-      validated:
-        type: "integer"
-        format: "int64"
-      rejected:
-        type: "integer"
-        format: "int64"
-      contributors:
-        type: "integer"
-        format: "int64"
+  Text:
+    type: "string"
+    example: "Sentence One\nSentence Two"
