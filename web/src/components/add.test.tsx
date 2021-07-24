@@ -39,11 +39,11 @@ test('should submit sentences including review', async () => {
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add/>);
+  render(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source }});
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));
@@ -52,8 +52,8 @@ test('should submit sentences including review', async () => {
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getAllByText('👍')[0]);
-  await userEvent.click(screen.getAllByText('👎')[1]);
+  await userEvent.click(screen.getByText('Approve'));
+  await userEvent.click(screen.getByText('Reject'));
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
@@ -76,11 +76,11 @@ test('should submit sentences including review - with errors', async () => {
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add/>);
+  render(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source }});
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));
@@ -89,7 +89,7 @@ test('should submit sentences including review - with errors', async () => {
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getAllByText('👍')[0]);
+  await userEvent.click(screen.getByText('Approve'));
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
@@ -112,11 +112,11 @@ test('should submit sentences including review - with unexpected server response
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add/>);
+  render(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source }});
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));
@@ -125,7 +125,7 @@ test('should submit sentences including review - with unexpected server response
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getAllByText('👍')[0]);
+  await userEvent.click(screen.getByText('Approve'));
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });

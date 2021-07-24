@@ -52,7 +52,7 @@ describe('loadSentences', () => {
 
 describe('reviewSentences', () => {
   const data = { invalidated: [1], validated: [2, 3] };
-  
+
   test('should upload votes and fetch latest sentences', async () => {
     (backend.sendRequest as jest.Mock).mockImplementation(() => exampleSentences);
     await sentences.reviewSentences(data, 'en')(dispatch, getState, null);
@@ -161,6 +161,16 @@ describe('uploadSentences', () => {
     expect(sentences.uploadSentences(data)(dispatch, getState, null)).rejects.toThrow(error);
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: sentences.ACTION_SUBMIT_SENTENCES_DONE,
+    });
+  });
+});
+
+describe('saveSkippedSentences', () => {
+  test('should dispatch action', async () => {
+    const action = sentences.saveSkippedSentences([1]);
+    expect(action).toEqual({
+      type: sentences.ACTION_REVIEW_SAVE_SKIPPED_SENTENCES,
+      sentenceIds: [1],
     });
   });
 });

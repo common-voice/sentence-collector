@@ -53,7 +53,6 @@ export default function Review({ match, history }: Props) {
     skippedSentences = [],
     reviewMessage,
   } = useSelector((state: RootState) => state.sentences);
-  const { useSwipeReview } = useSelector((state: RootState) => state.settings);
 
   const [language, setLanguage] = useState(getLanguageFromMatch(match));
   const [newlySkippedSentences, setNewlySkippedSentences] = useState<number[]>([]);
@@ -124,32 +123,31 @@ export default function Review({ match, history }: Props) {
           selected={language}
           onChange={onSelectLanguage}
         />
-        <ReviewCriteria/>
+        <ReviewCriteria />
       </section>
 
-      { sentencesLoading && (
+      {sentencesLoading && (
         <p>Loading sentences...</p>
       )}
 
-      { !language && (
+      {!language && (
         <p>Please select a language to review sentences.</p>
       )}
 
-      { hasNoSentences && (
+      {hasNoSentences && (
         <p>
           No sentences to review.&nbsp;
           <Link to={'/add'}>Add more sentences now!</Link>
         </p>
       )}
 
-      { language && !sentencesLoading && sentences && sentences.length > 0 && (
+      {language && !sentencesLoading && sentences && sentences.length > 0 && (
         <ReviewForm
           message={reviewMessage}
           onReviewed={onReviewed}
           onSkip={onSkip}
           sentences={sentencesToReview}
-          language={language}
-          useSwipeReview={useSwipeReview} />
+          language={language} />
       )}
     </div>
   );

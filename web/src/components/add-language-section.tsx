@@ -23,10 +23,6 @@ export default function AddLanguage() {
     setError('');
 
     try {
-      if (!language) {
-        throw new Error('Please select a language');
-      }
-
       await dispatch(addLanguage(language));
     } catch (error) {
       setError(`Could not add language: ${error.message}`);
@@ -37,7 +33,7 @@ export default function AddLanguage() {
 
   return (
     <section>
-      { error && ( <p className="error-message">{error}</p> ) }
+      {error && (<p className="error-message">{error}</p>)}
 
       <LanguageSelector
         selected={language}
@@ -48,7 +44,7 @@ export default function AddLanguage() {
         onChange={onLanguageSelect}
       />
       <button disabled={!!pendingLanguages || !language}
-              onClick={onLanguageAdd} className="add-language">Add Language</button>
+        onClick={onLanguageAdd} className="add-language">Add Language</button>
     </section>
   );
 }
