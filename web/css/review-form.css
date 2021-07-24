@@ -26,6 +26,7 @@
   position: absolute;
   bottom: 20px;
   padding: 0 0.5rem;
+  max-height: calc(var(--sentence-box-height) / 2);
 }
 
 .card-sentence-box {
