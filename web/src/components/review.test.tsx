@@ -33,7 +33,7 @@ test('should set language from single user language', () => {
     sentencesLoading: false,
     sentences: []
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.queryByText('Please select a language to review sentences.')).toBeNull();
 });
 
@@ -44,7 +44,7 @@ test('should ask to set language', () => {
     sentencesLoading: false,
     sentences: []
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/You have not selected any languages./)).toBeTruthy();
 });
 
@@ -55,7 +55,7 @@ test('should render loading', () => {
     sentencesLoading: true,
     sentences: []
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText('Loading sentences...')).toBeTruthy();
 });
 
@@ -66,7 +66,7 @@ test('should render no language selected', () => {
     sentencesLoading: false,
     sentences: []
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText('Please select a language to review sentences.')).toBeTruthy();
 });
 
@@ -77,7 +77,7 @@ test('should render no sentences found', () => {
     sentencesLoading: false,
     sentences: []
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
 });
 
@@ -92,22 +92,22 @@ test('should render no sentences found if all sentences are skipped', () => {
     }],
     skippedSentences: [1],
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
 });
 
 test('should render language selector', () => {
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/LanguageSelector/)).toBeTruthy();
 });
 
 test('should render review criteria', () => {
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/ReviewCriteria/)).toBeTruthy();
 });
 
 test('should dispatch load', () => {
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(dispatchMock).toHaveBeenCalled();
 });
 
@@ -118,9 +118,8 @@ test('should only render form', () => {
     sentencesLoading: false,
     sentences: ['Hi'],
     reviewMessage: 'Hi',
-    useSwipeReview: false,
   }));
-  render(<BrowserRouter><Review match={{}} history={[]}/></BrowserRouter>);
+  render(<BrowserRouter><Review match={{}} history={[]} /></BrowserRouter>);
   expect(screen.getByText(/ReviewForm/)).toBeTruthy();
   expect(screen.queryByText(/You have not selected any languages./)).toBeNull();
   expect(screen.queryByText('Loading sentences...')).toBeNull();

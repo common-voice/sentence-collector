@@ -60,7 +60,7 @@ export default function Add() {
     sentences: string[]
     source: string
   }
-  
+
   const onSubmit = ({ language, sentences, source }: OnSubmitProps) => {
     setLanguage(language);
     setSource(source);
@@ -116,23 +116,24 @@ export default function Add() {
   if (reviewing.length > 0) {
     // The review form allows us to examine, and validate sentences.
     return <ReviewForm onReviewed={onReviewed}
-                       onSkip={onSkip}
-                       sentences={reviewing} />;
+      onSkip={onSkip}
+      sentences={reviewing}
+      language={language} />;
   } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
     // The confirm form is a stats page where sentence submission happens.
     return <ConfirmForm onSubmit={onConfirm}
-                        onReview={onReviewStart}
-                        submitted={submitted}
-                        unreviewed={unreviewed}
-                        validated={validated}
-                        invalidated={invalidated}
-                        isUploadingSentences={isUploadingSentences} />;
+      onReview={onReviewStart}
+      submitted={submitted}
+      unreviewed={unreviewed}
+      validated={validated}
+      invalidated={invalidated}
+      isUploadingSentences={isUploadingSentences} />;
   } else {
     // The plain submission form allows copy & pasting
     return <SubmitForm onSubmit={onSubmit}
-                       message={message}
-                       error={error}
-                       languages={extendedLanguages}
-                       sentenceSubmissionFailures={sentenceSubmissionFailures} />;
+      message={message}
+      error={error}
+      languages={extendedLanguages}
+      sentenceSubmissionFailures={sentenceSubmissionFailures} />;
   }
 }
