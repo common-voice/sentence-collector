@@ -13,20 +13,18 @@ module.exports = {
 
 async function get(email) {
   debug('GETTING_USER', email);
-  const [user] = await User.findAll({ where: { email }});
+  const [user] = await User.findAll({ where: { email } });
   const userLanguages = user.languages || '';
   return {
     email: user.email,
     languages: userLanguages.split(',').filter(Boolean),
-    settings: {
-      useSwipeReview: user.useSwipeReview || false,
-    },
+    settings: {},
   };
 }
 
 function createUserIfNecessary(email) {
   debug('CREATE_USER_IF_NECESSARY', email);
-  return User.findOrCreate({ where: { email }});
+  return User.findOrCreate({ where: { email } });
 }
 
 function updateSetting(email, key, value) {
@@ -49,7 +47,7 @@ function updateSetting(email, key, value) {
 
 async function addLanguage(email, language) {
   debug('ADDING_LANGUAGE', email, language);
-  const [user] = await User.findAll({ where: { email }});
+  const [user] = await User.findAll({ where: { email } });
   if (!user) {
     return;
   }
@@ -75,7 +73,7 @@ async function addLanguage(email, language) {
 
 async function removeLanguage(email, language) {
   debug('REMOVING_LANGUAGE', email, language);
-  const [user] = await User.findAll({ where: { email }});
+  const [user] = await User.findAll({ where: { email } });
   if (!user) {
     return;
   }

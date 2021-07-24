@@ -6,7 +6,6 @@ import users from '../../lib/users';
 const exampleUserRecord = {
   id: '1',
   email: 'foo@example.com',
-  useSwipeReview: true,
   languages: '',
 };
 
@@ -31,16 +30,14 @@ test.serial('get: should get user', async (t) => {
   t.deepEqual(user, {
     email: 'foo@example.com',
     languages: [],
-    settings: {
-      useSwipeReview: true,
-    },
+    settings: {},
   });
 });
 
 test.serial('updateSetting: should update user', async (t) => {
-  await users.updateSetting('foo@example.com', 'useSwipeReview', true);
+  await users.updateSetting('foo@example.com', 'foo', true);
   t.true(User.update.calledWith({
-    useSwipeReview: true,
+    foo: true,
   }, {
     where: {
       email: 'foo@example.com',
