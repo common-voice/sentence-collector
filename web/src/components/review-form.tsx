@@ -29,6 +29,7 @@ export default function SwipeReview(props: Props) {
   } = props;
 
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
+  const [skippedSentencesCount, setSkippedSentencesCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
 
   if (!Array.isArray(sentences) || sentences.length === 0) {
@@ -37,22 +38,19 @@ export default function SwipeReview(props: Props) {
 
   const cardsRef = useRef<Cards>(null);
 
-  const onSubmit = async (event: React.MouseEvent | React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const submitSentences = () => {
     const categorizedSentences = mapSentencesAccordingToState(sentences, reviewApproval);
     onReviewed(categorizedSentences);
     setReviewApproval({});
   };
 
-  const reviewSentence = (index: number, approval: boolean) => {
-    if (reviewApproval[index] === approval) {
-      // already set before, deselecting now
-      setReviewApproval((previousValue) => ({ ...previousValue, [index]: undefined }));
-    } else {
-      setReviewApproval((previousValue) => ({ ...previousValue, [index]: approval }));
-    }
+  const onSubmit = async (event: React.MouseEvent | React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    submitSentences();
+  };
 
+  const reviewSentence = (index: number, approval: boolean) => {
+    setReviewApproval((previousValue) => ({ ...previousValue, [index]: approval }));
     setReviewedCount((previousNumber) => previousNumber + 1);
   };
 
@@ -61,6 +59,7 @@ export default function SwipeReview(props: Props) {
     if (typeof sentence.id !== 'undefined') {
       onSkip(sentence.id);
     }
+    setSkippedSentencesCount((previousNumber) => previousNumber + 1);
   };
 
   const onReviewButtonPress = (event: React.FormEvent<HTMLButtonElement>, approval: boolean | undefined) => {
@@ -106,6 +105,12 @@ export default function SwipeReview(props: Props) {
     };
   }, []);
 
+  useEffect(() => {
+    if (reviewedSentencesCount + skippedSentencesCount === sentences.length) {
+      submitSentences();
+    }
+  }, [reviewedSentencesCount, skippedSentencesCount]);
+
   return (
     <form id="review-form" onSubmit={onSubmit}>
       <p>Swipe right to approve the sentence. Swipe left to reject it.</p>
@@ -115,11 +120,7 @@ export default function SwipeReview(props: Props) {
 
       {message && (<p>{message}</p>)}
 
-      <Cards onEnd={() => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        onSubmit({ preventDefault: () => { /* ignore */ } });
-      }} className="main-root" ref={cardsRef}>
+      <Cards className="main-root" ref={cardsRef}>
         {sentences.map((sentence, i) => (
           <Card
             key={i}
