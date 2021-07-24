@@ -17,7 +17,7 @@ beforeEach(() => {
   jest.resetAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
-  
+
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
@@ -64,4 +64,19 @@ test('should add language and set button to disabled', async () => {
   });
 
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
+});
+
+test('should show error when language can not be added', async () => {
+  dispatchMock.mockRejectedValue(new Error('oh no'));
+
+  act(() => { render(<AddLanguageSection />); });
+  fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
+  expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
+
+  await act(async () => {
+    await userEvent.click(screen.getByRole('button'));
+    expect(dispatchMock).toHaveBeenCalled();
+  });
+
+  expect(screen.queryByText(/Could not add language/)).toBeTruthy();
 });
