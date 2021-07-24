@@ -1,5 +1,5 @@
 #review-form {
-  --sentence-box-height: 12rem;
+  --sentence-box-height: 14rem;
 }
 
 .main-root {
@@ -26,7 +26,7 @@
   position: absolute;
   bottom: 20px;
   padding: 0 0.5rem;
-  max-height: calc(var(--sentence-box-height) / 2);
+  max-height: calc(var(--sentence-box-height) / 2 - 0.5rem);
 }
 
 .card-sentence-box {
