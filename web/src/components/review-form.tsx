@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { ReviewedState, SentenceRecord } from '../types';
-import Cards from './swipecard/Cards';
-import Card from "./swipecard/CardSwitcher";
+import TinderCard from 'react-tinder-card';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
 
@@ -28,6 +27,7 @@ export default function SwipeReview(props: Props) {
     language,
   } = props;
 
+  const [currentSentenceIndex, setCurrentSentenceIndex] = useState(sentences.length - 1);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [skippedSentencesCount, setSkippedSentencesCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
@@ -36,7 +36,13 @@ export default function SwipeReview(props: Props) {
     return null;
   }
 
-  const cardsRef = useRef<Cards>(null);
+  const cardsRefs = useMemo(() => Array(sentences.length).fill(0)
+    .map(() => React.createRef()), []);
+
+  const APPROVAL_DIRECTIONS: Record<string, boolean> = {
+    left: false,
+    right: true,
+  };
 
   const submitSentences = () => {
     const categorizedSentences = mapSentencesAccordingToState(sentences, reviewApproval);
@@ -49,6 +55,22 @@ export default function SwipeReview(props: Props) {
     submitSentences();
   };
 
+  const handleSwipe = (index: number, direction: string) => {
+    if (APPROVAL_DIRECTIONS[direction] === undefined) {
+      if (direction === 'up') {
+        skip(index);
+        setCurrentSentenceIndex((previousIndex) => previousIndex - 1);
+      }
+
+      // Downwards direction is not implemented, therefore we
+      // don't want to do anything in those cases
+      return;
+    }
+
+    reviewSentence(index, APPROVAL_DIRECTIONS[direction]);
+    setCurrentSentenceIndex((previousIndex) => previousIndex - 1);
+  };
+
   const reviewSentence = (index: number, approval: boolean) => {
     setReviewApproval((previousValue) => ({ ...previousValue, [index]: approval }));
     setReviewedCount((previousNumber) => previousNumber + 1);
@@ -59,51 +81,48 @@ export default function SwipeReview(props: Props) {
     if (typeof sentence.id !== 'undefined') {
       onSkip(sentence.id);
     }
+
     setSkippedSentencesCount((previousNumber) => previousNumber + 1);
   };
 
   const onReviewButtonPress = (event: React.FormEvent<HTMLButtonElement>, approval: boolean | undefined) => {
     event.preventDefault();
-    processReviewOnCurrentCard(approval);
+    processButtonPressOnCurrentCard(approval);
   };
 
-  const processReviewOnCurrentCard = (approval: boolean | undefined) => {
-    if (!cardsRef || !cardsRef.current) {
-      return;
-    }
-
-    const currentIndex = cardsRef.current.state.index;
+  const processButtonPressOnCurrentCard = async (approval: boolean | undefined) => {
+    let direction;
 
     if (typeof approval !== 'undefined') {
-      reviewSentence(currentIndex, approval);
+      direction = approval ? 'right' : 'left';
     } else {
-      skip(currentIndex);
+      direction = 'up';
     }
 
-    cardsRef.current.setState({ index: currentIndex + 1 });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await cardsRefs[currentSentenceIndex].current.swipe(direction);
   };
 
   useEffect(() => {
     const handler = ({ key }: { key: string }) => {
       if (key === 'y') {
-        return processReviewOnCurrentCard(true);
+        return processButtonPressOnCurrentCard(true);
       }
 
       if (key === 'n') {
-        return processReviewOnCurrentCard(false);
+        return processButtonPressOnCurrentCard(false);
       }
 
       if (key === 's') {
-        return processReviewOnCurrentCard(undefined);
+        return processButtonPressOnCurrentCard(undefined);
       }
     };
 
     window.addEventListener('keydown', handler);
 
-    return () => {
-      window.removeEventListener('keydown', handler);
-    };
-  }, []);
+    return () => window.removeEventListener('keydown', handler);
+  }, [currentSentenceIndex]);
 
   useEffect(() => {
     if (reviewedSentencesCount + skippedSentencesCount === sentences.length) {
@@ -113,27 +132,30 @@ export default function SwipeReview(props: Props) {
 
   return (
     <form id="review-form" onSubmit={onSubmit}>
-      <p>Swipe right to approve the sentence. Swipe left to reject it.</p>
+      <p>Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.</p>
       <p>You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review by clicking on the &quot;Finish Review&quot; button below!</p>
 
       <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
 
       {message && (<p>{message}</p>)}
 
-      <Cards className="main-root" ref={cardsRef}>
+      <section className="cards-container">
         {sentences.map((sentence, i) => (
-          <Card
+          <TinderCard
             key={i}
-            onSwipeLeft={() => reviewSentence(i, false)}
-            onSwipeRight={() => reviewSentence(i, true)}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            ref={cardsRefs[i]}
+            onSwipe={(direction) => handleSwipe(i, direction)}
+            preventSwipe={['down']}
           >
-            <div className="card-sentence-box">
+            <div className="swipe card-sentence-box">
               <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
               <small className="card-source">{sentence.source ? `Source: ${sentence.source}` : ''}</small>
             </div>
-          </Card>
+          </TinderCard>
         ))}
-      </Cards>
+      </section>
 
       <section className="card-review-footer">
         <div className="buttons">

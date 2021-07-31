@@ -103,7 +103,7 @@ export default function Review({ match, history }: Props) {
     }
 
     return true;
-  });
+  }).reverse();
 
   const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
     .filter(truthyFilter);

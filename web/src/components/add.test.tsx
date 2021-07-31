@@ -1,6 +1,6 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import Add from './add';
@@ -52,12 +52,27 @@ test('should submit sentences including review', async () => {
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getByText('Approve'));
-  await userEvent.click(screen.getByText('Reject'));
+  await waitFor(() => {
+    expect(screen.getByText(sentences[2])).toBeTruthy();
+  });
+  await act(async () => {
+    await userEvent.click(screen.getByText('Approve'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(sentences[1])).toBeTruthy();
+  });
+  await act(async () => {
+    await userEvent.click(screen.getByText('Reject'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(sentences[0])).toBeTruthy();
+  });
+
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
-
   expect(screen.getByText(/2 sentences are already reviewed/)).toBeTruthy();
   await act(async () => {
     await userEvent.click(screen.getByText('Confirm'));
@@ -89,7 +104,16 @@ test('should submit sentences including review - with errors', async () => {
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getByText('Approve'));
+  await waitFor(() => {
+    expect(screen.getByText(sentences[2])).toBeTruthy();
+  });
+  await act(async () => {
+    await userEvent.click(screen.getByText('Approve'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(sentences[1])).toBeTruthy();
+  });
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
@@ -125,7 +149,16 @@ test('should submit sentences including review - with unexpected server response
   expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
-  await userEvent.click(screen.getByText('Approve'));
+  await waitFor(() => {
+    expect(screen.getByText(sentences[2])).toBeTruthy();
+  });
+  await act(async () => {
+    await userEvent.click(screen.getByText('Approve'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(sentences[1])).toBeTruthy();
+  });
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });

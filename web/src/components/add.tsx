@@ -117,7 +117,7 @@ export default function Add() {
     // The review form allows us to examine, and validate sentences.
     return <ReviewForm onReviewed={onReviewed}
       onSkip={onSkip}
-      sentences={reviewing}
+      sentences={reviewing.reverse()}
       language={language} />;
   } else if (unreviewed.length > 0 || validated.length > 0 || invalidated.length > 0) {
     // The confirm form is a stats page where sentence submission happens.

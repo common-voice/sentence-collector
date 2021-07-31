@@ -18,6 +18,7 @@
   --header-height: 65px;
   --footer-height: 60px;
   --footer-margin-top: 1.5rem;
+  --max-content-width: 85vw;
 }
 
 html {
@@ -34,18 +35,12 @@ body {
   margin: 0;
 }
 
-input,
-textarea,
-button,
-select {
+input, textarea, button, select {
   font-family: var(--main-font-family);
   font-size: 0.8rem;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: var(--second-font-family);
   margin: 0.5em 0;
 }
@@ -76,8 +71,7 @@ input {
   padding: 0.2rem;
 }
 
-.button,
-button {
+.button, button {
   transition: background-color 300ms, border-color 300ms, color 300ms;
   background-color: var(--main-bg-color);
   border: 2px solid var(--second-bg-color);
@@ -90,28 +84,22 @@ button {
   border-radius: 50px;
 }
 
-.button:disabled,
-button:disabled {
+.button:disabled, button:disabled {
   background-color: var(--deactive-color);
   border-color: var(--deactive-color);
   box-shadow: none;
 }
 
-.button:not(:disabled):hover,
-.button:not(:disabled):active,
-button:not(:disabled):hover,
-button:not(:disabled):active {
+.button:not(:disabled):hover, .button:not(:disabled):active, button:not(:disabled):hover, button:not(:disabled):active {
   background-color: var(--second-bg-color);
   color: var(--second-font-color);
 }
 
-.button:not(:disabled):active,
-button:not(:disabled):active {
+.button:not(:disabled):active, button:not(:disabled):active {
   box-shadow: none;
 }
 
-.button.secondary,
-button.secondary {
+.button.secondary, button.secondary {
   background-color: var(--main-bg-color);
   border-color: var(--light-border-color);
   color: var(--main-font-color);
@@ -119,17 +107,13 @@ button.secondary {
   padding: 0.2rem 1rem;
 }
 
-.button.secondary:hover,
-.button.secondary:active,
-button.secondary:hover,
-button.secondary:active {
+.button.secondary:hover, .button.secondary:active, button.secondary:hover, button.secondary:active {
   background-color: var(--main-bg-color);
   border-color: var(--second-bg-color);
   color: var(--main-font-color);
 }
 
-.button.big,
-button.big {
+.button.big, button.big {
   padding: 0.5rem 1rem;
 }
 
@@ -144,7 +128,7 @@ select {
 }
 
 main {
-  max-width: 85vw;
+  max-width: var(--max-content-width);
   margin: 2rem auto 0 auto;
   padding-bottom: calc(var(--footer-height) + var(--footer-margin-top) + 50px);
 }
@@ -166,8 +150,7 @@ form input[type="checkbox"] {
   margin: 0 10px 0 0;
 }
 
-form input[type="password"],
-form input[type="text"] {
+form input[type="password"], form input[type="text"] {
   width: 100%;
   margin-bottom: 0.5rem;
 }
