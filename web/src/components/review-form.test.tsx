@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import ReviewForm from './review-form';
@@ -30,15 +30,27 @@ test('should approve and reject sentences using buttons', async () => {
     />
   );
 
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
   await act(async () => {
     await userEvent.click(screen.getByText('Approve'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[0].sentence)).toBeTruthy();
+  });
+  await act(async () => {
     await userEvent.click(screen.getByText('Reject'));
+  });
+
+  await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
 
   expect(onReviewedMock).toHaveBeenCalledWith({
-    validated: [allSentences[0]],
-    invalidated: [allSentences[1]],
+    validated: [allSentences[1]],
+    invalidated: [allSentences[0]],
     unreviewed: [],
   });
 });
@@ -52,15 +64,27 @@ test('should approve and reject sentences using shortcuts', async () => {
     />
   );
 
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
   await act(async () => {
     await fireEvent.keyDown(window, { key: 'y', code: 'y' });
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
+  await act(async () => {
     await fireEvent.keyDown(window, { key: 'n', code: 'n' });
+  });
+
+  await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
 
   expect(onReviewedMock).toHaveBeenCalledWith({
-    validated: [allSentences[0]],
-    invalidated: [allSentences[1]],
+    validated: [allSentences[1]],
+    invalidated: [allSentences[0]],
     unreviewed: [],
   });
 });
@@ -74,11 +98,18 @@ test('should skip sentences using button', async () => {
     />
   );
 
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
   await act(async () => {
     await userEvent.click(screen.getByText('Skip'));
   });
 
-  expect(onSkipMock).toHaveBeenCalledWith(1);
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[0].sentence)).toBeTruthy();
+  });
+
+  expect(onSkipMock).toHaveBeenCalledWith(2);
 });
 
 test('should skip sentence using shortcut', async () => {
@@ -94,7 +125,7 @@ test('should skip sentence using shortcut', async () => {
     await fireEvent.keyDown(window, { key: 's', code: 's' });
   });
 
-  expect(onSkipMock).toHaveBeenCalledWith(1);
+  expect(onSkipMock).toHaveBeenCalledWith(2);
 });
 
 test('should not mark anything as validated or invalidated if no review done', async () => {
@@ -106,8 +137,15 @@ test('should not mark anything as validated or invalidated if no review done', a
     />
   );
 
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[0].sentence)).toBeTruthy();
   });
 
   expect(onReviewedMock).toHaveBeenCalledWith({
@@ -126,8 +164,17 @@ test('should submit review at end of review queue', async () => {
     />
   );
 
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[1].sentence)).toBeTruthy();
+  });
   await act(async () => {
     await fireEvent.keyDown(window, { key: 'y', code: 'y' });
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText(allSentences[0].sentence)).toBeTruthy();
+  });
+  await act(async () => {
     await fireEvent.keyDown(window, { key: 'y', code: 'y' });
   });
 

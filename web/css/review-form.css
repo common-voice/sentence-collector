@@ -2,24 +2,10 @@
   --sentence-box-height: 14rem;
 }
 
-.main-root {
+.cards-container {
   margin: 50px auto;
-  position: relative;
   height: var(--sentence-box-height);
   width: 50vw;
-  overflow: hidden;
-}
-
-.card {
-  background-size: cover;
-  position: absolute;
-  background: #F8F3F3;
-  height: var(--sentence-box-height);
-  width: 50vw;
-  cursor: pointer;
-  padding: 1em;
-  transition: box-shadow .3s;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 .card-source {
@@ -30,8 +16,11 @@
 }
 
 .card-sentence-box {
-  width: 100%;
-  height: 100%;
+  height: var(--sentence-box-height);
+  width: 50vw;
+  position: relative;
+  cursor: pointer;
+  background-color: #F8F3F3;
   border: none;
   flex-basis: 100%;
   line-height: 1rem;
@@ -39,7 +28,7 @@
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  padding: 0;
+  padding: 1em;
 }
 
 .card-sentence-box small {
@@ -56,17 +45,16 @@
   justify-content: center;
 }
 
-.animate {
-  transition: transform .3s;
-  box-shadow: none;
+.swipe {
+  position: absolute;
 }
 
 @media screen and (max-width: 1024px) {
-  .main-root {
+  .cards-container {
     width: 100%;
   }
-  .card {
-    width: 100%;
+  .card-sentence-box {
+    width: var(--max-content-width);
   }
   .card-review-footer {
     justify-content: space-between;
