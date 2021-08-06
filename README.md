@@ -58,7 +58,7 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 1. Create an [Auth0](https://auth0.com/) account. There is a free tier and that will be enough for local development.
 2. Click "Applications" from the dashboard. Create a new one, or use the default application.
 3. Go to "Applications" and click on the Settings icon next to your application.
-4. Add `http://localhost:3333/callback` to the "Allowed Callback URLs" list.
+4. Add `http://localhost:3333/sentence-collector/callback` to the "Allowed Callback URLs" list.
 5. You can add more login options to your app from the "Connections" tab, but you don't have to
 6. These required domain, client ID and client secret are found in the same Settings tab as the "Allowed Callback URLs". Copy those into your run command from above.
 7. You will now be able to create a new user by clicking on "Login" and then switching over to the "Sign Up" tab on the login dialog. You don't need to use a valid email address.
