@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
+import { renderRoute } from '../testUtils';
 import SubmitForm from './submit-form';
 
 const languages = [{
@@ -30,24 +31,24 @@ beforeEach(() => {
 });
 
 test('should render submit button', () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
   expect(screen.getByText('Submit')).toBeTruthy();
 });
 
 test('should render message', () => {
   const message = 'Hi';
-  render(<SubmitForm languages={languages} message={message} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} message={message} onSubmit={onSubmit}/>);
   expect(screen.getByText(message)).toBeTruthy();
 });
 
 test('should render error', () => {
   const error = 'Oh no!';
-  render(<SubmitForm languages={languages} error={error} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} error={error} onSubmit={onSubmit}/>);
   expect(screen.getByText(error)).toBeTruthy();
 });
 
 test('should submit form if valid', async () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});
@@ -63,7 +64,7 @@ test('should submit form if valid', async () => {
 });
 
 test('should show error if no language', async () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
@@ -71,7 +72,7 @@ test('should show error if no language', async () => {
 });
 
 test('should show error if no sentences', async () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
 
@@ -81,7 +82,7 @@ test('should show error if no sentences', async () => {
 });
 
 test('should show error if no source', async () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});
@@ -92,7 +93,7 @@ test('should show error if no source', async () => {
 });
 
 test('should show error if not confirmed', async () => {
-  render(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
+  renderRoute(<SubmitForm languages={languages} onSubmit={onSubmit}/>);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') }});

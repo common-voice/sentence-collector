@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { renderRoute } from '../testUtils';
 import ReviewForm from './review-form';
 
 const allSentences = [{
@@ -22,7 +23,7 @@ beforeEach(() => {
 });
 
 test('should approve and reject sentences using buttons', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -56,7 +57,7 @@ test('should approve and reject sentences using buttons', async () => {
 });
 
 test('should approve and reject sentences using shortcuts', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -90,7 +91,7 @@ test('should approve and reject sentences using shortcuts', async () => {
 });
 
 test('should skip sentences using button', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -113,7 +114,7 @@ test('should skip sentences using button', async () => {
 });
 
 test('should skip sentence using shortcut', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -129,7 +130,7 @@ test('should skip sentence using shortcut', async () => {
 });
 
 test('should not mark anything as validated or invalidated if no review done', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -156,7 +157,7 @@ test('should not mark anything as validated or invalidated if no review done', a
 });
 
 test('should submit review at end of review queue', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -182,7 +183,7 @@ test('should submit review at end of review queue', async () => {
 });
 
 test('should return empty component if no sentences', async () => {
-  const { container } = render(
+  const { container } = renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -194,7 +195,7 @@ test('should return empty component if no sentences', async () => {
 });
 
 test('should show message', async () => {
-  render(
+  renderRoute(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}

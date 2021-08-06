@@ -1,8 +1,9 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { renderRoute } from '../testUtils';
 import Add from './add';
 
 const languages = [{
@@ -39,7 +40,7 @@ test('should submit sentences including review', async () => {
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add />);
+  renderRoute(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
@@ -91,7 +92,7 @@ test('should submit sentences including review - with errors', async () => {
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add />);
+  renderRoute(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
@@ -136,7 +137,7 @@ test('should submit sentences including review - with unexpected server response
   }));
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  render(<Add />);
+  renderRoute(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });

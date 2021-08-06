@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { renderRoute } from '../testUtils';
 import ConfirmForm from './confirm-form';
 
 const submitted = ['This is a test444.', 'This too!', 'Hi.'];
@@ -12,7 +13,7 @@ const onSubmit = jest.fn();
 const onReview = jest.fn();
 
 test('should render full form', () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -34,7 +35,7 @@ test('should render full form', () => {
 });
 
 test('should not render review if none to review', () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -50,7 +51,7 @@ test('should not render review if none to review', () => {
 });
 
 test('should not render invalidated if there are none', () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={submitted}
       invalidated={[]}
@@ -66,7 +67,7 @@ test('should not render invalidated if there are none', () => {
 });
 
 test('should not render already validated if there are none', () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={submitted}
       invalidated={[]}
@@ -86,7 +87,7 @@ test('should render working submit button', async () => {
     event.preventDefault();
   });
 
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -104,7 +105,7 @@ test('should render working submit button', async () => {
 });
 
 test('should disable submit button if no sentences', async () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}
@@ -120,7 +121,7 @@ test('should disable submit button if no sentences', async () => {
 });
 
 test('should not show submit button while uploading sentences', async () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}
@@ -136,7 +137,7 @@ test('should not show submit button while uploading sentences', async () => {
 });
 
 test('should show submission notice while uploading', async () => {
-  render(
+  renderRoute(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}
