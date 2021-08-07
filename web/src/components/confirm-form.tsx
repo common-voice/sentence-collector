@@ -2,6 +2,7 @@ import React from 'react';
 
 import ReviewLink from './review-link';
 import SpinnerButton from './spinner-button';
+import { Prompt } from './prompt';
 
 type Props = {
   submitted: string[]
@@ -28,18 +29,20 @@ export default function ConfirmForm(props: Props) {
 
   return (
     <form onSubmit={onSubmit}>
+      <Prompt message="Sentences not submitted, are you sure you want to leave?" when={true} />
+
       <h2>Confirm New Sentences</h2>
       <p>
         {`${submitted.length} sentences found.`}
       </p>
 
-      { invalidated.length > 0 && (
-        <p style={{color: 'red'}}>
+      {invalidated.length > 0 && (
+        <p style={{ color: 'red' }}>
           {`${invalidated.length} rejected by you`}
         </p>
       )}
 
-      { validated.length + invalidated.length > 0 && (
+      {validated.length + invalidated.length > 0 && (
         <p>
           {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
         </p>
@@ -47,7 +50,7 @@ export default function ConfirmForm(props: Props) {
 
       <p><strong>{`${readyCount} sentences ready for submission!`}</strong></p>
 
-      { unreviewed.length > 0 && (
+      {unreviewed.length > 0 && (
         <p>
           {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}&nbsp;
           <ReviewLink onReview={onReview}
@@ -56,12 +59,12 @@ export default function ConfirmForm(props: Props) {
       )}
 
       <section>
-        { isUploadingSentences ?
+        {isUploadingSentences ?
           <SpinnerButton></SpinnerButton> :
           <button type="submit" className="standalone" disabled={readyCount === 0}>Confirm</button>
         }
 
-        { isUploadingSentences && (
+        {isUploadingSentences && (
           <div>
             <p className="loading-text">
               Sentences are being uploaded. This can take several minutes depending on the number of sentences added.

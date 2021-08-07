@@ -5,6 +5,7 @@ import type { Language, SubmissionFailures } from '../types';
 import LanguageSelector from './language-selector';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
+import { Prompt } from './prompt';
 
 const SPLIT_ON = '\n';
 
@@ -99,6 +100,11 @@ export default function SubmitForm({ languages, onSubmit, message, error, senten
   return (
     <React.Fragment>
       <form id="add-form" onSubmit={onSentencesSubmit}>
+        <Prompt
+          when={formFields.sentenceText !== ""}
+          message="Sentences not submitted, are you sure you want to leave?"
+        />
+
         <h1>Add Sentences</h1>
 
         { message && (<section className="form-message">{ message }</section>)}

@@ -3,6 +3,7 @@ import type { ReviewedState, SentenceRecord } from '../types';
 import TinderCard from 'react-tinder-card';
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
+import { Prompt } from './prompt';
 
 import '../../css/review-form.css';
 
@@ -131,37 +132,42 @@ export default function SwipeReview(props: Props) {
   }, [reviewedSentencesCount, skippedSentencesCount]);
 
   return (
-    <form id="review-form" onSubmit={onSubmit}>
+    <form id="review-form" onSubmit={ onSubmit }>
+      <Prompt
+        when={ reviewedSentencesCount > 0 }
+        message="Reviewed sentences not submitted, are sure?"
+      />
+
       <p>Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.</p>
-      <p>You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review by clicking on the &quot;Finish Review&quot; button below!</p>
+      <p>You have reviewed { reviewedSentencesCount } sentences. Do not forget to submit your review by clicking on the &quot;Finish Review&quot; button below!</p>
 
-      <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
+      <SubmitButton submitText="Finish&nbsp;Review" pendingAction={ false }/>
 
-      {message && (<p>{message}</p>)}
+      { message && (<p>{ message }</p>) }
 
       <section className="cards-container">
-        {sentences.map((sentence, i) => (
+        { sentences.map((sentence, i) => (
           <TinderCard
-            key={i}
+            key={ i }
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            ref={cardsRefs[i]}
-            onSwipe={(direction) => handleSwipe(i, direction)}
-            preventSwipe={['down']}
+            ref={ cardsRefs[i] }
+            onSwipe={ (direction) => handleSwipe(i, direction) }
+            preventSwipe={ ['down'] }
           >
             <div className="swipe card-sentence-box">
-              <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
-              <small className="card-source">{sentence.source ? `Source: ${sentence.source}` : ''}</small>
+              <Sentence language={ language }>{ sentence.sentence || sentence }</Sentence>
+              <small className="card-source">{ sentence.source ? `Source: ${ sentence.source }` : '' }</small>
             </div>
           </TinderCard>
-        ))}
+        )) }
       </section>
 
       <section className="card-review-footer">
         <div className="buttons">
-          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, false)}>Reject</button>
-          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, undefined)}>Skip</button>
-          <button className="standalone secondary big" onClick={(event) => onReviewButtonPress(event, true)}>Approve</button>
+          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, false) }>Reject</button>
+          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, undefined) }>Skip</button>
+          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, true) }>Approve</button>
         </div>
         <p className="small">You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip</p>
       </section>
