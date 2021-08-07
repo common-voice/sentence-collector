@@ -12,19 +12,20 @@
   },
   "scripts": {
     "install:all": "cd server && npm ci && cd ../web && npm ci",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "prepare": "husky install"
   },
   "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^12.0.1",
-    "@commitlint/config-conventional": "^12.0.1",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.0",
-    "@semantic-release/npm": "^7.0.10",
-    "@semantic-release/release-notes-generator": "^9.0.2",
-    "husky": "^5.1.3",
-    "semantic-release": "^17.4.2"
+    "@semantic-release/github": "^7.2.3",
+    "@semantic-release/npm": "^7.1.3",
+    "@semantic-release/release-notes-generator": "^9.0.3",
+    "husky": "^7.0.1",
+    "semantic-release": "^17.4.4"
   },
   "husky": {
     "hooks": {
