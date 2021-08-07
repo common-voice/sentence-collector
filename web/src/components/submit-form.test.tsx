@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
-import { renderRoute } from '../testUtils';
+import { renderRoute } from '../../tests/test-utils';
 import SubmitForm from './submit-form';
 
 const languages = [{

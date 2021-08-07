@@ -2,7 +2,7 @@ import React from 'react';
 import * as redux from 'react-redux';
 import { screen } from '@testing-library/react';
 
-import { renderRoute } from '../testUtils';
+import { renderRoute } from '../../tests/test-utils';
 import LanguageSelector from './language-selector';
 import ReviewForm from './review-form';
 import ReviewCriteria from './review-criteria';

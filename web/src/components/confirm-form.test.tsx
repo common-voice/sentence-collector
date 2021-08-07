@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderRoute } from '../testUtils';
+import { renderRoute } from '../../tests/test-utils';
 import ConfirmForm from './confirm-form';
 
 const submitted = ['This is a test444.', 'This too!', 'Hi.'];

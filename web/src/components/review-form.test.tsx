@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderRoute } from '../testUtils';
+import { renderRoute } from '../../tests/test-utils';
 import ReviewForm from './review-form';
 
 const allSentences = [{

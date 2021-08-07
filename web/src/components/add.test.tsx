@@ -3,7 +3,7 @@ import * as redux from 'react-redux';
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderRoute } from '../testUtils';
+import { renderRoute } from '../../tests/test-utils';
 import Add from './add';
 
 const languages = [{
