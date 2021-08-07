@@ -5,7 +5,7 @@ const combineState = (fields: Record<string, unknown>) => {
   const initialState = loginReducer(undefined, {
     type: 'inexistant',
   });
-  
+
   return {
     ...initialState,
     ...fields,

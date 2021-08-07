@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import SpinnerButton from './spinner-button';
 
 test('should render spinner button', () => {
-  render(<SpinnerButton/>);
+  render(<SpinnerButton />);
   expect(screen.queryByRole('button')).toBeTruthy();
   expect(screen.queryByText('Submitting...')).toBeTruthy();
 });

@@ -6,6 +6,10 @@ import Store from './store';
 
 test('should setup store', () => {
   const history = createHashHistory();
-  const { container } = render(<Store history={history}><h1>Foo</h1></Store>);
+  const { container } = render(
+    <Store history={history}>
+      <h1>Foo</h1>
+    </Store>
+  );
   expect(container).toMatchSnapshot();
 });

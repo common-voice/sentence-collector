@@ -5,14 +5,14 @@ import SpinnerButton from './spinner-button';
 import { Prompt } from './prompt';
 
 type Props = {
-  submitted: string[]
-  invalidated: string[]
-  validated: string[]
-  unreviewed: string[]
-  onSubmit: (evt: React.FormEvent<HTMLFormElement>) => void
-  onReview: () => void
-  isUploadingSentences: boolean
-}
+  submitted: string[];
+  invalidated: string[];
+  validated: string[];
+  unreviewed: string[];
+  onSubmit: (evt: React.FormEvent<HTMLFormElement>) => void;
+  onReview: () => void;
+  isUploadingSentences: boolean;
+};
 
 export default function ConfirmForm(props: Props) {
   const {
@@ -32,14 +32,10 @@ export default function ConfirmForm(props: Props) {
       <Prompt message="Sentences not submitted, are you sure you want to leave?" when={true} />
 
       <h2>Confirm New Sentences</h2>
-      <p>
-        {`${submitted.length} sentences found.`}
-      </p>
+      <p>{`${submitted.length} sentences found.`}</p>
 
       {invalidated.length > 0 && (
-        <p style={{ color: 'red' }}>
-          {`${invalidated.length} rejected by you`}
-        </p>
+        <p style={{ color: 'red' }}>{`${invalidated.length} rejected by you`}</p>
       )}
 
       {validated.length + invalidated.length > 0 && (
@@ -48,27 +44,32 @@ export default function ConfirmForm(props: Props) {
         </p>
       )}
 
-      <p><strong>{`${readyCount} sentences ready for submission!`}</strong></p>
+      <p>
+        <strong>{`${readyCount} sentences ready for submission!`}</strong>
+      </p>
 
       {unreviewed.length > 0 && (
         <p>
-          {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}&nbsp;
-          <ReviewLink onReview={onReview}
-                      sentences={unreviewed} />
+          {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+          &nbsp;
+          <ReviewLink onReview={onReview} sentences={unreviewed} />
         </p>
       )}
 
       <section>
-        {isUploadingSentences ?
-          <SpinnerButton></SpinnerButton> :
-          <button type="submit" className="standalone" disabled={readyCount === 0}>Confirm</button>
-        }
+        {isUploadingSentences ? (
+          <SpinnerButton></SpinnerButton>
+        ) : (
+          <button type="submit" className="standalone" disabled={readyCount === 0}>
+            Confirm
+          </button>
+        )}
 
         {isUploadingSentences && (
           <div>
             <p className="loading-text">
-              Sentences are being uploaded. This can take several minutes depending on the number of sentences added.
-              Please do not close this website.
+              Sentences are being uploaded. This can take several minutes depending on the number of
+              sentences added. Please do not close this website.
             </p>
           </div>
         )}

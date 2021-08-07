@@ -31,7 +31,7 @@ test('should set language from single user language', () => {
     allLanguages: [],
     languages: ['de'],
     sentencesLoading: false,
-    sentences: []
+    sentences: [],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);
   expect(screen.queryByText('Please select a language to review sentences.')).toBeNull();
@@ -42,7 +42,7 @@ test('should ask to set language', () => {
     allLanguages: [],
     languages: [],
     sentencesLoading: false,
-    sentences: []
+    sentences: [],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);
   expect(screen.getByText(/You have not selected any languages./)).toBeTruthy();
@@ -53,7 +53,7 @@ test('should render loading', () => {
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: true,
-    sentences: []
+    sentences: [],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);
   expect(screen.getByText('Loading sentences...')).toBeTruthy();
@@ -64,7 +64,7 @@ test('should render no language selected', () => {
     allLanguages: [],
     languages: ['en', 'de'],
     sentencesLoading: false,
-    sentences: []
+    sentences: [],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);
   expect(screen.getByText('Please select a language to review sentences.')).toBeTruthy();
@@ -75,7 +75,7 @@ test('should render no sentences found', () => {
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: false,
-    sentences: []
+    sentences: [],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
@@ -86,10 +86,12 @@ test('should render no sentences found if all sentences are skipped', () => {
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: false,
-    sentences: [{
-      id: 1,
-      sentence: 'Hi',
-    }],
+    sentences: [
+      {
+        id: 1,
+        sentence: 'Hi',
+      },
+    ],
     skippedSentences: [1],
   }));
   renderWithBrowserRouter(<Review match={{}} history={[]} />);

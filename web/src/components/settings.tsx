@@ -21,17 +21,17 @@ export default function Settings() {
     <section>
       <h2>Settings</h2>
 
-      {errorMessage && (
-        <p className="form-error">{errorMessage}</p>
-      )}
+      {errorMessage && <p className="form-error">{errorMessage}</p>}
 
       <section>
         <h3>Reset skipped sentences</h3>
         <p>
-          You previously skipped sentences while reviewing. Resetting skipped sentences will show all skipped sentences again.
-          This is independent of the language.
+          You previously skipped sentences while reviewing. Resetting skipped sentences will show
+          all skipped sentences again. This is independent of the language.
         </p>
-        <button className="standalone" onClick={resetSkipped}>Show all skipped sentences again</button>
+        <button className="standalone" onClick={resetSkipped}>
+          Show all skipped sentences again
+        </button>
       </section>
     </section>
   );

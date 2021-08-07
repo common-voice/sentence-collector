@@ -2,11 +2,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
-import type {
-  BackendSentenceFailure,
-  RootState,
-  SentenceRecord,
-} from '../types';
+import type { BackendSentenceFailure, RootState, SentenceRecord } from '../types';
 import { addLanguage } from './languages';
 
 export const ACTION_SUBMIT_SENTENCES_REQUEST = 'SUBMIT_SENTENCES_REQUEST';
@@ -22,36 +18,36 @@ export const ACTION_REVIEW_RESET_SKIPPED_SENTENCES = 'ACTION_REVIEW_RESET_SKIPPE
 
 type SentenceSubmission = {
   sentences: {
-    validated: string[]
-    unreviewed: string[]
-  }
-  source: string
-  locale: string
-}
+    validated: string[];
+    unreviewed: string[];
+  };
+  source: string;
+  locale: string;
+};
 
 type SentencePutResponse = {
-  errors: BackendSentenceFailure[]
-  duplicates: number
-}
+  errors: BackendSentenceFailure[];
+  duplicates: number;
+};
 
 type ReviewedSentences = {
-  invalidated: number[]
-  validated: number[]
-}
+  invalidated: number[];
+  validated: number[];
+};
 
 type VotesResponse = {
-  votes: number
-  failedVotes: number
-}
+  votes: number;
+  failedVotes: number;
+};
 
 export function resetReviewMessage(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(resetMessage());
   };
 }
 
 export function loadSentences(language: string): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(loadSentencesStart());
     try {
       const results = await sendRequest<SentenceRecord[]>(`sentences/review?locale=${language}`);
@@ -62,8 +58,10 @@ export function loadSentences(language: string): ThunkAction<void, RootState, un
   };
 }
 
-export function uploadSentences(sentencesParams: SentenceSubmission): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch, getState): Promise<SentencePutResponse> {
+export function uploadSentences(
+  sentencesParams: SentenceSubmission
+): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function (dispatch, getState): Promise<SentencePutResponse> {
     dispatch(sendSubmitSentences());
     const state = getState();
 
@@ -78,7 +76,7 @@ export function uploadSentences(sentencesParams: SentenceSubmission): ThunkActio
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
       dispatch(submitSentencesErrors(errorsWithSentenceInfo));
 
-      if(!state.languages.languages.includes(sentencesParams.locale)) {
+      if (!state.languages.languages.includes(sentencesParams.locale)) {
         dispatch(addLanguage(sentencesParams.locale));
       }
 
@@ -90,8 +88,11 @@ export function uploadSentences(sentencesParams: SentenceSubmission): ThunkActio
   };
 }
 
-export function reviewSentences(data: ReviewedSentences, language: string): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+export function reviewSentences(
+  data: ReviewedSentences,
+  language: string
+): ThunkAction<void, RootState, unknown, AnyAction> {
+  return async function (dispatch) {
     try {
       const { votes } = await sendRequest<VotesResponse>('votes', 'PUT', data);
       dispatch(reviewSentencesDone(votes));

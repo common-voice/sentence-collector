@@ -7,16 +7,21 @@ import type { RootState } from '../types';
 export const ACTION_SETTINGS_CHANGED = 'ACTION_SETTINGS_CHANGED';
 export const ACTION_SETTINGS_CHANGED_FAILURE = 'ACTION_SETTINGS_CHANGED_FAILURE';
 
-type SettingsValue = string | boolean | number
-type Settings = Record<string, unknown>
+type SettingsValue = string | boolean | number;
+type Settings = Record<string, unknown>;
 
-export function setSetting(key: string, value: SettingsValue): ThunkAction<void, RootState, unknown, AnyAction> {
+export function setSetting(
+  key: string,
+  value: SettingsValue
+): ThunkAction<void, RootState, unknown, AnyAction> {
   return async function (dispatch) {
     try {
       await sendRequest('users/settings', 'POST', { key, value });
-      dispatch(settingsChanged({
-        [key]: value,
-      }));
+      dispatch(
+        settingsChanged({
+          [key]: value,
+        })
+      );
     } catch (err) {
       dispatch(settingsChangedFailure());
       throw err;

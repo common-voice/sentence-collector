@@ -12,7 +12,11 @@ export default function ReviewCriteria() {
         <li>The sentence must be grammatically correct.</li>
         <li>The sentence must be speakable.</li>
         <li>If the sentence meets the criteria, click the &quot;yes&quot; button on the right.</li>
-        <li>If the sentence does not meet the above criteria, click the &quot;no&quot; button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.</li>
+        <li>
+          If the sentence does not meet the above criteria, click the &quot;no&quot; button on the
+          right. If you are unsure about the sentence, you may also skip it and move on to the next
+          one.
+        </li>
         <li>If you run out of sentences to review, please help us collect more sentences!</li>
       </ol>
     </Modal>

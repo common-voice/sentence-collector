@@ -7,7 +7,7 @@ import Root from './root';
 
 async function main() {
   const root = document.getElementById('root');
-  ReactDOM.render(<Root/>, root);
+  ReactDOM.render(<Root />, root);
 }
 
 main().catch(console.error.bind(console, 'Initial Render ERROR'));

@@ -7,7 +7,7 @@ const combineState = (fields: Record<string, unknown>) => {
   const initialState = languageReducer(undefined, {
     type: 'inexistant',
   });
-  
+
   return {
     ...initialState,
     ...fields,

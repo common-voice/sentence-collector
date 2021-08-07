@@ -13,43 +13,51 @@ export default function Stats() {
     userUnreviewed,
     totals,
   } = useSelector((state: RootState) => state.languages.stats);
-  const {
-    allLanguages,
-    languages,
-    lastStatsUpdate,
-    statsUpdating,
-  } = useSelector((state: RootState) => state.languages);
+  const { allLanguages, languages, lastStatsUpdate, statsUpdating } = useSelector(
+    (state: RootState) => state.languages
+  );
 
   useEffect(() => {
     dispatch(getStats(languages, lastStatsUpdate));
   }, []);
-  
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang)).filter(truthyFilter);
+
+  const extendedLanguages = languages
+    .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
+    .filter(truthyFilter);
 
   return (
     <div>
       <h1>Statistics</h1>
       <p>Last Update: {lastStatsUpdate ? new Date(lastStatsUpdate).toLocaleString() : 'never'}</p>
-      { statsUpdating && (<p>Updating...</p>)}
+      {statsUpdating && <p>Updating...</p>}
 
-      { lastStatsUpdate && (
+      {lastStatsUpdate && (
         <React.Fragment>
-          { totals && (
-            <p>The Common Voice Sentence Collector has collected {totals.total} sentences in {totals.languages} languages!</p>
+          {totals && (
+            <p>
+              The Common Voice Sentence Collector has collected {totals.total} sentences in{' '}
+              {totals.languages} languages!
+            </p>
           )}
-          
-          { extendedLanguages.map((lang) => languageStats && languageStats[lang.id] && (
-            <LanguageInfo
-              key={lang.id}
-              language={lang.id}
-              languageName={lang.name}
-              nativeLanguageName={lang.nativeName}
-              total={languageStats[lang.id].added}
-              validated={languageStats[lang.id].validated}
-              rejected={languageStats[lang.id].rejected}
-              unreviewedByYou={userUnreviewed[lang.id]}
-            />
-          )).filter(Boolean)}
+
+          {extendedLanguages
+            .map(
+              (lang) =>
+                languageStats &&
+                languageStats[lang.id] && (
+                  <LanguageInfo
+                    key={lang.id}
+                    language={lang.id}
+                    languageName={lang.name}
+                    nativeLanguageName={lang.nativeName}
+                    total={languageStats[lang.id].added}
+                    validated={languageStats[lang.id].validated}
+                    rejected={languageStats[lang.id].rejected}
+                    unreviewedByYou={userUnreviewed[lang.id]}
+                  />
+                )
+            )
+            .filter(Boolean)}
         </React.Fragment>
       )}
     </div>

@@ -7,22 +7,26 @@ import '../../css/language-selector.css';
 const ENGLISH_CODE = 'en';
 
 type LanguageSelectorProps = {
-  labelText: string
-  disabled?: boolean
-  selected?: string
-  onChange: (value: string) => void
-  languages: Language[]
-  filters?: string[]
-}
+  labelText: string;
+  disabled?: boolean;
+  selected?: string;
+  onChange: (value: string) => void;
+  languages: Language[];
+  filters?: string[];
+};
 
 const LanguageSelector = (props: LanguageSelectorProps) => (
   <React.Fragment>
     <label className="language-selector-label" htmlFor="language-selector">
       {props.labelText}
     </label>
-    <select onChange={(event) => props.onChange && props.onChange(event.target.value)}
-            disabled={props.disabled} value={props.selected} className='language-selector'
-            id="language-selector">
+    <select
+      onChange={(event) => props.onChange && props.onChange(event.target.value)}
+      disabled={props.disabled}
+      value={props.selected}
+      className="language-selector"
+      id="language-selector"
+    >
       <Options {...props} />
     </select>
   </React.Fragment>
@@ -33,7 +37,7 @@ const Options = (props: LanguageSelectorProps) => {
 
   // For convenience, move English to the top of the list since
   // for now the website is localized in English only.
-  const englishLang = languages.find(lang => lang.id === ENGLISH_CODE);
+  const englishLang = languages.find((lang) => lang.id === ENGLISH_CODE);
   if (englishLang) {
     const englishIndex = languages.indexOf(englishLang);
     languages.splice(englishIndex, 1);
@@ -59,16 +63,13 @@ const Options = (props: LanguageSelectorProps) => {
 };
 
 type OptionProps = {
-  lang: Language
-}
+  lang: Language;
+};
 
 const Option = (props: OptionProps) => (
-  <option value={props.lang.id}>
-    {`${props.lang.name} (${props.lang.nativeName})`}
-  </option>
+  <option value={props.lang.id}>{`${props.lang.name} (${props.lang.nativeName})`}</option>
 );
 
 const NullOption = () => <option value="">--</option>;
-
 
 export default LanguageSelector;

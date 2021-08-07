@@ -4,58 +4,58 @@ import type { SentencesState } from './reducers/sentences';
 import type { SettingsState } from './reducers/settings';
 
 export type RootState = {
-  languages: LanguageState
-  login: LoginState
-  sentences: SentencesState
-  settings: SettingsState
-}
+  languages: LanguageState;
+  login: LoginState;
+  sentences: SentencesState;
+  settings: SettingsState;
+};
 
 export type Language = {
-  id: string
-  name: string
-  nativeName: string
-}
+  id: string;
+  name: string;
+  nativeName: string;
+};
 
 export type LanguageStatsEntry = {
-  validated: number
-  rejected: number
-  added: number
-}
+  validated: number;
+  rejected: number;
+  added: number;
+};
 
 type PersonalLanguageStatsEntry = {
-  added: number
-}
+  added: number;
+};
 
-export type StatsRecordByLanguage = Record<string, LanguageStatsEntry>
+export type StatsRecordByLanguage = Record<string, LanguageStatsEntry>;
 
 export type TotalStats = {
-  total: number
-  languages: number
-}
+  total: number;
+  languages: number;
+};
 
 export type LanguageStats = {
-  userUnreviewed: Record<string, number>
-  all: StatsRecordByLanguage
-  totals: TotalStats
-}
+  userUnreviewed: Record<string, number>;
+  all: StatsRecordByLanguage;
+  totals: TotalStats;
+};
 
-export type UserStats = Record<string, PersonalLanguageStatsEntry>
+export type UserStats = Record<string, PersonalLanguageStatsEntry>;
 
 export type SentenceRecord = {
-  id?: number
-  sentence: string
-  source?: string
-}
+  id?: number;
+  sentence: string;
+  source?: string;
+};
 
-export type SubmissionFailures = Record<string, string[]>
+export type SubmissionFailures = Record<string, string[]>;
 
 export type BackendSentenceFailure = {
-  sentence: string
-  error: string
-}
+  sentence: string;
+  error: string;
+};
 
 export type ReviewedState = {
-  validated: SentenceRecord[]
-  invalidated: SentenceRecord[]
-  unreviewed: SentenceRecord[]
-}
+  validated: SentenceRecord[];
+  invalidated: SentenceRecord[];
+  unreviewed: SentenceRecord[];
+};

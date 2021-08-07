@@ -5,11 +5,13 @@ import userEvent from '@testing-library/user-event';
 
 import AddLanguageSection from './add-language-section';
 
-const allLanguages = [{
-  id: 'en',
-  name: 'English',
-  nativeName: 'English',
-}];
+const allLanguages = [
+  {
+    id: 'en',
+    name: 'English',
+    nativeName: 'English',
+  },
+];
 
 const dispatchMock = jest.fn();
 
@@ -27,7 +29,9 @@ beforeEach(() => {
 });
 
 test('should render submit button', () => {
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   expect(screen.getByRole('button')).toBeTruthy();
   expect(screen.getByText('Add Language')).toBeTruthy();
 });
@@ -38,23 +42,31 @@ test('should disable button on pending languages', () => {
     languages: [],
     pendingLanguages: true,
   }));
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should disable button when no language selected', () => {
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should enable button when language selected', () => {
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
 });
 
 test('should add language and set button to disabled', async () => {
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
 
@@ -69,7 +81,9 @@ test('should add language and set button to disabled', async () => {
 test('should show error when language can not be added', async () => {
   dispatchMock.mockRejectedValue(new Error('oh no'));
 
-  act(() => { render(<AddLanguageSection />); });
+  act(() => {
+    render(<AddLanguageSection />);
+  });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
 

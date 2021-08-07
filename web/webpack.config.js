@@ -19,10 +19,10 @@ const babelLoader = {
 
 module.exports = {
   entry: {
-    main: './src/index.tsx'
+    main: './src/index.tsx',
   },
   output: {
-    filename: './[name].js'
+    filename: './[name].js',
   },
   devtool: getDevTool(),
   resolve: {
@@ -43,14 +43,14 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
         use: [
           process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
-        ]
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -60,7 +60,7 @@ module.exports = {
           },
         ],
       },
-    ]
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -72,5 +72,5 @@ module.exports = {
         { from: 'index.html', to: '.' },
       ],
     }),
-  ]
+  ],
 };

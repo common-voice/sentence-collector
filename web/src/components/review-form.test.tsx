@@ -5,15 +5,18 @@ import userEvent from '@testing-library/user-event';
 import { renderWithBrowserRouter } from '../../tests/test-utils';
 import ReviewForm from './review-form';
 
-const allSentences = [{
-  id: 1,
-  sentence: 'This is a sentence.',
-  source: 'Test',
-}, {
-  id: 2,
-  sentence: 'This is a second sentence.',
-  source: 'Test',
-}];
+const allSentences = [
+  {
+    id: 1,
+    sentence: 'This is a sentence.',
+    source: 'Test',
+  },
+  {
+    id: 2,
+    sentence: 'This is a second sentence.',
+    source: 'Test',
+  },
+];
 
 const onReviewedMock = jest.fn();
 const onSkipMock = jest.fn();
@@ -24,11 +27,7 @@ beforeEach(() => {
 
 test('should approve and reject sentences using buttons', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await waitFor(() => {
@@ -58,11 +57,7 @@ test('should approve and reject sentences using buttons', async () => {
 
 test('should approve and reject sentences using shortcuts', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await waitFor(() => {
@@ -92,11 +87,7 @@ test('should approve and reject sentences using shortcuts', async () => {
 
 test('should skip sentences using button', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await waitFor(() => {
@@ -115,11 +106,7 @@ test('should skip sentences using button', async () => {
 
 test('should skip sentence using shortcut', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await act(async () => {
@@ -131,11 +118,7 @@ test('should skip sentence using shortcut', async () => {
 
 test('should not mark anything as validated or invalidated if no review done', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await waitFor(() => {
@@ -158,11 +141,7 @@ test('should not mark anything as validated or invalidated if no review done', a
 
 test('should submit review at end of review queue', async () => {
   renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={allSentences}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
   await waitFor(() => {
@@ -184,11 +163,7 @@ test('should submit review at end of review queue', async () => {
 
 test('should return empty component if no sentences', async () => {
   const { container } = renderWithBrowserRouter(
-    <ReviewForm
-      onReviewed={onReviewedMock}
-      onSkip={onSkipMock}
-      sentences={[]}
-    />
+    <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={[]} />
   );
 
   expect(container.children.length).toBe(0);
@@ -204,5 +179,5 @@ test('should show message', async () => {
     />
   );
 
-  expect(screen.getByText("Reviewed!")).toBeTruthy();
+  expect(screen.getByText('Reviewed!')).toBeTruthy();
 });

@@ -15,13 +15,13 @@ import {
 import type { Language, LanguageStats } from '../types';
 
 export type LanguageState = {
-  stats: LanguageStats
-  languages: string[]
-  allLanguages: Language[]
-  pendingLanguages: boolean
-  lastStatsUpdate: number
-  statsUpdating: boolean
-}
+  stats: LanguageStats;
+  languages: string[];
+  allLanguages: Language[];
+  pendingLanguages: boolean;
+  lastStatsUpdate: number;
+  statsUpdating: boolean;
+};
 
 export const INITIAL_STATE: LanguageState = {
   stats: {
@@ -39,8 +39,8 @@ export const INITIAL_STATE: LanguageState = {
   statsUpdating: false,
 };
 
-export default function(state = INITIAL_STATE, action: AnyAction): LanguageState {
-  switch(action.type) {
+export default function (state = INITIAL_STATE, action: AnyAction): LanguageState {
+  switch (action.type) {
     case ACTION_GET_STATS:
       return Object.assign({}, state, {
         statsUpdating: true,

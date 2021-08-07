@@ -21,11 +21,11 @@ export const getReviewUrl = (language: string | undefined) => {
 
 type RouteMatch = {
   params?: {
-    language?: string
-  }
-}
+    language?: string;
+  };
+};
 
-type LanguageMatchFunction = (params: RouteMatch) => string
+type LanguageMatchFunction = (params: RouteMatch) => string;
 
 const getLanguageFromMatch: LanguageMatchFunction = ({ params = {} } = {}) => {
   // Always return an empty string if no lang specified.
@@ -38,15 +38,12 @@ const getLanguageFromMatch: LanguageMatchFunction = ({ params = {} } = {}) => {
 };
 
 type Props = {
-  match: RouteMatch
-  history: string[]
-}
+  match: RouteMatch;
+  history: string[];
+};
 
 export default function Review({ match, history }: Props) {
-  const {
-    allLanguages = [],
-    languages = [],
-  } = useSelector((state: RootState) => state.languages);
+  const { allLanguages = [], languages = [] } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
     sentences,
@@ -86,32 +83,38 @@ export default function Review({ match, history }: Props) {
   };
 
   const onReviewed = (reviewedState: ReviewedState) => {
-    dispatch(reviewSentences({
-      validated: reviewedState.validated.map((info) => info.id!),
-      invalidated: reviewedState.invalidated.map((info) => info.id!),
-    }, language));
+    dispatch(
+      reviewSentences(
+        {
+          validated: reviewedState.validated.map((info) => info.id!),
+          invalidated: reviewedState.invalidated.map((info) => info.id!),
+        },
+        language
+      )
+    );
     dispatch(saveSkippedSentences(newlySkippedSentences));
   };
 
   const onSkip = (sentenceId: number) => {
-    setNewlySkippedSentences((previousValue) => ([...previousValue, sentenceId]));
+    setNewlySkippedSentences((previousValue) => [...previousValue, sentenceId]);
   };
 
-  const sentencesToReview = sentences.filter((sentence) => {
-    if (typeof sentence.id !== 'undefined') {
-      return !skippedSentences.includes(sentence.id);
-    }
+  const sentencesToReview = sentences
+    .filter((sentence) => {
+      if (typeof sentence.id !== 'undefined') {
+        return !skippedSentences.includes(sentence.id);
+      }
 
-    return true;
-  }).reverse();
+      return true;
+    })
+    .reverse();
 
-  const extendedLanguages = languages.map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
+  const extendedLanguages = languages
+    .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
     .filter(truthyFilter);
 
   const hasNoSentences =
-    language &&
-    !sentencesLoading &&
-    (!sentencesToReview || sentencesToReview.length < 1);
+    language && !sentencesLoading && (!sentencesToReview || sentencesToReview.length < 1);
 
   return (
     <div>
@@ -126,13 +129,9 @@ export default function Review({ match, history }: Props) {
         <ReviewCriteria />
       </section>
 
-      {sentencesLoading && (
-        <p>Loading sentences...</p>
-      )}
+      {sentencesLoading && <p>Loading sentences...</p>}
 
-      {!language && (
-        <p>Please select a language to review sentences.</p>
-      )}
+      {!language && <p>Please select a language to review sentences.</p>}
 
       {hasNoSentences && (
         <p>
@@ -147,7 +146,8 @@ export default function Review({ match, history }: Props) {
           onReviewed={onReviewed}
           onSkip={onSkip}
           sentences={sentencesToReview}
-          language={language} />
+          language={language}
+        />
       )}
     </div>
   );

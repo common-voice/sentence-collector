@@ -9,11 +9,11 @@ import Sentence from './sentence';
 import SpinnerButton from './spinner-button';
 
 type MySentenceBatch = {
-  source: string
-  sentences: SentenceRecord[]
-}
+  source: string;
+  sentences: SentenceRecord[];
+};
 
-export type MySentences = Record<string, Record<string, MySentenceBatch>>
+export type MySentences = Record<string, Record<string, MySentenceBatch>>;
 
 export default function MySentencesList() {
   const [sentencesToDelete, setSentencesToDelete] = useState<Record<number, boolean>>({});
@@ -51,13 +51,15 @@ export default function MySentencesList() {
   const deleteSelected = async (event: React.MouseEvent) => {
     event.preventDefault();
 
-    const sentences = Object.entries(sentencesToDelete).map(([sentenceId, toDelete]) => {
-      if (!toDelete) {
-        return;
-      }
+    const sentences = Object.entries(sentencesToDelete)
+      .map(([sentenceId, toDelete]) => {
+        if (!toDelete) {
+          return;
+        }
 
-      return parseInt(sentenceId, 10);
-    }).filter(truthyFilter);
+        return parseInt(sentenceId, 10);
+      })
+      .filter(truthyFilter);
 
     try {
       setDeletionError(undefined);
@@ -76,37 +78,36 @@ export default function MySentencesList() {
     <React.Fragment>
       <h1>My Sentences</h1>
       <p>
-        This page gives you an overview of all your submitted sentencens. You may also delete already
-        submitted sentences if needed by marking the checkbox next to it and clicking on &quot;Remove sentences&quot;
-        at the bottom. Please only remove sentences if absolutely necessary, for example if you noticed
-        after the fact that a sentence is copyright protected.
+        This page gives you an overview of all your submitted sentencens. You may also delete
+        already submitted sentences if needed by marking the checkbox next to it and clicking on
+        &quot;Remove sentences&quot; at the bottom. Please only remove sentences if absolutely
+        necessary, for example if you noticed after the fact that a sentence is copyright protected.
       </p>
 
-      { sentencesLoading && (
-        <p>Loading your sentences..</p>
-      )}
+      {sentencesLoading && <p>Loading your sentences..</p>}
 
-      { error && (
-        <p>Error while fetching your sentences. Please try again.</p>
-      )}
+      {error && <p>Error while fetching your sentences. Please try again.</p>}
 
-      { hasNoSentences && !sentencesLoading && (
-        <p>No sentences found!</p>
-      )}
+      {hasNoSentences && !sentencesLoading && <p>No sentences found!</p>}
 
-      { Object.keys(sentences).map((language) => (
+      {Object.keys(sentences).map((language) => (
         <section key={'section-' + language} className="language-section">
           <h2 key={language}>{language}</h2>
 
-          { Object.keys(sentences[language]).map((batchId) => (
+          {Object.keys(sentences[language]).map((batchId) => (
             <section key={'section-' + language + '-' + batchId} className="submission-section">
               <h3 key={batchId}>Submission: {batchId}</h3>
               <small>Source: {sentences[language][batchId].source}</small>
 
               <ul key={'list-' + language + '-' + batchId} className="no-bullets">
-                { sentences[language][batchId].sentences.map((sentence) => (
+                {sentences[language][batchId].sentences.map((sentence) => (
                   <li key={sentence.id}>
-                    <input type="checkbox" id={'sentence-' + sentence.id} name={sentence.id?.toString()} onChange={onSelect}></input>
+                    <input
+                      type="checkbox"
+                      id={'sentence-' + sentence.id}
+                      name={sentence.id?.toString()}
+                      onChange={onSelect}
+                    ></input>
                     <label htmlFor={'sentence-' + sentence.id}>
                       <Sentence language={language}>{sentence.sentence}</Sentence>
                     </label>
@@ -118,17 +119,15 @@ export default function MySentencesList() {
         </section>
       ))}
 
-      { !sentencesDeleting && !hasNoSentences && !error && (
-        <button className="standalone" onClick={deleteSelected}>Delete selected sentences</button>
+      {!sentencesDeleting && !hasNoSentences && !error && (
+        <button className="standalone" onClick={deleteSelected}>
+          Delete selected sentences
+        </button>
       )}
 
-      { sentencesDeleting && (
-        <SpinnerButton text="Deleting selected sentences..."></SpinnerButton>
-      )}
+      {sentencesDeleting && <SpinnerButton text="Deleting selected sentences..."></SpinnerButton>}
 
-      { deletionError && (
-        <p>Failed to delete selected sentences.. Please try again!</p>
-      )}
+      {deletionError && <p>Failed to delete selected sentences.. Please try again!</p>}
     </React.Fragment>
   );
 }

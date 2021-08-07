@@ -3,11 +3,7 @@ import * as redux from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-import {
-  LoginSuccess,
-  LoginFailure,
-  LogoutSuccess,
-} from './login';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
 
 const dispatchMock = jest.fn();
 
@@ -21,14 +17,22 @@ beforeEach(() => {
 
 describe('LoginSuccess', () => {
   test('should dispatch login success', () => {
-    render(<BrowserRouter><LoginSuccess/></BrowserRouter>);
+    render(
+      <BrowserRouter>
+        <LoginSuccess />
+      </BrowserRouter>
+    );
     expect(dispatchMock).toHaveBeenCalled();
   });
 });
 
 describe('LoginFailure', () => {
   test('should dispatch login failure and render error', () => {
-    render(<BrowserRouter><LoginFailure/></BrowserRouter>);
+    render(
+      <BrowserRouter>
+        <LoginFailure />
+      </BrowserRouter>
+    );
     expect(dispatchMock).toHaveBeenCalled();
     expect(screen.getByText('Login failed')).toBeTruthy();
     expect(screen.getByText('Please try again.')).toBeTruthy();
@@ -37,7 +41,11 @@ describe('LoginFailure', () => {
 
 describe('LogoutSuccess', () => {
   test('should dispatch logout success', () => {
-    render(<BrowserRouter><LogoutSuccess/></BrowserRouter>);
+    render(
+      <BrowserRouter>
+        <LogoutSuccess />
+      </BrowserRouter>
+    );
     expect(dispatchMock).toHaveBeenCalled();
   });
 });

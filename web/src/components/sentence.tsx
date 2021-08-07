@@ -1,9 +1,9 @@
 import React from 'react';
 
 type Props = {
-  children: React.ReactNode
-  language?: string
-}
+  children: React.ReactNode;
+  language?: string;
+};
 
 export default function Sentence({ children: text, language = 'en' }: Props) {
   return (

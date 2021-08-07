@@ -13,20 +13,16 @@ import {
   ACTION_REVIEW_RESET_SKIPPED_SENTENCES,
 } from '../actions/sentences';
 
-import type {
-  BackendSentenceFailure,
-  SentenceRecord,
-  SubmissionFailures,
-} from '../types';
+import type { BackendSentenceFailure, SentenceRecord, SubmissionFailures } from '../types';
 
 export type SentencesState = {
-  sentenceSubmissionFailures: SubmissionFailures
-  isUploadingSentences: boolean
-  sentences: SentenceRecord[]
-  sentencesLoading: boolean
-  reviewMessage: string
-  skippedSentences: number[]
-}
+  sentenceSubmissionFailures: SubmissionFailures;
+  isUploadingSentences: boolean;
+  sentences: SentenceRecord[];
+  sentencesLoading: boolean;
+  reviewMessage: string;
+  skippedSentences: number[];
+};
 
 export const INITIAL_STATE: SentencesState = {
   sentenceSubmissionFailures: {},
@@ -37,10 +33,10 @@ export const INITIAL_STATE: SentencesState = {
   skippedSentences: [],
 };
 
-export default function(state = INITIAL_STATE, action: AnyAction): SentencesState {
+export default function (state = INITIAL_STATE, action: AnyAction): SentencesState {
   const errors = action.errors || [];
 
-  switch(action.type) {
+  switch (action.type) {
     case ACTION_SUBMIT_SENTENCES_REQUEST:
       return Object.assign({}, state, {
         sentenceSubmissionFailures: {},
@@ -49,14 +45,17 @@ export default function(state = INITIAL_STATE, action: AnyAction): SentencesStat
 
     case ACTION_SUBMIT_SENTENCES_ERRORS:
       return Object.assign({}, state, {
-        sentenceSubmissionFailures: errors.reduce((groupedFiltered: SubmissionFailures, filterResult: BackendSentenceFailure) => {
-          if (!groupedFiltered[filterResult.error]) {
-            groupedFiltered[filterResult.error] = [];
-          }
+        sentenceSubmissionFailures: errors.reduce(
+          (groupedFiltered: SubmissionFailures, filterResult: BackendSentenceFailure) => {
+            if (!groupedFiltered[filterResult.error]) {
+              groupedFiltered[filterResult.error] = [];
+            }
 
-          groupedFiltered[filterResult.error].push(filterResult.sentence);
-          return groupedFiltered;
-        }, {}),
+            groupedFiltered[filterResult.error].push(filterResult.sentence);
+            return groupedFiltered;
+          },
+          {}
+        ),
       });
 
     case ACTION_SUBMIT_SENTENCES_DONE:
@@ -87,9 +86,9 @@ export default function(state = INITIAL_STATE, action: AnyAction): SentencesStat
 
     case ACTION_REVIEW_SAVE_SKIPPED_SENTENCES:
       return Object.assign({}, state, {
-        skippedSentences: state.skippedSentences ?
-          [...state.skippedSentences, ...action.sentenceIds] :
-          [...action.sentenceIds],
+        skippedSentences: state.skippedSentences
+          ? [...state.skippedSentences, ...action.sentenceIds]
+          : [...action.sentenceIds],
       });
 
     case ACTION_REVIEW_RESET_SKIPPED_SENTENCES:
