@@ -5,7 +5,7 @@ const combineState = (fields: Record<string, unknown>) => {
   const initialState = sentencesReducer(undefined, {
     type: 'inexistant',
   });
-  
+
   return {
     ...initialState,
     ...fields,
@@ -37,26 +37,27 @@ test('should reduce submit request', async () => {
 });
 
 test('should reduce submission failure', async () => {
-  const submissionFailures = [{
-    error: 'Too long',
-    sentence: 'Super super long sentence',
-  }, {
-    error: 'Too long',
-    sentence: 'Another super long sentence',
-  }, {
-    error: 'Has symbols',
-    sentence: '$$$$$',
-  }];
+  const submissionFailures = [
+    {
+      error: 'Too long',
+      sentence: 'Super super long sentence',
+    },
+    {
+      error: 'Too long',
+      sentence: 'Another super long sentence',
+    },
+    {
+      error: 'Has symbols',
+      sentence: '$$$$$',
+    },
+  ];
   const newState = sentencesReducer(combineState({}), {
     type: sentences.ACTION_SUBMIT_SENTENCES_ERRORS,
     errors: submissionFailures,
   });
 
   expect(newState.sentenceSubmissionFailures).toEqual({
-    'Too long': [
-      'Super super long sentence',
-      'Another super long sentence',
-    ],
+    'Too long': ['Super super long sentence', 'Another super long sentence'],
     'Has symbols': ['$$$$$'],
   });
 });

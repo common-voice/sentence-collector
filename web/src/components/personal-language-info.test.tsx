@@ -5,15 +5,18 @@ import userEvent from '@testing-library/user-event';
 
 import PersonalLanguageInfo from './personal-language-info';
 
-const allLanguages = [{
-  id: 'en',
-  name: 'English',
-  nativeName: 'English',
-}, {
-  id: 'de',
-  name: 'German',
-  nativeName: 'Deutsch',
-}];
+const allLanguages = [
+  {
+    id: 'en',
+    name: 'English',
+    nativeName: 'English',
+  },
+  {
+    id: 'de',
+    name: 'German',
+    nativeName: 'Deutsch',
+  },
+];
 
 const dispatchMock = jest.fn();
 
@@ -21,7 +24,7 @@ beforeEach(() => {
   jest.resetAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
-  
+
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
@@ -37,7 +40,7 @@ test('should render if not added languages', () => {
     languages: [],
     pendingLanguages: false,
   }));
-  
+
   render(<PersonalLanguageInfo />);
   expect(screen.getByText('You have not added any languages yet.')).toBeTruthy();
 });

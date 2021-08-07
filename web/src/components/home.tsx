@@ -8,11 +8,13 @@ export default function Home() {
     <div id="home">
       <h1>Welcome to the Common Voice Sentence Collector</h1>
       <p>
-        The Sentence Collector is part of <a href="https://commonvoice.mozilla.org/">Common Voice</a>.
-        It allows contributors to collect and validate sentences created by the community.
-        You can use this tool also to import and clean-up small-to-medium-sized public domain corpus you have found or collected.
-        All sentences need to be Public Domain. Approved sentences are exported every week to the Common Voice repository and are
-        released on the Common Voice website on every new deployment.
+        The Sentence Collector is part of{' '}
+        <a href="https://commonvoice.mozilla.org/">Common Voice</a>. It allows contributors to
+        collect and validate sentences created by the community. You can use this tool also to
+        import and clean-up small-to-medium-sized public domain corpus you have found or collected.
+        All sentences need to be Public Domain. Approved sentences are exported every week to the
+        Common Voice repository and are released on the Common Voice website on every new
+        deployment.
       </p>
       <section id="contribute">
         <Link to={'/add'}>

@@ -1,13 +1,10 @@
 import type { AnyAction } from 'redux';
 
-import {
-  ACTION_SETTINGS_CHANGED,
-  ACTION_SETTINGS_CHANGED_FAILURE,
-} from '../actions/settings';
+import { ACTION_SETTINGS_CHANGED, ACTION_SETTINGS_CHANGED_FAILURE } from '../actions/settings';
 
 export type SettingsState = {
-  errorMessage: string
-}
+  errorMessage: string;
+};
 
 export const INITIAL_STATE: SettingsState = {
   errorMessage: '',

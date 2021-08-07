@@ -28,8 +28,12 @@ describe('getLanguages', () => {
 
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
-    (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (console.error as jest.Mock).mockImplementation(() => {
+      /* ignore */
+    });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(languages.getLanguages()(dispatch, getState, null)).resolves.not.toThrow();
     expect((console.error as jest.Mock).mock.calls[0][0]).toEqual('Failed to fetch languages');
   });
@@ -52,7 +56,7 @@ describe('getStats', () => {
   test('should not fetch stats if recently fetched', async () => {
     (backend.sendRequest as jest.Mock).mockImplementation(() => mockStats);
     await languages.getStats(['en', 'de'], Date.now())(dispatch, getState, null);
-    expect((backend.sendRequest as jest.Mock)).not.toHaveBeenCalled();
+    expect(backend.sendRequest as jest.Mock).not.toHaveBeenCalled();
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: languages.ACTION_RESET_STATS_STATUS,
     });
@@ -60,8 +64,12 @@ describe('getStats', () => {
 
   test('should not throw on error and reset status', async () => {
     const error = new Error('NOPE');
-    (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (console.error as jest.Mock).mockImplementation(() => {
+      /* ignore */
+    });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(languages.getStats([], 0)(dispatch, getState, null)).resolves.not.toThrow();
     expect((console.error as jest.Mock).mock.calls[0][0]).toEqual('Failed to fetch stats');
     expect(dispatch.mock.calls[1][0]).toEqual({
@@ -91,7 +99,9 @@ describe('addLanguage', () => {
   test('should throw on error', async () => {
     const language = 'en';
     const error = new Error('NOPE');
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(languages.addLanguage(language)(dispatch, getState, null)).rejects.toThrow(error);
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: languages.ACTION_ADD_LANGUAGE_FAILURE,
@@ -105,7 +115,9 @@ describe('removeLanguage', () => {
     const allLanguages: Language[] = [];
     (backend.sendRequest as jest.Mock).mockImplementation(() => allLanguages);
     await languages.removeLanguage(language)(dispatch, getState, null);
-    expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual(`users/languages/${language}`);
+    expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual(
+      `users/languages/${language}`
+    );
     expect((backend.sendRequest as jest.Mock).mock.calls[0][1]).toEqual('DELETE');
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: languages.ACTION_REMOVE_LANGUAGE_REQUEST,
@@ -119,7 +131,9 @@ describe('removeLanguage', () => {
   test('should throw on error', async () => {
     const language = 'en';
     const error = new Error('NOPE');
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(languages.removeLanguage(language)(dispatch, getState, null)).rejects.toThrow(error);
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: languages.ACTION_REMOVE_LANGUAGE_FAILURE,

@@ -27,4 +27,4 @@ WebKitCSSMatrix = function () {
   this.m42 = 0;
   this.m43 = 0;
   this.m44 = 1;
-}
+};

@@ -51,8 +51,12 @@ describe('checkCurrentUser', () => {
 
   test('should not throw on error', async () => {
     const error = new Error('NOPE');
-    (console.error as jest.Mock).mockImplementation(() => { /* ignore */ });
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (console.error as jest.Mock).mockImplementation(() => {
+      /* ignore */
+    });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(login.checkCurrentUser()(dispatch, getState, null)).resolves.not.toThrow();
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: login.ACTION_LOGOUT,

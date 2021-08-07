@@ -16,7 +16,7 @@ const username = 'foo';
 beforeEach(() => {
   jest.clearAllMocks();
   jest.spyOn(redux, 'useSelector');
-  
+
   (PersonalLanguageInfo as jest.Mock).mockReturnValue(<div>...PersonalLanguageInfo...</div>);
   (AddLanguage as jest.Mock).mockReturnValue(<div>...AddLanguage...</div>);
   (Settings as jest.Mock).mockReturnValue(<div>...Settings...</div>);
@@ -25,12 +25,12 @@ beforeEach(() => {
 });
 
 test('should render username', () => {
-  render(<Profile/>);
+  render(<Profile />);
   expect(screen.getByText(`Profile: ${username}`)).toBeTruthy();
 });
 
 test('should render profile components', () => {
-  render(<Profile/>);
+  render(<Profile />);
   expect(screen.getByText('...PersonalLanguageInfo...')).toBeTruthy();
   expect(screen.getByText('...AddLanguage...')).toBeTruthy();
   expect(screen.getByText('...Settings...')).toBeTruthy();

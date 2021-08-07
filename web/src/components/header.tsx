@@ -9,22 +9,38 @@ import type { RootState } from '../types';
 import LoginButton from './login-button';
 
 type Props = {
-  authed: boolean
-  closeNavigation: () => void
-}
+  authed: boolean;
+  closeNavigation: () => void;
+};
 
 function NavItems({ authed, closeNavigation }: Props) {
   return (
     <React.Fragment>
-      <NavLink to="/" exact onClick={closeNavigation}>Home</NavLink>
-      <NavLink to="/how-to" exact onClick={closeNavigation}>How-to</NavLink>
-      <NavLink to="/add" exact key="add" onClick={closeNavigation}>Add</NavLink>
-      <NavLink to="/review" key="review" onClick={closeNavigation}>Review</NavLink>
-      <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>Rejected Sentences</NavLink>
-      <NavLink to="/sentences" key="sentences" onClick={closeNavigation}>My Sentences</NavLink>
-      <NavLink to="/stats" key="stats" onClick={closeNavigation}>Statistics</NavLink>
-      { authed && (
-        <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>Profile</NavLink>
+      <NavLink to="/" exact onClick={closeNavigation}>
+        Home
+      </NavLink>
+      <NavLink to="/how-to" exact onClick={closeNavigation}>
+        How-to
+      </NavLink>
+      <NavLink to="/add" exact key="add" onClick={closeNavigation}>
+        Add
+      </NavLink>
+      <NavLink to="/review" key="review" onClick={closeNavigation}>
+        Review
+      </NavLink>
+      <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>
+        Rejected Sentences
+      </NavLink>
+      <NavLink to="/sentences" key="sentences" onClick={closeNavigation}>
+        My Sentences
+      </NavLink>
+      <NavLink to="/stats" key="stats" onClick={closeNavigation}>
+        Statistics
+      </NavLink>
+      {authed && (
+        <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>
+          Profile
+        </NavLink>
       )}
     </React.Fragment>
   );
@@ -44,21 +60,23 @@ export default function Header() {
   return (
     <React.Fragment>
       <header>
-        <Link to="/" href=""><img src={logoURL} /></Link>
+        <Link to="/" href="">
+          <img src={logoURL} />
+        </Link>
         <nav id="desktopNav">
-          <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
-          <LoginButton authed={authed}/>
+          <NavItems authed={authed} closeNavigation={closeMobileNavigation} />
+          <LoginButton authed={authed} />
         </nav>
 
         <div id="hamburgerIcon">
           <label htmlFor="hamburger">&#9776;</label>
-          <input type="checkbox" id="hamburger" onChange={toggleMobileNav}/>
+          <input type="checkbox" id="hamburger" onChange={toggleMobileNav} />
         </div>
       </header>
 
       <section id="mobileNav" className={showMobileNav ? 'shown' : 'hidden'}>
-        <NavItems authed={authed} closeNavigation={closeMobileNavigation}/>
-        <LoginButton authed={authed}/>
+        <NavItems authed={authed} closeNavigation={closeMobileNavigation} />
+        <LoginButton authed={authed} />
       </section>
     </React.Fragment>
   );

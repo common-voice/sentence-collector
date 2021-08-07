@@ -6,17 +6,15 @@ import userEvent from '@testing-library/user-event';
 import { renderWithBrowserRouter } from '../../tests/test-utils';
 import Add from './add';
 
-const languages = [{
-  id: 'en',
-  name: 'English',
-  nativeName: 'English',
-}];
-
-const sentences = [
-  'This is a test.',
-  'This as well!',
-  'I am also a test.',
+const languages = [
+  {
+    id: 'en',
+    name: 'English',
+    nativeName: 'English',
+  },
 ];
+
+const sentences = ['This is a test.', 'This as well!', 'I am also a test.'];
 
 const source = 'Test';
 
@@ -34,17 +32,24 @@ beforeEach(() => {
 });
 
 test('should submit sentences including review', async () => {
-  const dispatchMock = jest.fn(() => Promise.resolve({
-    duplicates: 0,
-    errors: [],
-  }));
+  const dispatchMock = jest.fn(() =>
+    Promise.resolve({
+      duplicates: 0,
+      errors: [],
+    })
+  );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   renderWithBrowserRouter(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
+    target: { value: sentences.join('\n') },
+  });
+  fireEvent.input(
+    screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }),
+    { target: { value: source } }
+  );
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));
@@ -86,17 +91,24 @@ test('should submit sentences including review', async () => {
 });
 
 test('should submit sentences including review - with errors', async () => {
-  const dispatchMock = jest.fn(() => Promise.resolve({
-    duplicates: 3,
-    errors: [{}, {}],
-  }));
+  const dispatchMock = jest.fn(() =>
+    Promise.resolve({
+      duplicates: 3,
+      errors: [{}, {}],
+    })
+  );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   renderWithBrowserRouter(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
+    target: { value: sentences.join('\n') },
+  });
+  fireEvent.input(
+    screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }),
+    { target: { value: source } }
+  );
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));
@@ -132,16 +144,23 @@ test('should submit sentences including review - with errors', async () => {
 });
 
 test('should submit sentences including review - with unexpected server response', async () => {
-  const dispatchMock = jest.fn(() => Promise.resolve({
-    duplicates: 3, // errors missing...
-  }));
+  const dispatchMock = jest.fn(() =>
+    Promise.resolve({
+      duplicates: 3, // errors missing...
+    })
+  );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
   renderWithBrowserRouter(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), { target: { value: sentences.join('\n') } });
-  fireEvent.input(screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }), { target: { value: source } });
+  fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
+    target: { value: sentences.join('\n') },
+  });
+  fireEvent.input(
+    screen.getByRole('textbox', { name: /Where are these public domain sentences from?/i }),
+    { target: { value: source } }
+  );
   await userEvent.click(screen.getByText(/confirm that these sentences/));
   await act(async () => {
     await userEvent.click(screen.getByText('Submit'));

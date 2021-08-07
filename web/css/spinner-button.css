@@ -1,5 +1,5 @@
 .spinnerButton {
-  transition: padding-right .3s ease;
+  transition: padding-right 0.3s ease;
 }
 
 .spinnerButton.spinning {
@@ -8,7 +8,7 @@
 }
 
 .spinnerButton.spinning:before {
-  content: "";
+  content: '';
   width: 0px;
   height: 0px;
   border-radius: 50%;
@@ -16,7 +16,7 @@
   top: 50%;
   position: absolute;
   border-right: 3px solid #2795ae;
-  animation: rotate360 .5s infinite linear, exist .1s forwards ease ;
+  animation: rotate360 0.5s infinite linear, exist 0.1s forwards ease;
 }
 
 @keyframes rotate360 {

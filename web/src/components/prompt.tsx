@@ -27,7 +27,5 @@ export const Prompt: React.FC<PromptProps> = (props) => {
     return () => window.removeEventListener('beforeunload', listener);
   }, [when]);
 
-  return (
-    <ReactRouterPrompt {...props}/>
-  );
+  return <ReactRouterPrompt {...props} />;
 };

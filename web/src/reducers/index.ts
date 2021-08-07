@@ -7,7 +7,7 @@ import login from './login';
 import sentences from './sentences';
 import settings from './settings';
 
-export default function(history: History) {
+export default function (history: History) {
   return combineReducers({
     router: connectRouter(history),
     languages,

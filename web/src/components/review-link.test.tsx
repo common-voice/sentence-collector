@@ -13,19 +13,19 @@ beforeEach(() => {
 
 test('should render review link if enough to review', () => {
   const sentences = ['This is a test.'];
-  render(<ReviewLink sentences={sentences} onReview={onReview}/>);
+  render(<ReviewLink sentences={sentences} onReview={onReview} />);
   expect(screen.queryByText('Review')).toBeTruthy();
 });
 
 test('should call onReview on click', async () => {
   const sentences = ['This is a test.'];
-  render(<ReviewLink sentences={sentences} onReview={onReview}/>);
+  render(<ReviewLink sentences={sentences} onReview={onReview} />);
   await userEvent.click(screen.getByRole('link'));
   expect(onReview).toHaveBeenCalled();
 });
 
 test('should not render review link', () => {
   const sentences: string[] = [];
-  render(<ReviewLink sentences={sentences} onReview={onReview}/>);
+  render(<ReviewLink sentences={sentences} onReview={onReview} />);
   expect(screen.queryByText('Review')).toBeNull();
 });

@@ -36,6 +36,41 @@ jobs:
       run: |
         cd web
         npm ci
-        npm test
+        npm run test:unit
+      env:
+        CI: true
+  lint-web:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Lint Web
+      run: |
+        cd web
+        npm ci
+        npm run lint
+      env:
+        CI: true
+  prettier-web:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - uses: actions/checkout@v2.3.4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.1.2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Prettier Web
+      run: |
+        cd web
+        npx prettier --check .
       env:
         CI: true

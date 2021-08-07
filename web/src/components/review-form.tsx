@@ -8,25 +8,19 @@ import { Prompt } from './prompt';
 import '../../css/review-form.css';
 
 type Props = {
-  onReviewed: (categorizedSentences: ReviewedState) => void
-  onSkip: (sentenceId: number) => void
-  sentences: SentenceRecord[]
-  message?: string
-  language?: string
-}
+  onReviewed: (categorizedSentences: ReviewedState) => void;
+  onSkip: (sentenceId: number) => void;
+  sentences: SentenceRecord[];
+  message?: string;
+  language?: string;
+};
 
 type ReviewApproval = {
-  [key: number]: boolean | undefined
-}
+  [key: number]: boolean | undefined;
+};
 
 export default function SwipeReview(props: Props) {
-  const {
-    onSkip,
-    onReviewed,
-    sentences,
-    message,
-    language,
-  } = props;
+  const { onSkip, onReviewed, sentences, message, language } = props;
 
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(sentences.length - 1);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
@@ -37,8 +31,13 @@ export default function SwipeReview(props: Props) {
     return null;
   }
 
-  const cardsRefs = useMemo(() => Array(sentences.length).fill(0)
-    .map(() => React.createRef()), []);
+  const cardsRefs = useMemo(
+    () =>
+      Array(sentences.length)
+        .fill(0)
+        .map(() => React.createRef()),
+    []
+  );
 
   const APPROVAL_DIRECTIONS: Record<string, boolean> = {
     left: false,
@@ -86,7 +85,10 @@ export default function SwipeReview(props: Props) {
     setSkippedSentencesCount((previousNumber) => previousNumber + 1);
   };
 
-  const onReviewButtonPress = (event: React.FormEvent<HTMLButtonElement>, approval: boolean | undefined) => {
+  const onReviewButtonPress = (
+    event: React.FormEvent<HTMLButtonElement>,
+    approval: boolean | undefined
+  ) => {
     event.preventDefault();
     processButtonPressOnCurrentCard(approval);
   };
@@ -132,59 +134,84 @@ export default function SwipeReview(props: Props) {
   }, [reviewedSentencesCount, skippedSentencesCount]);
 
   return (
-    <form id="review-form" onSubmit={ onSubmit }>
+    <form id="review-form" onSubmit={onSubmit}>
       <Prompt
-        when={ reviewedSentencesCount > 0 }
+        when={reviewedSentencesCount > 0}
         message="Reviewed sentences not submitted, are sure?"
       />
 
       <p>Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.</p>
-      <p>You have reviewed { reviewedSentencesCount } sentences. Do not forget to submit your review by clicking on the &quot;Finish Review&quot; button below!</p>
+      <p>
+        You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review by
+        clicking on the &quot;Finish Review&quot; button below!
+      </p>
 
-      <SubmitButton submitText="Finish&nbsp;Review" pendingAction={ false }/>
+      <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
 
-      { message && (<p>{ message }</p>) }
+      {message && <p>{message}</p>}
 
       <section className="cards-container">
-        { sentences.map((sentence, i) => (
+        {sentences.map((sentence, i) => (
           <TinderCard
-            key={ i }
+            key={i}
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            ref={ cardsRefs[i] }
-            onSwipe={ (direction) => handleSwipe(i, direction) }
-            preventSwipe={ ['down'] }
+            ref={cardsRefs[i]}
+            onSwipe={(direction) => handleSwipe(i, direction)}
+            preventSwipe={['down']}
           >
             <div className="swipe card-sentence-box">
-              <Sentence language={ language }>{ sentence.sentence || sentence }</Sentence>
-              <small className="card-source">{ sentence.source ? `Source: ${ sentence.source }` : '' }</small>
+              <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
+              <small className="card-source">
+                {sentence.source ? `Source: ${sentence.source}` : ''}
+              </small>
             </div>
           </TinderCard>
-        )) }
+        ))}
       </section>
 
       <section className="card-review-footer">
         <div className="buttons">
-          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, false) }>Reject</button>
-          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, undefined) }>Skip</button>
-          <button className="standalone secondary big" onClick={ (event) => onReviewButtonPress(event, true) }>Approve</button>
+          <button
+            className="standalone secondary big"
+            onClick={(event) => onReviewButtonPress(event, false)}
+          >
+            Reject
+          </button>
+          <button
+            className="standalone secondary big"
+            onClick={(event) => onReviewButtonPress(event, undefined)}
+          >
+            Skip
+          </button>
+          <button
+            className="standalone secondary big"
+            onClick={(event) => onReviewButtonPress(event, true)}
+          >
+            Approve
+          </button>
         </div>
-        <p className="small">You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip</p>
+        <p className="small">
+          You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
+        </p>
       </section>
     </form>
   );
 }
 
 function mapSentencesAccordingToState(sentences: SentenceRecord[], reviewApproval: ReviewApproval) {
-  return sentences.reduce((acc: ReviewedState, sentence, index: number) => {
-    if (reviewApproval[index] === true) {
-      acc.validated.push(sentence);
-    } else if (reviewApproval[index] === false) {
-      acc.invalidated.push(sentence);
-    } else {
-      acc.unreviewed.push(sentence);
-    }
+  return sentences.reduce(
+    (acc: ReviewedState, sentence, index: number) => {
+      if (reviewApproval[index] === true) {
+        acc.validated.push(sentence);
+      } else if (reviewApproval[index] === false) {
+        acc.invalidated.push(sentence);
+      } else {
+        acc.unreviewed.push(sentence);
+      }
 
-    return acc;
-  }, { validated: [], invalidated: [], unreviewed: [] });
+      return acc;
+    },
+    { validated: [], invalidated: [], unreviewed: [] }
+  );
 }

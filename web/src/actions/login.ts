@@ -12,20 +12,20 @@ export const ACTION_NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 export const ACTION_USER_INFO_RECEIVED = 'USER_INFO_RECEIVED';
 
 type UserInfo = {
-  languages: string[]
-  settings: Record<string, unknown>
-  email: string
-  userStats: UserStats
-}
+  languages: string[];
+  settings: Record<string, unknown>;
+  email: string;
+  userStats: UserStats;
+};
 
 export function afterLogin(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(loginSuccess());
   };
 }
 
 export function checkCurrentUser(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+  return async function (dispatch) {
     try {
       const userInfo = await sendRequest<UserInfo>('users/whoami');
       dispatch(userInfoReceived(userInfo));
@@ -38,7 +38,7 @@ export function checkCurrentUser(): ThunkAction<void, RootState, unknown, AnyAct
 }
 
 export function logout(): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function(dispatch) {
+  return async function (dispatch) {
     dispatch(logoutSuccess());
   };
 }

@@ -50,9 +50,7 @@ test('should not render button to reset skipped sentences if no skipped sentence
 });
 
 test('should reset when reset button is clicked', async () => {
-  render(
-    <Settings />
-  );
+  render(<Settings />);
 
   await waitFor(() => {
     expect(screen.getByText('Show all skipped sentences again')).toBeTruthy();
@@ -60,4 +58,3 @@ test('should reset when reset button is clicked', async () => {
   await userEvent.click(screen.getByText('Show all skipped sentences again'));
   expect(dispatchMock).toHaveBeenCalledWith(resetSkippedSentences());
 });
-

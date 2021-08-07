@@ -14,7 +14,7 @@ export default function Profile() {
 
   return (
     <form>
-      <h1>Profile: { username }</h1>
+      <h1>Profile: {username}</h1>
 
       <PersonalLanguageInfo />
       <AddLanguage />

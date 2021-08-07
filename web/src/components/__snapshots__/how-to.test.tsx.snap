@@ -23,7 +23,8 @@ exports[`should render how to 1`] = `
     </h2>
     <ul>
       <li>
-        All sentences you submit must be under 
+        All sentences you submit must be under
+         
         <a
           href="https://en.wikipedia.org/wiki/Public_domain"
         >

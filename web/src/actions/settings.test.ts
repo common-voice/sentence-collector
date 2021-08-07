@@ -15,7 +15,9 @@ beforeEach(() => {
 describe('setSetting', () => {
   test('should set setting', async () => {
     const setting = { key: 'foo', value: 'bar' };
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { /* do nothing */ });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      /* do nothing */
+    });
     await settings.setSetting(setting.key, setting.value)(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('users/settings');
     expect((backend.sendRequest as jest.Mock).mock.calls[0][1]).toEqual('POST');
@@ -28,8 +30,12 @@ describe('setSetting', () => {
 
   test('should throw on error', async () => {
     const error = new Error('NOPE');
-    (console.error as jest.Mock).mockImplementation(() => { /* ignore */});
-    (backend.sendRequest as jest.Mock).mockImplementation(() => { throw error; });
+    (console.error as jest.Mock).mockImplementation(() => {
+      /* ignore */
+    });
+    (backend.sendRequest as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
     expect(settings.setSetting('foo', 'bar')(dispatch, getState, null)).rejects.toThrow(error);
     expect(dispatch.mock.calls[0][0]).toEqual({
       type: settings.ACTION_SETTINGS_CHANGED_FAILURE,

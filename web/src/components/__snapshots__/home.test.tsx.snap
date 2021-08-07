@@ -9,7 +9,8 @@ exports[`should render home 1`] = `
       Welcome to the Common Voice Sentence Collector
     </h1>
     <p>
-      The Sentence Collector is part of 
+      The Sentence Collector is part of
+       
       <a
         href="https://commonvoice.mozilla.org/"
       >

@@ -7,16 +7,16 @@ import type { RootState } from '../types';
 import LanguageSelector from './language-selector';
 
 export default function AddLanguage() {
-  const {
-    allLanguages,
-    languages,
-    pendingLanguages,
-  } = useSelector((state: RootState) => state.languages);
+  const { allLanguages, languages, pendingLanguages } = useSelector(
+    (state: RootState) => state.languages
+  );
   const [language, setLanguage] = useState('');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
-  const onLanguageSelect = (language: string) => { setLanguage(language); };
+  const onLanguageSelect = (language: string) => {
+    setLanguage(language);
+  };
 
   const onLanguageAdd = async (event: React.MouseEvent) => {
     event.preventDefault();
@@ -33,7 +33,7 @@ export default function AddLanguage() {
 
   return (
     <section>
-      {error && (<p className="error-message">{error}</p>)}
+      {error && <p className="error-message">{error}</p>}
 
       <LanguageSelector
         selected={language}
@@ -43,8 +43,13 @@ export default function AddLanguage() {
         labelText="Add a language you want to contribute to"
         onChange={onLanguageSelect}
       />
-      <button disabled={!!pendingLanguages || !language}
-        onClick={onLanguageAdd} className="add-language">Add Language</button>
+      <button
+        disabled={!!pendingLanguages || !language}
+        onClick={onLanguageAdd}
+        className="add-language"
+      >
+        Add Language
+      </button>
     </section>
   );
 }

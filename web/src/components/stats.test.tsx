@@ -23,30 +23,40 @@ beforeEach(() => {
     userUnreviewed: {
       en: 2,
     },
-    allLanguages: [{
-      id: 'en',
-      name: 'English',
-      nativeName: 'English',
-    }],
+    allLanguages: [
+      {
+        id: 'en',
+        name: 'English',
+        nativeName: 'English',
+      },
+    ],
     languages: ['en'],
     lastStatsUpdate: 10000,
     statsUpdating: false,
     totals: {
       total: 500,
       languages: 20,
-    }
+    },
   }));
 
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 });
 
 test('should dispatch getStats', () => {
-  render(<BrowserRouter><Stats/></BrowserRouter>);
+  render(
+    <BrowserRouter>
+      <Stats />
+    </BrowserRouter>
+  );
   expect(dispatchMock).toHaveBeenCalled();
 });
 
 test('should render stats', () => {
-  render(<BrowserRouter><Stats/></BrowserRouter>);
+  render(
+    <BrowserRouter>
+      <Stats />
+    </BrowserRouter>
+  );
   expect(screen.getByText('Statistics')).toBeTruthy();
   expect(screen.getByText(/Last Update:/)).toBeTruthy();
   expect(screen.getByText(/collected 500 sentences/)).toBeTruthy();
@@ -68,6 +78,10 @@ test('should render updating', () => {
     statsUpdating: true,
   }));
 
-  render(<BrowserRouter><Stats/></BrowserRouter>);
+  render(
+    <BrowserRouter>
+      <Stats />
+    </BrowserRouter>
+  );
   expect(screen.getByText('Updating...')).toBeTruthy();
 });

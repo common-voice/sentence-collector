@@ -23,17 +23,14 @@ function getStore(history: History) {
   return createStore(
     persistedRecuder,
     {},
-    compose(
-      applyMiddleware(thunk),
-      applyMiddleware(routerMiddleware(history))
-    )
+    compose(applyMiddleware(thunk), applyMiddleware(routerMiddleware(history)))
   );
 }
 
 type Props = {
-  history: History
-  children: React.ReactNode
-}
+  history: History;
+  children: React.ReactNode;
+};
 
 export default function Store(props: Props) {
   const history = props.history;

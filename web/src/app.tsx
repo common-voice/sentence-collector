@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Switch,
-  Redirect,
-  Route
-} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import type { History } from 'history';
 import { getLanguages } from './actions/languages';
@@ -26,9 +19,7 @@ import Review from './components/review';
 import Stats from './components/stats';
 
 export default function App({ history }: { history: History }) {
-  const {
-    authed,
-  } = useSelector((state: RootState) => state.login);
+  const { authed } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -52,9 +43,7 @@ export default function App({ history }: { history: History }) {
           <PrivateRoute authed={authed} path="/rejected" component={RejectedSentences} />
           <PrivateRoute authed={authed} path="/sentences" component={MySentences} />
           <PrivateRoute authed={authed} path="/stats" component={Stats} />
-          <Route render={() => (
-            <Redirect to={{ pathname: "/", }} />
-          )} />
+          <Route render={() => <Redirect to={{ pathname: '/' }} />} />
         </Switch>
       </Page>
     </ConnectedRouter>
@@ -62,23 +51,25 @@ export default function App({ history }: { history: History }) {
 }
 
 type PrivateRouteProps = {
-  authed: boolean,
-  path: string
-  component: React.JSXElementConstructor<any>
-  exact?: boolean
-}
+  authed: boolean;
+  path: string;
+  component: React.JSXElementConstructor<any>;
+  exact?: boolean;
+};
 
 const PrivateRoute = (props: PrivateRouteProps) => {
   const { authed, component: Component } = props;
-  return <Route
-    path={props.path}
-    render={props => {
-      if (authed) {
-        return <Component {...props} />;
-      }
+  return (
+    <Route
+      path={props.path}
+      render={(props) => {
+        if (authed) {
+          return <Component {...props} />;
+        }
 
-      window.location.href = '/sentence-collector/login';
-      return;
-    }}
-  />;
+        window.location.href = '/sentence-collector/login';
+        return;
+      }}
+    />
+  );
 };
