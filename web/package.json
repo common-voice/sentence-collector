@@ -10,8 +10,10 @@
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",
     "build": "./node_modules/webpack/bin/webpack.js --mode production",
     "lint": "eslint src",
-    "test": "npm run lint && jest",
-    "test:unit": "jest"
+    "test": "npm run lint && npm run check:format && jest",
+    "test:unit": "jest",
+    "check:format": "npx prettier --check .",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "connected-react-router": "^6.9.1",

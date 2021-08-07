@@ -15,6 +15,7 @@ The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is
  * [Node >= 12.0.0](https://nodejs.org/en/)
  * [docker](https://docs.docker.com/install/)
  * [docker-compose](https://docs.docker.com/compose/install/)
+ * [prettier](https://prettier.io/) - automatically formats the code as it should be in this project, there are also several IDE plugins for it
 
 ## Architecture
 
