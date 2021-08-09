@@ -20,16 +20,12 @@ type ReviewApproval = {
 };
 
 export default function SwipeReview(props: Props) {
-  const { onSkip, onReviewed, sentences, message, language } = props;
+  const { onSkip, onReviewed, sentences = [], message, language } = props;
 
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(sentences.length - 1);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [skippedSentencesCount, setSkippedSentencesCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
-
-  if (!Array.isArray(sentences) || sentences.length === 0) {
-    return null;
-  }
 
   const cardsRefs = useMemo(
     () =>
@@ -38,6 +34,10 @@ export default function SwipeReview(props: Props) {
         .map(() => React.createRef()),
     []
   );
+
+  if (sentences.length === 0) {
+    return null;
+  }
 
   const APPROVAL_DIRECTIONS: Record<string, boolean> = {
     left: false,
