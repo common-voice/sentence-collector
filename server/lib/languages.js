@@ -159,6 +159,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Norsk nynorsk',
   },
   {
+    id: 'nyn',
+    name: 'Nyankole',
+    nativeName: 'Runyankore',
+  },
+  {
     id: 'pa-IN',
     name: 'Panjabi',
     nativeName: 'ਪੰਜਾਬੀ',
