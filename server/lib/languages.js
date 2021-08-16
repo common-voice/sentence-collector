@@ -188,6 +188,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Sakha',
     nativeName: 'Саха тыла',
   },
+  { // https://github.com/common-voice/common-voice/issues/3214
+    id: 'sat',
+    name: 'Santali',
+    nativeName: 'ᱥᱟᱱᱛᱟᱲᱤ',
+  },
   {
     id: 'scn',
     name: 'Sicilian',
