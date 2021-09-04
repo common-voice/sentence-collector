@@ -96,48 +96,9 @@ If you need to update the snapshots, run `npm t -- -u`, but make sure that the n
 * With that we have the same relative calls as we have in production
 * Apart from having a prefix that is either empty or not, we do not have any other special casing
 
-## Exporting to the official repository
+## Sentence Export to Common Voice
 
 You don't need to manually export the sentences from the Sentence Collector to the Common Voice repository. This is done automatically once a week: https://github.com/common-voice/sentence-collector/actions?query=workflow%3Aexport
-
-However, if you have a need to do it, use the following procedure:
-
-This will export all the approved sentences for languages currently active in https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json and put them into `sentence-collector.txt` files in the corresponding locale folder of the Common Voice repository.
-
-1. Make sure you have forked the common-voice repo to your user.
-2. Clone common-voice locally and link your remote fork for exports
-
-```
-git clone https://github.com/mozilla/common-voice.git
-cd common-voice
-git remote add fork git@github.com:YOURUSERNAME/common-voice.git
-```
-
-All steps to do the export to our fork (you can repeat this each time you want to make an updated export)
-
-```
-cd common-voice
-## Making sure our main branch is updated
-git checkout main
-git pull origin main
-git push fork main
-git push --delete fork sentence-collector-export
-git branch -D sentence-collector-export
-## Creating a new branch just for exports
-git checkout -b sentence-collector-export
-cd ..
-## Creating the export
-env API_BASE_URL=https://commonvoice.mozilla.org/sentence-collector/ COMMON_VOICE_PATH=common-voice node scripts/exporter.js
-## Committing the export to our fork
-cd common-voice
-git add .
-git commit -am "Sentence Collector - Validated sentences export - 2019-02-13"
-git push fork sentence-collector-export
-```
-
-Now you will be able to create a manual pull request using the following URL:
-
-``https://github.com/YOURUSERNAME/common-voice/pull/new/sentence-collector-export``
 
 ## Useful queries
 
