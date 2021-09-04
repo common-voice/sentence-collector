@@ -138,6 +138,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Erzya',
     nativeName: 'эрзянь кель',
   },
+  { // https://github.com/common-voice/common-voice/issues/3194
+    id: 'nan-TW',
+    name: 'Taiwanese',
+    nativeName: '臺語',
+  },
   {
     id: 'ne-NP',
     name: 'Nepali',
