@@ -141,7 +141,7 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'эрзянь кель',
   },
   { // https://github.com/common-voice/common-voice/issues/3194
-    id: 'nan-TW',
+    id: 'nan-tw',
     name: 'Taiwanese',
     nativeName: '臺語',
   },
