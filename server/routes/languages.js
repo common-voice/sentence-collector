@@ -15,7 +15,19 @@ router.get('/', (req, res) => {
     const allLanguages = languages.getAllLanguages();
     res.json(allLanguages);
   } catch (error) {
-    debug('GET_STATS_ERROR', error);
+    debug('GET_LANGUAGES_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
+});
+
+router.get('/missing', async (req, res) => {
+  debug('GET_MISSING_LANGUAGES');
+  try {
+    const missingLanguages = await languages.getMissingLanguages();
+    res.json(missingLanguages);
+  } catch (error) {
+    debug('GET_MISSING_LANGUAGES_ERROR', error);
     res.status(STATUS_ERROR);
     res.json({ message: error.message });
   }

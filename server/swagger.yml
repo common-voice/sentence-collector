@@ -8,6 +8,17 @@ basePath: "/sentence-collector"
 schemes:
 - "https"
 paths:
+  /languages/missing:
+    get:
+      summary: "Get all languages enabled in Pontoon but missing in Sentence Collector"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/LanguageCodeList"
   /sentences/{localeId}:
     get:
       summary: "Get all sentences for a language"
@@ -156,6 +167,11 @@ definitions:
       contributors:
         type: "integer"
         format: "int64"
+  LanguageCodeList:
+    type: "array"
+    items:
+      type: "string"
+      example: "en"
   Sentence:
     type: "object"
     properties:

@@ -14,9 +14,12 @@ const allLanguages = [{
   nativeName: 'Deutsch',
 }];
 
+const missingLanguages = ['en'];
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
   t.context.sandbox.stub(languages, 'getAllLanguages').returns(allLanguages);
+  t.context.sandbox.stub(languages, 'getMissingLanguages').returns(missingLanguages);
 });
 
 test.afterEach.always((t) => {
@@ -36,6 +39,26 @@ test.serial('should pass on error message', async (t) => {
 
   const response = await request(app)
     .get('/sentence-collector/languages');
+
+  t.is(response.status, 500);
+  t.deepEqual(response.body, {
+    message: 'nope',
+  });
+});
+
+test.serial('should get missing languages', async (t) => {
+  const response = await request(app)
+    .get('/sentence-collector/languages/missing');
+
+  t.is(response.status, 200);
+  t.deepEqual(response.body, missingLanguages);
+});
+
+test.serial('should pass on missing language error message', async (t) => {
+  languages.getMissingLanguages.throws(new Error('nope'));
+
+  const response = await request(app)
+    .get('/sentence-collector/languages/missing');
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
