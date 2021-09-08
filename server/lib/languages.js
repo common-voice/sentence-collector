@@ -21,6 +21,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Адыгабзэ',
   },
   {
+    id: 'arn',
+    name: 'Mapudungun',
+    nativeName: 'Mapudungun',
+  },
+  {
     id: 'ast',
     name: 'Asturian',
     nativeName: 'asturianu',
@@ -74,6 +79,11 @@ const ADDITIONAL_LANGUAGES = [
     id: 'hsb',
     name: 'Upper Sorbian',
     nativeName: 'Hornjoserbšćina',
+  },
+  {
+    id: 'izh',
+    name: 'Izhorian',
+    nativeName: 'Izhorian',
   },
   {
     id: 'kaa',
