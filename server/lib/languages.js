@@ -1,12 +1,15 @@
 const ISO6391 = require('iso-639-1');
 const fetch = require('node-fetch');
 
+const { Sentence } = require('./models');
+
 const FALLBACK_LOCALE = 'en';
 
 module.exports = {
   FALLBACK_LOCALE,
   getAllLanguages,
   getMissingLanguages,
+  getLanguagesNotInPontoon,
 };
 
 const ADDITIONAL_LANGUAGES = [
@@ -320,6 +323,13 @@ async function getMissingLanguages() {
   return missingLanguages;
 }
 
+async function getLanguagesNotInPontoon() {
+  const pontoonLanguages = await fetchPontoonLanguages();
+  const scLanguages = await getLanguagesWithSentences();
+  const missingLanguages = scLanguages.filter((lang) => !pontoonLanguages.includes(lang));
+  return missingLanguages;
+}
+
 async function fetchPontoonLanguages() {
   const pontoonResponse = await fetch('https://pontoon.mozilla.org/graphql', {
     method: 'POST',
@@ -343,4 +353,10 @@ async function fetchPontoonLanguages() {
   return data.project.localizations
     .map(({ locale }) => locale.code)
     .concat('en');
+}
+
+async function getLanguagesWithSentences() {
+  const distinct = await Sentence.aggregate('localeId', 'DISTINCT', { plain: false });
+  const uniqueLanguages = distinct.map((entry) => entry.DISTINCT);
+  return uniqueLanguages;
 }

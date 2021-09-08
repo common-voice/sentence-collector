@@ -3,6 +3,7 @@ import ISO6391 from 'iso-639-1';
 import nock from 'nock';
 import sinon from 'sinon';
 import languages from '../../lib/languages';
+import { Sentence } from '../../lib/models';
 
 const inexistingLanguageCode = 'inexisting_language_code';
 const languagesResponse = [{
@@ -18,6 +19,11 @@ const languagesResponse = [{
 test.before((t) => {
   t.context.sandbox = sinon.createSandbox();
   t.context.sandbox.spy(ISO6391, 'getLanguages');
+  t.context.sandbox.stub(Sentence, 'aggregate').resolves([{
+    DISTINCT: 'en', // exists
+  }, {
+    DISTINCT: 'missing', // does not exists
+  }]);
 });
 
 test.after.always((t) => {
@@ -51,4 +57,19 @@ test('returns missing languages', async (t) => {
 
   const missingLanguages = await languages.getMissingLanguages();
   t.deepEqual(missingLanguages, [inexistingLanguageCode]);
+});
+
+test('returns additional languages', async (t) => {
+  nock('https://pontoon.mozilla.org')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        project: {
+          localizations: [languagesResponse[0]],
+        },
+      },
+    });
+
+  const missingLanguages = await languages.getLanguagesNotInPontoon();
+  t.deepEqual(missingLanguages, ['missing']);
 });

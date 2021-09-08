@@ -33,4 +33,16 @@ router.get('/missing', async (req, res) => {
   }
 });
 
+router.get('/additional', async (req, res) => {
+  debug('GET_ADDITIONAL_LANGUAGES');
+  try {
+    const additionalLanguages = await languages.getLanguagesNotInPontoon();
+    res.json(additionalLanguages);
+  } catch (error) {
+    debug('GET_ADDITIONAL_LANGUAGES_ERROR', error);
+    res.status(STATUS_ERROR);
+    res.json({ message: error.message });
+  }
+});
+
 module.exports = router;
