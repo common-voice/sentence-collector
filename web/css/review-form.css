@@ -13,6 +13,7 @@
   bottom: 20px;
   padding: 0 0.5rem;
   max-height: calc(var(--sentence-box-height) / 2 - 0.5rem);
+  word-wrap: anywhere;
 }
 
 .card-sentence-box {
