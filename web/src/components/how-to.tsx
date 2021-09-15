@@ -12,8 +12,10 @@ export default function HowTo() {
       <ul>
         <li>
           All sentences you submit must be under{' '}
-          <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>.
+          <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>. 
         </li>
+          To support the inclusion of work not under public licence, we have created a <a href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html">Contributions Agreement template</a>.
+          for works where the copyright owner would like to contribute the material to Common Voice. 
         <li>
           Numbers. There should be no digits in the source text because they can cause problems when
           read aloud. The way a number is read depends on context and might introduce confusion in
@@ -46,6 +48,25 @@ export default function HowTo() {
         Therefore it would be great if you could try to keep your sentences as natural/engaging as
         possible.
       </p>
+      
+       <h2 id="how to reference the source">How to Cite</h2>
+       <p>
+          It's important that you reference where you found the public licence to avoid plagirism and to allow for follow ups on 
+          <a href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767">copyright issues</a>. Here are a few way you can cite the work. 
+        </p>
+      <ul>
+         <li>
+          You could include the website e.g "Common Voice - https://commonvoice.mozilla.org/"
+         </li>
+         <li>
+         You could use Academic referencing style e.g harvard style "Mozilla (2021) Common Voice. 
+         Available at https://commonvoice.mozilla.org/ (Accessed: 15th Septmber 2021)"   
+         </li>
+         <li>
+         For public licence text not avialable online, you could use Academic referencing style e.g harvard style "Jess (2021) My Public licence poems"  
+          </li>
+      </ul>
+     
 
       <h2 id="review-sentences">Review Sentences</h2>
 
@@ -90,6 +111,19 @@ export default function HowTo() {
           Unfortunately we can’t have Wikimedia articles yet. So do not copy paste from there.
         </li>
       </ul>
+      <h3 id="How to cite sources">
+        Partner with local organizations or individuals
+      </h3>
+      <p>
+        There are a lot of public organizations that might want to collaborate and already have a
+        lot of texts they can donate as public domain. Reach out to local Universities, Governments
+        and open source organizations to talk about the project and ask for their help.
+      </p>
+      <p>
+        Expert linguists can also help, try to reach out to local linguistic Universities (both
+        teachers and students) and see if they can help to gather a diverse set of sound-diverse
+        sentences in your language.
+      </p>
 
       <h3 id="partner-with-local-organizations-or-individuals">
         Partner with local organizations or individuals
