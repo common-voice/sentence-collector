@@ -12,7 +12,12 @@ export default function HowTo() {
       <ul>
         <li>
           All sentences you submit must be under{' '}
-          <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>.
+          <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>. To
+          support the inclusion of work not under public licence, we have created a{' '}
+          <a href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html">
+            Contributions Agreement template
+          </a>{' '}
+          for works where the copyright owner would like to contribute the material to Common Voice.
         </li>
         <li>
           Numbers. There should be no digits in the source text because they can cause problems when
@@ -46,6 +51,26 @@ export default function HowTo() {
         Therefore it would be great if you could try to keep your sentences as natural/engaging as
         possible.
       </p>
+      
+      <h2 id="how-to-reference-the-source">How to Cite</h2>
+      <p>
+        It&apos;s important that you reference where you found the public licence to avoid plagiarism and
+        to allow for follow ups on{' '}
+        <a href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767">
+          copyright issues
+        </a>. Here are a few ways you can cite the work.
+      </p>
+      <ul>
+        <li>You could include the website, e.g &quot;Common Voice - https://commonvoice.mozilla.org/&quot;</li>
+        <li>
+          You could use Academic referencing style, e.g harvard style &quot;Mozilla (2021) Common Voice. 
+          Available at https://commonvoice.mozilla.org/ (Accessed: 15th Septmber 2021)&quot;   
+        </li>
+        <li>
+          For public licence text not avialable online, you could use Academic referencing
+          style e.g harvard style &quot;Jess (2021) My Public licence poems&quot;
+        </li>
+      </ul>
 
       <h2 id="review-sentences">Review Sentences</h2>
 
