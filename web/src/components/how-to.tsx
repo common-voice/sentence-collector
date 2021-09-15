@@ -54,7 +54,7 @@ export default function HowTo() {
       
       <h2 id="how-to-reference-the-source">How to Cite</h2>
       <p>
-        It&apos;s important that you reference where you found the public licence to avoid plagirism and
+        It&apos;s important that you reference where you found the public licence to avoid plagiarism and
         to allow for follow ups on{' '}
         <a href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767">
           copyright issues
