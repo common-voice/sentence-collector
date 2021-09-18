@@ -142,7 +142,10 @@ export default function SwipeReview(props: Props) {
 
       {message && <p>{message}</p>}
 
-      <p className="small">Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it. <strong>Do not forget to submit your review!</strong></p>
+      <p className="small">
+        Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.{' '}
+        <strong>Do not forget to submit your review!</strong>
+      </p>
       <section className="cards-container">
         {sentences.map((sentence, i) => (
           <TinderCard
