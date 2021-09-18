@@ -3,7 +3,7 @@
 }
 
 .cards-container {
-  margin: 50px auto;
+  margin: 0px auto;
   height: var(--sentence-box-height);
   width: 50vw;
 }
@@ -36,14 +36,21 @@
   color: var(--dark-grey-color);
 }
 
-.card-review-footer {
-  margin-bottom: 50px;
+.card-review-buttons-section {
   text-align: center;
 }
 
-.card-review-footer .buttons {
+.card-review-buttons-section .buttons {
   display: flex;
   justify-content: center;
+}
+
+.review-footer {
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .swipe {
@@ -57,7 +64,7 @@
   .card-sentence-box {
     width: var(--max-content-width);
   }
-  .card-review-footer {
+  .card-review-buttons-section {
     justify-content: space-between;
   }
 }

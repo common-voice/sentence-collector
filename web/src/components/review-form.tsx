@@ -140,16 +140,9 @@ export default function SwipeReview(props: Props) {
         message="Reviewed sentences not submitted, are sure?"
       />
 
-      <p>Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.</p>
-      <p>
-        You have reviewed {reviewedSentencesCount} sentences. Do not forget to submit your review by
-        clicking on the &quot;Finish Review&quot; button below!
-      </p>
-
-      <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
-
       {message && <p>{message}</p>}
 
+      <p className="small">Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it. <strong>Do not forget to submit your review!</strong></p>
       <section className="cards-container">
         {sentences.map((sentence, i) => (
           <TinderCard
@@ -170,7 +163,7 @@ export default function SwipeReview(props: Props) {
         ))}
       </section>
 
-      <section className="card-review-footer">
+      <section className="card-review-buttons-section">
         <div className="buttons">
           <button
             className="standalone secondary big"
@@ -191,9 +184,13 @@ export default function SwipeReview(props: Props) {
             Approve
           </button>
         </div>
+      </section>
+
+      <section className="review-footer">
         <p className="small">
           You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
         </p>
+        <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
       </section>
     </form>
   );
