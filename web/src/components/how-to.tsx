@@ -43,7 +43,14 @@ export default function HowTo() {
           letter in the Russian alphabet but is never used in English and so should never appear in
           any English source text.
         </li>
-        <li>Length. Sentences must be 14 words or less.</li>
+        <li>
+          Languages can have their{' '}
+          <a href="https://github.com/common-voice/sentence-collector/tree/main/server/lib/validation/languages">
+            own validation rules
+          </a>{' '}
+          with additional requirements. If there is no specific validation file for a language, we
+          are using the generic English rules.
+        </li>
       </ul>
       <p>
         We prefer natural/conversational sentences. While phonetic diversity and different words in

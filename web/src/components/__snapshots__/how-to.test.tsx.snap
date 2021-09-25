@@ -53,7 +53,15 @@ exports[`should render how to 1`] = `
         Foreign letters. Letters must be valid in the language being spoken. For example, “ж” is a letter in the Russian alphabet but is never used in English and so should never appear in any English source text.
       </li>
       <li>
-        Length. Sentences must be 14 words or less.
+        Languages can have their
+         
+        <a
+          href="https://github.com/common-voice/sentence-collector/tree/main/server/lib/validation/languages"
+        >
+          own validation rules
+        </a>
+         
+        with additional requirements. If there is no specific validation file for a language, we are using the generic English rules.
       </li>
     </ul>
     <p>
