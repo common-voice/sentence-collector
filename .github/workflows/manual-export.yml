@@ -1,0 +1,8 @@
+name: Manual Export Trigger
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-fetch:
+    uses: common-voice/sentence-collector/.github/workflows/export.yml@main

@@ -3,6 +3,7 @@ name: export
 on:
   schedule:
     - cron: "0 3 * * 3"
+  workflow_call:
 
 jobs:
   export:
