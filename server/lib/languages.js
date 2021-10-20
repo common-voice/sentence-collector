@@ -194,6 +194,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'Papiamento',
   },
   {
+    id: 'quc',
+    name: 'Kʼicheʼ',
+    nativeName: 'Kʼicheʼ',
+  },
+  {
     id: 'rm-sursilv',
     name: 'Romansh Sursilvan',
     nativeName: 'romontsch sursilvan',
