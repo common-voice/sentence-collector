@@ -5,4 +5,4 @@ on:
 
 jobs:
   call-fetch:
-    uses: common-voice/sentence-collector/.github/workflows/export.yml@main
+    uses: common-voice/sentence-collector/.github/workflows/export.yaml@main
