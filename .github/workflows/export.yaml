@@ -4,6 +4,19 @@ on:
   schedule:
     - cron: "0 3 * * 3"
   workflow_call:
+    secrets:
+      COMMON_VOICE_BRANCH:
+        required: true
+      COMMON_VOICE_ORG:
+        required: true
+      COMMON_VOICE_REPO:
+        required: true
+      GH_KEY:
+        required: true
+      GH_USERNAME:
+        required: true
+      SC_EXPORT_BASE_URL:
+        required: true
 
 jobs:
   export:
