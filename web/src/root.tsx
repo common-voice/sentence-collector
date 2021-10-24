@@ -2,15 +2,18 @@ import React from 'react';
 import { createHashHistory } from 'history';
 
 import '../css/root.css';
-import Store from './store';
 import App from './app';
+import { AppLocalizationProvider } from './l10n';
+import Store from './store';
 
 const history = createHashHistory();
 
 export default function Root() {
   return (
     <Store history={history}>
-      <App history={history} />
+      <AppLocalizationProvider>
+        <App history={history} />
+      </AppLocalizationProvider>
     </Store>
   );
 }

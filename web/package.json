@@ -16,6 +16,9 @@
     "format": "npx prettier --write ."
   },
   "dependencies": {
+    "@fluent/bundle": "^0.17.0",
+    "@fluent/langneg": "^0.6.0",
+    "@fluent/react": "^0.14.0",
     "connected-react-router": "^6.9.1",
     "hammerjs": "^2.0.8",
     "iso-639-1": "^2.1.9",
