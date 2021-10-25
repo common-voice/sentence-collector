@@ -10,6 +10,7 @@ const DEFAULT_LOCALE = 'en';
 // before they have a certain amount of translated strings. See CV process
 // for this.
 const AVAILABLE_LOCALES = [DEFAULT_LOCALE];
+const RTL_LOCALES: string[] = [];
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`/locales/${locale}/sentence-collector.ftl`);
@@ -37,6 +38,13 @@ export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
   useEffect(() => {
     changeLocales(navigator.languages as Array<string>);
   }, []);
+
+  useEffect(() => {
+    const mainLocale = currentLocales[0];
+    const { documentElement } = document;
+    documentElement.setAttribute('lang', mainLocale);
+    documentElement.setAttribute('dir', RTL_LOCALES.includes(mainLocale) ? 'rtl' : 'ltr');
+  }, [currentLocales]);
 
   async function changeLocales(userLocales: Array<string>) {
     const negotiatedLocales = negotiateLanguages(userLocales, AVAILABLE_LOCALES, {
