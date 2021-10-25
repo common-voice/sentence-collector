@@ -93,8 +93,8 @@
       "global": {
         "branches": 89,
         "functions": 84,
-        "lines": 95,
-        "statements": 93
+        "lines": 93,
+        "statements": 92
       }
     },
     "preset": "ts-jest",
