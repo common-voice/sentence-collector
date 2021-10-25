@@ -29,15 +29,20 @@ function* lazilyParsedBundles(fetchedMessages: Array<[string, string]>) {
 
 interface AppLocalizationProviderProps {
   children: ReactNode;
+  locale: string | undefined;
 }
 
-export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
+export function AppLocalizationProvider({ children, locale }: AppLocalizationProviderProps) {
   const [currentLocales, setCurrentLocales] = useState([DEFAULT_LOCALE]);
   const [l10n, setL10n] = useState<ReactLocalization | null>(null);
 
   useEffect(() => {
-    changeLocales(navigator.languages as Array<string>);
-  }, []);
+    const locales = [...navigator.languages];
+    if (locale) {
+      locales.unshift(locale);
+    }
+    changeLocales(locales);
+  }, [locale]);
 
   useEffect(() => {
     const mainLocale = currentLocales[0];
@@ -52,7 +57,7 @@ export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
     });
     setCurrentLocales(negotiatedLocales);
 
-    const fetchedMessages = await Promise.all(currentLocales.map(fetchMessages));
+    const fetchedMessages = await Promise.all(negotiatedLocales.map(fetchMessages));
 
     const bundles = lazilyParsedBundles(fetchedMessages);
     setL10n(new ReactLocalization(bundles));
@@ -64,7 +69,7 @@ export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
 
   return (
     <>
-      <LocalizationProvider l10n={l10n}>{Children.only(props.children)}</LocalizationProvider>
+      <LocalizationProvider l10n={l10n}>{Children.only(children)}</LocalizationProvider>
     </>
   );
 }
