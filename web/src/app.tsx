@@ -31,19 +31,52 @@ export default function App({ history }: { history: History }) {
     <ConnectedRouter history={history}>
       <Page>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/how-to" component={HowTo} />
-          <Route exact path="/login-failure" component={LoginFailure} />
-          <Route exact path="/login-success" component={LoginSuccess} />
-          <Route exact path="/logout-success" component={LogoutSuccess} />
-          <PrivateRoute exact authed={authed} path="/profile" component={Profile} />
-          <PrivateRoute exact authed={authed} path="/add" component={Add} />
-          <PrivateRoute exact authed={authed} path="/review" component={Review} />
-          <PrivateRoute authed={authed} path="/review/:language" component={Review} />
-          <PrivateRoute authed={authed} path="/rejected" component={RejectedSentences} />
-          <PrivateRoute authed={authed} path="/sentences" component={MySentences} />
-          <PrivateRoute authed={authed} path="/stats" component={Stats} />
-          <Route render={() => <Redirect to={{ pathname: '/' }} />} />
+          <Route exact path="/" render={() => <Redirect to={{ pathname: '/en' }} />} />
+          <Route exact path="/how-to" render={() => <Redirect to={{ pathname: '/en/how-to' }} />} />
+          <Route
+            exact
+            path="/login-failure"
+            render={() => <Redirect to={{ pathname: '/en/login-failure' }} />}
+          />
+          <Route
+            exact
+            path="/login-success"
+            render={() => <Redirect to={{ pathname: '/en/login-success' }} />}
+          />
+          <Route
+            exact
+            path="/logout-success"
+            render={() => <Redirect to={{ pathname: '/en/logout-success' }} />}
+          />
+          <Route
+            exact
+            path="/profile"
+            render={() => <Redirect to={{ pathname: '/en/profile' }} />}
+          />
+          <Route exact path="/add" render={() => <Redirect to={{ pathname: '/en/add' }} />} />
+          <Route exact path="/review" render={() => <Redirect to={{ pathname: '/en/review' }} />} />
+          <Route
+            path="/review/:language"
+            render={() => <Redirect to={{ pathname: '/en/review/:language' }} />}
+          />
+          <Route path="/rejected" render={() => <Redirect to={{ pathname: '/en/rejected' }} />} />
+          <Route path="/sentences" render={() => <Redirect to={{ pathname: '/en/sentences' }} />} />
+          <Route path="/stats" render={() => <Redirect to={{ pathname: '/en/stats' }} />} />
+
+          <Route exact path="/:locale/" component={Home} />
+          <Route exact path="/:locale/how-to" component={HowTo} />
+          <Route exact path="/:locale/login-failure" component={LoginFailure} />
+          <Route exact path="/:locale/login-success" component={LoginSuccess} />
+          <Route exact path="/:locale/logout-success" component={LogoutSuccess} />
+          <PrivateRoute exact authed={authed} path="/:locale/profile" component={Profile} />
+          <PrivateRoute exact authed={authed} path="/:locale/add" component={Add} />
+          <PrivateRoute exact authed={authed} path="/:locale/review" component={Review} />
+          <PrivateRoute authed={authed} path="/:locale/review/:language" component={Review} />
+          <PrivateRoute authed={authed} path="/:locale/rejected" component={RejectedSentences} />
+          <PrivateRoute authed={authed} path="/:locale/sentences" component={MySentences} />
+          <PrivateRoute authed={authed} path="/:locale/stats" component={Stats} />
+
+          <Route render={() => <Redirect to={{ pathname: '/en' }} />} />
         </Switch>
       </Page>
     </ConnectedRouter>
