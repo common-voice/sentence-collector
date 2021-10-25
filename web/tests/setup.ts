@@ -1,3 +1,5 @@
+const { ReactNode } = require('react');
+
 require('jest-fetch-mock').enableMocks();
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -28,3 +30,13 @@ WebKitCSSMatrix = function () {
   this.m43 = 0;
   this.m44 = 1;
 };
+
+type PropType = { children: typeof ReactNode };
+jest.mock('@fluent/react', () => ({
+  ...jest.requireActual('@fluent/react'),
+  Localized: ({ children }: PropType) => children,
+}));
+jest.mock('../src/l10n.tsx', () => ({
+  ...jest.requireActual('../src/l10n.tsx'),
+  AppLocalizationProvider: ({ children }: PropType) => children,
+}));

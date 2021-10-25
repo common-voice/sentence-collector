@@ -1,3 +1,4 @@
+import { Localized } from '@fluent/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,7 +7,9 @@ import '../../css/home.css';
 export default function Home() {
   return (
     <div id="home">
-      <h1>Welcome to the Common Voice Sentence Collector</h1>
+      <Localized id="home-title">
+        <h1>Welcome to the Common Voice Sentence Collector</h1>
+      </Localized>
       <p>
         The Sentence Collector is part of{' '}
         <a href="https://commonvoice.mozilla.org/">Common Voice</a>. It allows contributors to

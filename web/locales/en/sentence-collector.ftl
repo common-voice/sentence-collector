@@ -1,0 +1,1 @@
+home-title = Welcome to the Common Voice Sentence Collector

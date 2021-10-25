@@ -31,6 +31,13 @@ module.exports = {
   module: {
     rules: [
       {
+        // Workaround for wrong esm behavior in @fluent/react, see https://github.com/projectfluent/fluent.js/pull/577
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: [
@@ -68,6 +75,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        { from: 'locales', to: 'locales' },
         { from: 'favicon.png', to: '.' },
         { from: 'index.html', to: '.' },
       ],
