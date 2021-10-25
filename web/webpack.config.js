@@ -34,8 +34,8 @@ module.exports = {
         // Workaround for wrong esm behavior in @fluent/react, see https://github.com/projectfluent/fluent.js/pull/577
         test: /\.m?js/,
         resolve: {
-            fullySpecified: false
-        }
+          fullySpecified: false,
+        },
       },
       {
         test: /\.(ts|tsx)$/,
