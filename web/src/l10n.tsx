@@ -10,6 +10,7 @@ const DEFAULT_LOCALE = 'en';
 // before they have a certain amount of translated strings. See CV process
 // for this.
 const AVAILABLE_LOCALES = [DEFAULT_LOCALE];
+const RTL_LOCALES: string[] = [];
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`/locales/${locale}/sentence-collector.ftl`);
@@ -28,15 +29,27 @@ function* lazilyParsedBundles(fetchedMessages: Array<[string, string]>) {
 
 interface AppLocalizationProviderProps {
   children: ReactNode;
+  locale: string | undefined;
 }
 
-export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
+export function AppLocalizationProvider({ children, locale }: AppLocalizationProviderProps) {
   const [currentLocales, setCurrentLocales] = useState([DEFAULT_LOCALE]);
   const [l10n, setL10n] = useState<ReactLocalization | null>(null);
 
   useEffect(() => {
-    changeLocales(navigator.languages as Array<string>);
-  }, []);
+    const locales = [...navigator.languages];
+    if (locale) {
+      locales.unshift(locale);
+    }
+    changeLocales(locales);
+  }, [locale]);
+
+  useEffect(() => {
+    const mainLocale = currentLocales[0];
+    const { documentElement } = document;
+    documentElement.setAttribute('lang', mainLocale);
+    documentElement.setAttribute('dir', RTL_LOCALES.includes(mainLocale) ? 'rtl' : 'ltr');
+  }, [currentLocales]);
 
   async function changeLocales(userLocales: Array<string>) {
     const negotiatedLocales = negotiateLanguages(userLocales, AVAILABLE_LOCALES, {
@@ -44,7 +57,7 @@ export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
     });
     setCurrentLocales(negotiatedLocales);
 
-    const fetchedMessages = await Promise.all(currentLocales.map(fetchMessages));
+    const fetchedMessages = await Promise.all(negotiatedLocales.map(fetchMessages));
 
     const bundles = lazilyParsedBundles(fetchedMessages);
     setL10n(new ReactLocalization(bundles));
@@ -56,7 +69,7 @@ export function AppLocalizationProvider(props: AppLocalizationProviderProps) {
 
   return (
     <>
-      <LocalizationProvider l10n={l10n}>{Children.only(props.children)}</LocalizationProvider>
+      <LocalizationProvider l10n={l10n}>{Children.only(children)}</LocalizationProvider>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { getReviewUrl } from './review';
 
 type Props = {
@@ -12,6 +12,10 @@ type Props = {
   nativeLanguageName: string;
 };
 
+type LanguageInfoRouteMatch = {
+  locale: string;
+};
+
 const LanguageInfo = (props: Props) => {
   const {
     total,
@@ -22,6 +26,7 @@ const LanguageInfo = (props: Props) => {
     languageName,
     nativeLanguageName,
   } = props;
+  const match = useRouteMatch<LanguageInfoRouteMatch>();
 
   return (
     <section>
@@ -33,7 +38,9 @@ const LanguageInfo = (props: Props) => {
         <li>{total - validated - rejected} sentences in review.&nbsp;</li>
         <li>
           {unreviewedByYou} sentences left for you to review.&nbsp;
-          {unreviewedByYou > 0 && <Link to={getReviewUrl(language)}>Review now!</Link>}
+          {unreviewedByYou > 0 && (
+            <Link to={getReviewUrl(match.params.locale, language)}>Review now!</Link>
+          )}
           {total - validated === 0 && <Link to={'/add'}>Add more sentences now!</Link>}
         </li>
         <li>{validated} validated sentences.</li>

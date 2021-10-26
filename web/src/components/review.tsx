@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 
 import {
   loadSentences,
@@ -15,34 +15,20 @@ import LanguageSelector from './language-selector';
 import ReviewForm from './review-form';
 import ReviewCriteria from './review-criteria';
 
-export const getReviewUrl = (language: string | undefined) => {
-  return `/review/${language || ''}`;
+export const getReviewUrl = (locale: string, language: string | undefined) => {
+  const prefix = locale ? `/${locale}` : '';
+  const languageToReview = language || '';
+  return `${prefix}/review/${languageToReview}`;
 };
 
-type RouteMatch = {
-  params?: {
-    language?: string;
-  };
+type ReviewRouteMatch = {
+  language: string;
+  locale: string;
 };
 
-type LanguageMatchFunction = (params: RouteMatch) => string;
-
-const getLanguageFromMatch: LanguageMatchFunction = ({ params = {} } = {}) => {
-  // Always return an empty string if no lang specified.
-  // This ensures we never have an undefined language.
-  let lang = params.language;
-  if (!lang) {
-    lang = '';
-  }
-  return lang;
-};
-
-type Props = {
-  match: RouteMatch;
-  history: string[];
-};
-
-export default function Review({ match, history }: Props) {
+export default function Review() {
+  const match = useRouteMatch<ReviewRouteMatch>();
+  const history = useHistory();
   const { allLanguages = [], languages = [] } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
@@ -51,7 +37,7 @@ export default function Review({ match, history }: Props) {
     reviewMessage,
   } = useSelector((state: RootState) => state.sentences);
 
-  const [language, setLanguage] = useState(getLanguageFromMatch(match));
+  const [language, setLanguage] = useState(match.params.language || '');
   const [newlySkippedSentences, setNewlySkippedSentences] = useState<number[]>([]);
   const dispatch = useDispatch();
 
@@ -79,7 +65,7 @@ export default function Review({ match, history }: Props) {
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language);
-    history.push(getReviewUrl(language));
+    history.push(getReviewUrl(match.params.locale, language));
   };
 
   const onReviewed = (reviewedState: ReviewedState) => {
