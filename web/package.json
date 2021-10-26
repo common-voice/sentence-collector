@@ -82,8 +82,10 @@
       "!**/dist/**",
       "!**/node_modules/**",
       "!**/tests/**",
-      "!**/src/components/swipecard/**",
-      "!webpack.config.js"
+      "!webpack.config.js",
+      "!**/src/index.tsx",
+      "!**/src/app.tsx",
+      "!**/src/l10n.tsx"
     ],
     "coverageReporters": [
       "lcov",
@@ -91,10 +93,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 89,
-        "functions": 84,
-        "lines": 93,
-        "statements": 92
+        "branches": 90,
+        "functions": 85,
+        "lines": 95,
+        "statements": 95
       }
     },
     "preset": "ts-jest",

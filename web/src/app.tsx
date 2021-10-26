@@ -28,12 +28,10 @@ export default function App({ history }: { history: History }) {
     dispatch(getLanguages());
   }, []);
 
-  // FIXME: make definition dynamic
-  // FIXME: write more tests
-
   return (
     <ConnectedRouter history={history}>
       <Switch>
+        {/* Redirects to EN as default language */}
         <Route exact path="/" render={() => <Redirect to={{ pathname: '/en' }} />} />
         <Route exact path="/how-to" render={() => <Redirect to={{ pathname: '/en/how-to' }} />} />
         <Route
@@ -62,6 +60,7 @@ export default function App({ history }: { history: History }) {
         <Route path="/sentences" render={() => <Redirect to={{ pathname: '/en/sentences' }} />} />
         <Route path="/stats" render={() => <Redirect to={{ pathname: '/en/stats' }} />} />
 
+        {/* Routes with integrated locale parameter */}
         <Route
           exact
           path="/:locale/"
