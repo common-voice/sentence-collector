@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
   } catch (error) {
     debug('GET_LANGUAGES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_LANGUAGES_ERROR' });
   }
 });
 
@@ -29,7 +29,7 @@ router.get('/missing', async (req, res) => {
   } catch (error) {
     debug('GET_MISSING_LANGUAGES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_MISSING_LANGUAGES_ERROR' });
   }
 });
 
@@ -41,7 +41,7 @@ router.get('/additional', async (req, res) => {
   } catch (error) {
     debug('GET_ADDITIONAL_LANGUAGES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_ADDITIONAL_LANGUAGES_ERROR' });
   }
 });
 

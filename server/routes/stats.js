@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
   } catch (error) {
     debug('GET_STATS_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_STATS_ERROR' });
   }
 });
 
@@ -53,7 +53,7 @@ router.get('/general/:localeId', async (req, res) => {
   } catch (error) {
     debug('GET_STATS_FOR_LANGUAGE_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_STATS_FOR_LANGUAGE_ERROR' });
   }
 });
 

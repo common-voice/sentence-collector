@@ -40,7 +40,7 @@ test.serial('updateSetting: should pass error', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'UPDATE_SETTINGS_ERROR',
   });
 });
 
@@ -63,7 +63,7 @@ test.serial('addLanguage: should pass error', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'ADD_LANGUAGE_ERROR',
   });
 });
 
@@ -84,6 +84,6 @@ test.serial('removeLanguage: should pass error', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'REMOVE_LANGUAGE_ERROR',
   });
 });

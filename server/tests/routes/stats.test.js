@@ -80,7 +80,7 @@ test.serial('should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_STATS_ERROR',
   });
 });
 
@@ -102,6 +102,6 @@ test.serial('should pass on error message when querying general stats', async (t
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_STATS_FOR_LANGUAGE_ERROR',
   });
 });

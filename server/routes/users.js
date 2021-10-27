@@ -44,7 +44,7 @@ router.post('/settings', async (req, res) => {
     res.json({});
   } catch (error) {
     res.status(500);
-    res.json({ message: error.message });
+    res.json({ message: 'UPDATE_SETTINGS_ERROR' });
   }
 });
 
@@ -63,7 +63,7 @@ router.put('/languages', async (req, res) => {
     res.json(updatedLanguages);
   } catch (error) {
     res.status(500);
-    res.json({ message: error.message });
+    res.json({ message: 'ADD_LANGUAGE_ERROR' });
   }
 });
 
@@ -82,7 +82,7 @@ router.delete('/languages/:language', async (req, res) => {
     res.json(updatedLanguages);
   } catch (error) {
     res.status(500);
-    res.json({ message: error.message });
+    res.json({ message: 'REMOVE_LANGUAGE_ERROR' });
   }
 });
 

@@ -57,7 +57,7 @@ test.serial('getting sentences should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_SENTENCES_ERROR',
   });
 });
 
@@ -130,7 +130,7 @@ test.serial('should pass error when getting sentences text only', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_SENTENCES_TEXT_ERROR',
   });
 });
 
@@ -151,7 +151,7 @@ test.serial('should pass error when getting approved sentences text only', async
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_APPROVED_SENTENCES_TEXT_ERROR',
   });
 });
 
@@ -172,7 +172,7 @@ test.serial('should pass error when getting undecided sentences text only', asyn
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_UNDECIDED_SENTENCES_TEXT_ERROR',
   });
 });
 
@@ -193,7 +193,7 @@ test.serial('should pass error when getting rejected sentences text only', async
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_UNDECIDED_SENTENCES_TEXT_ERROR',
   });
 });
 
@@ -214,7 +214,7 @@ test.serial('should pass error when getting list of sources', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_SENTENCES_SOURCES_ERROR',
   });
 });
 
@@ -235,7 +235,7 @@ test.serial('getting review sentences should pass on error message', async (t) =
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_SENTENCES_FOR_REVIEW_ERROR',
   });
 });
 
@@ -256,7 +256,7 @@ test.serial('getting rejected sentences should pass on error message', async (t)
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_REJECTED_SENTENCES_ERROR',
   });
 });
 
@@ -277,7 +277,7 @@ test.serial('getting my sentences should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_MY_SENTENCES_ERROR',
   });
 });
 
@@ -300,7 +300,7 @@ test.serial('deleting sentences should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'DELETE_SENTENCES_ERROR',
   });
 });
 
@@ -327,6 +327,6 @@ test.serial('adding sentences should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'CREATE_SENTENCES_ERROR',
   });
 });

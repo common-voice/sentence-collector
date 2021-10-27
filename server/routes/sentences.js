@@ -21,7 +21,7 @@ router.get('/review', async (req, res) => {
   } catch (error) {
     debug('GET_SENTENCES_FOR_REVIEW_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_SENTENCES_FOR_REVIEW_ERROR' });
   }
 });
 
@@ -33,7 +33,7 @@ router.get('/rejected', async (req, res) => {
     .catch((error) => {
       debug('GET_REJECTED_SENTENCES_ERROR', error);
       res.status(STATUS_ERROR);
-      res.json({ message: error.message });
+      res.json({ message: 'GET_REJECTED_SENTENCES_ERROR' });
     });
 });
 
@@ -45,7 +45,7 @@ router.get('/my', async (req, res) => {
     .catch((error) => {
       debug('GET_MY_SENTENCES_ERROR', error);
       res.status(STATUS_ERROR);
-      res.json({ message: error.message });
+      res.json({ message: 'GET_MY_SENTENCES_ERROR' });
     });
 });
 
@@ -58,7 +58,7 @@ router.post('/delete', async (req, res) => {
     .catch((error) => {
       debug('DELETE_SENTENCES_ERROR', error);
       res.status(STATUS_ERROR);
-      res.json({ message: error.message });
+      res.json({ message: 'DELETE_SENTENCES_ERROR' });
     });
 });
 
@@ -73,7 +73,7 @@ router.put('/', async (req, res) => {
   } catch (error) {
     debug('CREATE_SENTENCES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'CREATE_SENTENCES_ERROR' });
   }
 });
 
@@ -91,7 +91,7 @@ router.get('/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_SENTENCES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_SENTENCES_ERROR' });
   }
 });
 
@@ -107,7 +107,7 @@ router.get('/text/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_SENTENCES_TEXT_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_SENTENCES_TEXT_ERROR' });
   }
 });
 
@@ -123,7 +123,7 @@ router.get('/text/approved/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_APPROVED_SENTENCES_TEXT_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_APPROVED_SENTENCES_TEXT_ERROR' });
   }
 });
 
@@ -139,7 +139,7 @@ router.get('/text/undecided/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_UNDECIDED_SENTENCES_TEXT_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_UNDECIDED_SENTENCES_TEXT_ERROR' });
   }
 });
 
@@ -155,7 +155,7 @@ router.get('/text/rejected/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_UNDECIDED_SENTENCES_TEXT_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_UNDECIDED_SENTENCES_TEXT_ERROR' });
   }
 });
 
@@ -171,7 +171,7 @@ router.get('/sources/:locale', async (req, res) => {
   } catch (error) {
     debug('GET_SENTENCES_SOURCES_ERROR', error);
     res.status(STATUS_ERROR);
-    res.json({ message: error.message });
+    res.json({ message: 'GET_SENTENCES_SOURCES_ERROR' });
   }
 });
 

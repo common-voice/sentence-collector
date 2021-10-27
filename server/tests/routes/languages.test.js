@@ -44,7 +44,7 @@ test.serial('should pass on error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_LANGUAGES_ERROR',
   });
 });
 
@@ -64,7 +64,7 @@ test.serial('should pass on missing language error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_MISSING_LANGUAGES_ERROR',
   });
 });
 
@@ -84,6 +84,6 @@ test.serial('should pass on additional language error message', async (t) => {
 
   t.is(response.status, 500);
   t.deepEqual(response.body, {
-    message: 'nope',
+    message: 'GET_ADDITIONAL_LANGUAGES_ERROR',
   });
 });
