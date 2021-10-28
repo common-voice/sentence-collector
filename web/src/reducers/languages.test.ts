@@ -124,3 +124,12 @@ test('should reduce remove language failure', async () => {
 
   expect(newState.pendingLanguages).toEqual(false);
 });
+
+test('should reduce ui language', async () => {
+  const newState = languageReducer(combineState({}), {
+    type: languages.ACTION_SET_CURRENT_UI_LOCALE,
+    locale: 'de',
+  });
+
+  expect(newState.currentUILocale).toEqual('de');
+});

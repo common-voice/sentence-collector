@@ -17,6 +17,8 @@ export const ACTION_GET_STATS = 'ACTION_GET_STATS';
 export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
 export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
+export const ACTION_SET_CURRENT_UI_LOCALE = 'ACTION_SET_CURRENT_UI_LOCALE';
+
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
 export function getStats(
@@ -139,5 +141,12 @@ export function removeLanguageSuccess(languages: string[]) {
 export function removeLanguageFailure() {
   return {
     type: ACTION_REMOVE_LANGUAGE_FAILURE,
+  };
+}
+
+export function setCurrentLocale(locale: string) {
+  return {
+    type: ACTION_SET_CURRENT_UI_LOCALE,
+    locale,
   };
 }

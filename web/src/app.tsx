@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import type { History } from 'history';
-import { getLanguages } from './actions/languages';
+import { getLanguages, setCurrentLocale } from './actions/languages';
 import { checkCurrentUser } from './actions/login';
 import type { RootState } from './types';
 
@@ -17,7 +17,6 @@ import Profile from './components/profile';
 import RejectedSentences from './components/rejected-sentences-list';
 import Review from './components/review';
 import Stats from './components/stats';
-import { AppLocalizationProvider } from './l10n';
 
 export default function App({ history }: { history: History }) {
   const { authed } = useSelector((state: RootState) => state.login);
@@ -204,12 +203,16 @@ const PrivateRoute = (props: PrivateRouteProps) => {
 };
 
 const Page = ({ children }: { children: ReactNode }) => {
+  const { currentUILocale } = useSelector((state: RootState) => state.languages);
+  const dispatch = useDispatch();
   const match = useRouteMatch<{ locale: string }>();
   const locale = match?.params?.locale;
 
-  return (
-    <AppLocalizationProvider locale={locale}>
-      <PageContainer>{children}</PageContainer>
-    </AppLocalizationProvider>
-  );
+  useEffect(() => {
+    if (locale !== currentUILocale) {
+      dispatch(setCurrentLocale(locale));
+    }
+  }, [locale]);
+
+  return <PageContainer>{children}</PageContainer>;
 };

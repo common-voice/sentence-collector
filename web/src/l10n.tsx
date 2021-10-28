@@ -1,10 +1,13 @@
 import React, { Children, useEffect, useState, ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 
 import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
 
-const DEFAULT_LOCALE = 'en';
+import type { RootState } from './types';
+
+export const DEFAULT_LOCALE = 'en';
 // We eventually want this to be more dynamic, preferably based on the
 // availability of translation files, and maybe even not including locales
 // before they have a certain amount of translated strings. See CV process
@@ -29,20 +32,20 @@ function* lazilyParsedBundles(fetchedMessages: Array<[string, string]>) {
 
 interface AppLocalizationProviderProps {
   children: ReactNode;
-  locale: string | undefined;
 }
 
-export function AppLocalizationProvider({ children, locale }: AppLocalizationProviderProps) {
+export function AppLocalizationProvider({ children }: AppLocalizationProviderProps) {
+  const { currentUILocale } = useSelector((state: RootState) => state.languages);
   const [currentLocales, setCurrentLocales] = useState([DEFAULT_LOCALE]);
   const [l10n, setL10n] = useState<ReactLocalization | null>(null);
 
   useEffect(() => {
     const locales = [...navigator.languages];
-    if (locale) {
-      locales.unshift(locale);
+    if (currentUILocale) {
+      locales.unshift(currentUILocale);
     }
     changeLocales(locales);
-  }, [locale]);
+  }, [currentUILocale]);
 
   useEffect(() => {
     const mainLocale = currentLocales[0];
@@ -64,7 +67,7 @@ export function AppLocalizationProvider({ children, locale }: AppLocalizationPro
   }
 
   if (l10n === null) {
-    return <div>Loading…</div>;
+    return null;
   }
 
   return (

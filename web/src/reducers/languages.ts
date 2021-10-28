@@ -11,7 +11,9 @@ import {
   ACTION_GET_STATS,
   ACTION_GOT_STATS,
   ACTION_RESET_STATS_STATUS,
+  ACTION_SET_CURRENT_UI_LOCALE,
 } from '../actions/languages';
+import { DEFAULT_LOCALE } from '../l10n';
 import type { Language, LanguageStats } from '../types';
 
 export type LanguageState = {
@@ -21,6 +23,7 @@ export type LanguageState = {
   pendingLanguages: boolean;
   lastStatsUpdate: number;
   statsUpdating: boolean;
+  currentUILocale: string;
 };
 
 export const INITIAL_STATE: LanguageState = {
@@ -37,6 +40,7 @@ export const INITIAL_STATE: LanguageState = {
   pendingLanguages: false,
   lastStatsUpdate: 0,
   statsUpdating: false,
+  currentUILocale: DEFAULT_LOCALE,
 };
 
 export default function (state = INITIAL_STATE, action: AnyAction): LanguageState {
@@ -93,6 +97,11 @@ export default function (state = INITIAL_STATE, action: AnyAction): LanguageStat
     case ACTION_REMOVE_LANGUAGE_FAILURE:
       return Object.assign({}, state, {
         pendingLanguages: false,
+      });
+
+    case ACTION_SET_CURRENT_UI_LOCALE:
+      return Object.assign({}, state, {
+        currentUILocale: action.locale,
       });
 
     default:
