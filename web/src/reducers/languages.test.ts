@@ -33,6 +33,7 @@ test('should use initial state', async () => {
     pendingLanguages: false,
     lastStatsUpdate: 0,
     statsUpdating: false,
+    currentUILocale: 'en',
   });
 });
 
