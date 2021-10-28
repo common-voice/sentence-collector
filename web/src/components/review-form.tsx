@@ -35,10 +35,6 @@ export default function SwipeReview(props: Props) {
     []
   );
 
-  if (sentences.length === 0) {
-    return null;
-  }
-
   const APPROVAL_DIRECTIONS: Record<string, boolean> = {
     left: false,
     right: true,
@@ -102,9 +98,16 @@ export default function SwipeReview(props: Props) {
       direction = 'up';
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    await cardsRefs[currentSentenceIndex].current.swipe(direction);
+    try {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      await cardsRefs[currentSentenceIndex].current.swipe(direction);
+    } catch (error) {
+      // If the swipe failed we either could not process the swipe at all
+      // or it was the last card leading to an error on the card as the
+      // component gets unmounted at the same time due to no sentences
+      // being left to review. In both cases we can ignore this error.
+    }
   };
 
   useEffect(() => {
@@ -128,10 +131,14 @@ export default function SwipeReview(props: Props) {
   }, [currentSentenceIndex]);
 
   useEffect(() => {
-    if (reviewedSentencesCount + skippedSentencesCount === sentences.length) {
+    if (sentences.length !== 0 && reviewedSentencesCount + skippedSentencesCount === sentences.length) {
       submitSentences();
     }
   }, [reviewedSentencesCount, skippedSentencesCount]);
+
+  if (sentences.length === 0) {
+    return null;
+  }
 
   return (
     <form id="review-form" onSubmit={onSubmit}>
