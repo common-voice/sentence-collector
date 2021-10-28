@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Localized } from '@fluent/react';
 
 import { afterLogin, logout } from '../actions/login';
 
@@ -17,8 +18,12 @@ export function LoginFailure() {
 
   return (
     <section>
-      <h1>Login failed</h1>
-      <p>Please try again.</p>
+      <Localized id="sc-login-err-failed">
+        <h1>Login failed</h1>
+      </Localized>
+      <Localized id="sc-login-err-try-again">
+        <p>Please try again.</p>
+      </Localized>
     </section>
   );
 }

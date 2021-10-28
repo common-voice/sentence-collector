@@ -16,7 +16,7 @@ export async function sendRequest<T>(endpoint: string, method = 'GET', data: unk
   const json = await response.json();
 
   if (!response.ok) {
-    throw new Error(json.message || 'Request failed.');
+    throw new Error(json.message || 'REQUEST_FAILED');
   }
 
   return json;

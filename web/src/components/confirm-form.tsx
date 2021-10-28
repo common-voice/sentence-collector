@@ -1,4 +1,5 @@
 import React from 'react';
+import { Localized } from '@fluent/react';
 
 import ReviewLink from './review-link';
 import SpinnerButton from './spinner-button';
@@ -25,35 +26,53 @@ export default function ConfirmForm(props: Props) {
     isUploadingSentences,
   } = props;
 
+  const countOfSentences = submitted.length;
+  const countOfInvalidated = invalidated.length;
+  const countOfReviewed = validated.length + invalidated.length;
   const readyCount = submitted.length - invalidated.length;
-
+  const countOfUnreviewed = unreviewed.length;
+  
   return (
     <form onSubmit={onSubmit}>
-      <Prompt message="Sentences not submitted, are you sure you want to leave?" when={true} />
+      <Localized id="sc-confirm-are-you-sure" attrs={{ message: true }}>
+        <Prompt message="Sentences not submitted, are you sure you want to leave?" when={true} />
+      </Localized>
 
-      <h2>Confirm New Sentences</h2>
-      <p>{`${submitted.length} sentences found.`}</p>
+      <Localized id="sc-confirm-sentences-title">
+        <h2>Confirm New Sentences</h2>
+      </Localized>
+      <Localized id="sc-confirm-sentences-found" vars={{ countOfSentences }}>
+        <p>{`${submitted.length} sentences found.`}</p>
+      </Localized>
 
       {invalidated.length > 0 && (
-        <p style={{ color: 'red' }}>{`${invalidated.length} rejected by you`}</p>
+        <Localized id="sc-confirm-rejected-by-you" vars={{ countOfInvalidated }}>
+          <p style={{ color: 'red' }}>{`${invalidated.length} rejected by you`}</p>
+        </Localized>
       )}
 
       {validated.length + invalidated.length > 0 && (
-        <p>
-          {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
-        </p>
+        <Localized id="sc-confirm-great-job" vars={{ countOfReviewed }}>
+          <p>
+            {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
+          </p>
+        </Localized>
       )}
 
-      <p>
-        <strong>{`${readyCount} sentences ready for submission!`}</strong>
-      </p>
+      <Localized id="sc-confirm-ready" vars={{ readyCount }}>
+        <p>
+          <strong>{`${readyCount} sentences ready for submission!`}</strong>
+        </p>
+      </Localized>
 
       {unreviewed.length > 0 && (
-        <p>
-          {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
-          &nbsp;
-          <ReviewLink onReview={onReview} sentences={unreviewed} />
-        </p>
+          <p>
+            <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed }}>
+              {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+            </Localized>
+            &nbsp;
+            <ReviewLink onReview={onReview} sentences={unreviewed} />
+          </p>
       )}
 
       <section>
@@ -61,16 +80,20 @@ export default function ConfirmForm(props: Props) {
           <SpinnerButton></SpinnerButton>
         ) : (
           <button type="submit" className="standalone" disabled={readyCount === 0}>
-            Confirm
+            <Localized id="sc-confirm-button-text">
+              Confirm
+            </Localized>
           </button>
         )}
 
         {isUploadingSentences && (
           <div>
-            <p className="loading-text">
-              Sentences are being uploaded. This can take several minutes depending on the number of
-              sentences added. Please do not close this website.
-            </p>
+            <Localized id="sc-confirm-uploading">
+              <p className="loading-text">
+                Sentences are being uploaded. This can take several minutes depending on the number of
+                sentences added. Please do not close this website.
+              </p>
+            </Localized>
           </div>
         )}
       </section>

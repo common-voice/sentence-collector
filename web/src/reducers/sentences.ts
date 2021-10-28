@@ -1,4 +1,5 @@
 import type { AnyAction } from 'redux';
+import { useLocalization } from '@fluent/react';
 
 import {
   ACTION_SUBMIT_SENTENCES_REQUEST,
@@ -33,8 +34,12 @@ export const INITIAL_STATE: SentencesState = {
   skippedSentences: [],
 };
 
+
 export default function (state = INITIAL_STATE, action: AnyAction): SentencesState {
   const errors = action.errors || [];
+
+  // FIXME : Uncaught Error: useLocalization was used without wrapping it in a <LocalizationProvider />.
+  // const { l10n } = useLocalization();
 
   switch (action.type) {
     case ACTION_SUBMIT_SENTENCES_REQUEST:
@@ -75,8 +80,10 @@ export default function (state = INITIAL_STATE, action: AnyAction): SentencesSta
       });
 
     case ACTION_REVIEWED_SENTENCES:
+      {/* FIXME : Uncaught Error: useLocalization was used without wrapping it in a <LocalizationProvider />. */}
       return Object.assign({}, state, {
-        reviewMessage: `${action.votes} sentences reviewed. Thank you!`,
+        // reviewMessage: l10n.getString('sc-red-sentences-review', { noOfSentences: action.votes }),
+        reviewMessage: `!!! ${action.votes} sentences reviewed. Thank you!`,
       });
 
     case ACTION_REVIEW_SENTENCES_FAILURE:

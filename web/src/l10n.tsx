@@ -12,7 +12,10 @@ export const DEFAULT_LOCALE = 'en';
 // availability of translation files, and maybe even not including locales
 // before they have a certain amount of translated strings. See CV process
 // for this.
-const AVAILABLE_LOCALES = [DEFAULT_LOCALE];
+const AVAILABLE_LOCALES = [
+    DEFAULT_LOCALE,
+    'tr'
+];
 const RTL_LOCALES: string[] = [];
 
 async function fetchMessages(locale: string): Promise<[string, string]> {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocalization } from '@fluent/react';
 
 import { uploadSentences } from '../actions/sentences';
 import truthyFilter from '../truthyFilter';
@@ -66,6 +67,8 @@ export default function Add() {
     setUnreviewed(sentences);
   };
 
+  const { l10n } = useLocalization();
+
   const onConfirm = async (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
@@ -85,15 +88,20 @@ export default function Add() {
       );
 
       if (typeof errors === 'undefined') {
-        throw new Error('Unexpected response returned from server');
+        throw new Error(l10n.getString('sc-add-err-unexpected'));
       }
 
       resetState();
-      setMessage(`Submitted sentences. ${duplicates} sentences were rejected as duplicates.`);
-      setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
+      setMessage(l10n.getString('sc-add-result', { duplicates: duplicates } ));
+      // setMessage(`Submitted sentences. ${duplicates} sentences were rejected as duplicates.`);
+      setError(errors && errors.length > 0 ?
+        l10n.getString('sc-add-err-failed', { sentences: errors.length }) :
+        ''
+      );
+      // setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
     } catch (error) {
       resetState();
-      setError(`Submission Error: ${error.message}`);
+      setError(l10n.getString('sc-add-err-submission'));
     }
   };
 

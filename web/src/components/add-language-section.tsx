@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Localized, useLocalization } from '@fluent/react';
 
 import { addLanguage } from '../actions/languages';
 import type { RootState } from '../types';
@@ -14,6 +15,8 @@ export default function AddLanguage() {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
+  const { l10n } = useLocalization();
+
   const onLanguageSelect = (language: string) => {
     setLanguage(language);
   };
@@ -25,11 +28,13 @@ export default function AddLanguage() {
     try {
       await dispatch(addLanguage(language));
     } catch (error) {
-      setError(`Could not add language: ${error.message}`);
+      setError(l10n.getString('sc-add-lang-could-not-add'));
     }
 
     setLanguage('');
   };
+
+  const l10nLabelText = l10n.getString('sc-add-lang-sec-label');
 
   return (
     <section>
@@ -40,7 +45,7 @@ export default function AddLanguage() {
         disabled={pendingLanguages}
         languages={allLanguages}
         filters={languages}
-        labelText="Add a language you want to contribute to"
+        labelText={l10nLabelText}
         onChange={onLanguageSelect}
       />
       <button
@@ -48,7 +53,9 @@ export default function AddLanguage() {
         onClick={onLanguageAdd}
         className="add-language"
       >
+      <Localized id="sc-add-lang-sec-button">
         Add Language
+      </Localized>
       </button>
     </section>
   );

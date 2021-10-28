@@ -9,6 +9,9 @@ import { routerMiddleware } from 'connected-react-router';
 import type { History } from 'history';
 
 import createRootReducer from './reducers';
+// !!! FIXME ??? Is this necessary?
+// Uncaught Error: useLocalization was used without wrapping it in a <LocalizationProvider />.
+// import { useLocalization, LocalizationProvider } from '@fluent/react';
 
 const ROOT_KEY = 'redux';
 const persistConfig = {
@@ -36,10 +39,14 @@ export default function Store(props: Props) {
   const history = props.history;
   const store = getStore(history);
   const persistor = persistStore(store);
+  // !!! FIXME ??? Is this necessary?
+  // const { l10n } = useLocalization();
 
   return (
     <Provider store={store}>
-      <PersistGate loading={<p>Loading...</p>} persistor={persistor}>
+      {/* !!! FIXME ??? Is this necessary? */}
+      {/* <PersistGate loading={<p>{l10n.getString('sc-store-loading')}</p>} persistor={persistor}> */}
+      <PersistGate loading={<p>Loading…</p>} persistor={persistor}>
         {props.children}
       </PersistGate>
     </Provider>

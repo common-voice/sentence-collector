@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Localized, useLocalization } from '@fluent/react';
 
 import { getStats } from '../actions/languages';
 import truthyFilter from '../truthyFilter';
@@ -25,19 +26,43 @@ export default function Stats() {
     .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
     .filter(truthyFilter);
 
+  const { l10n } = useLocalization();
+  const l10nNever = l10n.getString('sc-stats-never')
+
   return (
     <div>
-      <h1>Statistics</h1>
-      <p>Last Update: {lastStatsUpdate ? new Date(lastStatsUpdate).toLocaleString() : 'never'}</p>
-      {statsUpdating && <p>Updating...</p>}
+      <Localized id="sc-stats-title">
+        <h1>Statistics</h1>
+      </Localized>
+      <p>
+        <Localized id="sc-stats-last-update">
+          Last Update:
+        </Localized>
+        &nbsp;
+        {lastStatsUpdate ?
+          new Date(lastStatsUpdate).toLocaleString() :
+          l10nNever
+        }
+      </p>
+      {statsUpdating &&
+        <Localized id="sc-stats-updating">
+          <p>Updating...</p>
+        </Localized>
+      }
 
       {lastStatsUpdate && (
         <React.Fragment>
           {totals && (
-            <p>
-              The Common Voice Sentence Collector has collected {totals.total} sentences in{' '}
-              {totals.languages} languages!
-            </p>
+            <Localized id="sc-stats-updating" vars={{
+                sentenceCount: totals.total,
+                languageCount: totals.languages 
+              }}
+            >
+              <p>
+                The Common Voice Sentence Collector has collected {totals.total} sentences in{' '}
+                {totals.languages} languages!
+              </p>
+            </Localized>
           )}
 
           {extendedLanguages

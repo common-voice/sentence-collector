@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Localized } from '@fluent/react';
 
 import type { RootState } from '../types';
 
@@ -14,7 +15,9 @@ export default function Profile() {
 
   return (
     <form>
-      <h1>Profile: {username}</h1>
+      <Localized id="sc-profile-title" vars={{username}}>
+        <h1>Profile: {username}</h1>
+      </Localized>
 
       <PersonalLanguageInfo />
       <AddLanguage />
