@@ -131,7 +131,10 @@ export default function SwipeReview(props: Props) {
   }, [currentSentenceIndex]);
 
   useEffect(() => {
-    if (sentences.length !== 0 && reviewedSentencesCount + skippedSentencesCount === sentences.length) {
+    if (
+      sentences.length !== 0 &&
+      reviewedSentencesCount + skippedSentencesCount === sentences.length
+    ) {
       submitSentences();
     }
   }, [reviewedSentencesCount, skippedSentencesCount]);
