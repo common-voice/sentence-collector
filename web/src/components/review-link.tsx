@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { Localized } from '@fluent/react';
 
@@ -15,10 +16,7 @@ export default function ReviewLink({ sentences, onReview }: Props) {
         onReview && onReview();
       }}
     >
-      <Localized id="sc-review-link">
-        Review
-      </Localized>
+      <Localized id="sc-review-link">Review</Localized>
     </a>
   ) : null;
 }
-

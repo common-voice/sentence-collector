@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Localized, useLocalization } from '@fluent/react';
@@ -13,7 +14,7 @@ export default function PersonalLanguageInfo() {
   );
   const [error, setError] = useState('');
   const dispatch = useDispatch();
-  
+
   const { l10n } = useLocalization();
 
   const extendedLanguages = languages
@@ -37,9 +38,6 @@ export default function PersonalLanguageInfo() {
     }
   };
 
-  let sentencesAddedByYou: number;
-
-
   return (
     <section>
       {error && <p className="error-message">{error}</p>}
@@ -61,16 +59,12 @@ export default function PersonalLanguageInfo() {
                   }}
                   disabled={pendingLanguages}
                 >
-                  <Localized id="sc-personal-remove-button">
-                    remove
-                  </Localized>
+                  <Localized id="sc-personal-remove-button">remove</Localized>
                 </button>
                 <ul>
                   <li>
                     {`${(userStats[language.id] || {}).added || 0} `}
-                    <Localized id="sc-personal-added-by-you">
-                      added by you
-                    </Localized>
+                    <Localized id="sc-personal-added-by-you">added by you</Localized>
                   </li>
                 </ul>
               </li>
@@ -78,9 +72,9 @@ export default function PersonalLanguageInfo() {
           </ul>
         </section>
       ) : (
-      <Localized id="sc-personal-not-added">
-        <p>You have not added any languages yet.</p>
-      </Localized>
+        <Localized id="sc-personal-not-added">
+          <p>You have not added any languages yet.</p>
+        </Localized>
       )}
     </section>
   );

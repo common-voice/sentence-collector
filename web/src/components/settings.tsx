@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Localized } from '@fluent/react';
@@ -38,9 +39,7 @@ export default function Settings() {
           </p>
         </Localized>
         <button className="standalone" onClick={resetSkipped}>
-          <Localized id="sc-settings-show-all-button">
-            Show all skipped sentences again
-          </Localized>
+          <Localized id="sc-settings-show-all-button">Show all skipped sentences again</Localized>
         </button>
       </section>
     </section>

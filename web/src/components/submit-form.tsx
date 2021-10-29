@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Localized, useLocalization } from '@fluent/react';
@@ -38,7 +39,6 @@ type FormFields = {
   source: string;
   confirmed: boolean;
 };
-
 
 export default function SubmitForm({
   languages,
@@ -126,7 +126,6 @@ export default function SubmitForm({
           <h1>Add Sentences</h1>
         </Localized>
 
-
         {message && <section className="form-message">{message}</section>}
         {formError && <section className="form-error">{formError}</section>}
         {error && <section className="form-error">{error}</section>}
@@ -141,25 +140,28 @@ export default function SubmitForm({
           </Localized>
         </section>
         <section>
-          <Localized id="sc-submit-add-sentences" elems={{
-            wikipediaLink: (
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              />
-            )
-          }}>
-            <label htmlFor="sentences-input">
-                Add{' '}
+          <Localized
+            id="sc-submit-add-sentences"
+            elems={{
+              wikipediaLink: (
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://en.wikipedia.org/wiki/Public_domain"
-                >
-                  public domain
-                </a>{' '}
-                sentences
+                />
+              ),
+            }}
+          >
+            <label htmlFor="sentences-input">
+              Add{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              sentences
             </label>
           </Localized>
           <Localized id="sc-submit-ph-one-per-line" attrs={{ placeholder: true }}>
@@ -173,25 +175,28 @@ export default function SubmitForm({
           </Localized>
         </section>
         <section>
-          <Localized id="sc-submit-from-where" elems={{
-            wikipediaLink: (
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              />
-            )
-          }}>
-            <label htmlFor="source-input">
-                Where are these{' '}
+          <Localized
+            id="sc-submit-from-where"
+            elems={{
+              wikipediaLink: (
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://en.wikipedia.org/wiki/Public_domain"
-                >
-                  public domain
-                </a>{' '}
-                sentences from?
+                />
+              ),
+            }}
+          >
+            <label htmlFor="source-input">
+              Where are these{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              sentences from?
             </label>
           </Localized>
           <Localized id="sc-submit-ph-read-how-to" attrs={{ placeholder: true }}>
@@ -206,26 +211,29 @@ export default function SubmitForm({
         </section>
         <section>
           <input id="agree" type="checkbox" name="confirmed" onChange={handleInputChange} />
-          <Localized id="sc-submit-confirm" elems={{
-            wikipediaLink: (
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              />
-            )
-          }}>
-            <label htmlFor="agree">
-                I confirm that these sentences are {}
+          <Localized
+            id="sc-submit-confirm"
+            elems={{
+              wikipediaLink: (
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://en.wikipedia.org/wiki/Public_domain"
-                >
-                  public domain
-                </a>{' '}
-                {}
-                and I have permission to upload them.
+                />
+              ),
+            }}
+          >
+            <label htmlFor="agree">
+              I confirm that these sentences are {}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              {}
+              and I have permission to upload them.
             </label>
           </Localized>
         </section>
@@ -243,9 +251,12 @@ export default function SubmitForm({
               sentences):
             </h2>
           </Localized>
-          <Localized id="sc-submit-guidelines" elems={{
-            howToLink: ( <Link to={'/how-to'}></Link> )
-          }}>
+          <Localized
+            id="sc-submit-guidelines"
+            elems={{
+              howToLink: <Link to={'/how-to'}></Link>,
+            }}
+          >
             <p>
               Please check the <Link to={'/how-to'}>guidelines</Link>.
             </p>

@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ReviewedState, SentenceRecord } from '../types';
 import TinderCard from 'react-tinder-card';
@@ -148,7 +149,7 @@ export default function SwipeReview(props: Props) {
 
   return (
     <form id="review-form" onSubmit={onSubmit}>
-      <Localized id="sc-review-title" attrs={{ message: true }}> 
+      <Localized id="sc-review-title" attrs={{ message: true }}>
         <Prompt
           when={reviewedSentencesCount > 0}
           message="Reviewed sentences not submitted, are sure?"
@@ -159,11 +160,10 @@ export default function SwipeReview(props: Props) {
       {message && <p>{message}</p>}
 
       <p className="small">
-        <Localized id="sc-review-form-usage-1"> 
+        <Localized id="sc-review-form-usage-1">
           Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.
-        </Localized>
-        {' '}
-        <Localized id="sc-review-form-usage-2"> 
+        </Localized>{' '}
+        <Localized id="sc-review-form-usage-2">
           <strong>Do not forget to submit your review!</strong>
         </Localized>
       </p>
@@ -180,12 +180,13 @@ export default function SwipeReview(props: Props) {
             <div className="swipe card-sentence-box">
               <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
               <small className="card-source">
-                {sentence.source ?
+                {sentence.source ? (
                   <Localized id="sc-review-form-source" vars={{ sentenceSource: sentence.source }}>
                     <span>`Source: ${sentence.source}`</span>
                   </Localized>
-                   : ''
-                }
+                ) : (
+                  ''
+                )}
               </small>
             </div>
           </TinderCard>
@@ -198,25 +199,19 @@ export default function SwipeReview(props: Props) {
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, false)}
           >
-            <Localized id="sc-review-form-button-reject">
-              Reject
-            </Localized>
+            <Localized id="sc-review-form-button-reject">Reject</Localized>
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, undefined)}
           >
-            <Localized id="sc-review-form-button-skip">
-              Skip
-            </Localized>
+            <Localized id="sc-review-form-button-skip">Skip</Localized>
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, true)}
           >
-            <Localized id="sc-review-form-button-approve">
-              Approve
-            </Localized>
+            <Localized id="sc-review-form-button-approve">Approve</Localized>
           </button>
         </div>
       </section>
@@ -227,7 +222,7 @@ export default function SwipeReview(props: Props) {
             You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
           </Localized>
         </p>
-        <Localized id="sc-review-form-button-submit" attrs= {{ submitText: true }}>
+        <Localized id="sc-review-form-button-submit" attrs={{ submitText: true }}>
           <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
         </Localized>
       </section>

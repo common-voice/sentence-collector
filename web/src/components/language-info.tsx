@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { Localized } from '@fluent/react';
@@ -53,20 +54,30 @@ const LanguageInfo = (props: Props) => {
             <span>{unreviewedByYou} sentences left for you to review.</span>
           </Localized>
           &nbsp;
-          {unreviewedByYou > 0 &&
-            <Link to={getReviewUrl(match.params.locale, language)}>
-              <Localized id="sc-lang-info-review-now">
-                Review now!
-              </Localized>
-            </Link>
-          }
-          {total - validated === 0 &&
-            <Localized id="sc-lang-info-add-more" elems={{
-              addLink: (<Link to={'/add'}></Link>)
-            }}>
-              <Link to={'/add'}>Add more sentences now!</Link>
+          {unreviewedByYou > 0 && (
+            <Localized
+              id="sc-lang-info-review-now"
+              elems={{
+                reviewLink: <Link to={getReviewUrl(match.params.locale, language)}></Link>,
+              }}
+            >
+              <span>
+                <Link to={getReviewUrl(match.params.locale, language)}>Review now!</Link>
+              </span>
             </Localized>
-          }
+          )}
+          {total - validated === 0 && (
+            <Localized
+              id="sc-lang-info-add-more"
+              elems={{
+                addLink: <Link to={'/add'}></Link>,
+              }}
+            >
+              <span>
+                <Link to={'/add'}>Add more sentences now!</Link>
+              </span>
+            </Localized>
+          )}
         </li>
         <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
           <li>{validated} validated sentences.</li>

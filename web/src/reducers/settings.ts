@@ -1,5 +1,6 @@
+// LOCALIZATION VERSION - FIXME
 import type { AnyAction } from 'redux';
-import { useLocalization } from '@fluent/react';
+// import { useLocalization } from '@fluent/react';
 
 import { ACTION_SETTINGS_CHANGED, ACTION_SETTINGS_CHANGED_FAILURE } from '../actions/settings';
 
@@ -12,7 +13,6 @@ export const INITIAL_STATE: SettingsState = {
 };
 
 export default function (state = INITIAL_STATE, action: AnyAction): SettingsState {
-
   // FIXME : Uncaught Error: useLocalization was used without wrapping it in a <LocalizationProvider />.
   // const { l10n } = useLocalization();
 

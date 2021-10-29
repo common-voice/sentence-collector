@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocalization } from '@fluent/react';
@@ -92,11 +93,12 @@ export default function Add() {
       }
 
       resetState();
-      setMessage(l10n.getString('sc-add-result', { duplicates: duplicates } ));
+      setMessage(l10n.getString('sc-add-result', { duplicates: duplicates }));
       // setMessage(`Submitted sentences. ${duplicates} sentences were rejected as duplicates.`);
-      setError(errors && errors.length > 0 ?
-        l10n.getString('sc-add-err-failed', { sentences: errors.length }) :
-        ''
+      setError(
+        errors && errors.length > 0
+          ? l10n.getString('sc-add-err-failed', { sentences: errors.length })
+          : ''
       );
       // setError(errors && errors.length > 0 ? `${errors.length} sentences failed` : '');
     } catch (error) {

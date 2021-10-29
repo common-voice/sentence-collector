@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Localized, useLocalization } from '@fluent/react';
@@ -27,7 +28,7 @@ export default function Stats() {
     .filter(truthyFilter);
 
   const { l10n } = useLocalization();
-  const l10nNever = l10n.getString('sc-stats-never')
+  const l10nNever = l10n.getString('sc-stats-never');
 
   return (
     <div>
@@ -35,27 +36,24 @@ export default function Stats() {
         <h1>Statistics</h1>
       </Localized>
       <p>
-        <Localized id="sc-stats-last-update">
-          Last Update:
-        </Localized>
+        <Localized id="sc-stats-last-update">Last Update:</Localized>
         &nbsp;
-        {lastStatsUpdate ?
-          new Date(lastStatsUpdate).toLocaleString() :
-          l10nNever
-        }
+        {lastStatsUpdate ? new Date(lastStatsUpdate).toLocaleString() : l10nNever}
       </p>
-      {statsUpdating &&
+      {statsUpdating && (
         <Localized id="sc-stats-updating">
           <p>Updating...</p>
         </Localized>
-      }
+      )}
 
       {lastStatsUpdate && (
         <React.Fragment>
           {totals && (
-            <Localized id="sc-stats-updating" vars={{
+            <Localized
+              id="sc-stats-updating"
+              vars={{
                 sentenceCount: totals.total,
-                languageCount: totals.languages 
+                languageCount: totals.languages,
               }}
             >
               <p>

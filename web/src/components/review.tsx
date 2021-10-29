@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -58,9 +59,12 @@ export default function Review() {
   if (languages.length === 0) {
     return (
       <p>
-        <Localized id="sc-review-lang-not-selected" elems={{
-          profileLink: (<Link to="/profile"></Link>)
-        }}>
+        <Localized
+          id="sc-review-lang-not-selected"
+          elems={{
+            profileLink: <Link to="/profile"></Link>,
+          }}
+        >
           You have not selected any languages. Please go to your&nbsp;
           <Link to="/profile">Profile</Link> to select languages.
         </Localized>
@@ -122,24 +126,25 @@ export default function Review() {
         <ReviewCriteria />
       </section>
 
-      {sentencesLoading &&
+      {sentencesLoading && (
         <Localized id="sc-review-loading">
           <p>Loading sentences…</p>
         </Localized>
-      }
+      )}
 
-      {!language &&
+      {!language && (
         <Localized id="sc-review-select-language">
           <p>Please select a language to review sentences.</p>
         </Localized>
-      }
+      )}
 
       {hasNoSentences && (
-        <Localized id="sc-review-no-sentences" elems={{
-          addLink: (
-            <Link to={'/add'}></Link>
-          )
-        }}>
+        <Localized
+          id="sc-review-no-sentences"
+          elems={{
+            addLink: <Link to={'/add'}></Link>,
+          }}
+        >
           <p>
             No sentences to review.&nbsp;
             <Link to={'/add'}>Add more sentences now!</Link>

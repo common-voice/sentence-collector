@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { Localized } from '@fluent/react';
 
@@ -31,7 +32,7 @@ export default function ConfirmForm(props: Props) {
   const countOfReviewed = validated.length + invalidated.length;
   const readyCount = submitted.length - invalidated.length;
   const countOfUnreviewed = unreviewed.length;
-  
+
   return (
     <form onSubmit={onSubmit}>
       <Localized id="sc-confirm-are-you-sure" attrs={{ message: true }}>
@@ -54,7 +55,9 @@ export default function ConfirmForm(props: Props) {
       {validated.length + invalidated.length > 0 && (
         <Localized id="sc-confirm-great-job" vars={{ countOfReviewed }}>
           <p>
-            {`-- ${validated.length + invalidated.length} sentences are already reviewed. Great job!`}
+            {`-- ${
+              validated.length + invalidated.length
+            } sentences are already reviewed. Great job!`}
           </p>
         </Localized>
       )}
@@ -66,13 +69,13 @@ export default function ConfirmForm(props: Props) {
       </Localized>
 
       {unreviewed.length > 0 && (
-          <p>
-            <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed }}>
-              {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
-            </Localized>
-            &nbsp;
-            <ReviewLink onReview={onReview} sentences={unreviewed} />
-          </p>
+        <p>
+          <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed }}>
+            {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+          </Localized>
+          &nbsp;
+          <ReviewLink onReview={onReview} sentences={unreviewed} />
+        </p>
       )}
 
       <section>
@@ -80,9 +83,7 @@ export default function ConfirmForm(props: Props) {
           <SpinnerButton></SpinnerButton>
         ) : (
           <button type="submit" className="standalone" disabled={readyCount === 0}>
-            <Localized id="sc-confirm-button-text">
-              Confirm
-            </Localized>
+            <Localized id="sc-confirm-button-text">Confirm</Localized>
           </button>
         )}
 
@@ -90,8 +91,8 @@ export default function ConfirmForm(props: Props) {
           <div>
             <Localized id="sc-confirm-uploading">
               <p className="loading-text">
-                Sentences are being uploaded. This can take several minutes depending on the number of
-                sentences added. Please do not close this website.
+                Sentences are being uploaded. This can take several minutes depending on the number
+                of sentences added. Please do not close this website.
               </p>
             </Localized>
           </div>

@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { Localized } from '@fluent/react';
 
@@ -22,38 +23,42 @@ export default function HowTo() {
         <Localized id="sc-howto-addsen-title">
           <h2 id="add-new-sentences">Add new sentences</h2>
         </Localized>
-        <Localized id="sc-howto-addsen-item-1" elems={{
-          wikipediaLink: (
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://en.wikipedia.org/wiki/Public_domain"
-            />
-          ),
-          cc0WaiverLink: (
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html"
-            />
-          )
-        }}>
+        <Localized
+          id="sc-howto-addsen-item-1"
+          elems={{
+            wikipediaLink: (
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              />
+            ),
+            cc0WaiverLink: (
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html"
+              />
+            ),
+          }}
+        >
           <li>
             All sentences you submit must be under{' '}
-            <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>. To
-            support the inclusion of work not under public licence, we have created a{' '}
+            <a href="https://en.wikipedia.org/wiki/Public_domain">Public Domain (CC-0) license</a>.
+            To support the inclusion of work not under public licence, we have created a{' '}
             <a href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html">
               Contributions Agreement template
             </a>{' '}
-            for works where the copyright owner would like to contribute the material to Common Voice.
+            for works where the copyright owner would like to contribute the material to Common
+            Voice.
           </li>
         </Localized>
         <Localized id="sc-howto-addsen-item-2">
           <li>
-            Numbers. There should be no digits in the source text because they can cause problems when
-            read aloud. The way a number is read depends on context and might introduce confusion in
-            the dataset. For example, the number “2409” could be accurately read as both “twenty-four
-            zero nine” and “two thousand four hundred nine”.
+            Numbers. There should be no digits in the source text because they can cause problems
+            when read aloud. The way a number is read depends on context and might introduce
+            confusion in the dataset. For example, the number “2409” could be accurately read as
+            both “twenty-four zero nine” and “two thousand four hundred nine”.
           </li>
         </Localized>
         <Localized id="sc-howto-addsen-item-3">
@@ -75,20 +80,23 @@ export default function HowTo() {
         </Localized>
         <Localized id="sc-howto-addsen-item-5">
           <li>
-            Foreign letters. Letters must be valid in the language being spoken. For example, “ж” is a
-            letter in the Russian alphabet but is never used in English and so should never appear in
-            any English source text.
+            Foreign letters. Letters must be valid in the language being spoken. For example, “ж” is
+            a letter in the Russian alphabet but is never used in English and so should never appear
+            in any English source text.
           </li>
         </Localized>
-        <Localized id="sc-howto-addsen-item-6" elems={{
-          validationRulesLink: (
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://en.wikipedia.org/wiki/Public_domain"
-            />
-          )
-        }}>
+        <Localized
+          id="sc-howto-addsen-item-6"
+          elems={{
+            validationRulesLink: (
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              />
+            ),
+          }}
+        >
           <li>
             Languages can have their{' '}
             <a href="https://github.com/common-voice/sentence-collector/tree/main/server/lib/validation/languages">
@@ -101,23 +109,26 @@ export default function HowTo() {
       </ul>
       <Localized id="sc-howto-addsen-post-1">
         <p>
-          We prefer natural/conversational sentences. While phonetic diversity and different words in
-          sentences is important, we are trying to make recording sentences as much fun as possible.
-          Therefore it would be great if you could try to keep your sentences as natural/engaging as
-          possible.
+          We prefer natural/conversational sentences. While phonetic diversity and different words
+          in sentences is important, we are trying to make recording sentences as much fun as
+          possible. Therefore it would be great if you could try to keep your sentences as
+          natural/engaging as possible.
         </p>
       </Localized>
 
       <h2 id="how-to-reference-the-source">How to Cite</h2>
-      <Localized id="sc-howto-cite-pre-1" elems={{
-        copyrightIssuesLink: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767"
-          />
-        )
-      }}>
+      <Localized
+        id="sc-howto-cite-pre-1"
+        elems={{
+          copyrightIssuesLink: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767"
+            />
+          ),
+        }}
+      >
         <p>
           It&apos;s important that you reference where you found the public licence to avoid
           plagiarism and to allow for follow ups on{' '}
@@ -137,13 +148,14 @@ export default function HowTo() {
         <Localized id="sc-howto-cite-item-2">
           <li>
             You could use Academic referencing style, e.g harvard style &quot;Mozilla (2021) Common
-            Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th Septmber 2021)&quot;
+            Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th Septmber
+            2021)&quot;
           </li>
         </Localized>
         <Localized id="sc-howto-cite-item-3">
           <li>
-            For public licence text not avialable online, you could use Academic referencing style e.g
-            harvard style &quot;Jess (2021) My Public licence poems&quot;
+            For public licence text not avialable online, you could use Academic referencing style
+            e.g harvard style &quot;Jess (2021) My Public licence poems&quot;
           </li>
         </Localized>
       </ul>
@@ -172,8 +184,8 @@ export default function HowTo() {
         </Localized>
         <Localized id="sc-howto-review-criteria-5">
           <li>
-            If the sentence does not meet the above criteria, click the &quot;Reject&quot; button. If
-            you are unsure about the sentence, you may also skip it and move on to the next one.
+            If the sentence does not meet the above criteria, click the &quot;Reject&quot; button.
+            If you are unsure about the sentence, you may also skip it and move on to the next one.
           </li>
         </Localized>
         <Localized id="sc-howto-review-criteria-6">
@@ -190,20 +202,24 @@ export default function HowTo() {
       <Localized id="sc-howto-findpd-subtitle">
         <h3 id="search-for-them-on-the-internet">Search for them on the internet</h3>
       </Localized>
-      <Localized id="sc-howto-findpd-text" elems={{
+      <Localized
+        id="sc-howto-findpd-text"
+        elems={{
           wikipediaLink: (
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://en.wikipedia.org/wiki/Public_domain"
             />
-          )
-        }}>
+          ),
+        }}
+      >
         <p>
-          Remember that we need permission to publish those sentences, so always ensure that the text
-          belongs to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a>. If
-          there is not an indication, reach out to the person that the text belongs to and ask if you
-          can use their text.
+          Remember that we need permission to publish those sentences, so always ensure that the
+          text belongs to the{' '}
+          <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a>. If there is not
+          an indication, reach out to the person that the text belongs to and ask if you can use
+          their text.
         </p>
       </Localized>
       <Localized id="sc-howto-findpd-tips">
@@ -218,8 +234,8 @@ export default function HowTo() {
         </Localized>
         <Localized id="sc-howto-findpd-tips-2">
           <li>
-            Government proceedings, books and articles are also great however since the text tends to
-            be a little more formal they are less of a priority.
+            Government proceedings, books and articles are also great however since the text tends
+            to be a little more formal they are less of a priority.
           </li>
         </Localized>
         <Localized id="sc-howto-findpd-tips-3">
@@ -237,8 +253,9 @@ export default function HowTo() {
       <Localized id="sc-howto-findpd-partner-1">
         <p>
           There are a lot of public organizations that might want to collaborate and already have a
-          lot of texts they can donate as public domain. Reach out to local Universities, Governments
-          and open source organizations to talk about the project and ask for their help.
+          lot of texts they can donate as public domain. Reach out to local Universities,
+          Governments and open source organizations to talk about the project and ask for their
+          help.
         </p>
       </Localized>
       <Localized id="sc-howto-findpd-partner-2">

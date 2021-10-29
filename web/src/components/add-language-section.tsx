@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Localized, useLocalization } from '@fluent/react';
@@ -53,9 +54,7 @@ export default function AddLanguage() {
         onClick={onLanguageAdd}
         className="add-language"
       >
-      <Localized id="sc-add-lang-sec-button">
-        Add Language
-      </Localized>
+        <Localized id="sc-add-lang-sec-button">Add Language</Localized>
       </button>
     </section>
   );

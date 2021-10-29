@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React, { useEffect, useState } from 'react';
 import { Localized } from '@fluent/react';
 
@@ -35,23 +36,23 @@ export default function RejectedSentencesList() {
         <h1>Rejected Sentences</h1>
       </Localized>
 
-      {sentencesLoading &&
+      {sentencesLoading && (
         <Localized id="sc-rejected-loading">
           <p>Loading rejected sentences..</p>
         </Localized>
-      }
+      )}
 
-      {error &&
+      {error && (
         <Localized id="sc-rejected-err-fetching">
           <p>Error while fetching rejected sentences. Please try again.</p>
         </Localized>
-      }
+      )}
 
-      {hasNoSentences && !sentencesLoading && !error &&
+      {hasNoSentences && !sentencesLoading && !error && (
         <Localized id="sc-rejected-none-found">
           <p>No rejected sentences found!</p>
         </Localized>
-      }
+      )}
 
       {Object.keys(sentences).map((language) => (
         <section key={'section-' + language}>

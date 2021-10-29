@@ -1,15 +1,15 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { Localized, useLocalization } from '@fluent/react';
 
 import Modal from './modal';
 
 export default function ReviewCriteria() {
-
   const { l10n } = useLocalization();
   const l10nModalText = l10n.getString('sc-criteria-modal');
 
   return (
-    <Modal text={ l10nModalText }>
+    <Modal text={l10nModalText}>
       <Localized id="sc-criteria-title">
         <h2 id="review-criteria">Review Criteria</h2>
       </Localized>
@@ -27,13 +27,15 @@ export default function ReviewCriteria() {
           <li>The sentence must be speakable.</li>
         </Localized>
         <Localized id="sc-criteria-item-4">
-          <li>If the sentence meets the criteria, click the &quot;yes&quot; button on the right.</li>
+          <li>
+            If the sentence meets the criteria, click the &quot;yes&quot; button on the right.
+          </li>
         </Localized>
         <Localized id="sc-criteria-item-5">
           <li>
             If the sentence does not meet the above criteria, click the &quot;no&quot; button on the
-            right. If you are unsure about the sentence, you may also skip it and move on to the next
-            one.
+            right. If you are unsure about the sentence, you may also skip it and move on to the
+            next one.
           </li>
         </Localized>
         <Localized id="sc-criteria-item-6">

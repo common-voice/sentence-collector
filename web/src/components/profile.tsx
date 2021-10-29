@@ -1,3 +1,4 @@
+// LOCALIZATION VERSION
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Localized } from '@fluent/react';
@@ -15,7 +16,7 @@ export default function Profile() {
 
   return (
     <form>
-      <Localized id="sc-profile-title" vars={{username}}>
+      <Localized id="sc-profile-title" vars={{ username }}>
         <h1>Profile: {username}</h1>
       </Localized>
 
