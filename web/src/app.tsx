@@ -33,21 +33,6 @@ export default function App({ history }: { history: History }) {
         {/* Redirects to EN as default language */}
         <Route exact path="/" render={() => <Redirect to={{ pathname: '/en' }} />} />
         <Route exact path="/how-to" render={() => <Redirect to={{ pathname: '/en/how-to' }} />} />
-        <Route
-          exact
-          path="/login-failure"
-          render={() => <Redirect to={{ pathname: '/en/login-failure' }} />}
-        />
-        <Route
-          exact
-          path="/login-success"
-          render={() => <Redirect to={{ pathname: '/en/login-success' }} />}
-        />
-        <Route
-          exact
-          path="/logout-success"
-          render={() => <Redirect to={{ pathname: '/en/logout-success' }} />}
-        />
         <Route exact path="/profile" render={() => <Redirect to={{ pathname: '/en/profile' }} />} />
         <Route exact path="/add" render={() => <Redirect to={{ pathname: '/en/add' }} />} />
         <Route exact path="/review" render={() => <Redirect to={{ pathname: '/en/review' }} />} />
@@ -58,6 +43,19 @@ export default function App({ history }: { history: History }) {
         <Route path="/rejected" render={() => <Redirect to={{ pathname: '/en/rejected' }} />} />
         <Route path="/sentences" render={() => <Redirect to={{ pathname: '/en/sentences' }} />} />
         <Route path="/stats" render={() => <Redirect to={{ pathname: '/en/stats' }} />} />
+
+        {/* Routes without integrated locale parameter */}
+        <Route
+          exact
+          path="/login-failure"
+          render={() => (
+            <PageContainer>
+              <LoginFailure />
+            </PageContainer>
+          )}
+        />
+        <Route exact path="/login-success" render={() => <LoginSuccess />} />
+        <Route exact path="/logout-success" render={() => <LogoutSuccess />} />
 
         {/* Routes with integrated locale parameter */}
         <Route
@@ -75,33 +73,6 @@ export default function App({ history }: { history: History }) {
           render={() => (
             <Page>
               <HowTo />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/:locale/login-failure"
-          render={() => (
-            <Page>
-              <LoginFailure />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/:locale/login-success"
-          render={() => (
-            <Page>
-              <LoginSuccess />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/:locale/logout-success"
-          render={() => (
-            <Page>
-              <LogoutSuccess />
             </Page>
           )}
         />
