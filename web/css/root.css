@@ -50,6 +50,7 @@ h2,
 h3,
 h4 {
   font-family: var(--second-font-family);
+  font-weight: 400;
   margin: 0.3em 0;
 }
 
@@ -86,7 +87,7 @@ button {
   border: 2px solid var(--second-bg-color);
   color: var(--main-font-color);
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
   padding: 0.5rem 1rem;
   text-decoration: none;
   text-align: center;
@@ -158,7 +159,7 @@ form section {
 
 form label {
   display: inline-block;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 0.3rem;
 }
 
@@ -183,20 +184,20 @@ form button:not(.standalone) {
 .form-message {
   line-height: 1rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .form-error {
   line-height: 1rem;
   color: var(--warning-color);
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .loading-text {
   display: inline-block;
   font-size: 80%;
-  font-weight: 800;
+  font-weight: 600;
   width: 40%;
 }
 
