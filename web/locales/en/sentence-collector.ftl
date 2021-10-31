@@ -229,7 +229,7 @@ sc-lang-info-left-for-you =
     {$unreviewedSentencesByYou ->
         [0] No sentences left for you to review.
         [one] 1 sentence left for you to review.
-        *[other] -- {$unreviewedSentencesByYou} sentences left for you to review.
+        *[other] {$unreviewedSentencesByYou} sentences left for you to review.
     }
 sc-lang-info-review-now = <reviewLink>Review now!</reviewLink>
 sc-lang-info-add-more = <addLink>Add more sentences now!</addLink>
