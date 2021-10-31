@@ -49,7 +49,7 @@ export default function PersonalLanguageInfo() {
           <ul>
             {extendedLanguages.map((language, i) => (
               <li key={i}>
-                {language.nativeName} ({language.name})
+                {language.nativeName}
                 <button
                   className="remove-lang"
                   onClick={(event) => {
