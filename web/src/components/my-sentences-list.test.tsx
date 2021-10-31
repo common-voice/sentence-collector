@@ -117,7 +117,7 @@ test('should render delete loading notice', async () => {
 
   await userEvent.click(screen.getByText('Delete selected sentences'));
   await waitFor(() => {
-    expect(screen.getByText('Deleting selected sentences...')).toBeTruthy();
+    expect(screen.getByText('getString-sc-my-deleting')).toBeTruthy();
   });
 });
 

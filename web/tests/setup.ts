@@ -35,6 +35,7 @@ type PropType = { children: typeof ReactNode };
 jest.mock('@fluent/react', () => ({
   ...jest.requireActual('@fluent/react'),
   Localized: ({ children }: PropType) => children,
+  useLocalization: () => ({ l10n: { getString: (key: string) => `getString-${key}` } }),
 }));
 jest.mock('../src/l10n.tsx', () => ({
   ...jest.requireActual('../src/l10n.tsx'),

@@ -86,8 +86,7 @@ test('should submit sentences including review', async () => {
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText(/Submitted sentences./)).toBeTruthy();
-  expect(screen.getByText(/0 sentences were rejected as duplicates./)).toBeTruthy();
+  expect(screen.getByText('getString-sc-add-result')).toBeTruthy();
 });
 
 test('should submit sentences including review - with errors', async () => {
@@ -138,9 +137,8 @@ test('should submit sentences including review - with errors', async () => {
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText(/Submitted sentences./)).toBeTruthy();
-  expect(screen.getByText(/3 sentences were rejected as duplicates./)).toBeTruthy();
-  expect(screen.getByText(/2 sentences failed/)).toBeTruthy();
+  expect(screen.getByText('getString-sc-add-result')).toBeTruthy();
+  expect(screen.getByText('getString-sc-add-err-failed')).toBeTruthy();
 });
 
 test('should submit sentences including review - with unexpected server response', async () => {
@@ -190,5 +188,5 @@ test('should submit sentences including review - with unexpected server response
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText(/Unexpected response returned from server/)).toBeTruthy();
+  expect(screen.getByText('getString-sc-add-err-submission')).toBeTruthy();
 });

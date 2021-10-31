@@ -134,7 +134,8 @@ exports[`should render how to 1`] = `
       Search for them on the internet
     </h3>
     <p>
-      Remember that we need permission to publish those sentences, so always ensure that the text belongs to the 
+      Remember that we need permission to publish those sentences, so always ensure that the text belongs to the
+       
       <a
         href="https://en.wikipedia.org/wiki/Public_domain"
       >

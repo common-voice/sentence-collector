@@ -56,7 +56,7 @@ test('should render loading', () => {
     sentences: [],
   }));
   renderWithBrowserRouter(<Review />);
-  expect(screen.getByText('Loading sentences...')).toBeTruthy();
+  expect(screen.getByText('Loading sentences…')).toBeTruthy();
 });
 
 test('should render no language selected', () => {
@@ -124,7 +124,7 @@ test('should only render form', () => {
   renderWithBrowserRouter(<Review />);
   expect(screen.getByText(/ReviewForm/)).toBeTruthy();
   expect(screen.queryByText(/You have not selected any languages./)).toBeNull();
-  expect(screen.queryByText('Loading sentences...')).toBeNull();
+  expect(screen.queryByText('Loading sentences…')).toBeNull();
   expect(screen.queryByText('Please select a language to review sentences.')).toBeNull();
   expect(screen.queryByText(/No sentences to review./)).toBeNull();
 });
