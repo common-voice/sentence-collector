@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Localized } from '@fluent/react';
 
 import { sendRequest } from '../backend';
 import type { SentenceRecord } from '../types';
@@ -30,13 +31,27 @@ export default function RejectedSentencesList() {
 
   return (
     <React.Fragment>
-      <h1>Rejected Sentences</h1>
+      <Localized id="sc-rejected-title">
+        <h1>Rejected Sentences</h1>
+      </Localized>
 
-      {sentencesLoading && <p>Loading rejected sentences..</p>}
+      {sentencesLoading && (
+        <Localized id="sc-rejected-loading">
+          <p>Loading rejected sentences..</p>
+        </Localized>
+      )}
 
-      {error && <p>Error while fetching rejected sentences. Please try again.</p>}
+      {error && (
+        <Localized id="sc-rejected-err-fetching">
+          <p>Error while fetching rejected sentences. Please try again.</p>
+        </Localized>
+      )}
 
-      {hasNoSentences && !sentencesLoading && !error && <p>No rejected sentences found!</p>}
+      {hasNoSentences && !sentencesLoading && !error && (
+        <Localized id="sc-rejected-none-found">
+          <p>No rejected sentences found!</p>
+        </Localized>
+      )}
 
       {Object.keys(sentences).map((language) => (
         <section key={'section-' + language}>

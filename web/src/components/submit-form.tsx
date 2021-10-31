@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Localized, useLocalization } from '@fluent/react';
 
 import type { Language, SubmissionFailures } from '../types';
 import LanguageSelector from './language-selector';
@@ -70,24 +71,26 @@ export default function SubmitForm({
     setLanguage(language);
   };
 
+  const { l10n } = useLocalization();
+
   const validateForm = () => {
     if (!language) {
-      setError('Please select a language.');
+      setError(l10n.getString('sc-submit-err-select-lang'));
       return false;
     }
 
     if (!formFields.sentenceText) {
-      setError('Please add sentences.');
+      setError(l10n.getString('sc-submit-err-add-sentences'));
       return false;
     }
 
     if (!formFields.source) {
-      setError('Please add a source.');
+      setError(l10n.getString('sc-submit-err-add-source'));
       return false;
     }
 
     if (!formFields.confirmed) {
-      setError('Please confirm that these sentences are public domain.');
+      setError(l10n.getString('sc-submit-err-confirm-pd'));
       return false;
     }
 
@@ -111,92 +114,152 @@ export default function SubmitForm({
   return (
     <React.Fragment>
       <form id="add-form" onSubmit={onSentencesSubmit}>
-        <Prompt
-          when={formFields.sentenceText !== ''}
-          message="Sentences not submitted, are you sure you want to leave?"
-        />
+        <Localized id="sc-submit-prompt" attrs={{ message: true }}>
+          <Prompt
+            when={formFields.sentenceText !== ''}
+            message="Sentences not submitted, are you sure you want to leave?"
+          />
+        </Localized>
 
-        <h1>Add Sentences</h1>
+        <Localized id="sc-submit-title">
+          <h1>Add Sentences</h1>
+        </Localized>
 
         {message && <section className="form-message">{message}</section>}
         {formError && <section className="form-error">{formError}</section>}
         {error && <section className="form-error">{error}</section>}
 
         <section>
-          <LanguageSelector
-            languages={languages}
-            labelText="Select Language"
-            onChange={onLanguageSelect}
-          />
+          <Localized id="sc-submit-select-language" attrs={{ labelText: true }}>
+            <LanguageSelector
+              languages={languages}
+              labelText="Select Language"
+              onChange={onLanguageSelect}
+            />
+          </Localized>
         </section>
         <section>
-          <label htmlFor="sentences-input">
-            Add{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://en.wikipedia.org/wiki/Public_domain"
-            >
-              public domain
-            </a>{' '}
-            sentences
-          </label>
-          <textarea
-            id="sentences-input"
-            name="sentenceText"
-            placeholder="One sentence per line"
-            onChange={handleInputChange}
-            lang={language}
-          />
+          <Localized
+            id="sc-submit-add-sentences"
+            elems={{
+              wikipediaLink: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://en.wikipedia.org/wiki/Public_domain"
+                />
+              ),
+            }}
+          >
+            <label htmlFor="sentences-input">
+              Add{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              sentences
+            </label>
+          </Localized>
+          <Localized id="sc-submit-ph-one-per-line" attrs={{ placeholder: true }}>
+            <textarea
+              id="sentences-input"
+              name="sentenceText"
+              placeholder="One sentence per line"
+              onChange={handleInputChange}
+              lang={language}
+            />
+          </Localized>
         </section>
         <section>
-          <label htmlFor="source-input">
-            Where are these{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://en.wikipedia.org/wiki/Public_domain"
-            >
-              public domain
-            </a>{' '}
-            sentences from?
-          </label>
-          <input
-            id="source-input"
-            type="text"
-            name="source"
-            placeholder="Read our How-to if unsure how to attribute"
-            onChange={handleInputChange}
-          />
+          <Localized
+            id="sc-submit-from-where"
+            elems={{
+              wikipediaLink: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://en.wikipedia.org/wiki/Public_domain"
+                />
+              ),
+            }}
+          >
+            <label htmlFor="source-input">
+              Where are these{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              sentences from?
+            </label>
+          </Localized>
+          <Localized id="sc-submit-ph-read-how-to" attrs={{ placeholder: true }}>
+            <input
+              id="source-input"
+              type="text"
+              name="source"
+              placeholder="Read our How-to if unsure how to attribute"
+              onChange={handleInputChange}
+            />
+          </Localized>
         </section>
         <section>
           <input id="agree" type="checkbox" name="confirmed" onChange={handleInputChange} />
-          <label htmlFor="agree">
-            I confirm that these sentences are {}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://en.wikipedia.org/wiki/Public_domain"
-            >
-              public domain
-            </a>{' '}
-            {}
-            and I have permission to upload them.
-          </label>
+          <Localized
+            id="sc-submit-confirm"
+            elems={{
+              wikipediaLink: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://en.wikipedia.org/wiki/Public_domain"
+                />
+              ),
+            }}
+          >
+            <label htmlFor="agree">
+              I confirm that these sentences are {}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://en.wikipedia.org/wiki/Public_domain"
+              >
+                public domain
+              </a>{' '}
+              {}
+              and I have permission to upload them.
+            </label>
+          </Localized>
         </section>
 
-        <SubmitButton submitText="Submit" pendingAction={false} />
+        <Localized id="sc-submit-button" attrs={{ submitText: true }}>
+          <SubmitButton submitText="Submit" pendingAction={false} />
+        </Localized>
       </form>
 
       {sentenceSubmissionFailures && Object.keys(sentenceSubmissionFailures).length > 0 && (
         <section>
-          <h2>
-            Filtered sentences due to requirements failing (please submit fixed versions as new
-            sentences):
-          </h2>
-          <p>
-            Please check the <Link to={'/how-to'}>guidelines</Link>.
-          </p>
+          <Localized id="sc-submit-filtered">
+            <h2>
+              Filtered sentences due to requirements failing (please submit fixed versions as new
+              sentences):
+            </h2>
+          </Localized>
+          <Localized
+            id="sc-submit-guidelines"
+            elems={{
+              howToLink: <Link to={'/how-to'}></Link>,
+            }}
+          >
+            <p>
+              Please check the <Link to={'/how-to'}>guidelines</Link>.
+            </p>
+          </Localized>
 
           {Object.keys(sentenceSubmissionFailures).map((filterKey) => (
             <React.Fragment key={'fragment-' + filterKey}>

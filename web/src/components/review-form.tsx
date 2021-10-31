@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ReviewedState, SentenceRecord } from '../types';
 import TinderCard from 'react-tinder-card';
+import { Localized } from '@fluent/react';
+
 import Sentence from './sentence';
 import SubmitButton from './submit-button';
 import { Prompt } from './prompt';
@@ -145,17 +147,19 @@ export default function SwipeReview(props: Props) {
 
   return (
     <form id="review-form" onSubmit={onSubmit}>
-      <Prompt
-        when={reviewedSentencesCount > 0}
-        message="Reviewed sentences not submitted, are sure?"
-      />
-
+      <Localized id="sc-review-form-prompt" attrs={{ message: true }}>
+        <Prompt
+          when={reviewedSentencesCount > 0}
+          message="Reviewed sentences not submitted, are sure?"
+        />
+      </Localized>
       {message && <p>{message}</p>}
-
-      <p className="small">
-        Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.{' '}
-        <strong>Do not forget to submit your review!</strong>
-      </p>
+      <Localized id="sc-review-form-usage" elems={{ strong: <strong></strong> }}>
+        <p className="small">
+          Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.
+          <strong> Do not forget to submit your review!</strong>
+        </p>
+      </Localized>
       <section className="cards-container">
         {sentences.map((sentence, i) => (
           <TinderCard
@@ -169,41 +173,49 @@ export default function SwipeReview(props: Props) {
             <div className="swipe card-sentence-box">
               <Sentence language={language}>{sentence.sentence || sentence}</Sentence>
               <small className="card-source">
-                {sentence.source ? `Source: ${sentence.source}` : ''}
+                {sentence.source ? (
+                  <Localized id="sc-review-form-source" vars={{ sentenceSource: sentence.source }}>
+                    <span>`Source: ${sentence.source}`</span>
+                  </Localized>
+                ) : (
+                  ''
+                )}
               </small>
             </div>
           </TinderCard>
         ))}
       </section>
-
       <section className="card-review-buttons-section">
         <div className="buttons">
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, false)}
           >
-            Reject
+            <Localized id="sc-review-form-button-reject">Reject</Localized>
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, undefined)}
           >
-            Skip
+            <Localized id="sc-review-form-button-skip">Skip</Localized>
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, true)}
           >
-            Approve
+            <Localized id="sc-review-form-button-approve">Approve</Localized>
           </button>
         </div>
       </section>
-
       <section className="review-footer">
         <p className="small">
-          You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
+          <Localized id="sc-review-form-keyboard-usage">
+            You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
+          </Localized>
         </p>
-        <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
+        <Localized id="sc-review-form-button-submit" attrs={{ submitText: true }}>
+          <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
+        </Localized>
       </section>
     </form>
   );

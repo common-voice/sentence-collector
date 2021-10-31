@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { Localized } from '@fluent/react';
+
 import { getReviewUrl } from './review';
 
 type Props = {
@@ -28,23 +30,60 @@ const LanguageInfo = (props: Props) => {
   } = props;
   const match = useRouteMatch<LanguageInfoRouteMatch>();
 
+  const totalSentences = total;
+  const totalInReview = total - validated - rejected;
+  const unreviewedSentencesByYou = unreviewedByYou;
+  const validatedSentences = validated;
+  const rejectedSentences = rejected;
+
   return (
     <section>
       <h3>
         {nativeLanguageName} ({languageName})
       </h3>
       <ul>
-        <li>{total} total sentences.</li>
-        <li>{total - validated - rejected} sentences in review.&nbsp;</li>
+        <Localized id="sc-lang-info-total" vars={{ totalSentences }}>
+          <li>{total} total sentences.</li>
+        </Localized>
+        <Localized id="sc-lang-info-in-review" vars={{ totalInReview }}>
+          <li>{total - validated - rejected} sentences in review.&nbsp;</li>
+        </Localized>
         <li>
-          {unreviewedByYou} sentences left for you to review.&nbsp;
+          <Localized id="sc-lang-info-left-for-you" vars={{ unreviewedSentencesByYou }}>
+            <span>{unreviewedByYou} sentences left for you to review.</span>
+          </Localized>
+          &nbsp;
           {unreviewedByYou > 0 && (
-            <Link to={getReviewUrl(match.params.locale, language)}>Review now!</Link>
+            <Localized
+              id="sc-lang-info-review-now"
+              elems={{
+                reviewLink: <Link to={getReviewUrl(match.params.locale, language)}></Link>,
+              }}
+            >
+              <span>
+                <Link to={getReviewUrl(match.params.locale, language)}>Review now!</Link>
+              </span>
+            </Localized>
           )}
-          {total - validated === 0 && <Link to={'/add'}>Add more sentences now!</Link>}
+          {total - validated === 0 && (
+            <Localized
+              id="sc-lang-info-add-more"
+              elems={{
+                addLink: <Link to={'/add'}></Link>,
+              }}
+            >
+              <span>
+                <Link to={'/add'}>Add more sentences now!</Link>
+              </span>
+            </Localized>
+          )}
         </li>
-        <li>{validated} validated sentences.</li>
-        <li>{rejected} rejected sentences.</li>
+        <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
+          <li>{validated} validated sentences.</li>
+        </Localized>
+        <Localized id="sc-lang-info-rejected" vars={{ rejectedSentences }}>
+          <li>{rejected} rejected sentences.</li>
+        </Localized>
       </ul>
     </section>
   );

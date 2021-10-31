@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Localized, useLocalization } from '@fluent/react';
 
 import { removeLanguage } from '../actions/languages';
 import truthyFilter from '../truthyFilter';
@@ -13,6 +14,8 @@ export default function PersonalLanguageInfo() {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
+  const { l10n } = useLocalization();
+
   const extendedLanguages = languages
     .map((lang) => {
       const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
@@ -22,7 +25,7 @@ export default function PersonalLanguageInfo() {
 
   const onLanguageRemove = async (language: string) => {
     if (!language) {
-      setError('Could not remove language: language not found');
+      setError(l10n.getString('sc-personal-err-lang-not-found'));
       return;
     }
 
@@ -30,7 +33,7 @@ export default function PersonalLanguageInfo() {
       setError('');
       await dispatch(removeLanguage(language));
     } catch (error) {
-      setError(`Could not remove language: ${error.message}`);
+      setError(l10n.getString('sc-personal-err-remove'));
     }
   };
 
@@ -40,7 +43,9 @@ export default function PersonalLanguageInfo() {
 
       {extendedLanguages && extendedLanguages.length > 0 ? (
         <section>
-          <p>Your languages:</p>
+          <Localized id="sc-personal-your-languages">
+            <p>Your languages:</p>
+          </Localized>
           <ul>
             {extendedLanguages.map((language, i) => (
               <li key={i}>
@@ -53,17 +58,24 @@ export default function PersonalLanguageInfo() {
                   }}
                   disabled={pendingLanguages}
                 >
-                  remove
+                  <Localized id="sc-personal-remove-button">remove</Localized>
                 </button>
                 <ul>
-                  <li>{`${(userStats[language.id] || {}).added || 0} added by you`}</li>
+                  <Localized
+                    id="sc-personal-added-by-you"
+                    vars={{ sentences: (userStats[language.id] || {}).added || 0 }}
+                  >
+                    <li>{`${(userStats[language.id] || {}).added || 0} `} added by you</li>
+                  </Localized>
                 </ul>
               </li>
             ))}
           </ul>
         </section>
       ) : (
-        <p>You have not added any languages yet.</p>
+        <Localized id="sc-personal-not-added">
+          <p>You have not added any languages yet.</p>
+        </Localized>
       )}
     </section>
   );
