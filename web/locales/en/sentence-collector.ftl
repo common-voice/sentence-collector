@@ -28,7 +28,7 @@ sc-logout-button = Logout
 sc-home-title = Welcome to the Common Voice Sentence Collector
 sc-home-intro = The Sentence Collector is part of <commonVoiceLink>Common Voice</commonVoiceLink>.
     It allows contributors to collect and validate sentences created by the community.
-    You can use this tool also to import and clean-up small-to-medium-sized public domain corpus 
+    You can use this tool also to import and clean-up small-to-medium-sized public domain corpus
     you have found or collected. All sentences need to be Public Domain.
     Approved sentences are exported every week to the Common Voice repository and are released
     on the Common Voice website on every new deployment.
@@ -135,7 +135,7 @@ sc-review-no-sentences = No sentences to review.
     <addLink>Add more sentences now!</addLink>
 
 sc-stats-title = Statistics
-sc-stats-last-update = Last Update: { $lastUpdate } 
+sc-stats-last-update = Last Update: { $lastUpdate }
 sc-stats-last-update-never = Last Update: never
 sc-stats-updating = Updating…
 sc-stats-summary = The Common Voice Sentence Collector has collected
@@ -145,20 +145,20 @@ sc-submit-err-select-lang = Please select a language.
 sc-submit-err-add-sentences = Please add sentences.
 sc-submit-err-add-source = Please add a source.
 sc-submit-err-confirm-pd = Please confirm that these sentences are public domain.
-sc-submit-prompt = 
+sc-submit-prompt =
     .message = Sentences not submitted, are you sure you want to leave?
 sc-submit-title = Add Sentences
-sc-submit-select-language = 
+sc-submit-select-language =
     .labelText = Select Language
 sc-submit-add-sentences = Add <wikipediaLink>public domain</wikipediaLink> sentences
-sc-submit-ph-one-per-line = 
+sc-submit-ph-one-per-line =
     .placeholder = One sentence per line
 sc-submit-from-where = Where are these <wikipediaLink> public domain</wikipediaLink> sentences from?
-sc-submit-ph-read-how-to = 
+sc-submit-ph-read-how-to =
     .placeholder = Read our How-to if unsure how to attribute
 sc-submit-confirm = I confirm that these sentences are <wikipediaLink>public domain</wikipediaLink> and
     I have permission to upload them.
-sc-submit-button = 
+sc-submit-button =
     .submitText = Submit
 sc-submit-filtered = Filtered sentences due to requirements failing (please submit fixed versions as new sentences):
 sc-submit-guidelines = Please check the <howToLink>guidelines</howToLink>.

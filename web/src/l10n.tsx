@@ -16,7 +16,7 @@ const AVAILABLE_LOCALES = [DEFAULT_LOCALE];
 const RTL_LOCALES: string[] = [];
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
-  const response = await fetch(`/locales/${locale}/sentence-collector.ftl`);
+  const response = await fetch(`locales/${locale}/sentence-collector.ftl`);
   const messages = await response.text();
   return [locale, messages];
 }
