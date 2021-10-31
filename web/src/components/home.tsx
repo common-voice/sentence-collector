@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Localized } from '@fluent/react';
 
+import { useLocaleUrl } from '../urls';
+
 import '../../css/home.css';
 
 export default function Home() {
@@ -29,7 +31,7 @@ export default function Home() {
         </p>
       </Localized>
       <section id="contribute">
-        <Link to={'/add'}>
+        <Link to={useLocaleUrl('/add')}>
           <div className="contributeCard">
             <Localized id="sc-home-collect-title">
               <h2>Collect sentences</h2>
@@ -39,7 +41,7 @@ export default function Home() {
             </Localized>
           </div>
         </Link>
-        <Link to={'/review'}>
+        <Link to={useLocaleUrl('/review')}>
           <div className="contributeCard">
             <Localized id="sc-home-review-title">
               <h2>Review sentences</h2>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Localized, useLocalization } from '@fluent/react';
 
+import { useLocaleUrl } from '../urls';
 import type { Language, SubmissionFailures } from '../types';
 import LanguageSelector from './language-selector';
 import Sentence from './sentence';
@@ -54,6 +55,7 @@ export default function SubmitForm({
     confirmed: false,
   });
   const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : '');
+  const localizedHowToUrl = useLocaleUrl('/how-to');
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -253,11 +255,11 @@ export default function SubmitForm({
           <Localized
             id="sc-submit-guidelines"
             elems={{
-              howToLink: <Link to={'/how-to'}></Link>,
+              howToLink: <Link to={localizedHowToUrl}></Link>,
             }}
           >
             <p>
-              Please check the <Link to={'/how-to'}>guidelines</Link>.
+              Please check the <Link to={localizedHowToUrl}>guidelines</Link>.
             </p>
           </Localized>
 
