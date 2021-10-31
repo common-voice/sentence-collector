@@ -74,7 +74,7 @@ test('should show error if no language', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('Please select a language.')).toBeTruthy();
+  expect(screen.getByText('getString-sc-submit-err-select-lang')).toBeTruthy();
 });
 
 test('should show error if no sentences', async () => {
@@ -84,7 +84,7 @@ test('should show error if no sentences', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('Please add sentences.')).toBeTruthy();
+  expect(screen.getByText('getString-sc-submit-err-add-sentences')).toBeTruthy();
 });
 
 test('should show error if no source', async () => {
@@ -97,7 +97,7 @@ test('should show error if no source', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('Please add a source.')).toBeTruthy();
+  expect(screen.getByText('getString-sc-submit-err-add-source')).toBeTruthy();
 });
 
 test('should show error if not confirmed', async () => {
@@ -114,7 +114,7 @@ test('should show error if not confirmed', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('Please confirm that these sentences are public domain.')).toBeTruthy();
+  expect(screen.getByText('getString-sc-submit-err-confirm-pd')).toBeTruthy();
 });
 
 test('should render failures', () => {

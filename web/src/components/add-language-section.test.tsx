@@ -92,5 +92,5 @@ test('should show error when language can not be added', async () => {
     expect(dispatchMock).toHaveBeenCalled();
   });
 
-  expect(screen.queryByText(/Could not add language/)).toBeTruthy();
+  expect(screen.queryByText(/getString-sc-add-lang-could-not-add/)).toBeTruthy();
 });
