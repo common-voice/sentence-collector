@@ -28,7 +28,7 @@ export default function Review() {
   const { allLanguages = [], languages = [] } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
-    sentences,
+    sentences = [],
     skippedSentences = [],
     sentencesSuccessfullyReviewedCount,
     showReviewFailure,
@@ -47,8 +47,8 @@ export default function Review() {
 
   useEffect(() => {
     if (language) {
-      dispatch(resetReviewMessage());
       dispatch(loadSentences(language));
+      dispatch(resetReviewMessage());
     }
   }, [language]);
 

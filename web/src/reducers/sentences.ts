@@ -73,7 +73,7 @@ export default function (state = INITIAL_STATE, action: AnyAction): SentencesSta
     case ACTION_GOT_SENTENCES:
       return Object.assign({}, state, {
         sentencesLoading: false,
-        sentences: action.sentences,
+        sentences: action.sentences || [],
       });
 
     case ACTION_REVIEWED_SENTENCES:
