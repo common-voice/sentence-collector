@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { Localized } from '@fluent/react';
 
 import {
   loadSentences,
@@ -56,10 +57,17 @@ export default function Review() {
   // If user hasn't added any languages, ask them to do so.
   if (languages.length === 0) {
     return (
-      <p>
-        You have not selected any languages. Please go to your&nbsp;
-        <Link to="/profile">Profile</Link> to select languages.
-      </p>
+      <Localized
+        id="sc-review-lang-not-selected"
+        elems={{
+          profileLink: <Link to="/profile"></Link>,
+        }}
+      >
+        <p>
+          You have not selected any languages. Please go to your&nbsp;
+          <Link to="/profile">Profile</Link> to select languages.
+        </p>
+      </Localized>
     );
   }
 
@@ -105,7 +113,9 @@ export default function Review() {
   return (
     <div>
       <section>
-        <h1>Review Sentences</h1>
+        <Localized id="sc-review-title">
+          <h1>Review Sentences</h1>
+        </Localized>
         <LanguageSelector
           labelText=""
           languages={extendedLanguages}
@@ -115,15 +125,30 @@ export default function Review() {
         <ReviewCriteria />
       </section>
 
-      {sentencesLoading && <p>Loading sentences...</p>}
+      {sentencesLoading && (
+        <Localized id="sc-review-loading">
+          <p>Loading sentences…</p>
+        </Localized>
+      )}
 
-      {!language && <p>Please select a language to review sentences.</p>}
+      {!language && (
+        <Localized id="sc-review-select-language">
+          <p>Please select a language to review sentences.</p>
+        </Localized>
+      )}
 
       {hasNoSentences && (
-        <p>
-          No sentences to review.&nbsp;
-          <Link to={'/add'}>Add more sentences now!</Link>
-        </p>
+        <Localized
+          id="sc-review-no-sentences"
+          elems={{
+            addLink: <Link to={'/add'}></Link>,
+          }}
+        >
+          <p>
+            No sentences to review.&nbsp;
+            <Link to={'/add'}>Add more sentences now!</Link>
+          </p>
+        </Localized>
       )}
 
       {language && !sentencesLoading && sentences && sentences.length > 0 && (

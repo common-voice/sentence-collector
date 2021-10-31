@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
+import { Localized } from '@fluent/react';
 
 import logoURL from '../../img/cv-logo-one-color-black.svg';
 import '../../css/header.css';
@@ -17,29 +18,29 @@ function NavItems({ authed, closeNavigation }: Props) {
   return (
     <React.Fragment>
       <NavLink to="/" exact onClick={closeNavigation}>
-        Home
+        <Localized id="sc-header-home">Home</Localized>
       </NavLink>
       <NavLink to="/how-to" exact onClick={closeNavigation}>
-        How-to
+        <Localized id="sc-header-how-to">How-to</Localized>
       </NavLink>
       <NavLink to="/add" exact key="add" onClick={closeNavigation}>
-        Add
+        <Localized id="sc-header-add">Add</Localized>
       </NavLink>
       <NavLink to="/review" key="review" onClick={closeNavigation}>
-        Review
+        <Localized id="sc-header-review">Review</Localized>
       </NavLink>
       <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>
-        Rejected Sentences
+        <Localized id="sc-header-rejected">Rejected Sentences</Localized>
       </NavLink>
       <NavLink to="/sentences" key="sentences" onClick={closeNavigation}>
-        My Sentences
+        <Localized id="sc-header-my">My Sentences</Localized>
       </NavLink>
       <NavLink to="/stats" key="stats" onClick={closeNavigation}>
-        Statistics
+        <Localized id="sc-header-statistics">Statistics</Localized>
       </NavLink>
       {authed && (
         <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>
-          Profile
+          <Localized id="sc-header-profile">Profile</Localized>
         </NavLink>
       )}
     </React.Fragment>
