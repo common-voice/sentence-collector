@@ -51,7 +51,7 @@ const LanguageInfo = (props: Props) => {
               </span>
             </Localized>
           )}
-          {total - validated === 0 && (
+          {unreviewedByYou === 0 && (
             <Localized
               id="sc-lang-info-add-more"
               elems={{
