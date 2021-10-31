@@ -7,7 +7,7 @@ import type { RootState } from '../types';
 
 export default function Settings() {
   const { skippedSentences } = useSelector((state: RootState) => state.sentences);
-  const { errorMessage } = useSelector((state: RootState) => state.settings);
+  const { showErrorMessage } = useSelector((state: RootState) => state.settings);
   const dispatch = useDispatch();
 
   const resetSkipped = (event: React.MouseEvent) => {
@@ -25,7 +25,11 @@ export default function Settings() {
         <h2>Settings</h2>
       </Localized>
 
-      {errorMessage && <p className="form-error">{errorMessage}</p>}
+      {showErrorMessage && (
+        <Localized id="sc-settings-failed">
+          <p className="form-error">Could not change settings. Please try again.</p>
+        </Localized>
+      )}
 
       <section>
         <Localized id="sc-settings-reset-skipped">

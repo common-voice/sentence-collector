@@ -30,7 +30,8 @@ export default function Review() {
     sentencesLoading,
     sentences,
     skippedSentences = [],
-    reviewMessage,
+    sentencesSuccessfullyReviewedCount,
+    showReviewFailure,
   } = useSelector((state: RootState) => state.sentences);
 
   const [language, setLanguage] = useState(match.params.language || '');
@@ -150,7 +151,8 @@ export default function Review() {
 
       {language && !sentencesLoading && sentences && sentences.length > 0 && (
         <ReviewForm
-          message={reviewMessage}
+          sentencesSuccessfullyReviewedCount={sentencesSuccessfullyReviewedCount}
+          showReviewFailure={showReviewFailure}
           onReviewed={onReviewed}
           onSkip={onSkip}
           sentences={sentencesToReview}

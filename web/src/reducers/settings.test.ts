@@ -18,18 +18,18 @@ test('should use initial state', async () => {
   });
 
   expect(newState).toEqual({
-    errorMessage: '',
+    showErrorMessage: false,
   });
 });
 
 test('should reduce settings changed success', async () => {
   const newSettings = {};
-  const newState = settingsReducer(combineState({ errorMessage: 'oh no!' }), {
+  const newState = settingsReducer(combineState({ showErrorMessage: true }), {
     type: settings.ACTION_SETTINGS_CHANGED,
     newSettings,
   });
 
-  expect(newState.errorMessage).toEqual('');
+  expect(newState.showErrorMessage).toBeFalsy();
 });
 
 test('should reduce settings changed error', async () => {
@@ -37,5 +37,5 @@ test('should reduce settings changed error', async () => {
     type: settings.ACTION_SETTINGS_CHANGED_FAILURE,
   });
 
-  expect(newState.errorMessage).toEqual('Could not change settings. Please try again.');
+  expect(newState.showErrorMessage).toBeTruthy();
 });

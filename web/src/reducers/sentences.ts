@@ -20,7 +20,8 @@ export type SentencesState = {
   isUploadingSentences: boolean;
   sentences: SentenceRecord[];
   sentencesLoading: boolean;
-  reviewMessage: string;
+  sentencesSuccessfullyReviewedCount: number;
+  showReviewFailure: boolean;
   skippedSentences: number[];
 };
 
@@ -29,7 +30,8 @@ export const INITIAL_STATE: SentencesState = {
   isUploadingSentences: false,
   sentences: [],
   sentencesLoading: false,
-  reviewMessage: '',
+  sentencesSuccessfullyReviewedCount: 0,
+  showReviewFailure: false,
   skippedSentences: [],
 };
 
@@ -76,12 +78,13 @@ export default function (state = INITIAL_STATE, action: AnyAction): SentencesSta
 
     case ACTION_REVIEWED_SENTENCES:
       return Object.assign({}, state, {
-        reviewMessage: `${action.votes} sentences reviewed. Thank you!`,
+        sentencesSuccessfullyReviewedCount: action.votes,
+        showReviewFailure: false,
       });
 
     case ACTION_REVIEW_SENTENCES_FAILURE:
       return Object.assign({}, state, {
-        reviewMessage: action.errorMessage,
+        showReviewFailure: true,
       });
 
     case ACTION_REVIEW_SAVE_SKIPPED_SENTENCES:
@@ -98,7 +101,8 @@ export default function (state = INITIAL_STATE, action: AnyAction): SentencesSta
 
     case ACTION_REVIEW_RESET_MESSAGE:
       return Object.assign({}, state, {
-        reviewMessage: '',
+        sentencesSuccessfullyReviewedCount: 0,
+        showReviewFailure: false,
       });
 
     default:

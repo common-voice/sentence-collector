@@ -15,7 +15,7 @@ beforeEach(() => {
 
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
-    errorMessage: '',
+    showErrorMessage: false,
     skippedSentences: [1],
   }));
 });
@@ -26,13 +26,12 @@ test('should render title', () => {
 });
 
 test('should render error message', () => {
-  const errorMessage = 'This is an error';
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
-    errorMessage,
+    showErrorMessage: true,
     skippedSentences: [1],
   }));
   render(<Settings />);
-  expect(screen.getByText(errorMessage)).toBeTruthy();
+  expect(screen.getByText(/Could not change settings. Please try again./)).toBeTruthy();
 });
 
 test('should render button to reset skipped sentences', () => {
@@ -42,7 +41,7 @@ test('should render button to reset skipped sentences', () => {
 
 test('should not render button to reset skipped sentences if no skipped sentences', () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
-    errorMessage: '',
+    showErrorMessage: false,
     skippedSentences: [],
   }));
   render(<Settings />);

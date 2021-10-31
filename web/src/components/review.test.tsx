@@ -119,7 +119,8 @@ test('should only render form', () => {
     languages: ['en'],
     sentencesLoading: false,
     sentences: ['Hi'],
-    reviewMessage: 'Hi',
+    sentencesSuccessfullyReviewedCount: 0,
+    showReviewFailure: false,
   }));
   renderWithBrowserRouter(<Review />);
   expect(screen.getByText(/ReviewForm/)).toBeTruthy();
