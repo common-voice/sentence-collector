@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Localized } from '@fluent/react';
 
-import { getReviewUrl } from './review';
+import { useLocaleUrl, getReviewUrl } from '../urls';
 
 type Props = {
   total: number;
@@ -12,10 +12,6 @@ type Props = {
   language: string;
   languageName: string;
   nativeLanguageName: string;
-};
-
-type LanguageInfoRouteMatch = {
-  locale: string;
 };
 
 const LanguageInfo = (props: Props) => {
@@ -28,13 +24,14 @@ const LanguageInfo = (props: Props) => {
     languageName,
     nativeLanguageName,
   } = props;
-  const match = useRouteMatch<LanguageInfoRouteMatch>();
-
   const totalSentences = total;
   const totalInReview = total - validated - rejected;
   const unreviewedSentencesByYou = unreviewedByYou;
   const validatedSentences = validated;
   const rejectedSentences = rejected;
+
+  const localizedAddUrl = useLocaleUrl('/add');
+  const localizedReviewUrl = getReviewUrl(language);
 
   return (
     <section>
@@ -57,11 +54,11 @@ const LanguageInfo = (props: Props) => {
             <Localized
               id="sc-lang-info-review-now"
               elems={{
-                reviewLink: <Link to={getReviewUrl(match.params.locale, language)}></Link>,
+                reviewLink: <Link to={localizedReviewUrl}></Link>,
               }}
             >
               <span>
-                <Link to={getReviewUrl(match.params.locale, language)}>Review now!</Link>
+                <Link to={localizedReviewUrl}>Review now!</Link>
               </span>
             </Localized>
           )}
@@ -69,11 +66,11 @@ const LanguageInfo = (props: Props) => {
             <Localized
               id="sc-lang-info-add-more"
               elems={{
-                addLink: <Link to={'/add'}></Link>,
+                addLink: <Link to={localizedAddUrl}></Link>,
               }}
             >
               <span>
-                <Link to={'/add'}>Add more sentences now!</Link>
+                <Link to={localizedAddUrl}>Add more sentences now!</Link>
               </span>
             </Localized>
           )}

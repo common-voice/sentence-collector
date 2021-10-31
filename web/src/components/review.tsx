@@ -9,18 +9,13 @@ import {
   reviewSentences,
   saveSkippedSentences,
 } from '../actions/sentences';
+import { useLocaleUrl, getReviewUrl } from '../urls';
 import truthyFilter from '../truthyFilter';
 import type { RootState, ReviewedState } from '../types';
 
 import LanguageSelector from './language-selector';
 import ReviewForm from './review-form';
 import ReviewCriteria from './review-criteria';
-
-export const getReviewUrl = (locale: string, language: string | undefined) => {
-  const prefix = locale ? `/${locale}` : '';
-  const languageToReview = language || '';
-  return `${prefix}/review/${languageToReview}`;
-};
 
 type ReviewRouteMatch = {
   language: string;
@@ -41,6 +36,8 @@ export default function Review() {
   const [language, setLanguage] = useState(match.params.language || '');
   const [newlySkippedSentences, setNewlySkippedSentences] = useState<number[]>([]);
   const dispatch = useDispatch();
+  const localizedAddUrl = useLocaleUrl('/add');
+  const localizedProfileUrl = useLocaleUrl('/profile');
 
   // If user only has one language possible, use it.
   if (languages.length === 1 && languages[0] !== language) {
@@ -60,12 +57,12 @@ export default function Review() {
       <Localized
         id="sc-review-lang-not-selected"
         elems={{
-          profileLink: <Link to="/profile"></Link>,
+          profileLink: <Link to={localizedProfileUrl}></Link>,
         }}
       >
         <p>
           You have not selected any languages. Please go to your&nbsp;
-          <Link to="/profile">Profile</Link> to select languages.
+          <Link to={localizedProfileUrl}>Profile</Link> to select languages.
         </p>
       </Localized>
     );
@@ -73,7 +70,7 @@ export default function Review() {
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language);
-    history.push(getReviewUrl(match.params.locale, language));
+    history.push(getReviewUrl(language));
   };
 
   const onReviewed = (reviewedState: ReviewedState) => {
@@ -141,12 +138,12 @@ export default function Review() {
         <Localized
           id="sc-review-no-sentences"
           elems={{
-            addLink: <Link to={'/add'}></Link>,
+            addLink: <Link to={localizedAddUrl}></Link>,
           }}
         >
           <p>
             No sentences to review.&nbsp;
-            <Link to={'/add'}>Add more sentences now!</Link>
+            <Link to={localizedAddUrl}>Add more sentences now!</Link>
           </p>
         </Localized>
       )}

@@ -6,6 +6,7 @@ import { Localized } from '@fluent/react';
 import logoURL from '../../img/cv-logo-one-color-black.svg';
 import '../../css/header.css';
 
+import { useLocaleUrl } from '../urls';
 import type { RootState } from '../types';
 import LoginButton from './login-button';
 
@@ -15,31 +16,35 @@ type Props = {
 };
 
 function NavItems({ authed, closeNavigation }: Props) {
+  // As the profile link is conditionally rendered we need to always use
+  // the hook first, as otherwise not all hooks will be rendered at all times.
+  const localizedProfileUrl = useLocaleUrl('/profile');
+
   return (
     <React.Fragment>
-      <NavLink to="/" exact onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/')} exact onClick={closeNavigation}>
         <Localized id="sc-header-home">Home</Localized>
       </NavLink>
-      <NavLink to="/how-to" exact onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/how-to')} exact onClick={closeNavigation}>
         <Localized id="sc-header-how-to">How-to</Localized>
       </NavLink>
-      <NavLink to="/add" exact key="add" onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/add')} exact key="add" onClick={closeNavigation}>
         <Localized id="sc-header-add">Add</Localized>
       </NavLink>
-      <NavLink to="/review" key="review" onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/review')} key="review" onClick={closeNavigation}>
         <Localized id="sc-header-review">Review</Localized>
       </NavLink>
-      <NavLink to="/rejected" key="rejected" onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/rejected')} key="rejected" onClick={closeNavigation}>
         <Localized id="sc-header-rejected">Rejected Sentences</Localized>
       </NavLink>
-      <NavLink to="/sentences" key="sentences" onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/sentences')} key="sentences" onClick={closeNavigation}>
         <Localized id="sc-header-my">My Sentences</Localized>
       </NavLink>
-      <NavLink to="/stats" key="stats" onClick={closeNavigation}>
+      <NavLink to={useLocaleUrl('/stats')} key="stats" onClick={closeNavigation}>
         <Localized id="sc-header-statistics">Statistics</Localized>
       </NavLink>
       {authed && (
-        <NavLink to="/profile" exact key="profile" onClick={closeNavigation}>
+        <NavLink to={localizedProfileUrl} exact key="profile" onClick={closeNavigation}>
           <Localized id="sc-header-profile">Profile</Localized>
         </NavLink>
       )}

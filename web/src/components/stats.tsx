@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Localized, useLocalization } from '@fluent/react';
+import { Localized } from '@fluent/react';
 
 import { getStats } from '../actions/languages';
 import truthyFilter from '../truthyFilter';
@@ -25,8 +25,6 @@ export default function Stats() {
   const extendedLanguages = languages
     .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
     .filter(truthyFilter);
-
-  const { l10n } = useLocalization();
 
   return (
     <div>
