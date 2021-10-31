@@ -172,7 +172,12 @@ sc-add-lang-sec-label = Add a language you want to contribute to
 sc-add-lang-sec-button = Add Language
 
 sc-add-err-unexpected = Unexpected response returned from server
-sc-add-result = Submitted sentences. {$duplicates} sentences were rejected as duplicates.
+sc-add-result =
+    {$duplicates ->
+        [0] Submitted sentences. {$duplicates} sentences were rejected as duplicates.
+        [one] Submitted sentences. {$duplicates} sentence was rejected as duplicate.
+        *[other] Submitted sentences. {$duplicates} sentences were rejected as duplicates.
+    }
 sc-add-err-failed =
     {$sentences ->
         [0] No sentences failed
