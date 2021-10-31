@@ -22,7 +22,8 @@ test('should use initial state', async () => {
     isUploadingSentences: false,
     sentences: [],
     sentencesLoading: false,
-    reviewMessage: '',
+    sentencesSuccessfullyReviewedCount: 0,
+    showReviewFailure: false,
     skippedSentences: [],
   });
 });
@@ -95,7 +96,7 @@ test('should reduce reviewed sentences', async () => {
     votes: 10,
   });
 
-  expect(newState.reviewMessage).toEqual('10 sentences reviewed. Thank you!');
+  expect(newState.sentencesSuccessfullyReviewedCount).toEqual(10);
 });
 
 test('should reduce reviewed sentences failure', async () => {
@@ -105,7 +106,7 @@ test('should reduce reviewed sentences failure', async () => {
     errorMessage,
   });
 
-  expect(newState.reviewMessage).toEqual(errorMessage);
+  expect(newState.showReviewFailure).toBeTruthy();
 });
 
 test('should reduce initial skipped sentences', async () => {
@@ -135,9 +136,9 @@ test('should reduce skipped sentence reset', async () => {
 });
 
 test('should reduce review message reset', async () => {
-  const newState = sentencesReducer(combineState({ reviewMessage: 'hi' }), {
+  const newState = sentencesReducer(combineState({ showReviewFailure: true }), {
     type: sentences.ACTION_REVIEW_RESET_MESSAGE,
   });
 
-  expect(newState.reviewMessage).toEqual('');
+  expect(newState.showReviewFailure).toEqual(false);
 });

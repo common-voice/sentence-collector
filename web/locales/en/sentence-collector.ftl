@@ -277,6 +277,13 @@ sc-review-form-button-approve = Approve
 sc-review-form-keyboard-usage = You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
 sc-review-form-button-submit =
     .submitText = Finish Review
+sc-review-form-reviewed-message =
+    {$sentences ->
+        [0] No sentences reviewed.
+        [one] 1 sentence reviewed. Thank you!
+        *[other] { $sentences } sentences reviewed. Thank you!
+    }
+sc-review-form-review-failure = Review could not be saved. Please try again later.
 
 sc-review-link = Review
 
@@ -286,3 +293,4 @@ sc-settings-skipped-decription = You previously skipped sentences while reviewin
     Resetting skipped sentences will show all skipped sentences again.
     This is independent of the language.
 sc-settings-show-all-button = Show all skipped sentences again
+sc-settings-failed = Could not change settings. Please try again.

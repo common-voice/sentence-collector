@@ -13,7 +13,8 @@ type Props = {
   onReviewed: (categorizedSentences: ReviewedState) => void;
   onSkip: (sentenceId: number) => void;
   sentences: SentenceRecord[];
-  message?: string;
+  sentencesSuccessfullyReviewedCount?: number;
+  showReviewFailure?: boolean;
   language?: string;
 };
 
@@ -22,7 +23,14 @@ type ReviewApproval = {
 };
 
 export default function SwipeReview(props: Props) {
-  const { onSkip, onReviewed, sentences = [], message, language } = props;
+  const {
+    onSkip,
+    onReviewed,
+    sentences = [],
+    sentencesSuccessfullyReviewedCount = 0,
+    showReviewFailure = false,
+    language,
+  } = props;
 
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(sentences.length - 1);
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
@@ -154,7 +162,19 @@ export default function SwipeReview(props: Props) {
           message="Reviewed sentences not submitted, are sure?"
         />
       </Localized>
-      {message && <p>{message}</p>}
+      {typeof sentencesSuccessfullyReviewedCount !== 'undefined' && (
+        <Localized
+          id="sc-review-form-reviewed-message"
+          vars={{ sentences: sentencesSuccessfullyReviewedCount }}
+        >
+          <p>{sentencesSuccessfullyReviewedCount} sentences reviewed. Thank you!</p>
+        </Localized>
+      )}
+      {showReviewFailure && (
+        <Localized id="sc-review-form-review-failure">
+          <p>Review could not be saved. Please try again later.</p>
+        </Localized>
+      )}
       <Localized id="sc-review-form-usage" elems={{ strong: <strong></strong> }}>
         <p className="small">
           Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.

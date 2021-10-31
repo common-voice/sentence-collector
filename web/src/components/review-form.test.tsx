@@ -169,15 +169,28 @@ test('should return empty component if no sentences', async () => {
   expect(container.children.length).toBe(0);
 });
 
-test('should show message', async () => {
+test('should show reviewed message', async () => {
   renderWithBrowserRouter(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
       sentences={allSentences}
-      message="Reviewed!"
+      sentencesSuccessfullyReviewedCount={2}
     />
   );
 
-  expect(screen.getByText('Reviewed!')).toBeTruthy();
+  expect(screen.getByText(/2 sentences reviewed/)).toBeTruthy();
+});
+
+test('should show reviewed error', async () => {
+  renderWithBrowserRouter(
+    <ReviewForm
+      onReviewed={onReviewedMock}
+      onSkip={onSkipMock}
+      sentences={allSentences}
+      showReviewFailure={true}
+    />
+  );
+
+  expect(screen.getByText(/Review could not be saved/)).toBeTruthy();
 });
