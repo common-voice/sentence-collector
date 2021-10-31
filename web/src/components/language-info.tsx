@@ -10,20 +10,11 @@ type Props = {
   rejected: number;
   unreviewedByYou: number;
   language: string;
-  languageName: string;
   nativeLanguageName: string;
 };
 
 const LanguageInfo = (props: Props) => {
-  const {
-    total,
-    validated,
-    rejected,
-    unreviewedByYou,
-    language,
-    languageName,
-    nativeLanguageName,
-  } = props;
+  const { total, validated, rejected, unreviewedByYou, language, nativeLanguageName } = props;
   const totalSentences = total;
   const totalInReview = total - validated - rejected;
   const unreviewedSentencesByYou = unreviewedByYou;
@@ -35,9 +26,7 @@ const LanguageInfo = (props: Props) => {
 
   return (
     <section>
-      <h3>
-        {nativeLanguageName} ({languageName})
-      </h3>
+      <h3>{nativeLanguageName}</h3>
       <ul>
         <Localized id="sc-lang-info-total" vars={{ totalSentences }}>
           <li>{total} total sentences.</li>

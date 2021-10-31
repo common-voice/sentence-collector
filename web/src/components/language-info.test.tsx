@@ -13,12 +13,11 @@ test('should render all stats', () => {
         rejected={7}
         unreviewedByYou={65}
         language="de"
-        languageName="German"
         nativeLanguageName="Deutsch"
       />
     </BrowserRouter>
   );
-  expect(screen.queryByText('Deutsch (German)')).toBeTruthy();
+  expect(screen.queryByText('Deutsch')).toBeTruthy();
   expect(screen.queryByText('100 total sentences.')).toBeTruthy();
   expect(screen.queryByText('88 sentences in review.')).toBeTruthy();
   expect(screen.queryByText('65 sentences left for you to review.')).toBeTruthy();
@@ -39,7 +38,6 @@ test('should not render review link if none to review', () => {
         validated={0}
         rejected={0}
         language="en"
-        languageName="English"
         nativeLanguageName="English"
       />
     </BrowserRouter>
@@ -56,7 +54,6 @@ test('should render link to add if nothing to review', () => {
         unreviewedByYou={0}
         rejected={0}
         language="en"
-        languageName="English"
         nativeLanguageName="English"
       />
     </BrowserRouter>

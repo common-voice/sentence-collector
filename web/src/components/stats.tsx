@@ -76,7 +76,6 @@ export default function Stats() {
                   <LanguageInfo
                     key={lang.id}
                     language={lang.id}
-                    languageName={lang.name}
                     nativeLanguageName={lang.nativeName}
                     total={languageStats[lang.id].added}
                     validated={languageStats[lang.id].validated}

@@ -62,16 +62,16 @@ test('should list languages with stats', () => {
 
   render(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English (English)')).toBeTruthy();
+  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('5 added by you')).toBeTruthy();
-  expect(screen.getByText('Deutsch (German)')).toBeTruthy();
+  expect(screen.getByText('Deutsch')).toBeTruthy();
   expect(screen.getByText('2 added by you')).toBeTruthy();
 });
 
 test('should use 0 if no stats', () => {
   render(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English (English)')).toBeTruthy();
+  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('0 added by you')).toBeTruthy();
 });
 
