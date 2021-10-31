@@ -112,15 +112,16 @@ export default function SwipeReview(props: Props) {
 
   useEffect(() => {
     const handler = ({ key }: { key: string }) => {
-      if (key === 'y') {
+      const lowerCaseKey = key.toLocaleLowerCase();
+      if (lowerCaseKey === 'y') {
         return processButtonPressOnCurrentCard(true);
       }
 
-      if (key === 'n') {
+      if (lowerCaseKey === 'n') {
         return processButtonPressOnCurrentCard(false);
       }
 
-      if (key === 's') {
+      if (lowerCaseKey === 's') {
         return processButtonPressOnCurrentCard(undefined);
       }
     };
