@@ -28,9 +28,9 @@ test('should render full form', () => {
   expect(screen.getByText('Confirm New Sentences')).toBeTruthy();
   expect(screen.getByText('3 sentences found.')).toBeTruthy();
   expect(screen.getByText('1 rejected by you')).toBeTruthy();
-  expect(screen.getByText(/-- 2 sentences are already reviewed/)).toBeTruthy(); // already reviewed
+  expect(screen.getByText(/2 sentences are already reviewed/)).toBeTruthy(); // already reviewed
   expect(screen.getByText('2 sentences ready for submission!')).toBeTruthy();
-  expect(screen.getByText(/1 of these sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/1 sentences are unreviewed/)).toBeTruthy();
   expect(screen.getByText('Confirm')).toBeTruthy();
 });
 
@@ -47,7 +47,7 @@ test('should not render review if none to review', () => {
     />
   );
 
-  expect(screen.queryByText(/of these sentences are unreviewed/)).toBeNull();
+  expect(screen.queryByText(/sentences are unreviewed/)).toBeNull();
 });
 
 test('should not render invalidated if there are none', () => {

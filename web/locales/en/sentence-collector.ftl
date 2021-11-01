@@ -198,17 +198,17 @@ sc-confirm-sentences-found =
 sc-confirm-rejected-by-you = { $countOfInvalidated } rejected by you
 sc-confirm-already-reviewed =
     {$countOfReviewed ->
-        [0] -- No sentence is already reviewed.
-        [one] -- 1 sentence is already reviewed. Great job!
-        *[other] -- {$countOfReviewed} sentences are already reviewed. Great job!
+        [0] No sentence is already reviewed.
+        [one] 1 sentence is already reviewed. Great job!
+        *[other] {$countOfReviewed} sentences are already reviewed. Great job!
     }
 sc-confirm-ready =
     {$readyCount ->
-        [0] -- No sentence ready for submission!
-        [one] -- 1 sentence ready for submission!
-        *[other] -- {$readyCount} sentences ready for submission!
+        [0] No sentence ready for submission!
+        [one] 1 sentence ready for submission!
+        *[other] {$readyCount} sentences ready for submission!
     }
-sc-confirm-unreviewed = -- { $countOfUnreviewed } of these sentences are unreviewed.
+sc-confirm-unreviewed = { $countOfUnreviewed } sentences are unreviewed.
     If you want, you can also review your sentences now before submitting them.
 sc-confirm-button-text = Confirm
 sc-confirm-uploading = Sentences are being uploaded. This can take several minutes depending on the number of sentences added. Please do not close this website.
@@ -237,13 +237,13 @@ sc-lang-info-validated =
     {$validatedSentences ->
         [0] No validated sentences.
         [one] 1 validated sentence.
-        *[other] -- {$validatedSentences} validated sentences.
+        *[other] {$validatedSentences} validated sentences.
     }
 sc-lang-info-rejected =
     {$rejectedSentences ->
         [0] No rejected sentences.
         [one] 1 rejected sentence.
-        *[other] -- {$rejectedSentences} rejected sentences.
+        *[other] {$rejectedSentences} rejected sentences.
     }
 
 sc-login-err-failed = Login failed
