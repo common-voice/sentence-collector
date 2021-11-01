@@ -42,40 +42,40 @@ export default function ConfirmForm(props: Props) {
         <p>{`${submitted.length} sentences found.`}</p>
       </Localized>
 
-      {invalidated.length > 0 && (
-        <Localized
-          id="sc-confirm-rejected-by-you"
-          vars={{ countOfInvalidated: invalidated.length }}
-        >
-          <p style={{ color: 'red' }}>{`${invalidated.length} rejected by you`}</p>
-        </Localized>
-      )}
-
-      {validated.length + invalidated.length > 0 && (
-        <Localized id="sc-confirm-already-reviewed" vars={{ countOfReviewed }}>
-          <p>
-            {`-- ${
-              validated.length + invalidated.length
-            } sentences are already reviewed. Great job!`}
-          </p>
-        </Localized>
-      )}
-
       <Localized id="sc-confirm-ready" vars={{ readyCount }}>
-        <p>
-          <strong>{`${readyCount} sentences ready for submission!`}</strong>
-        </p>
+        <strong>{`${readyCount} sentences ready for submission!`}</strong>
       </Localized>
 
-      {unreviewed.length > 0 && (
-        <p>
-          <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed: unreviewed.length }}>
-            {`-- ${unreviewed.length} of these sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+      <ul>
+        {invalidated.length > 0 && (
+          <Localized
+            id="sc-confirm-rejected-by-you"
+            vars={{ countOfInvalidated: invalidated.length }}
+          >
+            <li style={{ color: 'red' }}>{`${invalidated.length} rejected by you`}</li>
           </Localized>
-          &nbsp;
-          <ReviewLink onReview={onReview} sentences={unreviewed} />
-        </p>
-      )}
+        )}
+
+        {validated.length + invalidated.length > 0 && (
+          <Localized id="sc-confirm-already-reviewed" vars={{ countOfReviewed }}>
+            <li>
+              {`${
+                validated.length + invalidated.length
+              } sentences are already reviewed. Great job!`}
+            </li>
+          </Localized>
+        )}
+
+        {unreviewed.length > 0 && (
+          <li>
+            <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed: unreviewed.length }}>
+              {`${unreviewed.length} sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+            </Localized>
+            &nbsp;
+            <ReviewLink onReview={onReview} sentences={unreviewed} />
+          </li>
+        )}
+      </ul>
 
       <section>
         {isUploadingSentences ? (

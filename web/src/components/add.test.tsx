@@ -55,7 +55,7 @@ test('should submit sentences including review', async () => {
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
@@ -113,7 +113,7 @@ test('should submit sentences including review - with errors', async () => {
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
@@ -164,7 +164,7 @@ test('should submit sentences including review - with unexpected server response
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 of these sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
