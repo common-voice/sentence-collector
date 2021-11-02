@@ -180,7 +180,7 @@ const ADDITIONAL_LANGUAGES = [
   },
   {
     id: 'nyn',
-    name: 'Nyankole',
+    name: 'Runyankore',
     nativeName: 'Runyankore',
   },
   {
