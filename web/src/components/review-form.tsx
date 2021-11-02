@@ -157,29 +157,23 @@ export default function SwipeReview(props: Props) {
   return (
     <form id="review-form" onSubmit={onSubmit}>
       <Localized id="sc-review-form-prompt" attrs={{ message: true }}>
-        <Prompt
-          when={reviewedSentencesCount > 0}
-          message="Reviewed sentences not submitted, are sure?"
-        />
+        <Prompt when={reviewedSentencesCount > 0} message="" />
       </Localized>
       {typeof sentencesSuccessfullyReviewedCount !== 'undefined' && (
         <Localized
           id="sc-review-form-reviewed-message"
           vars={{ sentences: sentencesSuccessfullyReviewedCount }}
         >
-          <p>{sentencesSuccessfullyReviewedCount} sentences reviewed. Thank you!</p>
+          <p></p>
         </Localized>
       )}
       {showReviewFailure && (
         <Localized id="sc-review-form-review-failure">
-          <p>Review could not be saved. Please try again later.</p>
+          <p></p>
         </Localized>
       )}
       <Localized id="sc-review-form-usage" elems={{ strong: <strong></strong> }}>
-        <p className="small">
-          Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it.
-          <strong> Do not forget to submit your review!</strong>
-        </p>
+        <p className="small"></p>
       </Localized>
       <section className="cards-container">
         {sentences.map((sentence, i) => (
@@ -196,7 +190,7 @@ export default function SwipeReview(props: Props) {
               <small className="card-source">
                 {sentence.source ? (
                   <Localized id="sc-review-form-source" vars={{ sentenceSource: sentence.source }}>
-                    <span>`Source: ${sentence.source}`</span>
+                    <span></span>
                   </Localized>
                 ) : (
                   ''
@@ -212,30 +206,28 @@ export default function SwipeReview(props: Props) {
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, false)}
           >
-            <Localized id="sc-review-form-button-reject">Reject</Localized>
+            <Localized id="sc-review-form-button-reject" />
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, undefined)}
           >
-            <Localized id="sc-review-form-button-skip">Skip</Localized>
+            <Localized id="sc-review-form-button-skip" />
           </button>
           <button
             className="standalone secondary big"
             onClick={(event) => onReviewButtonPress(event, true)}
           >
-            <Localized id="sc-review-form-button-approve">Approve</Localized>
+            <Localized id="sc-review-form-button-approve" />
           </button>
         </div>
       </section>
       <section className="review-footer">
         <p className="small">
-          <Localized id="sc-review-form-keyboard-usage">
-            You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
-          </Localized>
+          <Localized id="sc-review-form-keyboard-usage"></Localized>
         </p>
         <Localized id="sc-review-form-button-submit" attrs={{ submitText: true }}>
-          <SubmitButton submitText="Finish&nbsp;Review" pendingAction={false} />
+          <SubmitButton submitText="" pendingAction={false} />
         </Localized>
       </section>
     </form>

@@ -16,7 +16,7 @@ export default function Profile() {
   return (
     <form>
       <Localized id="sc-profile-title" vars={{ username }}>
-        <h1>Profile: {username}</h1>
+        <h1></h1>
       </Localized>
 
       <PersonalLanguageInfo />

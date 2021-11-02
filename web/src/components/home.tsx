@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div id="home">
       <Localized id="sc-home-title">
-        <h1>Welcome to the Common Voice Sentence Collector</h1>
+        <h1></h1>
       </Localized>
       <Localized
         id="sc-home-intro"
@@ -20,34 +20,26 @@ export default function Home() {
           ),
         }}
       >
-        <p>
-          The Sentence Collector is part of{' '}
-          <a href="https://commonvoice.mozilla.org/">Common Voice</a>. It allows contributors to
-          collect and validate sentences created by the community. You can use this tool also to
-          import and clean-up small-to-medium-sized public domain corpus you have found or
-          collected. All sentences need to be Public Domain. Approved sentences are exported every
-          week to the Common Voice repository and are released on the Common Voice website on every
-          new deployment.
-        </p>
+        <p></p>
       </Localized>
       <section id="contribute">
         <Link to={useLocaleUrl('/add')}>
           <div className="contributeCard">
             <Localized id="sc-home-collect-title">
-              <h2>Collect sentences</h2>
+              <h2></h2>
             </Localized>
             <Localized id="sc-home-collect-text">
-              <p>Help us by writing or collecting Public Domain sentences.</p>
+              <p></p>
             </Localized>
           </div>
         </Link>
         <Link to={useLocaleUrl('/review')}>
           <div className="contributeCard">
             <Localized id="sc-home-review-title">
-              <h2>Review sentences</h2>
+              <h2></h2>
             </Localized>
             <Localized id="sc-home-review-text">
-              <p>Help us by reviewing sentences for correctness according to the guidelines.</p>
+              <p></p>
             </Localized>
           </div>
         </Link>

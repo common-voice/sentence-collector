@@ -29,7 +29,7 @@ export default function Stats() {
   return (
     <div>
       <Localized id="sc-stats-title">
-        <h1>Statistics</h1>
+        <h1></h1>
       </Localized>
 
       {lastStatsUpdate ? (
@@ -37,17 +37,17 @@ export default function Stats() {
           id="sc-stats-last-update"
           vars={{ lastUpdate: new Date(lastStatsUpdate).toLocaleString() }}
         >
-          <p>Last Update: {new Date(lastStatsUpdate).toLocaleString()}</p>
+          <p></p>
         </Localized>
       ) : (
         <Localized id="sc-stats-last-update-never">
-          <p>Last Update: never</p>
+          <p></p>
         </Localized>
       )}
 
       {statsUpdating && (
         <Localized id="sc-stats-updating">
-          <p>Updating...</p>
+          <p></p>
         </Localized>
       )}
 
@@ -61,10 +61,7 @@ export default function Stats() {
                 languageCount: totals.languages,
               }}
             >
-              <p>
-                The Common Voice Sentence Collector has collected {totals.total} sentences in{' '}
-                {totals.languages} languages!
-              </p>
+              <p></p>
             </Localized>
           )}
 

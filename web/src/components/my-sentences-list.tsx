@@ -79,33 +79,27 @@ export default function MySentencesList() {
   return (
     <React.Fragment>
       <Localized id="sc-my-title">
-        <h1>My Sentences</h1>
+        <h1></h1>
       </Localized>
       <Localized id="sc-my-description">
-        <p>
-          This page gives you an overview of all your submitted sentencens. You may also delete
-          already submitted sentences if needed by marking the checkbox next to it and clicking on
-          &quot;Remove sentences&quot; at the bottom. Please only remove sentences if absolutely
-          necessary, for example if you noticed after the fact that a sentence is copyright
-          protected.
-        </p>
+        <p></p>
       </Localized>
 
       {sentencesLoading && (
         <Localized id="sc-my-loading">
-          <p>Loading your sentences..</p>
+          <p></p>
         </Localized>
       )}
 
       {error && (
         <Localized id="sc-my-err-fetching">
-          <p>Error while fetching your sentences. Please try again.</p>
+          <p></p>
         </Localized>
       )}
 
       {hasNoSentences && !sentencesLoading && (
         <Localized id="sc-my-no-sentences">
-          <p>No sentences found!</p>
+          <p></p>
         </Localized>
       )}
 
@@ -116,10 +110,10 @@ export default function MySentencesList() {
           {Object.keys(sentences[language]).map((batchId) => (
             <section key={'section-' + language + '-' + batchId} className="submission-section">
               <Localized id="sc-my-submission" vars={{ batchId }}>
-                <h3 key={batchId}>Submission: {batchId}</h3>
+                <h3 key={batchId}></h3>
               </Localized>
               <Localized id="sc-my-source" vars={{ source: sentences[language][batchId].source }}>
-                <small>Source: {sentences[language][batchId].source}</small>
+                <small></small>
               </Localized>
 
               <ul key={'list-' + language + '-' + batchId} className="no-bullets">
@@ -144,7 +138,7 @@ export default function MySentencesList() {
 
       {!sentencesDeleting && !hasNoSentences && !error && (
         <button className="standalone" onClick={deleteSelected}>
-          <Localized id="sc-my-delete">Delete selected sentences</Localized>
+          <Localized id="sc-my-delete" />
         </button>
       )}
 
@@ -152,7 +146,7 @@ export default function MySentencesList() {
 
       {deletionError && (
         <Localized id="sc-my-err-failed-delete">
-          <p>Failed to delete selected sentences.. Please try again!</p>
+          <p></p>
         </Localized>
       )}
     </React.Fragment>

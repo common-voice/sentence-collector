@@ -117,14 +117,11 @@ export default function SubmitForm({
     <React.Fragment>
       <form id="add-form" onSubmit={onSentencesSubmit}>
         <Localized id="sc-submit-prompt" attrs={{ message: true }}>
-          <Prompt
-            when={formFields.sentenceText !== ''}
-            message="Sentences not submitted, are you sure you want to leave?"
-          />
+          <Prompt when={formFields.sentenceText !== ''} message="" />
         </Localized>
 
         <Localized id="sc-submit-title">
-          <h1>Add Sentences</h1>
+          <h1></h1>
         </Localized>
 
         {message && <section className="form-message">{message}</section>}
@@ -135,7 +132,7 @@ export default function SubmitForm({
           <Localized id="sc-submit-select-language" attrs={{ labelText: true }}>
             <LanguageSelector
               languages={languages}
-              labelText="Select Language"
+              labelText=""
               onChange={onLanguageSelect}
             />
           </Localized>
@@ -153,23 +150,13 @@ export default function SubmitForm({
               ),
             }}
           >
-            <label htmlFor="sentences-input">
-              Add{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              >
-                public domain
-              </a>{' '}
-              sentences
-            </label>
+            <label htmlFor="sentences-input"></label>
           </Localized>
           <Localized id="sc-submit-ph-one-per-line" attrs={{ placeholder: true }}>
             <textarea
               id="sentences-input"
               name="sentenceText"
-              placeholder="One sentence per line"
+              placeholder=""
               onChange={handleInputChange}
               lang={language}
             />
@@ -188,24 +175,14 @@ export default function SubmitForm({
               ),
             }}
           >
-            <label htmlFor="source-input">
-              Where are these{' '}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              >
-                public domain
-              </a>{' '}
-              sentences from?
-            </label>
+            <label htmlFor="source-input"></label>
           </Localized>
           <Localized id="sc-submit-ph-read-how-to" attrs={{ placeholder: true }}>
             <input
               id="source-input"
               type="text"
               name="source"
-              placeholder="Read our How-to if unsure how to attribute"
+              placeholder=""
               onChange={handleInputChange}
             />
           </Localized>
@@ -224,33 +201,19 @@ export default function SubmitForm({
               ),
             }}
           >
-            <label htmlFor="agree">
-              I confirm that these sentences are {}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://en.wikipedia.org/wiki/Public_domain"
-              >
-                public domain
-              </a>{' '}
-              {}
-              and I have permission to upload them.
-            </label>
+            <label htmlFor="agree"></label>
           </Localized>
         </section>
 
         <Localized id="sc-submit-button" attrs={{ submitText: true }}>
-          <SubmitButton submitText="Submit" pendingAction={false} />
+          <SubmitButton submitText="" pendingAction={false} />
         </Localized>
       </form>
 
       {sentenceSubmissionFailures && Object.keys(sentenceSubmissionFailures).length > 0 && (
         <section>
           <Localized id="sc-submit-filtered">
-            <h2>
-              Filtered sentences due to requirements failing (please submit fixed versions as new
-              sentences):
-            </h2>
+            <h2></h2>
           </Localized>
           <Localized
             id="sc-submit-guidelines"
@@ -258,9 +221,7 @@ export default function SubmitForm({
               howToLink: <Link to={localizedHowToUrl}></Link>,
             }}
           >
-            <p>
-              Please check the <Link to={localizedHowToUrl}>guidelines</Link>.
-            </p>
+            <p></p>
           </Localized>
 
           {Object.keys(sentenceSubmissionFailures).map((filterKey) => (

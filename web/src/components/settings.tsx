@@ -22,27 +22,24 @@ export default function Settings() {
   return (
     <section>
       <Localized id="sc-settings-title">
-        <h2>Settings</h2>
+        <h2></h2>
       </Localized>
 
       {showErrorMessage && (
         <Localized id="sc-settings-failed">
-          <p className="form-error">Could not change settings. Please try again.</p>
+          <p className="form-error"></p>
         </Localized>
       )}
 
       <section>
         <Localized id="sc-settings-reset-skipped">
-          <h3>Reset skipped sentences</h3>
+          <h3></h3>
         </Localized>
         <Localized id="sc-settings-skipped-decription">
-          <p>
-            You previously skipped sentences while reviewing. Resetting skipped sentences will show
-            all skipped sentences again. This is independent of the language.
-          </p>
+          <p></p>
         </Localized>
         <button className="standalone" onClick={resetSkipped}>
-          <Localized id="sc-settings-show-all-button">Show all skipped sentences again</Localized>
+          <Localized id="sc-settings-show-all-button" />
         </button>
       </section>
     </section>

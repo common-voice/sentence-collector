@@ -11,14 +11,14 @@ export default function LoginButton({ authed }: Props) {
       {!authed && (
         <a href="/sentence-collector/login">
           <button>
-            <Localized id="sc-login-signup-button">Login / Signup</Localized>
+            <Localized id="sc-login-signup-button" />
           </button>
         </a>
       )}
       {authed && (
         <a href="/sentence-collector/logout">
           <button>
-            <Localized id="sc-logout-button">Logout</Localized>
+            <Localized id="sc-logout-button" />
           </button>
         </a>
       )}

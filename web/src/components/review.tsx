@@ -61,10 +61,7 @@ export default function Review() {
           profileLink: <Link to={localizedProfileUrl}></Link>,
         }}
       >
-        <p>
-          You have not selected any languages. Please go to your&nbsp;
-          <Link to={localizedProfileUrl}>Profile</Link> to select languages.
-        </p>
+        <p></p>
       </Localized>
     );
   }
@@ -112,7 +109,7 @@ export default function Review() {
     <div>
       <section>
         <Localized id="sc-review-title">
-          <h1>Review Sentences</h1>
+          <h1></h1>
         </Localized>
         <LanguageSelector
           labelText=""
@@ -125,13 +122,13 @@ export default function Review() {
 
       {sentencesLoading && (
         <Localized id="sc-review-loading">
-          <p>Loading sentences…</p>
+          <p></p>
         </Localized>
       )}
 
       {!language && (
         <Localized id="sc-review-select-language">
-          <p>Please select a language to review sentences.</p>
+          <p></p>
         </Localized>
       )}
 
@@ -143,8 +140,6 @@ export default function Review() {
           }}
         >
           <p>
-            No sentences to review.&nbsp;
-            <Link to={localizedAddUrl}>Add more sentences now!</Link>
           </p>
         </Localized>
       )}

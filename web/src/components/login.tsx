@@ -19,10 +19,10 @@ export function LoginFailure() {
   return (
     <section>
       <Localized id="sc-login-err-failed">
-        <h1>Login failed</h1>
+        <h1></h1>
       </Localized>
       <Localized id="sc-login-err-try-again">
-        <p>Please try again.</p>
+        <p></p>
       </Localized>
     </section>
   );

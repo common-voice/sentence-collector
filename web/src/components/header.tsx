@@ -23,29 +23,29 @@ function NavItems({ authed, closeNavigation }: Props) {
   return (
     <React.Fragment>
       <NavLink to={useLocaleUrl('/')} exact onClick={closeNavigation}>
-        <Localized id="sc-header-home">Home</Localized>
+        <Localized id="sc-header-home" />
       </NavLink>
       <NavLink to={useLocaleUrl('/how-to')} exact onClick={closeNavigation}>
-        <Localized id="sc-header-how-to">How-to</Localized>
+        <Localized id="sc-header-how-to" />
       </NavLink>
       <NavLink to={useLocaleUrl('/add')} exact key="add" onClick={closeNavigation}>
-        <Localized id="sc-header-add">Add</Localized>
+        <Localized id="sc-header-add" />
       </NavLink>
       <NavLink to={useLocaleUrl('/review')} key="review" onClick={closeNavigation}>
-        <Localized id="sc-header-review">Review</Localized>
+        <Localized id="sc-header-review" />
       </NavLink>
       <NavLink to={useLocaleUrl('/rejected')} key="rejected" onClick={closeNavigation}>
-        <Localized id="sc-header-rejected">Rejected Sentences</Localized>
+        <Localized id="sc-header-rejected" />
       </NavLink>
       <NavLink to={useLocaleUrl('/sentences')} key="sentences" onClick={closeNavigation}>
-        <Localized id="sc-header-my">My Sentences</Localized>
+        <Localized id="sc-header-my" />
       </NavLink>
       <NavLink to={useLocaleUrl('/stats')} key="stats" onClick={closeNavigation}>
-        <Localized id="sc-header-statistics">Statistics</Localized>
+        <Localized id="sc-header-statistics" />
       </NavLink>
       {authed && (
         <NavLink to={localizedProfileUrl} exact key="profile" onClick={closeNavigation}>
-          <Localized id="sc-header-profile">Profile</Localized>
+          <Localized id="sc-header-profile" />
         </NavLink>
       )}
     </React.Fragment>
