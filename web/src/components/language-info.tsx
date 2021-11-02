@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Localized } from '@fluent/react';
 
-import { useLocaleUrl, getReviewUrl } from '../urls';
+import { useLocaleUrl, useReviewUrl } from '../urls';
 
 type Props = {
   total: number;
@@ -22,7 +22,7 @@ const LanguageInfo = (props: Props) => {
   const rejectedSentences = rejected;
 
   const localizedAddUrl = useLocaleUrl('/add');
-  const localizedReviewUrl = getReviewUrl(language);
+  const localizedReviewUrl = useReviewUrl(language);
 
   return (
     <section>

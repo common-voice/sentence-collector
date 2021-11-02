@@ -71,7 +71,7 @@ export default function Review() {
 
   const onSelectLanguage = (language: string) => {
     setLanguage(language);
-    history.push(getReviewUrl(language));
+    history.push(getReviewUrl(match.params.locale, language));
   };
 
   const onReviewed = (reviewedState: ReviewedState) => {
