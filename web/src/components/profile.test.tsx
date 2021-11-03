@@ -1,6 +1,6 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import { renderWithLocalization } from '../../tests/test-utils';
 
