@@ -130,11 +130,7 @@ export default function SubmitForm({
 
         <section>
           <Localized id="sc-submit-select-language" attrs={{ labelText: true }}>
-            <LanguageSelector
-              languages={languages}
-              labelText=""
-              onChange={onLanguageSelect}
-            />
+            <LanguageSelector languages={languages} labelText="" onChange={onLanguageSelect} />
           </Localized>
         </section>
         <section>

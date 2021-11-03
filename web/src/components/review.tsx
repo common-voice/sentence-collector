@@ -139,8 +139,7 @@ export default function Review() {
             addLink: <Link to={localizedAddUrl}></Link>,
           }}
         >
-          <p>
-          </p>
+          <p></p>
         </Localized>
       )}
 

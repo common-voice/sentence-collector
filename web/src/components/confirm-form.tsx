@@ -64,7 +64,11 @@ export default function ConfirmForm(props: Props) {
 
         {unreviewed.length > 0 && (
           <li>
-            <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed: unreviewed.length }} />
+            <Localized id="sc-confirm-unreviewed" vars={{ countOfUnreviewed: unreviewed.length }}>
+              {`${unreviewed.length} sentences are unreviewed. If you want, you can also review your sentences now before submitting them.`}
+            </Localized>
+            &nbsp;
+            <ReviewLink onReview={onReview} sentences={unreviewed} />
           </li>
         )}
       </ul>
