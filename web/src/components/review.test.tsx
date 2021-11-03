@@ -2,7 +2,8 @@ import React from 'react';
 import * as redux from 'react-redux';
 import { screen } from '@testing-library/react';
 
-import { renderWithBrowserRouter } from '../../tests/test-utils';
+import { renderWithLocalization } from '../../tests/test-utils';
+
 import LanguageSelector from './language-selector';
 import ReviewForm from './review-form';
 import ReviewCriteria from './review-criteria';
@@ -26,62 +27,62 @@ beforeEach(() => {
   (ReviewCriteria as jest.Mock).mockReturnValue(<div>...ReviewCriteria...</div>);
 });
 
-test('should set language from single user language', () => {
+test('should set language from single user language', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['de'],
     sentencesLoading: false,
     sentences: [],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.queryByText('Please select a language to review sentences.')).toBeNull();
 });
 
-test('should ask to set language', () => {
+test('should ask to set language', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: [],
     sentencesLoading: false,
     sentences: [],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/You have not selected any languages./)).toBeTruthy();
 });
 
-test('should render loading', () => {
+test('should render loading', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: true,
     sentences: [],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText('Loading sentences…')).toBeTruthy();
 });
 
-test('should render no language selected', () => {
+test('should render no language selected', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en', 'de'],
     sentencesLoading: false,
     sentences: [],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText('Please select a language to review sentences.')).toBeTruthy();
 });
 
-test('should render no sentences found', () => {
+test('should render no sentences found', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
     sentencesLoading: false,
     sentences: [],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
 });
 
-test('should render no sentences found if all sentences are skipped', () => {
+test('should render no sentences found if all sentences are skipped', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
     languages: ['en'],
@@ -94,26 +95,26 @@ test('should render no sentences found if all sentences are skipped', () => {
     ],
     skippedSentences: [1],
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/No sentences to review./)).toBeTruthy();
 });
 
-test('should render language selector', () => {
-  renderWithBrowserRouter(<Review />);
+test('should render language selector', async () => {
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/LanguageSelector/)).toBeTruthy();
 });
 
-test('should render review criteria', () => {
-  renderWithBrowserRouter(<Review />);
+test('should render review criteria', async () => {
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/ReviewCriteria/)).toBeTruthy();
 });
 
-test('should dispatch load', () => {
-  renderWithBrowserRouter(<Review />);
+test('should dispatch load', async () => {
+  await renderWithLocalization(<Review />);
   expect(dispatchMock).toHaveBeenCalled();
 });
 
-test('should only render form', () => {
+test('should only render form', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [{ id: 'en' }],
     languages: ['en'],
@@ -122,7 +123,7 @@ test('should only render form', () => {
     sentencesSuccessfullyReviewedCount: 0,
     showReviewFailure: false,
   }));
-  renderWithBrowserRouter(<Review />);
+  await renderWithLocalization(<Review />);
   expect(screen.getByText(/ReviewForm/)).toBeTruthy();
   expect(screen.queryByText(/You have not selected any languages./)).toBeNull();
   expect(screen.queryByText('Loading sentences…')).toBeNull();

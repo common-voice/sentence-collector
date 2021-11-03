@@ -6,7 +6,7 @@ exports[`should render criteria 1`] = `
     <button
       class="secondary"
     >
-      getString-sc-criteria-modal
+      ⓘ Review Criteria
     </button>
     <div
       class="no-show"

@@ -1,7 +1,9 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import PersonalLanguageInfo from './personal-language-info';
 
@@ -34,18 +36,18 @@ beforeEach(() => {
   }));
 });
 
-test('should render if not added languages', () => {
+test('should render if not added languages', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
     languages: [],
     pendingLanguages: false,
   }));
 
-  render(<PersonalLanguageInfo />);
+  await renderWithLocalization(<PersonalLanguageInfo />);
   expect(screen.getByText('You have not added any languages yet.')).toBeTruthy();
 });
 
-test('should list languages with stats', () => {
+test('should list languages with stats', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
     languages: ['en', 'de'],
@@ -60,29 +62,29 @@ test('should list languages with stats', () => {
     },
   }));
 
-  render(<PersonalLanguageInfo />);
+  await renderWithLocalization(<PersonalLanguageInfo />);
 
   expect(screen.getByText('English')).toBeTruthy();
-  expect(screen.getByText('5 added by you')).toBeTruthy();
+  expect(screen.getByText('\u20685\u2069 added by you')).toBeTruthy();
   expect(screen.getByText('Deutsch')).toBeTruthy();
-  expect(screen.getByText('2 added by you')).toBeTruthy();
+  expect(screen.getByText('\u20682\u2069 added by you')).toBeTruthy();
 });
 
-test('should use 0 if no stats', () => {
-  render(<PersonalLanguageInfo />);
+test('should use 0 if no stats', async () => {
+  await renderWithLocalization(<PersonalLanguageInfo />);
 
   expect(screen.getByText('English')).toBeTruthy();
-  expect(screen.getByText('0 added by you')).toBeTruthy();
+  expect(screen.getByText('\u20680\u2069 added by you')).toBeTruthy();
 });
 
-test('should render remove button', () => {
-  render(<PersonalLanguageInfo />);
+test('should render remove button', async () => {
+  await renderWithLocalization(<PersonalLanguageInfo />);
 
   expect(screen.getByRole('button')).toBeTruthy();
   expect(screen.getByText('remove')).toBeTruthy();
 });
 
-test('should disable button while languages are pending', () => {
+test('should disable button while languages are pending', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
     languages: ['en'],
@@ -90,13 +92,13 @@ test('should disable button while languages are pending', () => {
     userStats: {},
   }));
 
-  render(<PersonalLanguageInfo />);
+  await renderWithLocalization(<PersonalLanguageInfo />);
 
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
 test('should remove language', async () => {
-  render(<PersonalLanguageInfo />);
+  await renderWithLocalization(<PersonalLanguageInfo />);
 
   await userEvent.click(screen.getByRole('button'));
   expect(dispatchMock).toHaveBeenCalled();

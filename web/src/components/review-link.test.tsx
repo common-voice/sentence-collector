@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import ReviewLink from './review-link';
 
@@ -11,21 +13,21 @@ beforeEach(() => {
   onReview.mockReset();
 });
 
-test('should render review link if enough to review', () => {
+test('should render review link if enough to review', async () => {
   const sentences = ['This is a test.'];
-  render(<ReviewLink sentences={sentences} onReview={onReview} />);
+  await renderWithLocalization(<ReviewLink sentences={sentences} onReview={onReview} />);
   expect(screen.queryByText('Review')).toBeTruthy();
 });
 
 test('should call onReview on click', async () => {
   const sentences = ['This is a test.'];
-  render(<ReviewLink sentences={sentences} onReview={onReview} />);
+  await renderWithLocalization(<ReviewLink sentences={sentences} onReview={onReview} />);
   await userEvent.click(screen.getByRole('link'));
   expect(onReview).toHaveBeenCalled();
 });
 
-test('should not render review link', () => {
+test('should not render review link', async () => {
   const sentences: string[] = [];
-  render(<ReviewLink sentences={sentences} onReview={onReview} />);
+  await renderWithLocalization(<ReviewLink sentences={sentences} onReview={onReview} />);
   expect(screen.queryByText('Review')).toBeNull();
 });

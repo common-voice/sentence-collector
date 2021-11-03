@@ -1,5 +1,7 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import LanguageSelector from './language-selector';
 
@@ -9,7 +11,7 @@ beforeEach(() => {
   onChange = jest.fn();
 });
 
-test('should render label', () => {
+test('should render label', async () => {
   const languages = [
     {
       id: 'en',
@@ -24,7 +26,7 @@ test('should render label', () => {
   ];
   const filters: string[] = [];
 
-  render(
+  await renderWithLocalization(
     <LanguageSelector
       onChange={onChange}
       disabled={false}
@@ -37,7 +39,7 @@ test('should render label', () => {
   expect(screen.queryByLabelText('This is a label.')).toBeTruthy();
 });
 
-test('should single option without null option', () => {
+test('should single option without null option', async () => {
   const languages = [
     {
       id: 'de',
@@ -46,7 +48,7 @@ test('should single option without null option', () => {
     },
   ];
 
-  render(
+  await renderWithLocalization(
     <LanguageSelector
       onChange={onChange}
       disabled={false}
@@ -60,7 +62,7 @@ test('should single option without null option', () => {
   expect(screen.queryByText('--')).toBeNull();
 });
 
-test('should add null option', () => {
+test('should add null option', async () => {
   const languages = [
     {
       id: 'en',
@@ -74,7 +76,7 @@ test('should add null option', () => {
     },
   ];
 
-  render(
+  await renderWithLocalization(
     <LanguageSelector
       onChange={onChange}
       disabled={false}
@@ -89,7 +91,7 @@ test('should add null option', () => {
   expect(screen.queryByText('German (Deutsch)')).toBeTruthy();
 });
 
-test('should filter options', () => {
+test('should filter options', async () => {
   const languages = [
     {
       id: 'en',
@@ -104,7 +106,7 @@ test('should filter options', () => {
   ];
   const filters = ['en'];
 
-  render(
+  await renderWithLocalization(
     <LanguageSelector
       onChange={onChange}
       disabled={false}
@@ -118,7 +120,7 @@ test('should filter options', () => {
   expect(screen.queryByText('English (English)')).toBeNull();
 });
 
-test('should select option', () => {
+test('should select option', async () => {
   const languages = [
     {
       id: 'en',
@@ -132,7 +134,7 @@ test('should select option', () => {
     },
   ];
 
-  render(
+  await renderWithLocalization(
     <LanguageSelector
       disabled={false}
       selected={languages[0].id}

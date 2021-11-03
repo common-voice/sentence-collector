@@ -1,7 +1,8 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import { LoginSuccess, LoginFailure, LogoutSuccess } from './login';
 
@@ -16,23 +17,15 @@ beforeEach(() => {
 });
 
 describe('LoginSuccess', () => {
-  test('should dispatch login success', () => {
-    render(
-      <BrowserRouter>
-        <LoginSuccess />
-      </BrowserRouter>
-    );
+  test('should dispatch login success', async () => {
+    await renderWithLocalization(<LoginSuccess />);
     expect(dispatchMock).toHaveBeenCalled();
   });
 });
 
 describe('LoginFailure', () => {
-  test('should dispatch login failure and render error', () => {
-    render(
-      <BrowserRouter>
-        <LoginFailure />
-      </BrowserRouter>
-    );
+  test('should dispatch login failure and render error', async () => {
+    await renderWithLocalization(<LoginFailure />);
     expect(dispatchMock).toHaveBeenCalled();
     expect(screen.getByText('Login failed')).toBeTruthy();
     expect(screen.getByText('Please try again.')).toBeTruthy();
@@ -40,12 +33,8 @@ describe('LoginFailure', () => {
 });
 
 describe('LogoutSuccess', () => {
-  test('should dispatch logout success', () => {
-    render(
-      <BrowserRouter>
-        <LogoutSuccess />
-      </BrowserRouter>
-    );
+  test('should dispatch logout success', async () => {
+    await renderWithLocalization(<LogoutSuccess />);
     expect(dispatchMock).toHaveBeenCalled();
   });
 });

@@ -3,7 +3,7 @@ import * as redux from 'react-redux';
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithBrowserRouter } from '../../tests/test-utils';
+import { renderWithLocalization } from '../../tests/test-utils';
 import Add from './add';
 
 const languages = [
@@ -40,7 +40,7 @@ test('should submit sentences including review', async () => {
   );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  renderWithBrowserRouter(<Add />);
+  await renderWithLocalization(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -55,7 +55,7 @@ test('should submit sentences including review', async () => {
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/\u20683\u2069 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
@@ -79,14 +79,15 @@ test('should submit sentences including review', async () => {
   await act(async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
-  expect(screen.getByText(/2 sentences are already reviewed/)).toBeTruthy();
+  expect(screen.getByText(/\u20682\u2069 sentences are already reviewed/)).toBeTruthy();
   await act(async () => {
     await userEvent.click(screen.getByText('Confirm'));
   });
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText('getString-sc-add-result')).toBeTruthy();
+  expect(screen.getByText(/Submitted sentences./)).toBeTruthy();
+  expect(screen.getByText(/\u20680\u2069 sentences were rejected as duplicates./)).toBeTruthy();
 });
 
 test('should submit sentences including review - with errors', async () => {
@@ -98,7 +99,7 @@ test('should submit sentences including review - with errors', async () => {
   );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  renderWithBrowserRouter(<Add />);
+  await renderWithLocalization(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -113,7 +114,7 @@ test('should submit sentences including review - with errors', async () => {
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/\u20683\u2069 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
@@ -130,15 +131,16 @@ test('should submit sentences including review - with errors', async () => {
     await userEvent.click(screen.getByText('Finish Review'));
   });
 
-  expect(screen.getByText(/1 sentences are already reviewed/)).toBeTruthy();
+  expect(screen.getByText(/1 sentence is already reviewed/)).toBeTruthy();
   await act(async () => {
     await userEvent.click(screen.getByText('Confirm'));
   });
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText('getString-sc-add-result')).toBeTruthy();
-  expect(screen.getByText('getString-sc-add-err-failed')).toBeTruthy();
+  expect(screen.getByText(/Submitted sentences./)).toBeTruthy();
+  expect(screen.getByText(/\u20683\u2069 sentences were rejected as duplicates./)).toBeTruthy();
+  expect(screen.getByText(/\u20682\u2069 sentences failed/)).toBeTruthy();
 });
 
 test('should submit sentences including review - with unexpected server response', async () => {
@@ -149,7 +151,7 @@ test('should submit sentences including review - with unexpected server response
   );
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
 
-  renderWithBrowserRouter(<Add />);
+  await renderWithLocalization(<Add />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -164,7 +166,7 @@ test('should submit sentences including review - with unexpected server response
     await userEvent.click(screen.getByText('Submit'));
   });
 
-  expect(screen.getByText(/3 sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText(/\u20683\u2069 sentences are unreviewed/)).toBeTruthy();
   await userEvent.click(screen.getByText('Review'));
 
   await waitFor(() => {
@@ -181,12 +183,12 @@ test('should submit sentences including review - with unexpected server response
     await userEvent.click(screen.getByText('Finish Review'));
   });
 
-  expect(screen.getByText(/1 sentences are already reviewed/)).toBeTruthy();
+  expect(screen.getByText(/1 sentence is already reviewed/)).toBeTruthy();
   await act(async () => {
     await userEvent.click(screen.getByText('Confirm'));
   });
 
   expect(dispatchMock).toHaveBeenCalled();
 
-  expect(screen.getByText('getString-sc-add-err-submission')).toBeTruthy();
+  expect(screen.getByText(/Submission Error/)).toBeTruthy();
 });

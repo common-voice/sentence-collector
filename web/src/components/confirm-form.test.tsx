@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithBrowserRouter } from '../../tests/test-utils';
+import { renderWithLocalization } from '../../tests/test-utils';
 import ConfirmForm from './confirm-form';
 
 const submitted = ['This is a test444.', 'This too!', 'Hi.'];
@@ -12,8 +12,8 @@ const unreviewed = ['Hi.'];
 const onSubmit = jest.fn();
 const onReview = jest.fn();
 
-test('should render full form', () => {
-  renderWithBrowserRouter(
+test('should render full form', async () => {
+  await renderWithLocalization(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -26,16 +26,16 @@ test('should render full form', () => {
   );
 
   expect(screen.getByText('Confirm New Sentences')).toBeTruthy();
-  expect(screen.getByText('3 sentences found.')).toBeTruthy();
-  expect(screen.getByText('1 rejected by you')).toBeTruthy();
-  expect(screen.getByText(/2 sentences are already reviewed/)).toBeTruthy(); // already reviewed
-  expect(screen.getByText('2 sentences ready for submission!')).toBeTruthy();
-  expect(screen.getByText(/1 sentences are unreviewed/)).toBeTruthy();
+  expect(screen.getByText('\u20683\u2069 sentences found.')).toBeTruthy();
+  expect(screen.getByText('\u20681\u2069 rejected by you')).toBeTruthy();
+  expect(screen.getByText(/\u20682\u2069 sentences are already reviewed/)).toBeTruthy(); // already reviewed
+  expect(screen.getByText('\u20682\u2069 sentences ready for submission!')).toBeTruthy();
+  expect(screen.getByText(/\u20681\u2069 sentences are unreviewed/)).toBeTruthy();
   expect(screen.getByText('Confirm')).toBeTruthy();
 });
 
-test('should not render review if none to review', () => {
-  renderWithBrowserRouter(
+test('should not render review if none to review', async () => {
+  await renderWithLocalization(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -50,8 +50,8 @@ test('should not render review if none to review', () => {
   expect(screen.queryByText(/sentences are unreviewed/)).toBeNull();
 });
 
-test('should not render invalidated if there are none', () => {
-  renderWithBrowserRouter(
+test('should not render invalidated if there are none', async () => {
+  await renderWithLocalization(
     <ConfirmForm
       submitted={submitted}
       invalidated={[]}
@@ -66,8 +66,8 @@ test('should not render invalidated if there are none', () => {
   expect(screen.queryByText(/rejected by you/)).toBeNull();
 });
 
-test('should not render already validated if there are none', () => {
-  renderWithBrowserRouter(
+test('should not render already validated if there are none', async () => {
+  await renderWithLocalization(
     <ConfirmForm
       submitted={submitted}
       invalidated={[]}
@@ -87,7 +87,7 @@ test('should render working submit button', async () => {
     event.preventDefault();
   });
 
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ConfirmForm
       submitted={submitted}
       invalidated={invalidated}
@@ -105,7 +105,7 @@ test('should render working submit button', async () => {
 });
 
 test('should disable submit button if no sentences', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}
@@ -121,7 +121,7 @@ test('should disable submit button if no sentences', async () => {
 });
 
 test('should not show submit button while uploading sentences', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}
@@ -137,7 +137,7 @@ test('should not show submit button while uploading sentences', async () => {
 });
 
 test('should show submission notice while uploading', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ConfirmForm
       submitted={[]}
       invalidated={[]}

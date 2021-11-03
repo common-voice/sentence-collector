@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import ReviewCriteria from './review-criteria';
 
-test('should render criteria', () => {
-  const { container } = render(<ReviewCriteria />);
+test('should render criteria', async () => {
+  const { container } = await renderWithLocalization(<ReviewCriteria />);
   expect(container).toMatchSnapshot();
 });

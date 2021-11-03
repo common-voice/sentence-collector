@@ -1,5 +1,7 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import * as backend from '../backend';
 import RejectedSentencesList from './rejected-sentences-list';
@@ -37,8 +39,8 @@ test('should render loading notice', async () => {
     });
   });
 
-  act(() => {
-    render(<RejectedSentencesList />);
+  await act(async () => {
+    await renderWithLocalization(<RejectedSentencesList />);
   });
   await waitFor(() => {
     expect(screen.getByText('Loading rejected sentences..')).toBeTruthy();
@@ -49,8 +51,8 @@ test('should render error', async () => {
   const errorMessage = 'Oh no!';
   (backend.sendRequest as jest.Mock).mockRejectedValue(new Error(errorMessage));
 
-  act(() => {
-    render(<RejectedSentencesList />);
+  await act(async () => {
+    await renderWithLocalization(<RejectedSentencesList />);
   });
   await waitFor(() => {
     expect(
@@ -62,8 +64,8 @@ test('should render error', async () => {
 test('should render no sentences found notice', async () => {
   (backend.sendRequest as jest.Mock).mockResolvedValue({});
 
-  act(() => {
-    render(<RejectedSentencesList />);
+  await act(async () => {
+    await renderWithLocalization(<RejectedSentencesList />);
   });
   await waitFor(() => {
     expect(screen.getByText('No rejected sentences found!')).toBeTruthy();
@@ -71,8 +73,8 @@ test('should render no sentences found notice', async () => {
 });
 
 test('should render sentences', async () => {
-  act(() => {
-    render(<RejectedSentencesList />);
+  await act(async () => {
+    await renderWithLocalization(<RejectedSentencesList />);
   });
 
   await waitFor(() => {
