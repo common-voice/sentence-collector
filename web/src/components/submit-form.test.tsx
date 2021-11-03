@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
-import { renderWithBrowserRouter } from '../../tests/test-utils';
+import { renderWithLocalization } from '../../tests/test-utils';
+
 import SubmitForm from './submit-form';
 
 const languages = [
@@ -25,31 +26,33 @@ const source = 'Test';
 const onSubmit = jest.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
   onSubmit.mockReset();
 });
 
-test('should render submit button', () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+test('should render submit button', async () => {
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
   expect(screen.getByText('Submit')).toBeTruthy();
 });
 
-test('should render message', () => {
+test('should render message', async () => {
   const message = 'Hi';
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <SubmitForm languages={languages} message={message} onSubmit={onSubmit} />
   );
   expect(screen.getByText(message)).toBeTruthy();
 });
 
-test('should render error', () => {
+test('should render error', async () => {
   const error = 'Oh no!';
-  renderWithBrowserRouter(<SubmitForm languages={languages} error={error} onSubmit={onSubmit} />);
+  await renderWithLocalization(
+    <SubmitForm languages={languages} error={error} onSubmit={onSubmit} />
+  );
   expect(screen.getByText(error)).toBeTruthy();
 });
 
 test('should submit form if valid', async () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -70,25 +73,25 @@ test('should submit form if valid', async () => {
 });
 
 test('should show error if no language', async () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('getString-sc-submit-err-select-lang')).toBeTruthy();
+  expect(screen.getByText('Please select a language.')).toBeTruthy();
 });
 
 test('should show error if no sentences', async () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('getString-sc-submit-err-add-sentences')).toBeTruthy();
+  expect(screen.getByText('Please add sentences.')).toBeTruthy();
 });
 
 test('should show error if no source', async () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -97,11 +100,11 @@ test('should show error if no source', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('getString-sc-submit-err-add-source')).toBeTruthy();
+  expect(screen.getByText('Please add a source.')).toBeTruthy();
 });
 
 test('should show error if not confirmed', async () => {
-  renderWithBrowserRouter(<SubmitForm languages={languages} onSubmit={onSubmit} />);
+  await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   fireEvent.input(screen.getByRole('textbox', { name: /Add public domain sentences/i }), {
@@ -114,16 +117,16 @@ test('should show error if not confirmed', async () => {
 
   await userEvent.click(screen.getByText('Submit'));
   expect(onSubmit.mock.calls.length).toBe(0);
-  expect(screen.getByText('getString-sc-submit-err-confirm-pd')).toBeTruthy();
+  expect(screen.getByText('Please confirm that these sentences are public domain.')).toBeTruthy();
 });
 
-test('should render failures', () => {
+test('should render failures', async () => {
   const sentenceSubmissionFailures = {
     'Too long': ['Oh no I am too long', 'Oh no I am too long too'],
     'Invalid symbol': ['I have a % symbol'],
   };
 
-  render(
+  await renderWithLocalization(
     <BrowserRouter>
       <SubmitForm
         languages={languages}

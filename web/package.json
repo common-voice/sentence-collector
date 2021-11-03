@@ -85,6 +85,7 @@
       "!webpack.config.js",
       "!**/src/index.tsx",
       "!**/src/app.tsx",
+      "!**/src/root.tsx",
       "!**/src/l10n.tsx"
     ],
     "coverageReporters": [

@@ -1,6 +1,8 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import AddLanguage from './add-language-section';
 import PersonalLanguageInfo from './personal-language-info';
@@ -24,13 +26,13 @@ beforeEach(() => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({ username }));
 });
 
-test('should render username', () => {
-  render(<Profile />);
-  expect(screen.getByText(`Profile: ${username}`)).toBeTruthy();
+test('should render username', async () => {
+  await renderWithLocalization(<Profile />);
+  expect(screen.getByText(`Profile: \u2068${username}\u2069`)).toBeTruthy();
 });
 
-test('should render profile components', () => {
-  render(<Profile />);
+test('should render profile components', async () => {
+  await renderWithLocalization(<Profile />);
   expect(screen.getByText('...PersonalLanguageInfo...')).toBeTruthy();
   expect(screen.getByText('...AddLanguage...')).toBeTruthy();
   expect(screen.getByText('...Settings...')).toBeTruthy();

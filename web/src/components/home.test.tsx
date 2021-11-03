@@ -1,14 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import Home from './home';
 
-test('should render home', () => {
-  const { container } = render(
-    <BrowserRouter>
-      <Home />
-    </BrowserRouter>
-  );
+test('should render home', async () => {
+  const { container } = await renderWithLocalization(<Home />);
   expect(container).toMatchSnapshot();
 });

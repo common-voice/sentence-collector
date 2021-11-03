@@ -1,7 +1,9 @@
 import React from 'react';
 import * as redux from 'react-redux';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import AddLanguageSection from './add-language-section';
 
@@ -16,7 +18,7 @@ const allLanguages = [
 const dispatchMock = jest.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
   jest.spyOn(redux, 'useDispatch');
   jest.spyOn(redux, 'useSelector');
 
@@ -28,44 +30,44 @@ beforeEach(() => {
   }));
 });
 
-test('should render submit button', () => {
-  act(() => {
-    render(<AddLanguageSection />);
+test('should render submit button', async () => {
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   expect(screen.getByRole('button')).toBeTruthy();
   expect(screen.getByText('Add Language')).toBeTruthy();
 });
 
-test('should disable button on pending languages', () => {
+test('should disable button on pending languages', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
     languages: [],
     pendingLanguages: true,
   }));
-  act(() => {
-    render(<AddLanguageSection />);
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
-test('should disable button when no language selected', () => {
-  act(() => {
-    render(<AddLanguageSection />);
+test('should disable button when no language selected', async () => {
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBeTruthy();
 });
 
-test('should enable button when language selected', () => {
-  act(() => {
-    render(<AddLanguageSection />);
+test('should enable button when language selected', async () => {
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
 });
 
 test('should add language and set button to disabled', async () => {
-  act(() => {
-    render(<AddLanguageSection />);
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
@@ -81,8 +83,8 @@ test('should add language and set button to disabled', async () => {
 test('should show error when language can not be added', async () => {
   dispatchMock.mockRejectedValue(new Error('oh no'));
 
-  act(() => {
-    render(<AddLanguageSection />);
+  await act(async () => {
+    await renderWithLocalization(<AddLanguageSection />);
   });
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'en' } });
   expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(false);
@@ -92,5 +94,5 @@ test('should show error when language can not be added', async () => {
     expect(dispatchMock).toHaveBeenCalled();
   });
 
-  expect(screen.queryByText(/getString-sc-add-lang-could-not-add/)).toBeTruthy();
+  expect(screen.queryByText(/Could not add language/)).toBeTruthy();
 });

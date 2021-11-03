@@ -1,9 +1,11 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+
+import { renderWithLocalization } from '../../tests/test-utils';
 
 import Footer from './footer';
 
-test('should render footer', () => {
-  render(<Footer />);
+test('should render footer', async () => {
+  await renderWithLocalization(<Footer />);
   expect(screen.getByText('Discourse')).toBeTruthy();
 });

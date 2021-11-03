@@ -1,10 +1,10 @@
-const { ReactNode } = require('react');
-
-require('jest-fetch-mock').enableMocks();
+import fs from 'fs';
+import path from 'path';
+import fetchMock from 'jest-fetch-mock';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-WebKitCSSMatrix = function () {
+window.WebKitCSSMatrix = function () {
   this.a = 1;
   this.b = 0;
   this.c = 0;
@@ -31,13 +31,9 @@ WebKitCSSMatrix = function () {
   this.m44 = 1;
 };
 
-type PropType = { children: typeof ReactNode };
-jest.mock('@fluent/react', () => ({
-  ...jest.requireActual('@fluent/react'),
-  Localized: ({ children }: PropType) => children,
-  useLocalization: () => ({ l10n: { getString: (key: string) => `getString-${key}` } }),
-}));
-jest.mock('../src/l10n.tsx', () => ({
-  ...jest.requireActual('../src/l10n.tsx'),
-  AppLocalizationProvider: ({ children }: PropType) => children,
-}));
+const ftlContent = fs
+  .readFileSync(path.resolve(__dirname, '../locales/en/sentence-collector.ftl'))
+  .toString();
+
+fetchMock.enableMocks();
+fetchMock.mockResponse(ftlContent);

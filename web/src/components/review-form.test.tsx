@@ -2,7 +2,8 @@ import React from 'react';
 import { screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithBrowserRouter } from '../../tests/test-utils';
+import { renderWithLocalization } from '../../tests/test-utils';
+
 import ReviewForm from './review-form';
 
 const allSentences = [
@@ -22,11 +23,11 @@ const onReviewedMock = jest.fn();
 const onSkipMock = jest.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 });
 
 test('should approve and reject sentences using buttons', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -56,7 +57,7 @@ test('should approve and reject sentences using buttons', async () => {
 });
 
 test('should approve and reject sentences using shortcuts', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -86,7 +87,7 @@ test('should approve and reject sentences using shortcuts', async () => {
 });
 
 test('should skip sentences using button', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -105,7 +106,7 @@ test('should skip sentences using button', async () => {
 });
 
 test('should skip sentence using shortcut', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -117,7 +118,7 @@ test('should skip sentence using shortcut', async () => {
 });
 
 test('should not mark anything as validated or invalidated if no review done', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -140,7 +141,7 @@ test('should not mark anything as validated or invalidated if no review done', a
 });
 
 test('should submit review at end of review queue', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={allSentences} />
   );
 
@@ -162,7 +163,7 @@ test('should submit review at end of review queue', async () => {
 });
 
 test('should return empty component if no sentences', async () => {
-  const { container } = renderWithBrowserRouter(
+  const { container } = await renderWithLocalization(
     <ReviewForm onReviewed={onReviewedMock} onSkip={onSkipMock} sentences={[]} />
   );
 
@@ -170,7 +171,7 @@ test('should return empty component if no sentences', async () => {
 });
 
 test('should show reviewed message', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
@@ -179,11 +180,11 @@ test('should show reviewed message', async () => {
     />
   );
 
-  expect(screen.getByText(/2 sentences reviewed/)).toBeTruthy();
+  expect(screen.getByText(/\u20682\u2069 sentences reviewed/)).toBeTruthy();
 });
 
 test('should show reviewed error', async () => {
-  renderWithBrowserRouter(
+  await renderWithLocalization(
     <ReviewForm
       onReviewed={onReviewedMock}
       onSkip={onSkipMock}
