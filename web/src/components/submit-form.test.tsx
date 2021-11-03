@@ -26,7 +26,7 @@ const source = 'Test';
 const onSubmit = jest.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
   onSubmit.mockReset();
 });
 

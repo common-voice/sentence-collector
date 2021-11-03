@@ -26,7 +26,7 @@ const rejectedSentences = {
 };
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 
   jest.spyOn(backend, 'sendRequest');
   (backend.sendRequest as jest.Mock).mockResolvedValue(rejectedSentences);

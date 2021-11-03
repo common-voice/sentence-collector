@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import fetchMock from 'fetch-mock';
+import fetchMock from 'jest-fetch-mock';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -35,5 +35,5 @@ const ftlContent = fs
   .readFileSync(path.resolve(__dirname, '../locales/en/sentence-collector.ftl'))
   .toString();
 
-fetchMock.get('locales/en/sentence-collector.ftl', ftlContent);
-fetchMock.get('*', {});
+fetchMock.enableMocks();
+fetchMock.mockResponse(ftlContent);

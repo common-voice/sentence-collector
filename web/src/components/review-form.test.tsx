@@ -23,7 +23,7 @@ const onReviewedMock = jest.fn();
 const onSkipMock = jest.fn();
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  jest.clearAllMocks();
 });
 
 test('should approve and reject sentences using buttons', async () => {
