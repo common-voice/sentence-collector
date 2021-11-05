@@ -32,24 +32,24 @@ export default function RejectedSentencesList() {
   return (
     <React.Fragment>
       <Localized id="sc-rejected-title">
-        <h1>Rejected Sentences</h1>
+        <h1></h1>
       </Localized>
 
       {sentencesLoading && (
         <Localized id="sc-rejected-loading">
-          <p>Loading rejected sentences..</p>
+          <p></p>
         </Localized>
       )}
 
       {error && (
         <Localized id="sc-rejected-err-fetching">
-          <p>Error while fetching rejected sentences. Please try again.</p>
+          <p></p>
         </Localized>
       )}
 
       {hasNoSentences && !sentencesLoading && !error && (
         <Localized id="sc-rejected-none-found">
-          <p>No rejected sentences found!</p>
+          <p></p>
         </Localized>
       )}
 

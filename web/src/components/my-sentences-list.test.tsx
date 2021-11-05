@@ -43,7 +43,7 @@ test('should render loading notice', async () => {
     await renderWithLocalization(<MySentencesList />);
   });
   await waitFor(() => {
-    expect(screen.getByText('Loading your sentences..')).toBeTruthy();
+    expect(screen.getByText('Loading your sentences…')).toBeTruthy();
   });
 });
 
@@ -138,8 +138,6 @@ test('should render delete error', async () => {
 
   await userEvent.click(screen.getByText('Delete selected sentences'));
   await waitFor(() => {
-    expect(
-      screen.getByText('Failed to delete selected sentences.. Please try again!')
-    ).toBeTruthy();
+    expect(screen.getByText('Failed to delete selected sentences… Please try again!')).toBeTruthy();
   });
 });

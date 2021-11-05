@@ -110,19 +110,19 @@ sc-my-description = This page gives you an overview of all your submitted senten
     and clicking on &quot;Delete selected sentences&quot; at the bottom.
     Please only remove sentences if absolutely necessary,
     for example if you noticed after the fact that a sentence is copyright protected.
-sc-my-loading = Loading your sentences..
+sc-my-loading = Loading your sentences…
 sc-my-err-fetching = Error while fetching your sentences. Please try again.
 sc-my-no-sentences = No sentences found!
 sc-my-submission = Submission: { $batchId }
 sc-my-source = Source:  { $source }
 sc-my-delete = Delete selected sentences
 sc-my-deleting = Deleting selected sentences…
-sc-my-err-failed-delete = Failed to delete selected sentences.. Please try again!
+sc-my-err-failed-delete = Failed to delete selected sentences… Please try again!
 
 sc-profile-title = Profile: { $username }
 
 sc-rejected-title = Rejected Sentences
-sc-rejected-loading = Loading rejected sentences..
+sc-rejected-loading = Loading rejected sentences…
 sc-rejected-err-fetching = Error while fetching rejected sentences. Please try again.
 sc-rejected-none-found = No rejected sentences found!
 
@@ -262,8 +262,9 @@ sc-criteria-make-sure = Make sure the sentence meets the following criteria:
 sc-criteria-item-1 = The sentence must be spelled correctly.
 sc-criteria-item-2 = The sentence must be grammatically correct.
 sc-criteria-item-3 = The sentence must be speakable.
-sc-criteria-item-4 = If the sentence meets the criteria, click the &quot;yes&quot; button on the right.
-sc-criteria-item-5 = If the sentence does not meet the above criteria, click the &quot;no&quot; button on the right. If you are unsure about the sentence, you may also skip it and move on to the next one.
+sc-criteria-item-4 = If the sentence meets the criteria, click the &quot;Approve&quot; button on the right.
+sc-criteria-item-5 = If the sentence does not meet the above criteria, click the &quot;Reject&quot; button on the right.
+    If you are unsure about the sentence, you may also skip it and move on to the next one.
 sc-criteria-item-6 = If you run out of sentences to review, please help us collect more sentences!
 
 sc-review-form-prompt =

@@ -15,7 +15,7 @@ export default function ReviewLink({ sentences, onReview }: Props) {
         onReview && onReview();
       }}
     >
-      <Localized id="sc-review-link">Review</Localized>
+      <Localized id="sc-review-link" />
     </a>
   ) : null;
 }

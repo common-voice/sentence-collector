@@ -44,7 +44,7 @@ export default function PersonalLanguageInfo() {
       {extendedLanguages && extendedLanguages.length > 0 ? (
         <section>
           <Localized id="sc-personal-your-languages">
-            <p>Your languages:</p>
+            <p></p>
           </Localized>
           <ul>
             {extendedLanguages.map((language, i) => (
@@ -58,14 +58,14 @@ export default function PersonalLanguageInfo() {
                   }}
                   disabled={pendingLanguages}
                 >
-                  <Localized id="sc-personal-remove-button">remove</Localized>
+                  <Localized id="sc-personal-remove-button" />
                 </button>
                 <ul>
                   <Localized
                     id="sc-personal-added-by-you"
                     vars={{ sentences: (userStats[language.id] || {}).added || 0 }}
                   >
-                    <li>{`${(userStats[language.id] || {}).added || 0} `} added by you</li>
+                    <li></li>
                   </Localized>
                 </ul>
               </li>
@@ -74,7 +74,7 @@ export default function PersonalLanguageInfo() {
         </section>
       ) : (
         <Localized id="sc-personal-not-added">
-          <p>You have not added any languages yet.</p>
+          <p></p>
         </Localized>
       )}
     </section>

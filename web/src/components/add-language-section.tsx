@@ -51,7 +51,7 @@ export default function AddLanguage() {
         onClick={onLanguageAdd}
         className="add-language"
       >
-        <Localized id="sc-add-lang-sec-button">Add Language</Localized>
+        <Localized id="sc-add-lang-sec-button" />
       </button>
     </section>
   );

@@ -9,35 +9,29 @@ export default function ReviewCriteria() {
   return (
     <Modal text={l10n.getString('sc-criteria-modal')}>
       <Localized id="sc-criteria-title">
-        <h2 id="review-criteria">Review Criteria</h2>
+        <h2 id="review-criteria"></h2>
       </Localized>
       <Localized id="sc-criteria-make-sure">
-        <h3>Make sure the sentence meets the following criteria:</h3>
+        <h3></h3>
       </Localized>
       <ol>
         <Localized id="sc-criteria-item-1">
-          <li>The sentence must be spelled correctly.</li>
+          <li></li>
         </Localized>
         <Localized id="sc-criteria-item-2">
-          <li>The sentence must be grammatically correct.</li>
+          <li></li>
         </Localized>
         <Localized id="sc-criteria-item-3">
-          <li>The sentence must be speakable.</li>
+          <li></li>
         </Localized>
         <Localized id="sc-criteria-item-4">
-          <li>
-            If the sentence meets the criteria, click the &quot;yes&quot; button on the right.
-          </li>
+          <li></li>
         </Localized>
         <Localized id="sc-criteria-item-5">
-          <li>
-            If the sentence does not meet the above criteria, click the &quot;no&quot; button on the
-            right. If you are unsure about the sentence, you may also skip it and move on to the
-            next one.
-          </li>
+          <li></li>
         </Localized>
         <Localized id="sc-criteria-item-6">
-          <li>If you run out of sentences to review, please help us collect more sentences!</li>
+          <li></li>
         </Localized>
       </ol>
     </Modal>

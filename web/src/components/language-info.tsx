@@ -29,14 +29,14 @@ const LanguageInfo = (props: Props) => {
       <h3>{nativeLanguageName}</h3>
       <ul>
         <Localized id="sc-lang-info-total" vars={{ totalSentences }}>
-          <li>{total} total sentences.</li>
+          <li></li>
         </Localized>
         <Localized id="sc-lang-info-in-review" vars={{ totalInReview }}>
-          <li>{total - validated - rejected} sentences in review.&nbsp;</li>
+          <li></li>
         </Localized>
         <li>
           <Localized id="sc-lang-info-left-for-you" vars={{ unreviewedSentencesByYou }}>
-            <span>{unreviewedByYou} sentences left for you to review.</span>
+            <span></span>
           </Localized>
           &nbsp;
           {unreviewedByYou > 0 && (
@@ -46,9 +46,7 @@ const LanguageInfo = (props: Props) => {
                 reviewLink: <Link to={localizedReviewUrl}></Link>,
               }}
             >
-              <span>
-                <Link to={localizedReviewUrl}>Review now!</Link>
-              </span>
+              <span></span>
             </Localized>
           )}
           {unreviewedByYou === 0 && (
@@ -58,17 +56,15 @@ const LanguageInfo = (props: Props) => {
                 addLink: <Link to={localizedAddUrl}></Link>,
               }}
             >
-              <span>
-                <Link to={localizedAddUrl}>Add more sentences now!</Link>
-              </span>
+              <span></span>
             </Localized>
           )}
         </li>
         <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
-          <li>{validated} validated sentences.</li>
+          <li></li>
         </Localized>
         <Localized id="sc-lang-info-rejected" vars={{ rejectedSentences }}>
-          <li>{rejected} rejected sentences.</li>
+          <li></li>
         </Localized>
       </ul>
     </section>
