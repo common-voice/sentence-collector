@@ -43,7 +43,7 @@ test('should render loading notice', async () => {
     await renderWithLocalization(<RejectedSentencesList />);
   });
   await waitFor(() => {
-    expect(screen.getByText('Loading rejected sentences..')).toBeTruthy();
+    expect(screen.getByText('Loading rejected sentences…')).toBeTruthy();
   });
 });
 
