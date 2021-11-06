@@ -32,7 +32,7 @@ window.WebKitCSSMatrix = function () {
 };
 
 const ftlContent = fs
-  .readFileSync(path.resolve(__dirname, '../locales/en/sentence-collector.ftl'))
+  .readFileSync(path.resolve(__dirname, '../locales/en/messages.ftl'))
   .toString();
 
 fetchMock.enableMocks();
