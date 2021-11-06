@@ -21,7 +21,7 @@ When changing an existing string, there are two options:
 - If the change of the string is minimal and does not require any re-translation in other languages (such as a small typo fix), you can simply change it in the English file.
 - If the string needs to be retranslated in all languages, please rename the string ID as well. This then gets treated as a new string and localizers can re-translate it in Pontoon.
 
-### Deleting a new string
+### Deleting a string
 
 When deleting a string, remove it from the `messages.ftl` file and you're done. On the next export the string will be deleted from Pontoon.
 
