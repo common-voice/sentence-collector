@@ -12,34 +12,34 @@ The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is
 
 ## Prerequisites
 
- * [Node >= 12.0.0](https://nodejs.org/en/)
- * [docker](https://docs.docker.com/install/)
- * [docker-compose](https://docs.docker.com/compose/install/)
- * [prettier](https://prettier.io/) - automatically formats the code as it should be in this project, there are also several IDE plugins for it
+- [Node >= 12.0.0](https://nodejs.org/en/)
+- [docker](https://docs.docker.com/install/)
+- [docker-compose](https://docs.docker.com/compose/install/)
+- [prettier](https://prettier.io/) - automatically formats the code as it should be in this project, there are also several IDE plugins for it
 
 ## Architecture
 
-![Diagram](architecture.svg)
+![Diagram](docs/architecture.svg)
 
-To edit this diagram, load the `architecture.svg` in the root of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
+To edit this diagram, load the `architecture.svg` in the docs of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
 
 ## Local Development
 
 Start the MySQL database:
 
-```
+```bash
 docker-compose up
 ```
 
 Now we can install the dependencies:
 
-```
+```bash
 npm run install:all
 ```
 
 Start the server in a new terminal window. For this you'll need parameters from Auth0 to make sure that the login works, see below for a short tutorial.
 
-```
+```bash
 cd server
 npm run migrate
 env AUTH0_DOMAIN=yourusername.eu.auth0.com AUTH0_CLIENT_ID=fromauth0 AUTH0_CLIENT_SECRET=fromauth0 SESSION_SECRET=somerandomvalue npm start
@@ -47,7 +47,7 @@ env AUTH0_DOMAIN=yourusername.eu.auth0.com AUTH0_CLIENT_ID=fromauth0 AUTH0_CLIEN
 
 Finally, you can start the frontend in another terminal window. Please make sure that you're in the root directory of the repository.
 
-```
+```bash
 cd web
 npm start
 ```
@@ -70,7 +70,7 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 
 Running the unit and integration tests:
 
-```
+```bash
 cd server
 npm t
 ```
@@ -79,7 +79,7 @@ npm t
 
 Running the unit tests:
 
-```
+```bash
 cd web
 npm t
 ```
@@ -88,23 +88,27 @@ If you need to update the snapshots, run `npm t -- -u`, but make sure that the n
 
 ## Path special cases
 
-* In production the app is mounted at `/sentence-collector`
-* Therefore we need to make sure that we're not requesting resources on `/`
-* This however leads to a weirder case locally, as we're faking this relationship.
-* We do not want to build the base path into the image, which does not leave us many possibilities. Injecting it into the running container is a possibility, but makes it quite complicated for the frontend calls.
-* Therefore we are serving the frontend on `/` locally, and the API lives at `/sentence-collector`
-* With that we have the same relative calls as we have in production
-* Apart from having a prefix that is either empty or not, we do not have any other special casing
+- In production the app is mounted at `/sentence-collector`
+- Therefore we need to make sure that we're not requesting resources on `/`
+- This however leads to a weirder case locally, as we're faking this relationship.
+- We do not want to build the base path into the image, which does not leave us many possibilities. Injecting it into the running container is a possibility, but makes it quite complicated for the frontend calls.
+- Therefore we are serving the frontend on `/` locally, and the API lives at `/sentence-collector`
+- With that we have the same relative calls as we have in production
+- Apart from having a prefix that is either empty or not, we do not have any other special casing
 
 ## Sentence Export to Common Voice
 
 You don't need to manually export the sentences from the Sentence Collector to the Common Voice repository. This is done automatically once a week: https://github.com/common-voice/sentence-collector/actions?query=workflow%3Aexport
 
+## Localization Process
+
+The localization for the Sentence Collector happens in the Common Voice project. You can learn more about that in the [LOCALIZATION.md](https://github.com/common-voice/sentence-collector/blob/main/LOCALIZATION.md) documentation.
+
 ## Useful queries
 
 ### Get all approved sentences
 
-```
+```sql
 SELECT
       Sentences.id,
       Sentences.sentence,
@@ -119,7 +123,7 @@ SELECT
 
 ### Get not decided sentences
 
-```
+```sql
 SELECT
       Sentences.id,
       Sentences.sentence,
@@ -136,7 +140,7 @@ SELECT
 
 ### Get all decided
 
-```
+```sql
 SELECT Sentences.*
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
@@ -147,7 +151,7 @@ SELECT Sentences.*
 
 ### Get all rejected
 
-```
+```sql
 SELECT Sentences.*
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
