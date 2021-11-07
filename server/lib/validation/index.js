@@ -1,6 +1,7 @@
 const bas = require('./languages/bas');
 const en = require('./languages/en');
 const eo = require('./languages/eo');
+const ig = require('./languages/ig');
 const it = require('./languages/it');
 const ne = require('./languages/ne');
 const kab = require( './languages/kab');
@@ -13,6 +14,7 @@ const VALIDATORS = {
   bas,
   en,
   eo,
+  ig,
   it,
   kab,
   ne,
@@ -63,24 +65,24 @@ function validateSentence(validator, sentence) {
   const validationResult = {
     sentence,
   };
-  
+
   // We use `some` so we stop once an invalid condition is found
   validator.INVALIDATIONS.some((invalidation) => {
     let invalid = false;
-    
+
     if (invalidation.fn && typeof invalidation.fn === 'function') {
       invalid = invalidation.fn(sentence);
     } else if (invalidation.regex) {
       invalid = sentence.match(invalidation.regex);
     }
-    
+
     if (invalid) {
       validationResult.error = invalidation.error;
     }
-    
+
     return invalid;
   });
-  
+
   return validationResult;
 }
 
