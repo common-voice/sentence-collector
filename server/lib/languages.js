@@ -239,6 +239,11 @@ const ADDITIONAL_LANGUAGES = [
     nativeName: 'ܣܘܼܪܝܝܐ',
   },
   {
+    id: 'tig',
+    name: 'Tigre',
+    nativeName: 'ትግረ',
+  },
+  {
     id: 'uby',
     name: 'Ubykh',
     nativeName: 'Ubykh',
