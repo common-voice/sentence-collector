@@ -58,7 +58,7 @@ The sentence collector is now accessible through `http://localhost:3333`. We're 
 
 We are using the same languages as Common Voice is. Therefore we rely on the information Common Voice stores in its repository. The `locales` JSON files in this repo only contain example data. These files get updated when deploying Sentence Collector.
 
-If you want to work locally with the same info as in production/staging, you can run `npm run pull-cv-locales-info` and it will download the required files.
+If you want to work locally with the same info as in production/staging, you can run `npm run pull-cv-locales-info` in the root folder and it will download the required files. If you additionally want to have all the translations available locally, you can run `npm run pull-cv-translations` in the root folder.
 
 ## Getting required parameters from Auth0
 

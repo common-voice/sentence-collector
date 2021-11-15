@@ -14,7 +14,9 @@
     "install:all": "cd server && npm ci && cd ../web && npm ci",
     "release": "semantic-release",
     "prepare": "husky install",
-    "pull-cv-locales-info": "./scripts/pull-common-voice-locales-info.sh"
+    "pull-cv-locales-info": "./scripts/pull-common-voice-locales-info.sh",
+    "pull-cv-translations": "./scripts/pull-common-voice-translations.sh",
+    "cleanup-cv-files": "git checkout locales && git clean -fxd web/locales && git checkout web/locales"
   },
   "dependencies": {},
   "devDependencies": {
