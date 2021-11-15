@@ -11,3 +11,4 @@ docker-compose.prod.yml
 coverage
 .nyc_output
 data
+locales/*.json

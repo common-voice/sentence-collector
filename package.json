@@ -13,7 +13,8 @@
   "scripts": {
     "install:all": "cd server && npm ci && cd ../web && npm ci",
     "release": "semantic-release",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pull-cv-locales-info": "./scripts/pull-common-voice-locales-info.sh"
   },
   "dependencies": {},
   "devDependencies": {
