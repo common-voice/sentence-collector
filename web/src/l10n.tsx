@@ -10,8 +10,8 @@ import cvRTLLocales from '../../locales/rtl.json';
 import type { RootState } from './types';
 
 export const DEFAULT_LOCALE = 'en';
-const AVAILABLE_LOCALES = cvTranslatedLocales;
-const RTL_LOCALES = cvRTLLocales;
+const AVAILABLE_LOCALES: string[] = cvTranslatedLocales;
+const RTL_LOCALES: string[] = cvRTLLocales;
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`locales/${locale}/messages.ftl`);
