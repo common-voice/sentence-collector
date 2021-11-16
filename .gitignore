@@ -11,3 +11,10 @@ docker-compose.prod.yml
 coverage
 .nyc_output
 data
+
+# Locales info from Common Voice
+locales/*.json
+
+# Translations from Common Voice
+web/locales/
+!web/locales/en
