@@ -13,6 +13,7 @@ sc-header-profile = Profile
 
 sc-footer-discourse = Discourse
 sc-footer-report-bugs = Report Bugs
+sc-footer-translate = Translate this page
 sc-footer-report-copyright = Report copyright issues
 sc-footer-privacy = Privacy
 sc-footer-terms = Terms
