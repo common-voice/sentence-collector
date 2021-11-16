@@ -4,7 +4,7 @@
   "description": "A web console for collecting and validating sentences",
   "license": "MIT",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "start": "./node_modules/webpack/bin/webpack.js --watch --mode development",

@@ -1,4 +1,4 @@
-FROM node:12-buster
+FROM node:16-buster
 
 RUN npm install pm2 -g
 
