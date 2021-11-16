@@ -138,6 +138,11 @@ const ADDITIONAL_LANGUAGES = [
     name: 'Eastern Mari',
     nativeName: 'Eastern Mari',
   },
+  { // https://github.com/common-voice/common-voice/issues/3336
+    id: 'mni',
+    name: 'Meetei Lon',
+    nativeName: 'ꯃꯤꯇꯩꯂꯣꯟ',
+  },
   { // https://github.com/common-voice/common-voice/issues/2945
     id: 'mos',
     name: 'Mossi',
