@@ -23,6 +23,13 @@ export default function Footer() {
       <a
         target="_blank"
         rel="noopener noreferrer"
+        href="https://pontoon.mozilla.org/projects/common-voice/"
+      >
+        <Localized id="sc-footer-translate" />
+      </a>
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
         href="https://discourse.mozilla.org/t/sentence-collector-copyright-issues/52767"
       >
         <Localized id="sc-footer-report-copyright" />
