@@ -5,15 +5,11 @@ import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
 
+import AVAILABLE_LOCALES from '../../locales/translated.json';
+import RTL_LOCALES from '../../locales/rtl.json';
 import type { RootState } from './types';
 
 export const DEFAULT_LOCALE = 'en';
-// We eventually want this to be more dynamic, preferably based on the
-// availability of translation files, and maybe even not including locales
-// before they have a certain amount of translated strings. See CV process
-// for this.
-const AVAILABLE_LOCALES = [DEFAULT_LOCALE];
-const RTL_LOCALES: string[] = [];
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`locales/${locale}/messages.ftl`);
