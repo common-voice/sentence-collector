@@ -5,11 +5,13 @@ import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
 
-import AVAILABLE_LOCALES from '../../locales/translated.json';
-import RTL_LOCALES from '../../locales/rtl.json';
+import cvTranslatedLocales from '../../locales/translated.json';
+import cvRTLLocales from '../../locales/rtl.json';
 import type { RootState } from './types';
 
 export const DEFAULT_LOCALE = 'en';
+const AVAILABLE_LOCALES = cvTranslatedLocales;
+const RTL_LOCALES = cvRTLLocales;
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`locales/${locale}/messages.ftl`);
