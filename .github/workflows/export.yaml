@@ -52,7 +52,7 @@ jobs:
         run: cd cv && git commit -m "Automatic Sentence Collector Export + Update Locales if necessary"
 
       - name: Prepare locale FTL source file (EN)
-        run: env COMMON_VOICE_PATH=cv/ node scripts/prepare-source-strings-export.js
+        run: env COMMON_VOICE_PATH=cv/ node scripts/export-source-strings.js
       - name: Add CV Changes
         run: cd cv && git add web/locales/en/messages.ftl || true
       - name: Commit CV Changes
