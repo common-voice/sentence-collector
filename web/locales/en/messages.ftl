@@ -67,7 +67,11 @@ sc-my-description = This page gives you an overview of all your submitted senten
 sc-my-loading = Loading your sentences…
 sc-my-err-fetching = Error while fetching your sentences. Please try again.
 sc-my-no-sentences = No sentences found!
+# Variables:
+#   $batchId (String) - A unique ID identifying the submission of sentences - sentences uploaded together all have the same batch ID
 sc-my-submission = Submission: { $batchId }
+# Variables:
+#   $source (String) - Associated source the user filled out when uploading the sentence
 sc-my-source = Source:  { $source }
 sc-my-delete = Delete selected sentences
 sc-my-deleting = Deleting selected sentences…
@@ -81,9 +85,14 @@ sc-rejected-none-found = No rejected sentences found!
 
 ## STATS
 sc-stats-title = Statistics
+# Variables:
+#   $lastUpdate (Date) - Localized date of last statistics update
 sc-stats-last-update = Last Update: { $lastUpdate }
 sc-stats-last-update-never = Last Update: never
 sc-stats-updating = Updating…
+# Variables:
+#   $sentenceCount (Number) - Total number of sentences uploaded through Sentence Collector
+#   $languageCount (Number) - Total number of languages these sentences represent
 sc-stats-summary = The Common Voice Sentence Collector has collected { $sentenceCount } sentences in { $languageCount } languages!
 
 ## ADD
@@ -99,7 +108,7 @@ sc-submit-select-language =
 sc-submit-add-sentences = Add <wikipediaLink>public domain</wikipediaLink> sentences
 sc-submit-ph-one-per-line =
     .placeholder = One sentence per line
-sc-submit-from-where = Where are these <wikipediaLink> public domain</wikipediaLink> sentences from?
+sc-submit-from-where = Where are these <wikipediaLink>public domain</wikipediaLink> sentences from?
 sc-submit-ph-read-how-to =
     .placeholder = Read our How-to if unsure how to attribute
 sc-submit-confirm = I confirm that these sentences are <wikipediaLink>public domain</wikipediaLink> and I have permission to upload them.
@@ -113,12 +122,16 @@ sc-add-lang-could-not-add = Could not add language
 sc-add-lang-sec-label = Add a language you want to contribute to
 sc-add-lang-sec-button = Add Language
 sc-add-err-unexpected = Unexpected response returned from server
+# Variables:
+#   $duplicates (Number) - Number of sentences which got rejected because they are duplicates
 sc-add-result =
     {$duplicates ->
         [0] Submitted sentences. {$duplicates} sentences were rejected as duplicates.
         [one] Submitted sentences. {$duplicates} sentence was rejected as duplicate.
         *[other] Submitted sentences. {$duplicates} sentences were rejected as duplicates.
     }
+# Variables:
+#   $sentences (Number) - Number of sentences which failed to be saved to the database - could be several different reasons
 sc-add-err-failed =
     {$sentences ->
         [0] No sentences failed
@@ -131,12 +144,16 @@ sc-add-err-submission = Submission Error
 sc-confirm-are-you-sure =
     .message = Sentences not submitted, are you sure you want to leave?
 sc-confirm-sentences-title = Confirm New Sentences
+# Variables:
+#   $countOfSentences (Number) - Number of sentences the user has filled in the submission form
 sc-confirm-sentences-found =
     {$countOfSentences ->
         [0] No sentences found.
         [one] 1 sentence found.
         *[other] {$countOfSentences} sentences found.
     }
+# Variables:
+#   $countOfInvalidated (Number) - Number of sentences the user rejected in the review form before submission
 sc-confirm-rejected-by-you = { $countOfInvalidated } rejected by you
 sc-confirm-already-reviewed =
     {$countOfReviewed ->
@@ -144,29 +161,39 @@ sc-confirm-already-reviewed =
         [one] 1 sentence is already reviewed. Great job!
         *[other] {$countOfReviewed} sentences are already reviewed. Great job!
     }
+# Variables:
+#   $readyCount (Number) - Number of sentences ready to be uploaded
 sc-confirm-ready =
     {$readyCount ->
         [0] No sentence ready for submission!
         [one] 1 sentence ready for submission!
         *[other] {$readyCount} sentences ready for submission!
     }
+# Variables:
+#   $countOfUnreviewed (Number) - Number of sentences unreviewed before the upload
 sc-confirm-unreviewed = { $countOfUnreviewed } sentences are unreviewed. If you want, you can also review your sentences now before submitting them.
 sc-confirm-button-text = Confirm
 sc-confirm-uploading = Sentences are being uploaded. This can take several minutes depending on the number of sentences added. Please do not close this website.
 
 ## LANGUAGE INFO
+# Variables:
+#   $totalSentences (Number) - Number of sentences uploaded in total for this language
 sc-lang-info-total =
     {$totalSentences ->
         [0] No total sentences.
         [one] 1 total sentence.
         *[other] {$totalSentences} total sentences.
     }
+# Variables:
+#   $totalInReview (Number) - Number of sentences currently in the review state for this language
 sc-lang-info-in-review =
     {$totalInReview ->
         [0] No sentences in review.
         [one] 1 sentence in review.
         *[other] {$totalInReview} sentences in review.
     }
+# Variables:
+#   $unreviewedSentencesByYou (Number) - Number of sentences the user can still review
 sc-lang-info-left-for-you =
     {$unreviewedSentencesByYou ->
         [0] No sentences left for you to review.
@@ -175,12 +202,16 @@ sc-lang-info-left-for-you =
     }
 sc-lang-info-review-now = <reviewLink>Review now!</reviewLink>
 sc-lang-info-add-more = <addLink>Add more sentences now!</addLink>
+# Variables:
+#   $validatedSentences (Number) - Number of sentences which have been approved for this language
 sc-lang-info-validated =
     {$validatedSentences ->
         [0] No validated sentences.
         [one] 1 validated sentence.
         *[other] {$validatedSentences} validated sentences.
     }
+# Variables:
+#   $rejectedSentences (Number) - Number of sentences which have been rejected for this language
 sc-lang-info-rejected =
     {$rejectedSentences ->
         [0] No rejected sentences.
@@ -193,11 +224,15 @@ sc-login-err-failed = Login failed
 sc-login-err-try-again = Please try again.
 
 ## PROFILE
+# Variables:
+#   $username (String) - eMail address of the logged in user
 sc-profile-title = Profile: { $username }
 sc-personal-err-lang-not-found = Could not remove language: language not found
 sc-personal-err-remove = Could not remove language
 sc-personal-your-languages = Your languages:
 sc-personal-remove-button = remove
+# Variables:
+#   $sentences (Number) - Number of sentences that were added by the currently logged in user for this language
 sc-personal-added-by-you = { $sentences } added by you
 sc-personal-not-added = You have not added any languages yet.
 
@@ -221,6 +256,8 @@ sc-review-no-sentences = No sentences to review. <addLink>Add more sentences now
 sc-review-form-prompt =
     .message = Reviewed sentences not submitted, are sure?
 sc-review-form-usage = Swipe right to approve the sentence. Swipe left to reject it. Swipe up to skip it. <strong>Do not forget to submit your review!</strong>
+# Variables:
+#   $sentenceSource (Number) - Associated source the user filled out when uploading the sentence
 sc-review-form-source = Source: { $sentenceSource }
 sc-review-form-button-reject = Reject
 sc-review-form-button-skip = Skip
@@ -229,6 +266,8 @@ sc-review-form-button-approve = Approve
 sc-review-form-keyboard-usage = You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
 sc-review-form-button-submit =
     .submitText = Finish Review
+# Variables:
+#   $sentences (Number) - Number of sentences the user has reviewed in this session
 sc-review-form-reviewed-message =
     {$sentences ->
         [0] No sentences reviewed.
