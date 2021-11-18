@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
@@ -23,7 +24,7 @@ function getStore(history: History) {
   return createStore(
     persistedRecuder,
     {},
-    compose(applyMiddleware(thunk), applyMiddleware(routerMiddleware(history)))
+    composeWithDevTools(applyMiddleware(thunk), applyMiddleware(routerMiddleware(history)))
   );
 }
 

@@ -29,6 +29,7 @@
     "react-router-dom": "^5.2.0",
     "react-tinder-card": "^1.4.5",
     "redux": "^4.1.2",
+    "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.0",
     "regenerator-runtime": "^0.13.9"
