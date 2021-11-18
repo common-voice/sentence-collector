@@ -92,7 +92,7 @@ exports[`should render how to 1`] = `
         You could use academic referencing style, e.g Harvard style "Mozilla (2021) Common Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th September 2021)"
       </li>
       <li>
-        For public licenced text not available online, you could use academic referencing style e.g Harvard style "Jess (2021) My Public licence poems"
+        For public domain text not available online, you could use academic referencing style e.g Harvard style "Jess (2021) My Public licence poems"
       </li>
     </ul>
     <h2

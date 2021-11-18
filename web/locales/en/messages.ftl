@@ -48,7 +48,7 @@ sc-howto-cite-title = How to Cite
 sc-howto-cite-pre-1 = It's important that you reference where you found the public licence to avoid plagiarism and to allow for follow ups on <copyrightIssuesLink>copyright issues</copyrightIssuesLink>. Here are a few ways you can cite the work.
 sc-howto-cite-item-1 = You could include the website, e.g "Common Voice - https://commonvoice.mozilla.org/"
 sc-howto-cite-item-2 = You could use academic referencing style, e.g Harvard style "Mozilla (2021) Common Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th September 2021)"
-sc-howto-cite-item-3 = For public licenced text not available online, you could use academic referencing style e.g Harvard style "Jess (2021) My Public licence poems"
+sc-howto-cite-item-3 = For public domain text not available online, you could use academic referencing style e.g Harvard style "Jess (2021) My Public licence poems"
 sc-howto-review-title = Review Sentences
 sc-howto-review-subtitle = Make sure the sentence meets the following criteria:
 sc-howto-review-criteria-1 = The sentence must be spelled correctly.
@@ -218,7 +218,7 @@ sc-criteria-item-1 = The sentence must be spelled correctly.
 sc-criteria-item-2 = The sentence must be grammatically correct.
 sc-criteria-item-3 = The sentence must be speakable.
 sc-criteria-item-4 = If the sentence meets the criteria, click the &quot;Approve&quot; button on the right.
-sc-criteria-item-5 = If the sentence does not meet the above criteria, click the &quot;Reject&quot; button on the left. If you are unsure about the sentence, you may also skip it and move on to the next one.
+sc-criteria-item-5-2 = If the sentence does not meet the above criteria, click the &quot;Reject&quot; button on the left. If you are unsure about the sentence, you may also skip it and move on to the next one.
 sc-criteria-item-6 = If you run out of sentences to review, please help us collect more sentences!
 
 sc-review-form-prompt =
