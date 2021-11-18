@@ -27,7 +27,7 @@ export default function ReviewCriteria() {
         <Localized id="sc-criteria-item-4">
           <li></li>
         </Localized>
-        <Localized id="sc-criteria-item-5">
+        <Localized id="sc-criteria-item-5-2">
           <li></li>
         </Localized>
         <Localized id="sc-criteria-item-6">
