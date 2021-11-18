@@ -37,7 +37,7 @@ async function appendSentenceCollectorStrings() {
 
   console.log('Getting Sentence Collector entries from: ', sentenceCollectorFTLPath);
   const scFTLContent = await readFile(sentenceCollectorFTLPath, 'utf8');
-  const scFTLLines = scFTLContent.split('\n').filter((line) => line !== '' && !line.startsWith('#'));
+  const scFTLLines = scFTLContent.split('\n');
 
   console.log('Preparing combined file...');
   cvLines.splice(preambleIndex + 1, postambleIndex - preambleIndex - 1, ...scFTLLines);
