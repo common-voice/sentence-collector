@@ -225,6 +225,7 @@ sc-review-form-source = Source: { $sentenceSource }
 sc-review-form-button-reject = Reject
 sc-review-form-button-skip = Skip
 sc-review-form-button-approve = Approve
+# Keyboard shortcut keys are currently not localizeable, please use Y/N/S for now
 sc-review-form-keyboard-usage = You can also use Keyboard Shortcuts: Y to Approve, N to Reject, S to Skip
 sc-review-form-button-submit =
     .submitText = Finish Review
