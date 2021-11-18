@@ -283,3 +283,9 @@ sc-settings-reset-skipped = Reset skipped sentences
 sc-settings-skipped-decription = You previously skipped sentences while reviewing. Resetting skipped sentences will show all skipped sentences again. This is independent of the language.
 sc-settings-show-all-button = Show all skipped sentences again
 sc-settings-failed = Could not change settings. Please try again.
+
+# VALIDATION
+sc-validation-number-of-words = Sentence must contain between 1 and 14 (inclusive) words
+sc-validation-no-numbers = Sentence should not contain numbers
+sc-validation-no-symbols = Sentence should not contain symbols
+sc-validation-no-abbreviations = Sentence should not contain abbreviations

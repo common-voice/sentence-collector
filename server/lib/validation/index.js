@@ -1,3 +1,4 @@
+const defaultValidator = require('./languages/default');
 const bas = require('./languages/bas');
 const en = require('./languages/en');
 const eo = require('./languages/eo');
@@ -23,9 +24,6 @@ const VALIDATORS = {
   ur,
   or,
 };
-
-const DEFAULT_VALIDATOR_LANGUAGE = 'en';
-const DEFAULT_VALIDATOR = VALIDATORS[DEFAULT_VALIDATOR_LANGUAGE];
 
 module.exports = {
   validateSentences,
@@ -87,5 +85,5 @@ function validateSentence(validator, sentence) {
 }
 
 function getValidatorFor(language) {
-  return VALIDATORS[language] || DEFAULT_VALIDATOR;
+  return VALIDATORS[language] || defaultValidator;
 }

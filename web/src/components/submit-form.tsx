@@ -10,6 +10,7 @@ import SubmitButton from './submit-button';
 import { Prompt } from './prompt';
 
 const SPLIT_ON = '\n';
+const TRANSLATION_KEY_PREFIX = 'TRANSLATION_KEY:';
 
 function parseSentences(sentenceText: string): string[] {
   const sentences = sentenceText
@@ -220,14 +221,22 @@ export default function SubmitForm({
             <p></p>
           </Localized>
 
-          {Object.keys(sentenceSubmissionFailures).map((filterKey) => (
-            <React.Fragment key={'fragment-' + filterKey}>
-              <h3 key="{filterKey}">{filterKey}</h3>
-              {sentenceSubmissionFailures[filterKey].map((filteredSentence) => (
-                <Sentence key={filteredSentence}>{filteredSentence}</Sentence>
-              ))}
-            </React.Fragment>
-          ))}
+          {Object.keys(sentenceSubmissionFailures).map((filterKey) => {
+            const title = filterKey.startsWith(TRANSLATION_KEY_PREFIX) ? (
+              <Localized id={filterKey.replace(TRANSLATION_KEY_PREFIX, '')}></Localized>
+            ) : (
+              filterKey
+            );
+
+            return (
+              <React.Fragment key={'fragment-' + filterKey}>
+                <h3 key="{filterKey}">{title}</h3>
+                {sentenceSubmissionFailures[filterKey].map((filteredSentence) => (
+                  <Sentence key={filteredSentence}>{filteredSentence}</Sentence>
+                ))}
+              </React.Fragment>
+            );
+          })}
         </section>
       )}
     </React.Fragment>
