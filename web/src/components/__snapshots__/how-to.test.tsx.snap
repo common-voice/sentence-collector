@@ -89,10 +89,10 @@ exports[`should render how to 1`] = `
         You could include the website, e.g "Common Voice - https://commonvoice.mozilla.org/"
       </li>
       <li>
-        You could use Academic referencing style, e.g harvard style "Mozilla (2021) Common Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th September 2021)"
+        You could use academic referencing style, e.g Harvard style "Mozilla (2021) Common Voice. Available at https://commonvoice.mozilla.org/ (Accessed: 15th September 2021)"
       </li>
       <li>
-        For public licence text not available online, you could use Academic referencing style e.g harvard style "Jess (2021) My Public licence poems"
+        For public licenced text not available online, you could use academic referencing style e.g Harvard style "Jess (2021) My Public licence poems"
       </li>
     </ul>
     <h2
@@ -133,7 +133,7 @@ exports[`should render how to 1`] = `
     <h3
       id="search-for-them-on-the-internet"
     >
-      Search for them on the internet
+      Search for them on the Internet
     </h3>
     <p>
       Remember that we need permission to publish those sentences, so always ensure that the text belongs to the 
@@ -166,10 +166,10 @@ exports[`should render how to 1`] = `
       Partner with local organizations or individuals
     </h3>
     <p>
-      There are a lot of public organizations that might want to collaborate and already have a lot of texts they can donate as public domain. Reach out to local Universities, Governments and open source organizations to talk about the project and ask for their help.
+      There are a lot of public organizations that might want to collaborate and already have a lot of texts they can donate as public domain. Reach out to local universities, Governments and open source organizations to talk about the project and ask for their help.
     </p>
     <p>
-      Expert linguists can also help, try to reach out to local linguistic Universities (both teachers and students) and see if they can help to gather a diverse set of sound-diverse sentences in your language.
+      Expert linguists can also help, try to reach out to local linguistic universities (both teachers and students) and see if they can help to gather a diverse set of sound-diverse sentences in your language.
     </p>
   </section>
 </div>
