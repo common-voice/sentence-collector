@@ -34,6 +34,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => (
 );
 
 const Options = (props: LanguageSelectorProps) => {
+  const { l10n } = useLocalization();
   let languages = props.languages.filter(Boolean);
 
   // For convenience, move English to the top of the list since
@@ -53,12 +54,17 @@ const Options = (props: LanguageSelectorProps) => {
     return <Option key="default" lang={languages[0]} />;
   }
 
+  const options = languages.map((lang) => {
+    const translated = l10n.getString(lang.id);
+    return { translated, option: <Option key={lang.id} lang={lang} /> };
+  });
+  options.sort((a, b) => (a.translated < b.translated ? -1 : 1));
+  const optionElements = options.map((optionDefinition) => optionDefinition.option);
+
   return (
     <>
       <NullOption key="null" />
-      {languages.map((lang) => (
-        <Option key={lang.id} lang={lang} />
-      ))}
+      {optionElements}
     </>
   );
 };
