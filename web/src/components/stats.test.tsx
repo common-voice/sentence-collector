@@ -27,11 +27,15 @@ beforeEach(() => {
     allLanguages: [
       {
         id: 'en',
-        name: 'English',
         nativeName: 'English',
       },
     ],
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     lastStatsUpdate: 10000,
     statsUpdating: false,
     totals: {

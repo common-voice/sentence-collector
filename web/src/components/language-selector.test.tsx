@@ -22,7 +22,6 @@ test('should render label', async () => {
       nativeName: 'Deutsch',
     },
   ];
-  const filters: string[] = [];
 
   await renderWithLocalization(
     <LanguageSelector
@@ -30,7 +29,7 @@ test('should render label', async () => {
       disabled={false}
       selected={languages[0].id}
       languages={languages}
-      filters={filters}
+      filters={[]}
       labelText="This is a label."
     />
   );
@@ -97,7 +96,6 @@ test('should filter options', async () => {
       nativeName: 'Deutsch',
     },
   ];
-  const filters = ['en'];
 
   await renderWithLocalization(
     <LanguageSelector
@@ -105,7 +103,7 @@ test('should filter options', async () => {
       disabled={false}
       selected={languages[0].id}
       languages={languages}
-      filters={filters}
+      filters={[languages[0]]}
       labelText="This is a label."
     />
   );

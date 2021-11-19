@@ -24,7 +24,7 @@ beforeEach(() => {
 
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: languages,
-    languages: ['en'],
+    languages,
     isUploadingSentences: false,
     sentenceSubmissionFailures: {},
   }));

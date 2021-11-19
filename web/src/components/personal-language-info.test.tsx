@@ -28,7 +28,12 @@ beforeEach(() => {
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     pendingLanguages: false,
     userStats: {},
   }));
@@ -48,7 +53,16 @@ test('should render if not added languages', async () => {
 test('should list languages with stats', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en', 'de'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+      {
+        id: 'de',
+        nativeName: 'Deutsch',
+      },
+    ],
     pendingLanguages: false,
     userStats: {
       en: {
@@ -82,7 +96,12 @@ test('should render remove button', async () => {
 test('should disable button while languages are pending', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     pendingLanguages: true,
     userStats: {},
   }));

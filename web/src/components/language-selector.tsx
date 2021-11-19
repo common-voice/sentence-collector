@@ -13,7 +13,7 @@ type LanguageSelectorProps = {
   selected?: string;
   onChange: (value: string) => void;
   languages: Language[];
-  filters?: string[];
+  filters?: Language[];
 };
 
 const LanguageSelector = (props: LanguageSelectorProps) => (
@@ -47,7 +47,9 @@ const Options = (props: LanguageSelectorProps) => {
   }
 
   if (props.filters) {
-    languages = languages.filter(({ id }) => props.filters!.indexOf(id) === -1);
+    languages = languages.filter(
+      ({ id }) => !props.filters!.find((filterLang) => id === filterLang.id)
+    );
   }
 
   if (languages.length === 1) {

@@ -1,6 +1,7 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:users');
+const nativeNames = require('../../locales/native-names.json');
 const { User } = require('./models');
 
 module.exports = {
@@ -11,13 +12,20 @@ module.exports = {
   removeLanguage,
 };
 
+function enhanceLanguages(languageCodes) {
+  return languageCodes.map((languageCode) => ({
+    id: languageCode,
+    nativeName: nativeNames[languageCode],
+  }));
+}
+
 async function get(email) {
   debug('GETTING_USER', email);
   const [user] = await User.findAll({ where: { email } });
   const userLanguages = user.languages || '';
   return {
     email: user.email,
-    languages: userLanguages.split(',').filter(Boolean),
+    languages: enhanceLanguages(userLanguages.split(',').filter(Boolean)),
     settings: {},
   };
 }
@@ -68,7 +76,8 @@ async function addLanguage(email, language) {
     },
   });
 
-  return newLanguages;
+  const enhanced = enhanceLanguages(newLanguages);
+  return enhanced;
 }
 
 async function removeLanguage(email, language) {
@@ -97,5 +106,6 @@ async function removeLanguage(email, language) {
     },
   });
 
-  return newLanguages;
+  const enhanced = enhanceLanguages(newLanguages);
+  return enhanced;
 }

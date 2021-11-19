@@ -2,7 +2,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
-import type { RootState, UserStats } from '../types';
+import type { Language, RootState, UserStats } from '../types';
 import { addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
@@ -12,7 +12,7 @@ export const ACTION_NOT_LOGGED_IN = 'NOT_LOGGED_IN';
 export const ACTION_USER_INFO_RECEIVED = 'USER_INFO_RECEIVED';
 
 type UserInfo = {
-  languages: string[];
+  languages: Language[];
   settings: Record<string, unknown>;
   email: string;
   userStats: UserStats;

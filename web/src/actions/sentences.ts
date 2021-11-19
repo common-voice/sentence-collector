@@ -76,7 +76,7 @@ export function uploadSentences(
       const errorsWithSentenceInfo = results.errors.filter((error) => error.sentence);
       dispatch(submitSentencesErrors(errorsWithSentenceInfo));
 
-      if (!state.languages.languages.includes(sentencesParams.locale)) {
+      if (!state.languages.languages.find((lang) => lang.id === sentencesParams.locale)) {
         dispatch(addLanguage(sentencesParams.locale));
       }
 

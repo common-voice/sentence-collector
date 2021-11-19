@@ -3,27 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Localized, useLocalization } from '@fluent/react';
 
 import { removeLanguage } from '../actions/languages';
-import truthyFilter from '../truthyFilter';
 import { RootState } from '../types';
 
 export default function PersonalLanguageInfo() {
   const { userStats } = useSelector((state: RootState) => state.login);
-  const { allLanguages, languages, pendingLanguages } = useSelector(
-    (state: RootState) => state.languages
-  );
+  const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
   const { l10n } = useLocalization();
 
-  const extendedLanguages = languages
-    .map((lang) => {
-      const extended = allLanguages.find((extendedLang) => extendedLang.id === lang);
-      return extended;
-    })
-    .filter(truthyFilter);
-
   const onLanguageRemove = async (language: string) => {
+    console.log(language);
     if (!language) {
       setError(l10n.getString('sc-personal-err-lang-not-found'));
       return;
@@ -41,13 +32,13 @@ export default function PersonalLanguageInfo() {
     <section>
       {error && <p className="error-message">{error}</p>}
 
-      {extendedLanguages && extendedLanguages.length > 0 ? (
+      {languages && languages.length > 0 ? (
         <section>
           <Localized id="sc-personal-your-languages">
             <p></p>
           </Localized>
           <ul>
-            {extendedLanguages.map((language, i) => (
+            {languages.map((language, i) => (
               <li key={i}>
                 <Localized id={language.id}></Localized>
                 <button
