@@ -105,7 +105,9 @@ export default function MySentencesList() {
 
       {Object.keys(sentences).map((language) => (
         <section key={'section-' + language} className="language-section">
-          <h2 key={language}>{language}</h2>
+          <Localized id={language}>
+            <h2></h2>
+          </Localized>
 
           {Object.keys(sentences[language]).map((batchId) => (
             <section key={'section-' + language + '-' + batchId} className="submission-section">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocalization } from '@fluent/react';
 
 import type { Language } from '../types';
 
@@ -66,9 +67,15 @@ type OptionProps = {
   lang: Language;
 };
 
-const Option = (props: OptionProps) => (
-  <option value={props.lang.id}>{`${props.lang.name} (${props.lang.nativeName})`}</option>
-);
+const Option = ({ lang }: OptionProps) => {
+  const { l10n } = useLocalization();
+
+  const localizedName = l10n.getString(lang.id);
+  const nativeNameSuffix =
+    lang.nativeName && lang.nativeName !== lang.id ? `- ${lang.nativeName}` : '';
+
+  return <option value={lang.id}>{`${localizedName} ${nativeNameSuffix}`}</option>;
+};
 
 const NullOption = () => <option value="">--</option>;
 

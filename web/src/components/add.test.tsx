@@ -9,7 +9,6 @@ import Add from './add';
 const languages = [
   {
     id: 'en',
-    name: 'English',
     nativeName: 'English',
   },
 ];

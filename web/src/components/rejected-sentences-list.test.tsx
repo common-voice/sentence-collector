@@ -78,7 +78,6 @@ test('should render sentences', async () => {
   });
 
   await waitFor(() => {
-    expect(screen.getByText('de')).toBeTruthy();
     expect(screen.getByText('I failed.')).toBeTruthy();
     expect(screen.getByText('I failed too.')).toBeTruthy();
     expect(screen.getByText('I failed miserably.')).toBeTruthy();

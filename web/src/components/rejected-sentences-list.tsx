@@ -55,7 +55,9 @@ export default function RejectedSentencesList() {
 
       {Object.keys(sentences).map((language) => (
         <section key={'section-' + language}>
-          <h2 key={language}>{language}</h2>
+          <Localized id={language}>
+            <h2></h2>
+          </Localized>
 
           <ul key={'list-' + language} className="no-bullets">
             {sentences[language].map((sentence) => (

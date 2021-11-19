@@ -10,7 +10,6 @@ import AddLanguageSection from './add-language-section';
 const allLanguages = [
   {
     id: 'en',
-    name: 'English',
     nativeName: 'English',
   },
 ];

@@ -10,12 +10,10 @@ import PersonalLanguageInfo from './personal-language-info';
 const allLanguages = [
   {
     id: 'en',
-    name: 'English',
     nativeName: 'English',
   },
   {
     id: 'de',
-    name: 'German',
     nativeName: 'Deutsch',
   },
 ];
@@ -64,16 +62,13 @@ test('should list languages with stats', async () => {
 
   await renderWithLocalization(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('\u20685\u2069 added by you')).toBeTruthy();
-  expect(screen.getByText('Deutsch')).toBeTruthy();
   expect(screen.getByText('\u20682\u2069 added by you')).toBeTruthy();
 });
 
 test('should use 0 if no stats', async () => {
   await renderWithLocalization(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('\u20680\u2069 added by you')).toBeTruthy();
 });
 

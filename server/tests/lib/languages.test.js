@@ -1,5 +1,4 @@
 import test from 'ava';
-import ISO6391 from 'iso-639-1';
 import nock from 'nock';
 import sinon from 'sinon';
 import languages from '../../lib/languages';
@@ -8,7 +7,7 @@ import { Sentence } from '../../lib/models';
 const inexistingLanguageCode = 'inexisting_language_code';
 const languagesResponse = [{
   locale: {
-    code: 'en',
+    code: 'de',
   },
 }, {
   locale: {
@@ -18,7 +17,6 @@ const languagesResponse = [{
 
 test.before((t) => {
   t.context.sandbox = sinon.createSandbox();
-  t.context.sandbox.spy(ISO6391, 'getLanguages');
   t.context.sandbox.stub(Sentence, 'aggregate').resolves([{
     DISTINCT: 'en', // exists
   }, {
@@ -30,21 +28,7 @@ test.after.always((t) => {
   t.context.sandbox.restore();
 });
 
-test('gets ISO and custom languages', (t) => {
-  const allLanguages = languages.getAllLanguages();
-  t.true(allLanguages.length > 31);
-  const languageToCheck = allLanguages.find((lang) => lang.id === 'bxr');
-  t.deepEqual(languageToCheck, {
-    id: 'bxr',
-    name: 'Russia Buriat',
-    nativeName: 'буряад хэлэн',
-  });
-
-  const removedLanguageCheck = allLanguages.find((lang) => lang.code === 'zh');
-  t.falsy(removedLanguageCheck);
-});
-
-test('returns missing languages', async (t) => {
+test('returns languages', async (t) => {
   nock('https://pontoon.mozilla.org')
     .post('/graphql')
     .reply(200, {
@@ -55,8 +39,13 @@ test('returns missing languages', async (t) => {
       },
     });
 
-  const missingLanguages = await languages.getMissingLanguages();
-  t.deepEqual(missingLanguages, [inexistingLanguageCode]);
+  const allLanguages = await languages.getAllLanguages();
+  t.deepEqual(allLanguages.length, 3);
+  const languageToCheck = allLanguages.find((lang) => lang.id === 'en');
+  t.deepEqual(languageToCheck, {
+    id: 'en',
+    nativeName: 'English',
+  });
 });
 
 test('returns additional languages', async (t) => {

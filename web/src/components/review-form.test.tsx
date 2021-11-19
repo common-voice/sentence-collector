@@ -15,7 +15,6 @@ const allSentences = [
   {
     id: 2,
     sentence: 'This is a second sentence.',
-    source: 'Test',
   },
 ];
 

@@ -9,27 +9,15 @@ const STATUS_ERROR = 500;
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   debug('GET_LANGUAGES');
   try {
-    const allLanguages = languages.getAllLanguages();
+    const allLanguages = await languages.getAllLanguages();
     res.json(allLanguages);
   } catch (error) {
     debug('GET_LANGUAGES_ERROR', error);
     res.status(STATUS_ERROR);
     res.json({ message: 'GET_LANGUAGES_ERROR' });
-  }
-});
-
-router.get('/missing', async (req, res) => {
-  debug('GET_MISSING_LANGUAGES');
-  try {
-    const missingLanguages = await languages.getMissingLanguages();
-    res.json(missingLanguages);
-  } catch (error) {
-    debug('GET_MISSING_LANGUAGES_ERROR', error);
-    res.status(STATUS_ERROR);
-    res.json({ message: 'GET_MISSING_LANGUAGES_ERROR' });
   }
 });
 
