@@ -144,7 +144,15 @@ exports[`should render how to 1`] = `
       >
         public domain
       </a>
-      . If there is not an indication, reach out to the person that the text belongs to and ask if you can use their text.
+      . If there is no explicit indication, reach out to the person that the text belongs to and ask if they want to contribute their text to the Public Domain. If they want to, help them go through the 
+      <a
+        href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Contributions Agreement
+      </a>
+       process. If they do not want to contribute the text, then you are not allowed to use that text.
     </p>
     <p>
       Here are some tips to find sentences:

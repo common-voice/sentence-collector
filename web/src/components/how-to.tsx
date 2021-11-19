@@ -137,13 +137,20 @@ export default function HowTo() {
         <h3 id="search-for-them-on-the-internet"></h3>
       </Localized>
       <Localized
-        id="sc-howto-findpd-text"
+        id="sc-howto-findpd-text-2"
         elems={{
           wikipediaLink: (
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://en.wikipedia.org/wiki/Public_domain"
+            />
+          ),
+          cc0WaiverLink: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://common-voice.github.io/community-playbook/sub_pages/cc0waiver_process.html"
             />
           ),
         }}
