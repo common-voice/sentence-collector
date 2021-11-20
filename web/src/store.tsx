@@ -15,6 +15,7 @@ const ROOT_KEY = 'redux';
 const persistConfig = {
   key: ROOT_KEY,
   storage,
+  blacklist: ['router', 'languages', 'sentences'], // languages and sentences have their own config!
 };
 
 function getStore(history: History) {
