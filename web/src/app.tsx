@@ -7,16 +7,16 @@ import { getLanguages, setCurrentLocale } from './actions/languages';
 import { checkCurrentUser } from './actions/login';
 import type { RootState } from './types';
 
-import Add from './components/add';
-import Home from './components/home';
-import HowTo from './components/how-to';
-import { LoginSuccess, LoginFailure, LogoutSuccess } from './components/login';
-import MySentences from './components/my-sentences-list';
-import PageContainer from './components/page';
-import Profile from './components/profile';
-import RejectedSentences from './components/rejected-sentences-list';
-import Review from './components/review';
-import Stats from './components/stats';
+import Add from './components/pages/add';
+import Home from './components/pages/home';
+import HowTo from './components/pages/how-to';
+import { LoginSuccess, LoginFailure, LogoutSuccess } from './components/pages/login';
+import MySentences from './components/pages/my-sentences-list';
+import PageContainer from './components/pages/page';
+import Profile from './components/pages/profile';
+import RejectedSentences from './components/pages/rejected-sentences-list';
+import Review from './components/pages/review';
+import Stats from './components/pages/stats';
 
 export default function App({ history }: { history: History }) {
   const { authed } = useSelector((state: RootState) => state.login);
