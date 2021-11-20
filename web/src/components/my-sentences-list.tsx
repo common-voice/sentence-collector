@@ -4,7 +4,6 @@ import { Localized, useLocalization } from '@fluent/react';
 import '../../css/sentences-list.css';
 
 import { sendRequest } from '../backend';
-import truthyFilter from '../truthyFilter';
 import type { SentenceRecord } from '../types';
 import Sentence from './sentence';
 import SpinnerButton from './spinner-button';
@@ -61,7 +60,7 @@ export default function MySentencesList() {
 
         return parseInt(sentenceId, 10);
       })
-      .filter(truthyFilter);
+      .filter(Boolean);
 
     try {
       setDeletionError(undefined);

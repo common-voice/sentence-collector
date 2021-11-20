@@ -150,16 +150,15 @@ export default function Add() {
         isUploadingSentences={isUploadingSentences}
       />
     );
-  } else {
-    // The plain submission form allows copy & pasting
-    return (
-      <SubmitForm
-        onSubmit={onSubmit}
-        message={message}
-        error={error}
-        languages={availableLanguages}
-        sentenceSubmissionFailures={sentenceSubmissionFailures}
-      />
-    );
   }
+
+  return (
+    <SubmitForm
+      onSubmit={onSubmit}
+      message={message}
+      error={error}
+      languages={availableLanguages}
+      sentenceSubmissionFailures={sentenceSubmissionFailures}
+    />
+  );
 }
