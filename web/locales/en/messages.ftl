@@ -139,6 +139,7 @@ sc-add-err-failed =
         *[other] {$sentences} sentences failed
     }
 sc-add-err-submission = Submission Error
+sc-add-lang-process-notice = If your language is not listed here, you can request it through <languageProcessLink>this process</languageProcessLink>.
 
 ## ADD SENTENCES CONFIRMATION
 sc-confirm-are-you-sure =
