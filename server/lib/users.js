@@ -2,6 +2,7 @@
 
 const debug = require('debug')('sentencecollector:users');
 const nativeNames = require('../../locales/native-names.json');
+const languages = require('./languages');
 const { User } = require('./models');
 
 module.exports = {
@@ -12,8 +13,10 @@ module.exports = {
   removeLanguage,
 };
 
-function enhanceLanguages(languageCodes) {
-  return languageCodes.map((languageCode) => ({
+async function enhanceLanguages(languageCodes) {
+  const allLanguages = await languages.getAllLanguages();
+  const validLanguageCodes = languageCodes.filter((code) => allLanguages.find((language) => language.id === code));
+  return validLanguageCodes.map((languageCode) => ({
     id: languageCode,
     nativeName: nativeNames[languageCode],
   }));
@@ -23,11 +26,12 @@ async function get(email) {
   debug('GETTING_USER', email);
   const [user] = await User.findAll({ where: { email } });
   const userLanguages = user.languages || '';
-  return {
+  const extendedUser = {
     email: user.email,
-    languages: enhanceLanguages(userLanguages.split(',').filter(Boolean)),
+    languages: await enhanceLanguages(userLanguages.split(',').filter(Boolean)),
     settings: {},
   };
+  return extendedUser;
 }
 
 function createUserIfNecessary(email) {
@@ -63,7 +67,7 @@ async function addLanguage(email, language) {
   const userLanguages = user.languages || '';
   const languages = userLanguages.split(',');
   if (languages.includes(language)) {
-    return enhanceLanguages(languages);
+    return await enhanceLanguages(languages);
   }
 
   const newLanguages = [...languages, language].filter(Boolean);
@@ -76,7 +80,7 @@ async function addLanguage(email, language) {
     },
   });
 
-  const enhanced = enhanceLanguages(newLanguages);
+  const enhanced = await enhanceLanguages(newLanguages);
   return enhanced;
 }
 
@@ -90,7 +94,7 @@ async function removeLanguage(email, language) {
   const userLanguages = user.languages || '';
   const languages = userLanguages.split(',');
   if (!languages.includes(language)) {
-    return enhanceLanguages(languages);
+    return await enhanceLanguages(languages);
   }
 
   const index = languages.indexOf(language);
@@ -106,6 +110,6 @@ async function removeLanguage(email, language) {
     },
   });
 
-  const enhanced = enhanceLanguages(newLanguages);
+  const enhanced = await enhanceLanguages(newLanguages);
   return enhanced;
 }

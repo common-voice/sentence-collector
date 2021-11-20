@@ -1,6 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 import { User } from '../../lib/models';
+import languages from '../../lib/languages';
 import users from '../../lib/users';
 
 const exampleUserRecord = {
@@ -9,8 +10,17 @@ const exampleUserRecord = {
   languages: '',
 };
 
+const languagesMock = [{
+  id: 'en',
+  nativeName: 'English',
+}, {
+  id: 'fr',
+  nativeName: 'Francais',
+}];
+
 test.beforeEach((t) => {
   t.context.sandbox = sinon.createSandbox();
+  t.context.sandbox.stub(languages, 'getAllLanguages').resolves(languagesMock);
   t.context.sandbox.stub(User, 'findAll').resolves([exampleUserRecord]);
   t.context.sandbox.stub(User, 'findOrCreate').resolves([exampleUserRecord, true]);
   t.context.sandbox.stub(User, 'update').resolves(exampleUserRecord);
@@ -30,6 +40,34 @@ test.serial('get: should get user', async (t) => {
   t.deepEqual(user, {
     email: 'foo@example.com',
     languages: [],
+    settings: {},
+  });
+});
+
+test.serial('get: should get user with language', async (t) => {
+  User.findAll.resolves([{
+    id: '1',
+    email: 'foo@example.com',
+    languages: 'en',
+  }]);
+  const user = await users.get('foo@example.com');
+  t.deepEqual(user, {
+    email: 'foo@example.com',
+    languages: [languagesMock[0]],
+    settings: {},
+  });
+});
+
+test.serial('get: should remove invalid language from user', async (t) => {
+  User.findAll.resolves([{
+    id: '1',
+    email: 'foo@example.com',
+    languages: 'en,foo',
+  }]);
+  const user = await users.get('foo@example.com');
+  t.deepEqual(user, {
+    email: 'foo@example.com',
+    languages: [languagesMock[0]],
     settings: {},
   });
 });
