@@ -10,12 +10,10 @@ import PersonalLanguageInfo from './personal-language-info';
 const allLanguages = [
   {
     id: 'en',
-    name: 'English',
     nativeName: 'English',
   },
   {
     id: 'de',
-    name: 'German',
     nativeName: 'Deutsch',
   },
 ];
@@ -30,7 +28,12 @@ beforeEach(() => {
   (redux.useDispatch as jest.Mock).mockImplementation(() => dispatchMock);
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     pendingLanguages: false,
     userStats: {},
   }));
@@ -50,7 +53,16 @@ test('should render if not added languages', async () => {
 test('should list languages with stats', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en', 'de'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+      {
+        id: 'de',
+        nativeName: 'Deutsch',
+      },
+    ],
     pendingLanguages: false,
     userStats: {
       en: {
@@ -64,16 +76,13 @@ test('should list languages with stats', async () => {
 
   await renderWithLocalization(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('\u20685\u2069 added by you')).toBeTruthy();
-  expect(screen.getByText('Deutsch')).toBeTruthy();
   expect(screen.getByText('\u20682\u2069 added by you')).toBeTruthy();
 });
 
 test('should use 0 if no stats', async () => {
   await renderWithLocalization(<PersonalLanguageInfo />);
 
-  expect(screen.getByText('English')).toBeTruthy();
   expect(screen.getByText('\u20680\u2069 added by you')).toBeTruthy();
 });
 
@@ -87,7 +96,12 @@ test('should render remove button', async () => {
 test('should disable button while languages are pending', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages,
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     pendingLanguages: true,
     userStats: {},
   }));

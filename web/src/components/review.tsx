@@ -10,7 +10,6 @@ import {
   saveSkippedSentences,
 } from '../actions/sentences';
 import { useLocaleUrl, getReviewUrl } from '../urls';
-import truthyFilter from '../truthyFilter';
 import type { RootState, ReviewedState } from '../types';
 
 import LanguageSelector from './language-selector';
@@ -25,7 +24,7 @@ type ReviewRouteMatch = {
 export default function Review() {
   const match = useRouteMatch<ReviewRouteMatch>();
   const history = useHistory();
-  const { allLanguages = [], languages = [] } = useSelector((state: RootState) => state.languages);
+  const { languages = [] } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
     sentences = [],
@@ -41,8 +40,8 @@ export default function Review() {
   const localizedProfileUrl = useLocaleUrl('/profile');
 
   // If user only has one language possible, use it.
-  if (languages.length === 1 && languages[0] !== language) {
-    setLanguage(languages[0]);
+  if (languages.length === 1 && languages[0].id !== language) {
+    setLanguage(languages[0].id);
   }
 
   useEffect(() => {
@@ -98,10 +97,6 @@ export default function Review() {
     })
     .reverse();
 
-  const extendedLanguages = languages
-    .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
-    .filter(truthyFilter);
-
   const hasNoSentences =
     language && !sentencesLoading && (!sentencesToReview || sentencesToReview.length < 1);
 
@@ -113,7 +108,7 @@ export default function Review() {
         </Localized>
         <LanguageSelector
           labelText=""
-          languages={extendedLanguages}
+          languages={languages}
           selected={language}
           onChange={onSelectLanguage}
         />

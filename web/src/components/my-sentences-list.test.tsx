@@ -75,7 +75,6 @@ test('should render sentences', async () => {
     await renderWithLocalization(<MySentencesList />);
   });
   await waitFor(() => {
-    expect(screen.getByText('de')).toBeTruthy();
     expect(screen.getByText('Submission: \u20681\u2069')).toBeTruthy();
     expect(screen.getByText('Source: \u2068foo\u2069')).toBeTruthy();
     expect(screen.getByText('I failed.')).toBeTruthy();

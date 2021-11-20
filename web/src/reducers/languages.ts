@@ -18,7 +18,7 @@ import type { Language, LanguageStats } from '../types';
 
 export type LanguageState = {
   stats: LanguageStats;
-  languages: string[];
+  languages: Language[];
   allLanguages: Language[];
   pendingLanguages: boolean;
   lastStatsUpdate: number;

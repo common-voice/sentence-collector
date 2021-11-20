@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Localized } from '@fluent/react';
+import { Localized, useLocalization } from '@fluent/react';
 
 import { useLocaleUrl, useReviewUrl } from '../urls';
 
@@ -10,11 +10,11 @@ type Props = {
   rejected: number;
   unreviewedByYou: number;
   language: string;
-  nativeLanguageName: string;
 };
 
 const LanguageInfo = (props: Props) => {
-  const { total, validated, rejected, unreviewedByYou, language, nativeLanguageName } = props;
+  const { total, validated, rejected, unreviewedByYou, language } = props;
+  const { l10n } = useLocalization();
   const totalSentences = total;
   const totalInReview = total - validated - rejected;
   const unreviewedSentencesByYou = unreviewedByYou;
@@ -24,9 +24,12 @@ const LanguageInfo = (props: Props) => {
   const localizedAddUrl = useLocaleUrl('/add');
   const localizedReviewUrl = useReviewUrl(language);
 
+  const title = l10n.getString(language) || language;
+
   return (
     <section>
-      <h3>{nativeLanguageName}</h3>
+      <h3>{title}</h3>
+
       <ul>
         <Localized id="sc-lang-info-total" vars={{ totalSentences }}>
           <li></li>

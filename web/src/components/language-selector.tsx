@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocalization } from '@fluent/react';
 
 import type { Language } from '../types';
 
@@ -12,7 +13,7 @@ type LanguageSelectorProps = {
   selected?: string;
   onChange: (value: string) => void;
   languages: Language[];
-  filters?: string[];
+  filters?: Language[];
 };
 
 const LanguageSelector = (props: LanguageSelectorProps) => (
@@ -33,6 +34,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => (
 );
 
 const Options = (props: LanguageSelectorProps) => {
+  const { l10n } = useLocalization();
   let languages = props.languages.filter(Boolean);
 
   // For convenience, move English to the top of the list since
@@ -45,19 +47,26 @@ const Options = (props: LanguageSelectorProps) => {
   }
 
   if (props.filters) {
-    languages = languages.filter(({ id }) => props.filters!.indexOf(id) === -1);
+    languages = languages.filter(
+      ({ id }) => !props.filters!.find((filterLang) => id === filterLang.id)
+    );
   }
 
   if (languages.length === 1) {
     return <Option key="default" lang={languages[0]} />;
   }
 
+  const options = languages.map((lang) => {
+    const translated = l10n.getString(lang.id);
+    return { translated, option: <Option key={lang.id} lang={lang} /> };
+  });
+  options.sort((a, b) => (a.translated < b.translated ? -1 : 1));
+  const optionElements = options.map((optionDefinition) => optionDefinition.option);
+
   return (
     <>
       <NullOption key="null" />
-      {languages.map((lang) => (
-        <Option key={lang.id} lang={lang} />
-      ))}
+      {optionElements}
     </>
   );
 };
@@ -66,9 +75,15 @@ type OptionProps = {
   lang: Language;
 };
 
-const Option = (props: OptionProps) => (
-  <option value={props.lang.id}>{`${props.lang.name} (${props.lang.nativeName})`}</option>
-);
+const Option = ({ lang }: OptionProps) => {
+  const { l10n } = useLocalization();
+
+  const localizedName = l10n.getString(lang.id);
+  const nativeNameSuffix =
+    lang.nativeName && lang.nativeName !== lang.id ? `- ${lang.nativeName}` : '';
+
+  return <option value={lang.id}>{`${localizedName} ${nativeNameSuffix}`}</option>;
+};
 
 const NullOption = () => <option value="">--</option>;
 

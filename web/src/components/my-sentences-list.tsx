@@ -103,38 +103,42 @@ export default function MySentencesList() {
         </Localized>
       )}
 
-      {Object.keys(sentences).map((language) => (
-        <section key={'section-' + language} className="language-section">
-          <h2 key={language}>{language}</h2>
+      {Object.keys(sentences).map((language) => {
+        const title = l10n.getString(language) || language;
 
-          {Object.keys(sentences[language]).map((batchId) => (
-            <section key={'section-' + language + '-' + batchId} className="submission-section">
-              <Localized id="sc-my-submission" vars={{ batchId }}>
-                <h3 key={batchId}></h3>
-              </Localized>
-              <Localized id="sc-my-source" vars={{ source: sentences[language][batchId].source }}>
-                <small></small>
-              </Localized>
+        return (
+          <section key={'section-' + language} className="language-section">
+            <h2>{title}</h2>
 
-              <ul key={'list-' + language + '-' + batchId} className="no-bullets">
-                {sentences[language][batchId].sentences.map((sentence) => (
-                  <li key={sentence.id}>
-                    <input
-                      type="checkbox"
-                      id={'sentence-' + sentence.id}
-                      name={sentence.id?.toString()}
-                      onChange={onSelect}
-                    ></input>
-                    <label htmlFor={'sentence-' + sentence.id}>
-                      <Sentence language={language}>{sentence.sentence}</Sentence>
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </section>
-      ))}
+            {Object.keys(sentences[language]).map((batchId) => (
+              <section key={'section-' + language + '-' + batchId} className="submission-section">
+                <Localized id="sc-my-submission" vars={{ batchId }}>
+                  <h3 key={batchId}></h3>
+                </Localized>
+                <Localized id="sc-my-source" vars={{ source: sentences[language][batchId].source }}>
+                  <small></small>
+                </Localized>
+
+                <ul key={'list-' + language + '-' + batchId} className="no-bullets">
+                  {sentences[language][batchId].sentences.map((sentence) => (
+                    <li key={sentence.id}>
+                      <input
+                        type="checkbox"
+                        id={'sentence-' + sentence.id}
+                        name={sentence.id?.toString()}
+                        onChange={onSelect}
+                      ></input>
+                      <label htmlFor={'sentence-' + sentence.id}>
+                        <Sentence language={language}>{sentence.sentence}</Sentence>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </section>
+        );
+      })}
 
       {!sentencesDeleting && !hasNoSentences && !error && (
         <button className="standalone" onClick={deleteSelected}>

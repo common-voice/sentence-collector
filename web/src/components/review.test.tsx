@@ -30,7 +30,12 @@ beforeEach(() => {
 test('should set language from single user language', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
-    languages: ['de'],
+    languages: [
+      {
+        id: 'de',
+        nativeName: 'Deutsch',
+      },
+    ],
     sentencesLoading: false,
     sentences: [],
   }));
@@ -52,7 +57,12 @@ test('should ask to set language', async () => {
 test('should render loading', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     sentencesLoading: true,
     sentences: [],
   }));
@@ -74,7 +84,12 @@ test('should render no language selected', async () => {
 test('should render no sentences found', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     sentencesLoading: false,
     sentences: [],
   }));
@@ -85,7 +100,12 @@ test('should render no sentences found', async () => {
 test('should render no sentences found if all sentences are skipped', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     sentencesLoading: false,
     sentences: [
       {
@@ -117,7 +137,12 @@ test('should dispatch load', async () => {
 test('should only render form', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [{ id: 'en' }],
-    languages: ['en'],
+    languages: [
+      {
+        id: 'en',
+        nativeName: 'English',
+      },
+    ],
     sentencesLoading: false,
     sentences: ['Hi'],
     sentencesSuccessfullyReviewedCount: 0,

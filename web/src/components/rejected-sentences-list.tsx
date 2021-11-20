@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Localized } from '@fluent/react';
+import { Localized, useLocalization } from '@fluent/react';
 
 import { sendRequest } from '../backend';
 import type { SentenceRecord } from '../types';
@@ -11,6 +11,7 @@ export default function RejectedSentencesList() {
   const [sentencesLoading, setSentencesLoading] = useState<boolean>(false);
   const [sentences, setSentences] = useState<RejectedSentences>({});
   const [error, setError] = useState<Error>();
+  const { l10n } = useLocalization();
   const hasNoSentences = Object.keys(sentences).length === 0;
 
   const fetchSentences = async () => {
@@ -53,19 +54,22 @@ export default function RejectedSentencesList() {
         </Localized>
       )}
 
-      {Object.keys(sentences).map((language) => (
-        <section key={'section-' + language}>
-          <h2 key={language}>{language}</h2>
+      {Object.keys(sentences).map((language) => {
+        const title = l10n.getString(language) || language;
+        return (
+          <section key={'section-' + language}>
+            <h2>{title}</h2>
 
-          <ul key={'list-' + language} className="no-bullets">
-            {sentences[language].map((sentence) => (
-              <li key={sentence.id}>
-                <Sentence language={language}>{sentence.sentence}</Sentence>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
+            <ul key={'list-' + language} className="no-bullets">
+              {sentences[language].map((sentence) => (
+                <li key={sentence.id}>
+                  <Sentence language={language}>{sentence.sentence}</Sentence>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })}
     </React.Fragment>
   );
 }

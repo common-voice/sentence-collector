@@ -95,10 +95,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90,
+        "branches": 88,
         "functions": 85,
         "lines": 95,
-        "statements": 95
+        "statements": 94
       }
     },
     "preset": "ts-jest",

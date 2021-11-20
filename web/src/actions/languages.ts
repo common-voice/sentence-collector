@@ -22,7 +22,7 @@ export const ACTION_SET_CURRENT_UI_LOCALE = 'ACTION_SET_CURRENT_UI_LOCALE';
 const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
 
 export function getStats(
-  locales: string[],
+  locales: Language[],
   lastUpdate?: number
 ): ThunkAction<void, RootState, unknown, AnyAction> {
   return async function (dispatch) {
@@ -32,7 +32,7 @@ export function getStats(
     }
 
     dispatch(gettingStats());
-    const joinedLocales = locales.join(',');
+    const joinedLocales = locales.map((locale) => locale.id).join(',');
     try {
       const stats = await sendRequest<LanguageStats>(`stats?locales=${joinedLocales}`);
       dispatch(gotStats(stats));
@@ -58,7 +58,9 @@ export function addLanguage(language: string): ThunkAction<void, RootState, unkn
   return async function (dispatch) {
     try {
       dispatch(sendAddLanguage());
-      const updatedLanguages = await sendRequest<string[]>('users/languages', 'PUT', { language });
+      const updatedLanguages = await sendRequest<Language[]>('users/languages', 'PUT', {
+        language,
+      });
       dispatch(addLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(addLanguageFailure());
@@ -71,7 +73,10 @@ export function removeLanguage(language: string): ThunkAction<void, RootState, u
   return async function (dispatch) {
     try {
       dispatch(sendRemoveLanguage());
-      const updatedLanguages = await sendRequest<string[]>(`users/languages/${language}`, 'DELETE');
+      const updatedLanguages = await sendRequest<Language[]>(
+        `users/languages/${language}`,
+        'DELETE'
+      );
       dispatch(removeLanguageSuccess(updatedLanguages));
     } catch (err) {
       dispatch(removeLanguageFailure());
@@ -112,7 +117,7 @@ export function sendAddLanguage() {
   };
 }
 
-export function addLanguageSuccess(languages: string[]) {
+export function addLanguageSuccess(languages: Language[]) {
   return {
     type: ACTION_ADD_LANGUAGE_SUCCESS,
     languages,
@@ -131,7 +136,7 @@ export function sendRemoveLanguage() {
   };
 }
 
-export function removeLanguageSuccess(languages: string[]) {
+export function removeLanguageSuccess(languages: Language[]) {
   return {
     type: ACTION_REMOVE_LANGUAGE_SUCCESS,
     languages,

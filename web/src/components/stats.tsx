@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Localized } from '@fluent/react';
 
 import { getStats } from '../actions/languages';
-import truthyFilter from '../truthyFilter';
 import type { RootState } from '../types';
 import LanguageInfo from './language-info';
 
@@ -14,17 +13,13 @@ export default function Stats() {
     userUnreviewed,
     totals,
   } = useSelector((state: RootState) => state.languages.stats);
-  const { allLanguages, languages, lastStatsUpdate, statsUpdating } = useSelector(
+  const { languages, lastStatsUpdate, statsUpdating } = useSelector(
     (state: RootState) => state.languages
   );
 
   useEffect(() => {
     dispatch(getStats(languages, lastStatsUpdate));
   }, []);
-
-  const extendedLanguages = languages
-    .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
-    .filter(truthyFilter);
 
   return (
     <div>
@@ -65,7 +60,7 @@ export default function Stats() {
             </Localized>
           )}
 
-          {extendedLanguages
+          {languages
             .map(
               (lang) =>
                 languageStats &&
@@ -73,7 +68,6 @@ export default function Stats() {
                   <LanguageInfo
                     key={lang.id}
                     language={lang.id}
-                    nativeLanguageName={lang.nativeName}
                     total={languageStats[lang.id].added}
                     validated={languageStats[lang.id].validated}
                     rejected={languageStats[lang.id].rejected}

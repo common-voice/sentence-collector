@@ -9,7 +9,6 @@ import Add from './add';
 const languages = [
   {
     id: 'en',
-    name: 'English',
     nativeName: 'English',
   },
 ];
@@ -25,7 +24,7 @@ beforeEach(() => {
 
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: languages,
-    languages: ['en'],
+    languages,
     isUploadingSentences: false,
     sentenceSubmissionFailures: {},
   }));

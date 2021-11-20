@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocalization } from '@fluent/react';
 
 import { uploadSentences } from '../actions/sentences';
-import truthyFilter from '../truthyFilter';
 import type { ReviewedState, RootState, SentenceRecord } from '../types';
 
 import SubmitForm from './submit-form';
@@ -35,11 +34,9 @@ export default function Add() {
     (state: RootState) => state.sentences
   );
 
-  let extendedLanguages = languages
-    .map((lang) => allLanguages.find((extendedLanguage) => extendedLanguage.id === lang))
-    .filter(truthyFilter);
-  if (extendedLanguages.length < 1) {
-    extendedLanguages = allLanguages;
+  let availableLanguages = languages;
+  if (availableLanguages.length < 1) {
+    availableLanguages = allLanguages;
   }
 
   const resetState = () => {
@@ -160,7 +157,7 @@ export default function Add() {
         onSubmit={onSubmit}
         message={message}
         error={error}
-        languages={extendedLanguages}
+        languages={availableLanguages}
         sentenceSubmissionFailures={sentenceSubmissionFailures}
       />
     );
