@@ -53,6 +53,20 @@ export default function AddLanguage() {
       >
         <Localized id="sc-add-lang-sec-button" />
       </button>
+      <Localized
+        id="sc-add-lang-process-notice"
+        elems={{
+          languageProcessLink: (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://discourse.mozilla.org/t/readme-how-to-see-my-language-on-common-voice/31530"
+            />
+          ),
+        }}
+      >
+        <p></p>
+      </Localized>
     </section>
   );
 }
