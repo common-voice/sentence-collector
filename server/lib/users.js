@@ -63,7 +63,7 @@ async function addLanguage(email, language) {
   const userLanguages = user.languages || '';
   const languages = userLanguages.split(',');
   if (languages.includes(language)) {
-    return languages;
+    return enhanceLanguages(languages);
   }
 
   const newLanguages = [...languages, language].filter(Boolean);
@@ -90,7 +90,7 @@ async function removeLanguage(email, language) {
   const userLanguages = user.languages || '';
   const languages = userLanguages.split(',');
   if (!languages.includes(language)) {
-    return languages;
+    return enhanceLanguages(languages);
   }
 
   const index = languages.indexOf(language);

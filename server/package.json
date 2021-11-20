@@ -7,7 +7,8 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "start": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
+    "start": "npm run migrate && DEBUG=sentencecollector:* node index.js",
+    "start:verbose": "npm run migrate && DEBUG=sentencecollector:*,sequelize:* node index.js",
     "migrate": "sequelize-cli db:migrate && cd ..",
     "lint": "eslint .",
     "test:only": "env SESSION_SECRET=foo USE_SESSION_STORE=false nyc ava",

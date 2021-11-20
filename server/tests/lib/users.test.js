@@ -64,7 +64,7 @@ test.serial('addLanguage: should add language to user - first language', async (
       email: 'foo@example.com',
     },
   }));
-  t.deepEqual(updatedLanguages, ['en']);
+  t.deepEqual(updatedLanguages[0].id, 'en');
 });
 
 test.serial('addLanguage: should add language to user - second language', async (t) => {
@@ -81,7 +81,8 @@ test.serial('addLanguage: should add language to user - second language', async 
       email: 'foo@example.com',
     },
   }));
-  t.deepEqual(updatedLanguages, ['en', 'fr']);
+  t.deepEqual(updatedLanguages[0].id, 'en');
+  t.deepEqual(updatedLanguages[1].id, 'fr');
 });
 
 test.serial('addLanguage: should not do anything if already existing', async (t) => {
@@ -92,7 +93,7 @@ test.serial('addLanguage: should not do anything if already existing', async (t)
 
   const updatedLanguages = await users.addLanguage('foo@example.com', 'en');
   t.false(User.update.called);
-  t.deepEqual(updatedLanguages, ['en']);
+  t.deepEqual(updatedLanguages[0].id, 'en');
 });
 
 test.serial('removeLanguage: should remove language from user - first language', async (t) => {
@@ -126,7 +127,7 @@ test.serial('removeLanguage: should remove language from user - second language'
       email: 'foo@example.com',
     },
   }));
-  t.deepEqual(updatedLanguages, ['fr']);
+  t.deepEqual(updatedLanguages[0].id, 'fr');
 });
 
 test.serial('removeLanguage: should not do anything if not existing', async (t) => {
@@ -137,5 +138,5 @@ test.serial('removeLanguage: should not do anything if not existing', async (t) 
 
   const updatedLanguages = await users.removeLanguage('foo@example.com', 'fr');
   t.false(User.update.called);
-  t.deepEqual(updatedLanguages, ['en']);
+  t.deepEqual(updatedLanguages[0].id, 'en');
 });

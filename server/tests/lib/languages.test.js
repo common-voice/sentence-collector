@@ -22,6 +22,7 @@ test.before((t) => {
   }, {
     DISTINCT: 'missing', // does not exists
   }]);
+  t.context.sandbox.clock = sinon.useFakeTimers();
 });
 
 test.after.always((t) => {
@@ -46,6 +47,64 @@ test('returns languages', async (t) => {
     id: 'en',
     nativeName: 'English',
   });
+});
+
+test('returns cached languages', async (t) => {
+  nock('https://pontoon.mozilla.org')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        project: {
+          localizations: languagesResponse,
+        },
+      },
+    });
+
+  const allLanguages = await languages.getAllLanguages();
+  t.deepEqual(allLanguages.length, 3);
+
+  nock('https://pontoon.mozilla.org')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        project: {
+          localizations: [],
+        },
+      },
+    });
+
+    t.context.sandbox.clock.tick(10 * 60 * 1000);
+    const cachedAllLanguages = await languages.getAllLanguages();
+    t.deepEqual(cachedAllLanguages.length, 3);
+});
+
+test('returns newly fetched languages - invalidated cache', async (t) => {
+  nock('https://pontoon.mozilla.org')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        project: {
+          localizations: languagesResponse,
+        },
+      },
+    });
+
+  const allLanguages = await languages.getAllLanguages();
+  t.deepEqual(allLanguages.length, 3);
+
+  nock('https://pontoon.mozilla.org')
+    .post('/graphql')
+    .reply(200, {
+      data: {
+        project: {
+          localizations: [],
+        },
+      },
+    });
+
+    t.context.sandbox.clock.tick(35 * 60 * 1000);
+    const cachedAllLanguages = await languages.getAllLanguages();
+    t.deepEqual(cachedAllLanguages.length, 1);
 });
 
 test('returns additional languages', async (t) => {
