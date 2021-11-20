@@ -38,29 +38,33 @@ export default function PersonalLanguageInfo() {
             <p></p>
           </Localized>
           <ul>
-            {languages.map((language, i) => (
-              <li key={i}>
-                <Localized id={language.id}></Localized>
-                <button
-                  className="remove-lang"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    onLanguageRemove(language.id);
-                  }}
-                  disabled={pendingLanguages}
-                >
-                  <Localized id="sc-personal-remove-button" />
-                </button>
-                <ul>
-                  <Localized
-                    id="sc-personal-added-by-you"
-                    vars={{ sentences: (userStats[language.id] || {}).added || 0 }}
+            {languages.map((language, i) => {
+              const languageName = l10n.getString(language.id) || language.id;
+
+              return (
+                <li key={i}>
+                  {languageName}
+                  <button
+                    className="remove-lang"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onLanguageRemove(language.id);
+                    }}
+                    disabled={pendingLanguages}
                   >
-                    <li></li>
-                  </Localized>
-                </ul>
-              </li>
-            ))}
+                    <Localized id="sc-personal-remove-button" />
+                  </button>
+                  <ul>
+                    <Localized
+                      id="sc-personal-added-by-you"
+                      vars={{ sentences: (userStats[language.id] || {}).added || 0 }}
+                    >
+                      <li></li>
+                    </Localized>
+                  </ul>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : (
