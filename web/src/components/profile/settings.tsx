@@ -9,7 +9,7 @@ import type { RootState } from '../../types';
 
 import LanguageSelector from '../language-selector';
 
-const CV_TRANSLATED_LOCALES = cvTranslatedLocales;
+const CV_TRANSLATED_LOCALES: string[] = cvTranslatedLocales;
 
 export default function Settings() {
   const { allLanguages = [], currentUILocale } = useSelector((state: RootState) => state.languages);
