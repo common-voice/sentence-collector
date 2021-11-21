@@ -9,6 +9,8 @@ import type { RootState } from '../../types';
 
 import LanguageSelector from '../language-selector';
 
+const CV_TRANSLATED_LOCALES = cvTranslatedLocales;
+
 export default function Settings() {
   const { allLanguages = [], currentUILocale } = useSelector((state: RootState) => state.languages);
   const { skippedSentences } = useSelector((state: RootState) => state.sentences);
@@ -31,7 +33,7 @@ export default function Settings() {
   };
 
   useEffect(() => {
-    const possiblyUntranslated = !cvTranslatedLocales.includes(currentUILocale);
+    const possiblyUntranslated = !CV_TRANSLATED_LOCALES.includes(currentUILocale);
     setShowTranslatedWarning(possiblyUntranslated);
   }, [currentUILocale]);
 
