@@ -12,3 +12,7 @@ button.remove-lang:active {
   background-color: transparent;
   color: inherit;
 }
+
+.settings-section {
+  margin-bottom: 30px;
+}
