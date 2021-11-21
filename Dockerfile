@@ -5,7 +5,7 @@ RUN npm install pm2 -g
 ENV NODE_ENV production
 
 RUN mkdir -p /app/scripts
-COPY scripts/export-source-strings.sh /app/scripts/
+COPY scripts/export-source-strings.js /app/scripts/
 COPY scripts/pull-common-voice-locales-info.sh /app/scripts/
 COPY scripts/pull-common-voice-translations.sh /app/scripts/
 COPY locales /app/locales
