@@ -19,6 +19,8 @@ beforeEach(() => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     showErrorMessage: false,
     skippedSentences: [1],
+    currentUiLanguage: 'en',
+    allLanguages: [],
   }));
 });
 

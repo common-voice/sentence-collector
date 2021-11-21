@@ -8,7 +8,7 @@ import '../../css/language-selector.css';
 const ENGLISH_CODE = 'en';
 
 type LanguageSelectorProps = {
-  labelText: string;
+  labelText?: string;
   disabled?: boolean;
   selected?: string;
   onChange: (value: string) => void;
@@ -18,9 +18,11 @@ type LanguageSelectorProps = {
 
 const LanguageSelector = (props: LanguageSelectorProps) => (
   <React.Fragment>
-    <label className="language-selector-label" htmlFor="language-selector">
-      {props.labelText}
-    </label>
+    {props.labelText && (
+      <label className="language-selector-label" htmlFor="language-selector">
+        {props.labelText}
+      </label>
+    )}
     <select
       onChange={(event) => props.onChange && props.onChange(event.target.value)}
       disabled={props.disabled}

@@ -5,12 +5,10 @@ import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
 
-import cvTranslatedLocales from '../../locales/translated.json';
 import cvRTLLocales from '../../locales/rtl.json';
 import type { RootState } from './types';
 
 export const DEFAULT_LOCALE = 'en';
-const AVAILABLE_LOCALES: string[] = cvTranslatedLocales;
 const RTL_LOCALES: string[] = cvRTLLocales;
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
@@ -33,7 +31,7 @@ interface AppLocalizationProviderProps {
 }
 
 export function AppLocalizationProvider({ children }: AppLocalizationProviderProps) {
-  const { currentUILocale } = useSelector((state: RootState) => state.languages);
+  const { allLanguages = [], currentUILocale } = useSelector((state: RootState) => state.languages);
   const [currentLocales, setCurrentLocales] = useState([DEFAULT_LOCALE]);
   const [l10n, setL10n] = useState<ReactLocalization | null>(null);
 
@@ -43,7 +41,7 @@ export function AppLocalizationProvider({ children }: AppLocalizationProviderPro
       locales.unshift(currentUILocale);
     }
     changeLocales(locales);
-  }, [currentUILocale]);
+  }, [currentUILocale, allLanguages.length]);
 
   useEffect(() => {
     const mainLocale = currentLocales[0];
@@ -53,7 +51,8 @@ export function AppLocalizationProvider({ children }: AppLocalizationProviderPro
   }, [currentLocales]);
 
   async function changeLocales(userLocales: Array<string>) {
-    const negotiatedLocales = negotiateLanguages(userLocales, AVAILABLE_LOCALES, {
+    const allLanguageCodes = allLanguages.map((lang) => lang.id);
+    const negotiatedLocales = negotiateLanguages(userLocales, allLanguageCodes, {
       defaultLocale: DEFAULT_LOCALE,
     });
     setCurrentLocales(negotiatedLocales);

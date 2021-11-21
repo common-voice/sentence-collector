@@ -10,7 +10,9 @@
   --deactive-color: #d7d7db;
   --grey-color: #d7d7db;
   --dark-grey-color: #5e5c5b;
-  --warning-color: #ff4f5e;
+  --error-color: #ff4f5e;
+  --warning-border-color: #ffff00;
+  --warning-background-color: #ffffb9;
   --review-selected-color: #000000;
   --review-unselected-color: #ffffff;
   --base-font-size: 19px;
@@ -189,7 +191,7 @@ form button:not(.standalone) {
 
 .form-error {
   line-height: 1rem;
-  color: var(--warning-color);
+  color: var(--error-color);
   text-align: center;
   font-weight: 600;
 }
@@ -213,4 +215,11 @@ form button:not(.standalone) {
 
 .small {
   font-size: 0.7rem;
+}
+
+.warning-box {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 2px solid var(--warning-border-color);
+  background-color: var(--warning-background-color);
 }
