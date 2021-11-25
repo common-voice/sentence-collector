@@ -24,10 +24,6 @@ export default function Settings() {
     dispatch(resetSkippedSentences());
   };
 
-  if (!skippedSentences || skippedSentences.length === 0) {
-    return null;
-  }
-
   const onLanguageSelect = (locale: string) => {
     history.push(`/${locale}/profile`);
   };
@@ -77,17 +73,19 @@ export default function Settings() {
           )}
         </section>
 
-        <section className="settings-section">
-          <Localized id="sc-settings-reset-skipped">
-            <h3></h3>
-          </Localized>
-          <Localized id="sc-settings-skipped-decription">
-            <p></p>
-          </Localized>
-          <button className="standalone" onClick={resetSkipped}>
-            <Localized id="sc-settings-show-all-button" />
-          </button>
-        </section>
+        {skippedSentences && skippedSentences.length > 0 && (
+          <section className="settings-section">
+            <Localized id="sc-settings-reset-skipped">
+              <h3></h3>
+            </Localized>
+            <Localized id="sc-settings-skipped-decription">
+              <p></p>
+            </Localized>
+            <button className="standalone" onClick={resetSkipped}>
+              <Localized id="sc-settings-show-all-button" />
+            </button>
+          </section>
+        )}
       </section>
     </section>
   );
