@@ -29,6 +29,11 @@ test('should render title', async () => {
   expect(screen.getByText('Settings')).toBeTruthy();
 });
 
+test('should render ui language section', async () => {
+  await renderWithLocalization(<Settings />);
+  expect(screen.getByText('Interface Language')).toBeTruthy();
+});
+
 test('should render error message', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     showErrorMessage: true,
