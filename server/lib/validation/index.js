@@ -5,12 +5,13 @@ const en = require('./languages/en');
 const eo = require('./languages/eo');
 const ig = require('./languages/ig');
 const it = require('./languages/it');
-const ne = require('./languages/ne');
 const kab = require( './languages/kab');
+const ne = require('./languages/ne');
+const or = require('./languages/or');
 const ru = require('./languages/ru');
 const th = require('./languages/th');
 const ur = require('./languages/ur');
-const or = require('./languages/or');
+const uz = require('./languages/uz');
 
 const VALIDATORS = {
   bas,
@@ -21,10 +22,11 @@ const VALIDATORS = {
   it,
   kab,
   ne,
+  or,
   ru,
   th,
   ur,
-  or,
+  uz,
 };
 
 module.exports = {

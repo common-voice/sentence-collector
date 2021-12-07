@@ -22,6 +22,13 @@ const INVALIDATIONS = [{
   // as users wouldn't know how to pronounce the uppercase letters.
   regex: /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/,
   error: 'Sentence should not contain abbreviations',
+}, {
+  regex: /[а-яА-Я]/,
+  error: 'Sentence should not contain Russian characters',
+}, {
+  // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
+  regex: /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|\uD83E[\uDD10-\uDDFF])/,
+  error: 'Sentence should not contain emojis',
 }];
 
 module.exports = {
