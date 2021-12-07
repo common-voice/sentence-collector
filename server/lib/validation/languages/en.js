@@ -16,7 +16,7 @@ const INVALIDATIONS = [{
   regex: /[0-9]+/,
   error: 'Sentence should not contain numbers',
 }, {
-  regex: /[<>+*#@^[\]()/]/,
+  regex: /[<>+*#@%^[\]()/]/,
   error: 'Sentence should not contain symbols',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period

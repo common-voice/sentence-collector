@@ -18,7 +18,7 @@ const INVALIDATIONS = [{
   regex: /[0-9]+/,
   error: `${TRANSLATION_KEY_PREFIX}sc-validation-no-numbers`,
 }, {
-  regex: /[<>+*#@^[\]()/]/,
+  regex: /[<>+*#@%^[\]()/]/,
   error: `${TRANSLATION_KEY_PREFIX}sc-validation-no-symbols`,
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
