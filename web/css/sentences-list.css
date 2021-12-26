@@ -6,6 +6,11 @@
   padding-bottom: 2rem;
 }
 
+.submission-section small,
+.submission-section h3 {
+  word-wrap: anywhere;
+}
+
 .submission-section li input {
   vertical-align: middle;
 }
@@ -16,4 +21,5 @@
   display: inline-block;
   margin-left: 1rem;
   vertical-align: middle;
+  word-wrap: anywhere;
 }
