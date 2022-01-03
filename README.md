@@ -108,7 +108,7 @@ You don't need to manually export the sentences from the Sentence Collector to t
 
 ## Localization Process
 
-The localization for the Sentence Collector happens in the Common Voice project. You can learn more about that in the [LOCALIZATION.md](https://github.com/common-voice/sentence-collector/blob/main/LOCALIZATION.md) documentation.
+The localization for the Sentence Collector happens in the Common Voice project. You can learn more about that in the [LOCALIZATION](https://github.com/common-voice/sentence-collector/blob/main/docs/LOCALIZATION.md) documentation.
 
 ## Useful queries
 
