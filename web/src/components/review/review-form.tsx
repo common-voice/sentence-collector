@@ -159,7 +159,8 @@ export default function SwipeReview(props: Props) {
       <Localized id="sc-review-form-prompt" attrs={{ message: true }}>
         <Prompt when={reviewedSentencesCount > 0} message="" />
       </Localized>
-      {typeof sentencesSuccessfullyReviewedCount !== 'undefined' && (
+
+      {sentencesSuccessfullyReviewedCount > 0 && (
         <Localized
           id="sc-review-form-reviewed-message"
           vars={{ sentences: sentencesSuccessfullyReviewedCount }}
@@ -172,9 +173,11 @@ export default function SwipeReview(props: Props) {
           <p></p>
         </Localized>
       )}
+
       <Localized id="sc-review-form-usage" elems={{ strong: <strong></strong> }}>
         <p className="small"></p>
       </Localized>
+
       <section className="cards-container">
         {sentences.map((sentence, i) => (
           <TinderCard
@@ -200,6 +203,7 @@ export default function SwipeReview(props: Props) {
           </TinderCard>
         ))}
       </section>
+
       <section className="card-review-buttons-section">
         <div className="buttons">
           <button
@@ -221,11 +225,12 @@ export default function SwipeReview(props: Props) {
             <Localized id="sc-review-form-button-approve" />
           </button>
         </div>
-      </section>
-      <section className="review-footer">
         <p className="small">
           <Localized id="sc-review-form-keyboard-usage"></Localized>
         </p>
+      </section>
+
+      <section className="review-footer">
         <Localized id="sc-review-form-button-submit" attrs={{ submitText: true }}>
           <SubmitButton submitText="" pendingAction={false} />
         </Localized>
