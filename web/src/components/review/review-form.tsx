@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { ReviewedState, SentenceRecord } from '../../types';
 import TinderCard from 'react-tinder-card';
-import { Localized } from '@fluent/react';
+import { Localized, useLocalization } from '@fluent/react';
 
 import Sentence from '../sentence';
 import SubmitButton from '../submit-button';
@@ -36,6 +36,7 @@ export default function SwipeReview(props: Props) {
   const [reviewedSentencesCount, setReviewedCount] = useState(0);
   const [skippedSentencesCount, setSkippedSentencesCount] = useState(0);
   const [reviewApproval, setReviewApproval] = useState<ReviewApproval>({});
+  const { l10n } = useLocalization();
 
   const cardsRefs = useMemo(
     () =>
@@ -49,6 +50,10 @@ export default function SwipeReview(props: Props) {
     left: false,
     right: true,
   };
+
+  const APPROVE_SHORTCUT = l10n.getString('sc-review-form-button-approve-shortcut');
+  const REJECT_SHORTCUT = l10n.getString('sc-review-form-button-reject-shortcut');
+  const SKIP_SHORTCUT = l10n.getString('sc-review-form-button-skip-shortcut');
 
   const submitSentences = () => {
     const categorizedSentences = mapSentencesAccordingToState(sentences, reviewApproval);
@@ -123,15 +128,15 @@ export default function SwipeReview(props: Props) {
   useEffect(() => {
     const handler = ({ key }: { key: string }) => {
       const lowerCaseKey = key.toLocaleLowerCase();
-      if (lowerCaseKey === 'y') {
+      if (lowerCaseKey === APPROVE_SHORTCUT.toLowerCase()) {
         return processButtonPressOnCurrentCard(true);
       }
 
-      if (lowerCaseKey === 'n') {
+      if (lowerCaseKey === REJECT_SHORTCUT.toLowerCase()) {
         return processButtonPressOnCurrentCard(false);
       }
 
-      if (lowerCaseKey === 's') {
+      if (lowerCaseKey === SKIP_SHORTCUT.toLowerCase()) {
         return processButtonPressOnCurrentCard(undefined);
       }
     };
@@ -226,7 +231,7 @@ export default function SwipeReview(props: Props) {
           </button>
         </div>
         <p className="small">
-          <Localized id="sc-review-form-keyboard-usage"></Localized>
+          <Localized id="sc-review-form-keyboard-usage-custom"></Localized>
         </p>
       </section>
 
