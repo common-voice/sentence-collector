@@ -106,13 +106,15 @@ export default function Review() {
         <Localized id="sc-review-title">
           <h1></h1>
         </Localized>
-        <LanguageSelector
-          labelText=""
-          languages={languages}
-          selected={language}
-          onChange={onSelectLanguage}
-        />
-        <ReviewCriteria />
+        <div className="row">
+          <LanguageSelector
+            labelText=""
+            languages={languages}
+            selected={language}
+            onChange={onSelectLanguage}
+          />
+          <ReviewCriteria />
+        </div>
       </section>
 
       {sentencesLoading && (

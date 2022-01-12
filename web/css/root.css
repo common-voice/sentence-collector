@@ -141,6 +141,7 @@ button.big {
 
 select {
   padding: 0.2rem 0;
+  max-height: 2rem;
 }
 
 #root {
@@ -222,4 +223,10 @@ form button:not(.standalone) {
   padding: 1rem;
   border: 2px solid var(--warning-border-color);
   background-color: var(--warning-background-color);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
