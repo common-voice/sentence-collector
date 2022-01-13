@@ -66,7 +66,7 @@ export default function Header() {
   return (
     <React.Fragment>
       <header>
-        <Link to="/" href="">
+        <Link to={useLocaleUrl('/')} href="">
           <img src={logoURL} />
         </Link>
         <nav id="desktopNav">
