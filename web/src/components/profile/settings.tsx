@@ -5,6 +5,7 @@ import { Localized } from '@fluent/react';
 
 import cvTranslatedLocales from '../../../../locales/translated.json';
 import { resetSkippedSentences } from '../../actions/sentences';
+import { DEFAULT_LOCALE } from '../../l10n';
 import type { RootState } from '../../types';
 
 import LanguageSelector from '../language-selector';
@@ -29,7 +30,8 @@ export default function Settings() {
   };
 
   useEffect(() => {
-    const possiblyUntranslated = !CV_TRANSLATED_LOCALES.includes(currentUILocale);
+    const possiblyUntranslated =
+      currentUILocale !== DEFAULT_LOCALE && !CV_TRANSLATED_LOCALES.includes(currentUILocale);
     setShowTranslatedWarning(possiblyUntranslated);
   }, [currentUILocale]);
 
