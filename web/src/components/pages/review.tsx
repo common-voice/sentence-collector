@@ -45,7 +45,7 @@ export default function Review() {
   }
 
   useEffect(() => {
-    if (language) {
+    if (language && !sentencesLoading) {
       dispatch(loadSentences(language));
       dispatch(resetReviewMessage());
     }

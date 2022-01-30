@@ -35,7 +35,6 @@ beforeEach(() => {
       },
     ],
     pendingLanguages: false,
-    userStats: {},
   }));
 });
 
@@ -48,42 +47,6 @@ test('should render if not added languages', async () => {
 
   await renderWithLocalization(<PersonalLanguageInfo />);
   expect(screen.getByText('You have not added any languages yet.')).toBeTruthy();
-});
-
-test('should list languages with stats', async () => {
-  (redux.useSelector as jest.Mock).mockImplementation(() => ({
-    allLanguages,
-    languages: [
-      {
-        id: 'en',
-        nativeName: 'English',
-      },
-      {
-        id: 'de',
-        nativeName: 'Deutsch',
-      },
-    ],
-    pendingLanguages: false,
-    userStats: {
-      en: {
-        added: 5,
-      },
-      de: {
-        added: 2,
-      },
-    },
-  }));
-
-  await renderWithLocalization(<PersonalLanguageInfo />);
-
-  expect(screen.getByText('\u20685\u2069 added by you')).toBeTruthy();
-  expect(screen.getByText('\u20682\u2069 added by you')).toBeTruthy();
-});
-
-test('should use 0 if no stats', async () => {
-  await renderWithLocalization(<PersonalLanguageInfo />);
-
-  expect(screen.getByText('\u20680\u2069 added by you')).toBeTruthy();
 });
 
 test('should render remove button', async () => {
@@ -103,7 +66,6 @@ test('should disable button while languages are pending', async () => {
       },
     ],
     pendingLanguages: true,
-    userStats: {},
   }));
 
   await renderWithLocalization(<PersonalLanguageInfo />);

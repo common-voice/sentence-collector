@@ -2,7 +2,6 @@
 
 const debug = require('debug')('sentencecollector:routes:users');
 const express = require('express');
-const sentences = require('../lib/sentences');
 const users = require('../lib/users');
 
 const router = express.Router(); // eslint-disable-line new-cap
@@ -14,11 +13,7 @@ router.get('/whoami', async (req, res) => {
   try {
     if (user && user.email) {
       const extendedUser = await users.get(user.email);
-      const userStats = await sentences.getUserAddedSentencesPerLocale(user.email);
-      return res.json({
-        ...extendedUser,
-        userStats,
-      });
+      return res.json(extendedUser);
     }
   } catch (err) {
     // ignoring catch as we send a 404 anyway
