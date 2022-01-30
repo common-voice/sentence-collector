@@ -20,49 +20,11 @@ test('should use initial state', async () => {
   });
 
   expect(newState).toEqual({
-    stats: {
-      all: {},
-      userUnreviewed: {},
-      totals: {
-        total: 0,
-        languages: 0,
-      },
-    },
     languages: [],
     allLanguages: [],
     pendingLanguages: false,
-    lastStatsUpdate: 0,
-    statsUpdating: false,
     currentUILocale: 'en',
   });
-});
-
-test('should reduce getting stats', async () => {
-  const newState = languageReducer(combineState({}), {
-    type: languages.ACTION_GET_STATS,
-  });
-
-  expect(newState.statsUpdating).toEqual(true);
-});
-
-test('should reduce stats', async () => {
-  const stats = [{ foo: 'bar' }];
-  const newState = languageReducer(combineState({}), {
-    type: languages.ACTION_GOT_STATS,
-    stats,
-  });
-
-  expect(newState.stats).toEqual(stats);
-  expect(newState.lastStatsUpdate).not.toBe(null);
-  expect(newState.statsUpdating).toEqual(false);
-});
-
-test('should reduce stats status reset', async () => {
-  const newState = languageReducer(combineState({ statsUpdating: true }), {
-    type: languages.ACTION_RESET_STATS_STATUS,
-  });
-
-  expect(newState.statsUpdating).toEqual(false);
 });
 
 test('should reduce languages', async () => {

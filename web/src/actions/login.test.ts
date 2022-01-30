@@ -35,15 +35,18 @@ describe('checkCurrentUser', () => {
     await login.checkCurrentUser()(dispatch, getState, null);
     expect((backend.sendRequest as jest.Mock).mock.calls[0][0]).toEqual('users/whoami');
     expect(dispatch.mock.calls[0][0]).toEqual({
+      type: languages.ACTION_ADD_LANGUAGE_REQUEST,
+    });
+    expect(dispatch.mock.calls[1][0]).toEqual({
       type: login.ACTION_USER_INFO_RECEIVED,
       username: userInfo.email,
       userStats: userInfo.userStats,
     });
-    expect(dispatch.mock.calls[1][0]).toEqual({
+    expect(dispatch.mock.calls[2][0]).toEqual({
       type: languages.ACTION_ADD_LANGUAGE_SUCCESS,
       languages: userInfo.languages,
     });
-    expect(dispatch.mock.calls[2][0]).toEqual({
+    expect(dispatch.mock.calls[3][0]).toEqual({
       type: settings.ACTION_SETTINGS_CHANGED,
       newSettings: userInfo.settings,
     });
@@ -58,7 +61,7 @@ describe('checkCurrentUser', () => {
       throw error;
     });
     expect(login.checkCurrentUser()(dispatch, getState, null)).resolves.not.toThrow();
-    expect(dispatch.mock.calls[0][0]).toEqual({
+    expect(dispatch.mock.calls[1][0]).toEqual({
       type: login.ACTION_LOGOUT,
     });
   });

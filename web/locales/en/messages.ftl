@@ -85,11 +85,8 @@ sc-rejected-none-found = No rejected sentences found!
 
 ## STATS
 sc-stats-title = Statistics
-# Variables:
-#   $lastUpdate (Date) - Localized date of last statistics update
-sc-stats-last-update = Last Update: { $lastUpdate }
-sc-stats-last-update-never = Last Update: never
 sc-stats-updating = Updating…
+sc-stats-error = We could not fetch the stats. Please try again later.
 # Variables:
 #   $sentenceCount (Number) - Total number of sentences uploaded through Sentence Collector
 #   $languageCount (Number) - Total number of languages these sentences represent

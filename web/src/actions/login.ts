@@ -3,7 +3,7 @@ import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
 import type { Language, RootState, UserStats } from '../types';
-import { addLanguageSuccess } from './languages';
+import { sendAddLanguage, addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
 export const ACTION_LOGOUT = 'LOGOUT';
@@ -27,7 +27,12 @@ export function afterLogin(): ThunkAction<void, RootState, unknown, AnyAction> {
 export function checkCurrentUser(): ThunkAction<void, RootState, unknown, AnyAction> {
   return async function (dispatch) {
     try {
+      // As we are adding a language to the profile info after the request, we want to make
+      // sure that we tell our components that the user language is not up-to-date yet.
+      dispatch(sendAddLanguage());
+
       const userInfo = await sendRequest<UserInfo>('users/whoami');
+
       dispatch(userInfoReceived(userInfo));
       dispatch(addLanguageSuccess(userInfo.languages));
       dispatch(settingsChanged(userInfo.settings));

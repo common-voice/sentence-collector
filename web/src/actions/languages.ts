@@ -2,7 +2,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
-import type { Language, LanguageStats, RootState } from '../types';
+import type { Language, RootState } from '../types';
 
 export const ACTION_ADD_LANGUAGE_REQUEST = 'ADD_LANGUAGE_REQUEST';
 export const ACTION_ADD_LANGUAGE_SUCCESS = 'ADD_LANGUAGE_SUCCESS';
@@ -13,35 +13,8 @@ export const ACTION_REMOVE_LANGUAGE_SUCCESS = 'REMOVE_LANGUAGE_SUCCESS';
 export const ACTION_REMOVE_LANGUAGE_FAILURE = 'REMOVE_LANGUAGE_FAILURE';
 
 export const ACTION_GOT_LANGUAGES = 'ACTION_GOT_LANGUAGES';
-export const ACTION_GET_STATS = 'ACTION_GET_STATS';
-export const ACTION_GOT_STATS = 'ACTION_GOT_STATS';
-export const ACTION_RESET_STATS_STATUS = 'ACTION_RESET_STATS_STATUS';
 
 export const ACTION_SET_CURRENT_UI_LOCALE = 'ACTION_SET_CURRENT_UI_LOCALE';
-
-const UPDATE_FREQUENCY_MS = 6 * 60 * 60 * 1000;
-
-export function getStats(
-  locales: Language[],
-  lastUpdate?: number
-): ThunkAction<void, RootState, unknown, AnyAction> {
-  return async function (dispatch) {
-    if (lastUpdate && Date.now() - lastUpdate < UPDATE_FREQUENCY_MS) {
-      dispatch(resetStatsStatus());
-      return;
-    }
-
-    dispatch(gettingStats());
-    const joinedLocales = locales.map((locale) => locale.id).join(',');
-    try {
-      const stats = await sendRequest<LanguageStats>(`stats?locales=${joinedLocales}`);
-      dispatch(gotStats(stats));
-    } catch (error) {
-      console.error('Failed to fetch stats', error);
-      dispatch(resetStatsStatus());
-    }
-  };
-}
 
 export function getLanguages(): ThunkAction<void, RootState, unknown, AnyAction> {
   return async function (dispatch) {
@@ -82,25 +55,6 @@ export function removeLanguage(language: string): ThunkAction<void, RootState, u
       dispatch(removeLanguageFailure());
       throw err;
     }
-  };
-}
-
-export function gettingStats() {
-  return {
-    type: ACTION_GET_STATS,
-  };
-}
-
-export function gotStats(stats: LanguageStats) {
-  return {
-    type: ACTION_GOT_STATS,
-    stats,
-  };
-}
-
-export function resetStatsStatus() {
-  return {
-    type: ACTION_RESET_STATS_STATUS,
   };
 }
 

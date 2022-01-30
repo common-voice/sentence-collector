@@ -1,25 +1,45 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Localized } from '@fluent/react';
 
-import { getStats } from '../../actions/languages';
-import type { RootState } from '../../types';
+import { sendRequest } from '../../backend';
+import type { LanguageStats, RootState } from '../../types';
 import LanguageInfo from '../language-info';
 
 export default function Stats() {
-  const dispatch = useDispatch();
-  const {
-    all: languageStats,
-    userUnreviewed,
-    totals,
-  } = useSelector((state: RootState) => state.languages.stats);
-  const { languages, lastStatsUpdate, statsUpdating } = useSelector(
-    (state: RootState) => state.languages
-  );
+  const [stats, setStats] = useState<LanguageStats>({
+    userUnreviewed: {},
+    totals: {
+      total: 0,
+      languages: 0,
+    },
+    all: {},
+  });
+  const [hasError, setHasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
+
+  const isLoading = loading || pendingLanguages;
 
   useEffect(() => {
-    dispatch(getStats(languages, lastStatsUpdate));
-  }, []);
+    const fetch = async () => {
+      try {
+        setLoading(true);
+        const joinedLocales = languages.map((language) => language.id).join(',');
+        const stats = await sendRequest<LanguageStats>(`stats?locales=${joinedLocales}`);
+        setStats(stats);
+      } catch (error) {
+        console.error('Failed to fetch stats', error);
+        setHasError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (!pendingLanguages) {
+      fetch();
+    }
+  }, [pendingLanguages]);
 
   return (
     <div>
@@ -27,33 +47,26 @@ export default function Stats() {
         <h1></h1>
       </Localized>
 
-      {lastStatsUpdate ? (
-        <Localized
-          id="sc-stats-last-update"
-          vars={{ lastUpdate: new Date(lastStatsUpdate).toLocaleString() }}
-        >
-          <p></p>
-        </Localized>
-      ) : (
-        <Localized id="sc-stats-last-update-never">
-          <p></p>
-        </Localized>
-      )}
-
-      {statsUpdating && (
+      {isLoading && (
         <Localized id="sc-stats-updating">
           <p></p>
         </Localized>
       )}
 
-      {lastStatsUpdate && (
+      {!isLoading && hasError && (
+        <Localized id="sc-stats-error">
+          <p></p>
+        </Localized>
+      )}
+
+      {!isLoading && !hasError && (
         <React.Fragment>
-          {totals && (
+          {stats.totals && (
             <Localized
               id="sc-stats-summary"
               vars={{
-                sentenceCount: totals.total,
-                languageCount: totals.languages,
+                sentenceCount: stats.totals.total,
+                languageCount: stats.totals.languages,
               }}
             >
               <p></p>
@@ -63,15 +76,15 @@ export default function Stats() {
           {languages
             .map(
               (lang) =>
-                languageStats &&
-                languageStats[lang.id] && (
+                stats.all &&
+                stats.all[lang.id] && (
                   <LanguageInfo
                     key={lang.id}
                     language={lang.id}
-                    total={languageStats[lang.id].added}
-                    validated={languageStats[lang.id].validated}
-                    rejected={languageStats[lang.id].rejected}
-                    unreviewedByYou={userUnreviewed[lang.id]}
+                    total={stats.all[lang.id].added}
+                    validated={stats.all[lang.id].validated}
+                    rejected={stats.all[lang.id].rejected}
+                    unreviewedByYou={stats.userUnreviewed[lang.id]}
                   />
                 )
             )
