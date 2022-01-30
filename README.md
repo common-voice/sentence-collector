@@ -41,7 +41,7 @@ Start the server in a new terminal window. For this you'll need parameters from 
 
 ```bash
 cd server
-npm run migrate
+npm run db:migrate
 env AUTH0_DOMAIN=yourusername.eu.auth0.com AUTH0_CLIENT_ID=fromauth0 AUTH0_CLIENT_SECRET=fromauth0 SESSION_SECRET=somerandomvalue npm start
 ```
 
@@ -53,6 +53,16 @@ npm start
 ```
 
 The sentence collector is now accessible through `http://localhost:3333`. We're serving the frontend code through the NodeJS app to make Auth0 work locally. However the frontend code changes are still rebuilt, so you can reload the tab to see changes.
+
+### Seed
+
+If you want to fill up your local database with a lot of sentences and votes, you can run the following script. This command will run for a long time, as it creates millions of entries in the database. For normal development this might not be necessary, however this can be very useful for performance measurements.
+
+```bash
+npm run db:seed
+```
+
+However note that this only works on a freshly created database for now, to keep the complexity with foreign keys low. If somebody wants to adjust the seed script to be more dynamic and not rely on hardcoded keys, we are happy to accept a PR for this.
 
 ### Working with localizations / languages
 
