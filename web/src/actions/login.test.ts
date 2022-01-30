@@ -7,7 +7,6 @@ const userInfo = {
   email: 'foo@example.com',
   languages: ['en'],
   settings: {},
-  userStats: {},
 };
 let dispatch: jest.Mock;
 let getState: jest.Mock;
@@ -40,7 +39,6 @@ describe('checkCurrentUser', () => {
     expect(dispatch.mock.calls[1][0]).toEqual({
       type: login.ACTION_USER_INFO_RECEIVED,
       username: userInfo.email,
-      userStats: userInfo.userStats,
     });
     expect(dispatch.mock.calls[2][0]).toEqual({
       type: languages.ACTION_ADD_LANGUAGE_SUCCESS,

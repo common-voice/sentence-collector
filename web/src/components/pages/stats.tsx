@@ -9,6 +9,7 @@ import LanguageInfo from '../language-info';
 export default function Stats() {
   const [stats, setStats] = useState<LanguageStats>({
     userUnreviewed: {},
+    userAdded: {},
     totals: {
       total: 0,
       languages: 0,
@@ -85,6 +86,7 @@ export default function Stats() {
                     validated={stats.all[lang.id].validated}
                     rejected={stats.all[lang.id].rejected}
                     unreviewedByYou={stats.userUnreviewed[lang.id]}
+                    addedByYou={stats.userAdded[lang.id]}
                   />
                 )
             )

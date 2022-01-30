@@ -257,12 +257,8 @@ test.serial('getUserAddedSentencesPerLocale: should fetch user stats correctly',
 
   const stats = await sentences.getUserAddedSentencesPerLocale(user);
   t.deepEqual(stats, {
-    en: {
-      added: 2,
-    },
-    de: {
-      added: 1,
-    },
+    en: 2,
+    de: 1,
   });
 });
 

@@ -160,7 +160,7 @@ async function getStats(locales) {
     all: totalStats,
     totals: {
       total: await Sentence.count(),
-      languages: await Sentence.count({ distinct: true, col: 'localeId'}), 
+      languages: await Sentence.count({ distinct: true, col: 'localeId'}),
     }
   };
 }
@@ -226,11 +226,9 @@ async function getRejectedSentencesCountForLocale(locale) {
 
 function calculateStats(stats, sentenceInfo) {
   const localeId = sentenceInfo.localeId;
-  stats[localeId] = stats[localeId] || {
-    added: 0,
-  };
+  stats[localeId] = stats[localeId] || 0;
 
-  stats[localeId].added++;
+  stats[localeId]++;
 
   return stats;
 }

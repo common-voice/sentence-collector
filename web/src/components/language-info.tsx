@@ -9,11 +9,12 @@ type Props = {
   validated: number;
   rejected: number;
   unreviewedByYou: number;
+  addedByYou: number;
   language: string;
 };
 
 const LanguageInfo = (props: Props) => {
-  const { total, validated, rejected, unreviewedByYou, language } = props;
+  const { total, validated, rejected, unreviewedByYou, addedByYou, language } = props;
   const { l10n } = useLocalization();
   const totalSentences = total;
   const totalInReview = total - validated - rejected;
@@ -63,6 +64,9 @@ const LanguageInfo = (props: Props) => {
             </Localized>
           )}
         </li>
+        <Localized id="sc-personal-added-by-you" vars={{ sentences: addedByYou }}>
+          <li></li>
+        </Localized>
         <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
           <li></li>
         </Localized>

@@ -20,6 +20,10 @@ const userUnreviewedStats = {
   en: 2,
 };
 
+const userAddedStats = {
+  en: 2,
+};
+
 const generalStats = {
   validated: 2,
   rejected: 1,
@@ -34,6 +38,7 @@ test.beforeEach((t) => {
     totals: totalStats,
   });
   t.context.sandbox.stub(sentences, 'getUnreviewedByYouCountForLocales').resolves(userUnreviewedStats);
+  t.context.sandbox.stub(sentences, 'getUserAddedSentencesPerLocale').resolves(userAddedStats);
   t.context.sandbox.stub(sentences, 'getAllStatsForLocale').resolves(generalStats);
 });
 
@@ -52,6 +57,7 @@ test.serial('should get stats', async (t) => {
     all: allStats,
     totals: totalStats,
     userUnreviewed: userUnreviewedStats,
+    userAdded: userAddedStats,
   });
 });
 

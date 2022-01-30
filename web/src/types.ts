@@ -21,10 +21,6 @@ export type LanguageStatsEntry = {
   added: number;
 };
 
-type PersonalLanguageStatsEntry = {
-  added: number;
-};
-
 export type StatsRecordByLanguage = Record<string, LanguageStatsEntry>;
 
 export type TotalStats = {
@@ -34,11 +30,10 @@ export type TotalStats = {
 
 export type LanguageStats = {
   userUnreviewed: Record<string, number>;
+  userAdded: Record<string, number>;
   all: StatsRecordByLanguage;
   totals: TotalStats;
 };
-
-export type UserStats = Record<string, PersonalLanguageStatsEntry>;
 
 export type SentenceRecord = {
   id?: number;

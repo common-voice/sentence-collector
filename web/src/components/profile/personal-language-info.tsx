@@ -6,7 +6,6 @@ import { removeLanguage } from '../../actions/languages';
 import { RootState } from '../../types';
 
 export default function PersonalLanguageInfo() {
-  const { userStats } = useSelector((state: RootState) => state.login);
   const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
@@ -14,7 +13,6 @@ export default function PersonalLanguageInfo() {
   const { l10n } = useLocalization();
 
   const onLanguageRemove = async (language: string) => {
-    console.log(language);
     if (!language) {
       setError(l10n.getString('sc-personal-err-lang-not-found'));
       return;
@@ -54,14 +52,6 @@ export default function PersonalLanguageInfo() {
                   >
                     <Localized id="sc-personal-remove-button" />
                   </button>
-                  <ul>
-                    <Localized
-                      id="sc-personal-added-by-you"
-                      vars={{ sentences: (userStats[language.id] || {}).added || 0 }}
-                    >
-                      <li></li>
-                    </Localized>
-                  </ul>
                 </li>
               );
             })}

@@ -20,7 +20,6 @@ test('should use initial state', async () => {
   expect(newState).toEqual({
     authed: false,
     username: '',
-    userStats: {},
   });
 });
 
@@ -43,18 +42,11 @@ test('should reduce logout success', async () => {
 
 test('should reduce user info', async () => {
   const username = 'testUser';
-  const userStats = {
-    en: {
-      added: 5,
-    },
-  };
   const newState = loginReducer(combineState({}), {
     type: login.ACTION_USER_INFO_RECEIVED,
     username,
-    userStats,
   });
 
   expect(newState.authed).toEqual(true);
   expect(newState.username).toEqual(username);
-  expect(newState.userStats).toEqual(userStats);
 });

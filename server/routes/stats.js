@@ -20,15 +20,17 @@ router.get('/', async (req, res) => {
   debug('GET_STATS', sessionUserId);
 
   try {
-    const [{ all, totals }, userUnreviewed] = await Promise.all([
+    const [{ all, totals }, userUnreviewed, userAdded] = await Promise.all([
       sentences.getStats(locales),
       sentences.getUnreviewedByYouCountForLocales(locales, sessionUserId),
+      sentences.getUserAddedSentencesPerLocale(sessionUserId),
     ]);
 
     res.json({
       all,
       totals,
       userUnreviewed,
+      userAdded,
     });
   } catch (error) {
     debug('GET_STATS_ERROR', error);

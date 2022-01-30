@@ -2,7 +2,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkAction } from 'redux-thunk';
 
 import { sendRequest } from '../backend';
-import type { Language, RootState, UserStats } from '../types';
+import type { Language, RootState } from '../types';
 import { sendAddLanguage, addLanguageSuccess } from './languages';
 import { settingsChanged } from './settings';
 
@@ -15,7 +15,6 @@ type UserInfo = {
   languages: Language[];
   settings: Record<string, unknown>;
   email: string;
-  userStats: UserStats;
 };
 
 export function afterLogin(): ThunkAction<void, RootState, unknown, AnyAction> {
@@ -64,6 +63,5 @@ export function userInfoReceived(userInfo: UserInfo) {
   return {
     type: ACTION_USER_INFO_RECEIVED,
     username: userInfo.email,
-    userStats: userInfo.userStats,
   };
 }
