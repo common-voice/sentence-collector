@@ -224,28 +224,22 @@ async function getRejectedSentencesCountForLocale(locale) {
   return rejectedCount;
 }
 
-function calculateStats(stats, sentenceInfo) {
-  const localeId = sentenceInfo.localeId;
-  stats[localeId] = stats[localeId] || 0;
-
-  stats[localeId]++;
-
-  return stats;
-}
-
-async function getUserAddedSentencesPerLocale(userId) {
+async function getUserAddedSentencesPerLocale(locales, userId) {
   debug('GETTING_USER_ADDED_STATS');
+  const addedStats = {};
 
-  const options = {
-    attributes: ['localeId'],
-    where: {
-      userId,
-    },
-  };
-  const sentences = await Sentence.findAll(options);
-  const sentencesStats = sentences.reduce(calculateStats, {});
+  for (const locale of locales) {
+    const options = {
+      attributes: ['localeId'],
+      where: {
+        userId,
+        localeId: locale,
+      },
+    };
+    addedStats[locale] = await Sentence.count(options);
+  }
 
-  return sentencesStats;
+  return addedStats;
 }
 
 async function addSentences(data) {

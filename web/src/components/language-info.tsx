@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Localized, useLocalization } from '@fluent/react';
+import { Localized } from '@fluent/react';
 
 import { useLocaleUrl, useReviewUrl } from '../urls';
 
@@ -15,7 +15,6 @@ type Props = {
 
 const LanguageInfo = (props: Props) => {
   const { total, validated, rejected, unreviewedByYou, addedByYou, language } = props;
-  const { l10n } = useLocalization();
   const totalSentences = total;
   const totalInReview = total - validated - rejected;
   const unreviewedSentencesByYou = unreviewedByYou;
@@ -25,11 +24,11 @@ const LanguageInfo = (props: Props) => {
   const localizedAddUrl = useLocaleUrl('/add');
   const localizedReviewUrl = useReviewUrl(language);
 
-  const title = l10n.getString(language) || language;
-
   return (
     <section>
-      <h3>{title}</h3>
+      <Localized id="sc-lang-info-title-total">
+        <h3></h3>
+      </Localized>
 
       <ul>
         <Localized id="sc-lang-info-total" vars={{ totalSentences }}>
@@ -38,6 +37,19 @@ const LanguageInfo = (props: Props) => {
         <Localized id="sc-lang-info-in-review" vars={{ totalInReview }}>
           <li></li>
         </Localized>
+        <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
+          <li></li>
+        </Localized>
+        <Localized id="sc-lang-info-rejected" vars={{ rejectedSentences }}>
+          <li></li>
+        </Localized>
+      </ul>
+
+      <Localized id="sc-lang-info-title-personal">
+        <h3></h3>
+      </Localized>
+
+      <ul>
         <li>
           <Localized id="sc-lang-info-left-for-you" vars={{ unreviewedSentencesByYou }}>
             <span></span>
@@ -65,12 +77,6 @@ const LanguageInfo = (props: Props) => {
           )}
         </li>
         <Localized id="sc-personal-added-by-you" vars={{ sentences: addedByYou }}>
-          <li></li>
-        </Localized>
-        <Localized id="sc-lang-info-validated" vars={{ validatedSentences }}>
-          <li></li>
-        </Localized>
-        <Localized id="sc-lang-info-rejected" vars={{ rejectedSentences }}>
           <li></li>
         </Localized>
       </ul>

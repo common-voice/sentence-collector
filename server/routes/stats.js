@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
     const [{ all, totals }, userUnreviewed, userAdded] = await Promise.all([
       sentences.getStats(locales),
       sentences.getUnreviewedByYouCountForLocales(locales, sessionUserId),
-      sentences.getUserAddedSentencesPerLocale(sessionUserId),
+      sentences.getUserAddedSentencesPerLocale(locales, sessionUserId),
     ]);
 
     res.json({

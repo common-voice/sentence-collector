@@ -174,6 +174,8 @@ sc-confirm-button-text = Confirm
 sc-confirm-uploading = Sentences are being uploaded. This can take several minutes depending on the number of sentences added. Please do not close this website.
 
 ## LANGUAGE INFO
+sc-lang-info-title-total = Total
+sc-lang-info-title-personal = Personal
 # Variables:
 #   $totalSentences (Number) - Number of sentences uploaded in total for this language
 sc-lang-info-total =

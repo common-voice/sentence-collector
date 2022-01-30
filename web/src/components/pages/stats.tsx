@@ -5,6 +5,7 @@ import { Localized } from '@fluent/react';
 import { sendRequest } from '../../backend';
 import type { LanguageStats, RootState } from '../../types';
 import LanguageInfo from '../language-info';
+import LanguageSelector from '../language-selector';
 
 export default function Stats() {
   const [stats, setStats] = useState<LanguageStats>({
@@ -18,16 +19,21 @@ export default function Stats() {
   });
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState<string>();
   const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
 
   const isLoading = loading || pendingLanguages;
+
+  // If user only has one language possible, use it.
+  if (languages.length === 1 && languages[0].id !== language) {
+    setLanguage(languages[0].id);
+  }
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setLoading(true);
-        const joinedLocales = languages.map((language) => language.id).join(',');
-        const stats = await sendRequest<LanguageStats>(`stats?locales=${joinedLocales}`);
+        const stats = await sendRequest<LanguageStats>(`stats?locales=${language}`);
         setStats(stats);
       } catch (error) {
         console.error('Failed to fetch stats', error);
@@ -37,16 +43,29 @@ export default function Stats() {
       }
     };
 
-    if (!pendingLanguages && !loading && languages.length > 0) {
+    if (language && !isLoading) {
       fetch();
     }
-  }, [pendingLanguages]);
+  }, [language]);
+
+  const onSelectLanguage = (language: string) => {
+    setLanguage(language);
+  };
 
   return (
     <div>
       <Localized id="sc-stats-title">
         <h1></h1>
       </Localized>
+
+      <div className="row">
+        <LanguageSelector
+          labelText=""
+          languages={languages}
+          selected={language}
+          onChange={onSelectLanguage}
+        />
+      </div>
 
       {isLoading && (
         <Localized id="sc-stats-updating">
@@ -62,7 +81,7 @@ export default function Stats() {
 
       {!isLoading && !hasError && (
         <React.Fragment>
-          {stats.totals && (
+          {Boolean(stats.totals.languages) && (
             <Localized
               id="sc-stats-summary"
               vars={{
