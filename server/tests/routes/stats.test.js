@@ -55,23 +55,6 @@ test.serial('should get stats', async (t) => {
   });
 });
 
-test.serial('should return default stats if no locale passed', async (t) => {
-  const response = await request(app)
-    .get('/sentence-collector/stats?locales=');
-
-  t.log(response);
-
-  t.is(response.status, 200);
-  t.deepEqual(response.body, {
-    all: {},
-    totals: {
-      total: 0,
-      languages: 0,
-    },
-    userUnreviewed: {},
-  });
-});
-
 test.serial('should pass on error message', async (t) => {
   sentences.getUnreviewedByYouCountForLocales.rejects(new Error('nope'));
 

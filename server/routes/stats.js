@@ -12,15 +12,10 @@ const router = express.Router(); // eslint-disable-line new-cap
 router.get('/', async (req, res) => {
   const sessionUserId = req.user && req.user.email;
   const queryLocales = req.query.locales || '';
-  const locales = queryLocales.split(',');
-
-  if (locales.length === 1 && !locales[0]) {
-    return res.json({
-      all: {},
-      userUnreviewed: {},
-      totals: { total: 0, languages: 0},
-    });
-  }
+  const splitQueryLocales = queryLocales.split(',');
+  // Careful: if no locales have been passed, the first element in the array is
+  // an empty string!
+  const locales = splitQueryLocales.length === 1 && splitQueryLocales[0] === '' ? [] : splitQueryLocales;
 
   debug('GET_STATS', sessionUserId);
 
