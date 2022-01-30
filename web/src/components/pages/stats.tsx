@@ -37,7 +37,7 @@ export default function Stats() {
       }
     };
 
-    if (!pendingLanguages) {
+    if (!pendingLanguages && !loading && languages.length > 0) {
       fetch();
     }
   }, [pendingLanguages]);
