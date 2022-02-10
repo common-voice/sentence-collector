@@ -56,6 +56,18 @@ test('should render stats', async () => {
   expect(screen.getByText(/\u206844\u2069 rejected sentences/)).toBeTruthy();
 });
 
+test('should render error if no languages fetched', async () => {
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
+    allLanguages: [],
+    languages: [],
+    pendingLanguages: false,
+    fetchFailure: true,
+  }));
+
+  await renderWithLocalization(<Stats />);
+  expect(screen.queryByText(/We failed to fetch available languages./)).toBeTruthy();
+});
+
 test('should render error', async () => {
   (backend.sendRequest as jest.Mock).mockImplementation(() => {
     throw new Error('oh no');

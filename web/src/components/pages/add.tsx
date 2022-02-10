@@ -29,7 +29,9 @@ export default function Add() {
   const [validated, setValidated] = useState<string[]>([]);
   const [invalidated, setInvalidated] = useState<string[]>([]);
 
-  const { allLanguages, languages } = useSelector((state: RootState) => state.languages);
+  const { allLanguages, languages, fetchFailure } = useSelector(
+    (state: RootState) => state.languages
+  );
   const { isUploadingSentences, sentenceSubmissionFailures } = useSelector(
     (state: RootState) => state.sentences
   );
@@ -159,6 +161,7 @@ export default function Add() {
       error={error}
       languages={availableLanguages}
       sentenceSubmissionFailures={sentenceSubmissionFailures}
+      languageFetchFailure={fetchFailure}
     />
   );
 }

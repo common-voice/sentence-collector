@@ -24,6 +24,7 @@ test('should use initial state', async () => {
     allLanguages: [],
     pendingLanguages: false,
     currentUILocale: 'en',
+    fetchFailure: false,
   });
 });
 
@@ -34,6 +35,23 @@ test('should reduce languages', async () => {
   });
 
   expect(newState.allLanguages).toEqual(mockLanguages);
+});
+
+test('should reset fetch failure on successful fetch', async () => {
+  const newState = languageReducer(combineState({ fetchFailure: true }), {
+    type: languages.ACTION_GOT_LANGUAGES,
+    languages: mockLanguages,
+  });
+
+  expect(newState.fetchFailure).toEqual(false);
+});
+
+test('should reduce language fetch error', async () => {
+  const newState = languageReducer(combineState({}), {
+    type: languages.ACTION_GET_LANGUAGES_FAILURE,
+  });
+
+  expect(newState.fetchFailure).toEqual(true);
 });
 
 test('should reduce add language request', async () => {

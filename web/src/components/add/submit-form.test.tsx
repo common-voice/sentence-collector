@@ -72,6 +72,13 @@ test('should submit form if valid', async () => {
   });
 });
 
+test('should show error if no languages fetched', async () => {
+  await renderWithLocalization(
+    <SubmitForm languages={languages} onSubmit={onSubmit} languageFetchFailure={true} />
+  );
+  expect(screen.queryByText(/We failed to fetch available languages./)).toBeTruthy();
+});
+
 test('should show error if no language', async () => {
   await renderWithLocalization(<SubmitForm languages={languages} onSubmit={onSubmit} />);
 

@@ -43,6 +43,18 @@ test('should set language from single user language', async () => {
   expect(screen.queryByText('Please select a language to review sentences.')).toBeNull();
 });
 
+test('should render error if no languages fetched', async () => {
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
+    allLanguages: [],
+    languages: [],
+    pendingLanguages: false,
+    fetchFailure: true,
+  }));
+
+  await renderWithLocalization(<Review />);
+  expect(screen.queryByText(/We failed to fetch available languages./)).toBeTruthy();
+});
+
 test('should ask to set language', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     allLanguages: [],
