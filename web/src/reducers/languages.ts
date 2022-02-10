@@ -8,6 +8,7 @@ import {
   ACTION_REMOVE_LANGUAGE_SUCCESS,
   ACTION_REMOVE_LANGUAGE_FAILURE,
   ACTION_GOT_LANGUAGES,
+  ACTION_GET_LANGUAGES_FAILURE,
   ACTION_SET_CURRENT_UI_LOCALE,
 } from '../actions/languages';
 import { DEFAULT_LOCALE } from '../l10n';
@@ -18,6 +19,7 @@ export type LanguageState = {
   allLanguages: Language[];
   pendingLanguages: boolean;
   currentUILocale: string;
+  fetchFailure: boolean;
 };
 
 export const INITIAL_STATE: LanguageState = {
@@ -25,13 +27,20 @@ export const INITIAL_STATE: LanguageState = {
   allLanguages: [],
   pendingLanguages: false,
   currentUILocale: DEFAULT_LOCALE,
+  fetchFailure: false,
 };
 
 export default function (state = INITIAL_STATE, action: AnyAction): LanguageState {
   switch (action.type) {
     case ACTION_GOT_LANGUAGES:
       return Object.assign({}, state, {
+        fetchFailure: false,
         allLanguages: action.languages,
+      });
+
+    case ACTION_GET_LANGUAGES_FAILURE:
+      return Object.assign({}, state, {
+        fetchFailure: true,
       });
 
     case ACTION_ADD_LANGUAGE_REQUEST:

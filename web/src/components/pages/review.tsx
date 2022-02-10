@@ -12,6 +12,7 @@ import {
 import { useLocaleUrl, getReviewUrl } from '../../urls';
 import type { RootState, ReviewedState } from '../../types';
 
+import Error from '../error';
 import LanguageSelector from '../language-selector';
 import ReviewForm from '../review/review-form';
 import ReviewCriteria from '../review/review-criteria';
@@ -24,7 +25,7 @@ type ReviewRouteMatch = {
 export default function Review() {
   const match = useRouteMatch<ReviewRouteMatch>();
   const history = useHistory();
-  const { languages = [] } = useSelector((state: RootState) => state.languages);
+  const { languages = [], fetchFailure } = useSelector((state: RootState) => state.languages);
   const {
     sentencesLoading,
     sentences = [],
@@ -52,7 +53,7 @@ export default function Review() {
   }, [language]);
 
   // If user hasn't added any languages, ask them to do so.
-  if (languages.length === 0) {
+  if (languages.length === 0 && !fetchFailure) {
     return (
       <Localized
         id="sc-review-lang-not-selected"
@@ -106,6 +107,9 @@ export default function Review() {
         <Localized id="sc-review-title">
           <h1></h1>
         </Localized>
+
+        {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
+
         <div className="row">
           <LanguageSelector
             labelText=""

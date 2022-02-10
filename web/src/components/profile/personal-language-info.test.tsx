@@ -35,7 +35,20 @@ beforeEach(() => {
       },
     ],
     pendingLanguages: false,
+    fetchFailure: false,
   }));
+});
+
+test('should render error', async () => {
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
+    allLanguages,
+    languages: [],
+    pendingLanguages: false,
+    fetchFailure: true,
+  }));
+
+  await renderWithLocalization(<PersonalLanguageInfo />);
+  expect(screen.queryByText(/We failed to fetch available languages./)).toBeTruthy();
 });
 
 test('should render if not added languages', async () => {

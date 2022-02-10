@@ -4,6 +4,7 @@ import { Localized } from '@fluent/react';
 
 import { sendRequest } from '../../backend';
 import type { LanguageStats, RootState } from '../../types';
+import Error from '../error';
 import LanguageInfo from '../language-info';
 import LanguageSelector from '../language-selector';
 
@@ -20,7 +21,9 @@ export default function Stats() {
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<string>();
-  const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
+  const { languages, pendingLanguages, fetchFailure } = useSelector(
+    (state: RootState) => state.languages
+  );
 
   const isLoading = loading || pendingLanguages;
 
@@ -57,6 +60,8 @@ export default function Stats() {
       <Localized id="sc-stats-title">
         <h1></h1>
       </Localized>
+
+      {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 
       <div className="row">
         <LanguageSelector

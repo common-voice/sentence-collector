@@ -11,6 +11,8 @@
   --grey-color: #d7d7db;
   --dark-grey-color: #5e5c5b;
   --error-color: #ff4f5e;
+  --error-border-color: #ff7070;
+  --error-background-color: #ffbfc5;
   --warning-border-color: #ffff00;
   --warning-background-color: #ffffb9;
   --review-selected-color: #000000;
@@ -216,6 +218,13 @@ form button:not(.standalone) {
 
 .small {
   font-size: 0.7rem;
+}
+
+.error-box {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 2px solid var(--error-border-color);
+  background-color: var(--error-background-color);
 }
 
 .warning-box {

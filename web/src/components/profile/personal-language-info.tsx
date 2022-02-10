@@ -4,9 +4,12 @@ import { Localized, useLocalization } from '@fluent/react';
 
 import { removeLanguage } from '../../actions/languages';
 import { RootState } from '../../types';
+import Error from '../error';
 
 export default function PersonalLanguageInfo() {
-  const { languages, pendingLanguages } = useSelector((state: RootState) => state.languages);
+  const { languages, pendingLanguages, fetchFailure } = useSelector(
+    (state: RootState) => state.languages
+  );
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
@@ -29,6 +32,8 @@ export default function PersonalLanguageInfo() {
   return (
     <section>
       {error && <p className="error-message">{error}</p>}
+
+      {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 
       {languages && languages.length > 0 ? (
         <section>

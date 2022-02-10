@@ -14,7 +14,13 @@ module.exports = {
 };
 
 async function enhanceLanguages(languageCodes) {
-  const allLanguages = await languages.getAllLanguages();
+  let allLanguages = [];
+  try {
+    allLanguages = await languages.getAllLanguages();
+  } catch (error) {
+    // Not returning any users languages is better than completely failing
+  }
+
   const validLanguageCodes = languageCodes.filter((code) => allLanguages.find((language) => language.id === code));
   return validLanguageCodes.map((languageCode) => ({
     id: languageCode,

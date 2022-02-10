@@ -25,7 +25,7 @@ describe('getLanguages', () => {
     });
   });
 
-  test('should not throw on error', async () => {
+  test('should dispatch on error', async () => {
     const error = new Error('NOPE');
     (console.error as jest.Mock).mockImplementation(() => {
       /* ignore */
@@ -35,6 +35,9 @@ describe('getLanguages', () => {
     });
     expect(languages.getLanguages()(dispatch, getState, null)).resolves.not.toThrow();
     expect((console.error as jest.Mock).mock.calls[0][0]).toEqual('Failed to fetch languages');
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: languages.ACTION_GET_LANGUAGES_FAILURE,
+    });
   });
 });
 

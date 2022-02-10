@@ -30,6 +30,18 @@ beforeEach(() => {
   }));
 });
 
+test('should render error if no languages fetched', async () => {
+  (redux.useSelector as jest.Mock).mockImplementation(() => ({
+    allLanguages: [],
+    languages: [],
+    pendingLanguages: false,
+    fetchFailure: true,
+  }));
+
+  await renderWithLocalization(<Add />);
+  expect(screen.queryByText(/We failed to fetch available languages./)).toBeTruthy();
+});
+
 test('should submit sentences including review', async () => {
   const dispatchMock = jest.fn(() =>
     Promise.resolve({

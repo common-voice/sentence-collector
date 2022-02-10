@@ -4,6 +4,7 @@ import { Localized, useLocalization } from '@fluent/react';
 
 import { useLocaleUrl } from '../../urls';
 import type { Language, SubmissionFailures } from '../../types';
+import Error from '../error';
 import LanguageSelector from '../language-selector';
 import Sentence from '../sentence';
 import SubmitButton from '../submit-button';
@@ -33,6 +34,7 @@ type Props = {
   message?: string;
   error?: string;
   sentenceSubmissionFailures?: SubmissionFailures;
+  languageFetchFailure?: boolean;
 };
 
 type FormFields = {
@@ -47,6 +49,7 @@ export default function SubmitForm({
   message,
   error,
   sentenceSubmissionFailures,
+  languageFetchFailure = false,
 }: Props) {
   const firstLanguage = languages.length === 1 && languages[0];
   const [formError, setError] = useState('');
@@ -124,6 +127,8 @@ export default function SubmitForm({
         <Localized id="sc-submit-title">
           <h1></h1>
         </Localized>
+
+        {languageFetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 
         {message && <section className="form-message">{message}</section>}
         {formError && <section className="form-error">{formError}</section>}
