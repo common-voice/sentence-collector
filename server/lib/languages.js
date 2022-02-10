@@ -47,8 +47,8 @@ async function getLanguagesNotInPontoon() {
 }
 
 async function fetchPontoonLanguages() {
-  const encodedQuery = '{ project(slug: "common-voice") { localizations { locale { code } } } }';
-  const pontoonResponse = await fetch(`https://pontoon.mozilla.org/graphql?query=${encodedQuery}`);
+  const query = '{ project(slug: "common-voice") { localizations { locale { code } } } }';
+  const pontoonResponse = await fetch(`https://pontoon.mozilla.org/graphql?query=${query}`);
 
   const { data } = await pontoonResponse.json();
 

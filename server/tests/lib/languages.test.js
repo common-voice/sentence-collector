@@ -4,6 +4,8 @@ import sinon from 'sinon';
 import languages from '../../lib/languages';
 import { Sentence } from '../../lib/models';
 
+const graphQLEndpoint = '/graphql?query={ project(slug: "common-voice") { localizations { locale { code } } } }';
+
 const inexistingLanguageCode = 'inexisting_language_code';
 const languagesResponse = [{
   locale: {
@@ -31,7 +33,7 @@ test.after.always((t) => {
 
 test('returns languages', async (t) => {
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
@@ -51,7 +53,7 @@ test('returns languages', async (t) => {
 
 test('returns cached languages', async (t) => {
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
@@ -64,7 +66,7 @@ test('returns cached languages', async (t) => {
   t.deepEqual(allLanguages.length, 3);
 
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
@@ -80,7 +82,7 @@ test('returns cached languages', async (t) => {
 
 test('returns newly fetched languages - invalidated cache', async (t) => {
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
@@ -93,7 +95,7 @@ test('returns newly fetched languages - invalidated cache', async (t) => {
   t.deepEqual(allLanguages.length, 3);
 
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
@@ -109,7 +111,7 @@ test('returns newly fetched languages - invalidated cache', async (t) => {
 
 test('returns additional languages', async (t) => {
   nock('https://pontoon.mozilla.org')
-    .post('/graphql')
+    .get(graphQLEndpoint)
     .reply(200, {
       data: {
         project: {
