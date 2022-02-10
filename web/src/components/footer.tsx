@@ -43,7 +43,7 @@ export default function Footer() {
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://www.mozilla.org/en-US/privacy/websites/#cookies"
+        href="https://www.mozilla.org/privacy/websites/#user-choices"
       >
         <Localized id="sc-footer-cookies" />
       </a>
