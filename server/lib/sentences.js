@@ -52,29 +52,29 @@ async function getSentencesForLocale({ localeId, source, batch, sentence }) {
 }
 
 function getApprovedSentencesForLocale(locale) {
-  const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
-  return sequelize.query(validatedSentencesQuery, { type: QueryTypes.SELECT });
+  const validatedSentencesQuery = getValidatedSentencesQuery();
+  return sequelize.query(validatedSentencesQuery, { replacements: [locale], type: QueryTypes.SELECT });
 }
 
 function getUndecidedSentencesForLocale(locale) {
-  const undecidedSentencesQuery = getUndecidedSentencesQuery({ locale });
-  return sequelize.query(undecidedSentencesQuery, { type: QueryTypes.SELECT });
+  const undecidedSentencesQuery = getUndecidedSentencesQuery();
+  return sequelize.query(undecidedSentencesQuery, { replacements: [locale], type: QueryTypes.SELECT });
 }
 
 function getRejectedSentencesForLocale(locale) {
   const rejectedSentencesQuery = getRejectedSentencesQuery({ locale });
-  return sequelize.query(rejectedSentencesQuery, { type: QueryTypes.SELECT });
+  return sequelize.query(rejectedSentencesQuery, { replacements: [locale], type: QueryTypes.SELECT });
 }
 
 async function getSentencesForReview({ locale, userId }) {
   debug('GETTING_SENTENCES_FOR_LOCALE', locale);
 
-  const query = getReviewQuery({ locale, userId });
+  const query = getReviewQuery();
   const limittedQuery = `
     ${query}
     LIMIT 1000
   `;
-  const sentences = await sequelize.query(limittedQuery, { type: QueryTypes.SELECT });
+  const sentences = await sequelize.query(limittedQuery, { replacements: [locale, userId], type: QueryTypes.SELECT });
   return sentences;
 }
 
@@ -82,7 +82,7 @@ async function getRejectedSentences({ userId }) {
   debug('GETTING_REJECTED_SENTENCES');
 
   const query = getRejectedSentencesQuery({ userId });
-  const sentences = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const sentences = await sequelize.query(query, { replacements: [userId], type: QueryTypes.SELECT });
   const sentencesPerLocale = sentences.reduce((perLocale, sentenceInfo) => {
     perLocale[sentenceInfo.localeId] = perLocale[sentenceInfo.localeId] || [];
     perLocale[sentenceInfo.localeId].push(sentenceInfo);
@@ -184,13 +184,13 @@ async function getAllStatsForLocale(locale) {
 }
 
 async function getValidatedSentencesCountForLocale(locale) {
-  const validatedSentencesQuery = getValidatedSentencesQuery({ locale });
+  const validatedSentencesQuery = getValidatedSentencesQuery();
   const query = `
     SELECT COUNT(*) FROM
       (${validatedSentencesQuery}) as approved_sentences;
   `;
 
-  const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const queryResult = await sequelize.query(query, { replacements: [locale], type: QueryTypes.SELECT });
   const validatedCount = queryResult[0] && queryResult[0]['COUNT(*)'];
   return validatedCount;
 }
@@ -199,13 +199,13 @@ async function getUnreviewedByYouCountForLocales(locales, userId) {
   const stats = {};
 
   for await (const locale of locales) {
-    const reviewQuery = getReviewQuery({ locale, userId });
+    const reviewQuery = getReviewQuery();
     const query = `
       SELECT COUNT(*) FROM
         (${reviewQuery}) as approved_sentences;
     `;
 
-    const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+    const queryResult = await sequelize.query(query, { replacements: [locale, userId], type: QueryTypes.SELECT });
     stats[locale] = queryResult[0] && queryResult[0]['COUNT(*)'];
   }
 
@@ -219,7 +219,7 @@ async function getRejectedSentencesCountForLocale(locale) {
       (${rejectedQuery}) as rejected_sentences;
   `;
 
-  const queryResult = await sequelize.query(query, { type: QueryTypes.SELECT });
+  const queryResult = await sequelize.query(query, { replacements: [locale], type: QueryTypes.SELECT });
   const rejectedCount = queryResult[0] && queryResult[0]['COUNT(*)'];
   return rejectedCount;
 }
@@ -301,7 +301,7 @@ async function addSentences(data) {
   return { errors: filtered, duplicates: duplicateCounter };
 }
 
-function getReviewQuery({ locale, userId }) {
+function getReviewQuery() {
   return `
     SELECT
       Sentences.id,
@@ -312,10 +312,10 @@ function getReviewQuery({ locale, userId }) {
       COUNT(Votes.approval) as number_of_votes
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
-    WHERE Sentences.localeId = "${locale}"
+    WHERE Sentences.localeId = ?
       AND NOT EXISTS (SELECT *
         FROM Votes
-        WHERE Sentences.id = Votes.sentenceId AND Votes.userId = "${userId}")
+        WHERE Sentences.id = Votes.sentenceId AND Votes.userId = ?)
     GROUP BY Sentences.id
     HAVING
       number_of_votes < 2 OR # not enough votes yet
@@ -325,7 +325,7 @@ function getReviewQuery({ locale, userId }) {
 
 // This is very similar to the Review Query, but without user. This could be incorporated
 // with the query above, but that would make it vastly more complicated.
-function getUndecidedSentencesQuery({ locale }) {
+function getUndecidedSentencesQuery() {
   return `
     SELECT
       Sentences.sentence,
@@ -333,7 +333,7 @@ function getUndecidedSentencesQuery({ locale }) {
       COUNT(Votes.approval) as number_of_votes
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId=Sentences.id)
-    WHERE Sentences.localeId = "${locale}"
+    WHERE Sentences.localeId = ?
     GROUP BY Sentences.id
     HAVING
       number_of_votes < 2 OR # not enough votes yet
@@ -341,7 +341,7 @@ function getUndecidedSentencesQuery({ locale }) {
     ORDER BY number_of_votes DESC`;
 }
 
-function getValidatedSentencesQuery({ locale }) {
+function getValidatedSentencesQuery() {
   return `
     SELECT
       Sentences.id,
@@ -349,7 +349,7 @@ function getValidatedSentencesQuery({ locale }) {
       SUM(Votes.approval) as number_of_approving_votes
     FROM Sentences
     LEFT JOIN Votes ON (Votes.sentenceId = Sentences.id)
-    WHERE Sentences.localeId = "${locale}"
+    WHERE Sentences.localeId = ?
     GROUP BY Sentences.id
     HAVING
       number_of_approving_votes >= 2`;
@@ -359,13 +359,13 @@ function getRejectedSentencesQuery({ userId, locale }) {
   let whereClause = '';
 
   if (typeof userId !== 'undefined') {
-    whereClause = `WHERE Sentences.userId = '${userId}'`;
+    whereClause = `WHERE Sentences.userId = ?`;
   }
 
   if (locale) {
     whereClause = whereClause ?
-      `${whereClause} and Sentences.localeId = '${locale}'` :
-      `WHERE Sentences.localeId = '${locale}'`;
+      `${whereClause} and Sentences.localeId = ?` :
+      `WHERE Sentences.localeId = ?`;
   }
 
   return `
