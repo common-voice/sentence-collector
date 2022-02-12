@@ -5,6 +5,7 @@ import { Localized, useLocalization } from '@fluent/react';
 import { addLanguage } from '../../actions/languages';
 import type { RootState } from '../../types';
 
+import Error from '../error';
 import LanguageSelector from '../language-selector';
 
 export default function AddLanguage() {
@@ -36,7 +37,7 @@ export default function AddLanguage() {
 
   return (
     <section>
-      {error && <p className="error-message">{error}</p>}
+      {error && <Error>{error}</Error>}
 
       <LanguageSelector
         selected={language}

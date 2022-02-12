@@ -8,6 +8,7 @@ import { resetSkippedSentences } from '../../actions/sentences';
 import { DEFAULT_LOCALE } from '../../l10n';
 import type { RootState } from '../../types';
 
+import Error from '../error';
 import LanguageSelector from '../language-selector';
 
 const CV_TRANSLATED_LOCALES: string[] = cvTranslatedLocales;
@@ -41,11 +42,7 @@ export default function Settings() {
         <h2></h2>
       </Localized>
 
-      {showErrorMessage && (
-        <Localized id="sc-settings-failed">
-          <p className="form-error"></p>
-        </Localized>
-      )}
+      {showErrorMessage && <Error translationKey="sc-settings-failed" />}
 
       <section>
         <section className="settings-section">

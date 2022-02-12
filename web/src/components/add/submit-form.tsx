@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Localized, useLocalization } from '@fluent/react';
+import { Localized } from '@fluent/react';
 
 import { useLocaleUrl } from '../../urls';
 import type { Language, SubmissionFailures } from '../../types';
@@ -8,19 +8,11 @@ import Error from '../error';
 import LanguageSelector from '../language-selector';
 import Sentence from '../sentence';
 import SubmitButton from '../submit-button';
+import Success from '../success';
 import { Prompt } from '../prompt';
 
 const SPLIT_ON = '\n';
 const TRANSLATION_KEY_PREFIX = 'TRANSLATION_KEY:';
-
-function parseSentences(sentenceText: string): string[] {
-  const sentences = sentenceText
-    .split(SPLIT_ON)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const dedupedSentences = Array.from(new Set(sentences));
-  return dedupedSentences;
-}
 
 type SubmissionData = {
   sentences: string[];
@@ -31,7 +23,7 @@ type SubmissionData = {
 type Props = {
   languages: Language[];
   onSubmit: (data: SubmissionData) => void;
-  message?: string;
+  duplicates?: number;
   error?: string;
   sentenceSubmissionFailures?: SubmissionFailures;
   languageFetchFailure?: boolean;
@@ -43,23 +35,35 @@ type FormFields = {
   confirmed: boolean;
 };
 
+type FormErrorDescription = {
+  language: boolean;
+  sentences: boolean;
+  source: boolean;
+  confirmed: boolean;
+};
+
 export default function SubmitForm({
   languages,
   onSubmit,
-  message,
+  duplicates,
   error,
   sentenceSubmissionFailures,
   languageFetchFailure = false,
 }: Props) {
-  const firstLanguage = languages.length === 1 && languages[0];
-  const [formError, setError] = useState('');
+  const [formErrors, setFormErrors] = useState<FormErrorDescription | Record<string, never>>({});
   const [formFields, setFormFields] = useState<FormFields>({
     sentenceText: '',
     source: '',
     confirmed: false,
   });
-  const [language, setLanguage] = useState(firstLanguage ? firstLanguage.id : '');
+  const [language, setLanguage] = useState('');
   const localizedHowToUrl = useLocaleUrl('/how-to');
+
+  useEffect(() => {
+    if (languages.length === 1 && languages[0]) {
+      setLanguage(languages[0].id);
+    }
+  }, [languages]);
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -77,30 +81,18 @@ export default function SubmitForm({
     setLanguage(language);
   };
 
-  const { l10n } = useLocalization();
-
   const validateForm = () => {
-    if (!language) {
-      setError(l10n.getString('sc-submit-err-select-lang'));
-      return false;
-    }
+    const errors = {
+      language: !language,
+      sentences: !formFields.sentenceText,
+      source: !formFields.source,
+      confirmed: !formFields.confirmed,
+    };
 
-    if (!formFields.sentenceText) {
-      setError(l10n.getString('sc-submit-err-add-sentences'));
-      return false;
-    }
+    setFormErrors(errors);
 
-    if (!formFields.source) {
-      setError(l10n.getString('sc-submit-err-add-source'));
-      return false;
-    }
-
-    if (!formFields.confirmed) {
-      setError(l10n.getString('sc-submit-err-confirm-pd'));
-      return false;
-    }
-
-    return true;
+    const hasErrors = Object.values(errors).some((errorState) => errorState);
+    return !hasErrors;
   };
 
   const onSentencesSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -129,16 +121,23 @@ export default function SubmitForm({
         </Localized>
 
         {languageFetchFailure && <Error translationKey="sc-languages-fetch-error" />}
-
-        {message && <section className="form-message">{message}</section>}
-        {formError && <section className="form-error">{formError}</section>}
-        {error && <section className="form-error">{error}</section>}
+        {typeof duplicates !== 'undefined' && (
+          <Success translationKey="sc-add-result" vars={{ duplicates }} />
+        )}
+        {error && <Error>{error}</Error>}
 
         <section>
           <Localized id="sc-submit-select-language" attrs={{ labelText: true }}>
             <LanguageSelector languages={languages} labelText="" onChange={onLanguageSelect} />
           </Localized>
+
+          {formErrors.language && (
+            <Localized id="sc-submit-err-select-lang">
+              <p className="error-message"></p>
+            </Localized>
+          )}
         </section>
+
         <section>
           <Localized
             id="sc-submit-add-sentences"
@@ -154,6 +153,13 @@ export default function SubmitForm({
           >
             <label htmlFor="sentences-input"></label>
           </Localized>
+
+          {formErrors.sentences && (
+            <Localized id="sc-submit-err-add-sentences">
+              <p className="error-message"></p>
+            </Localized>
+          )}
+
           <Localized id="sc-submit-ph-one-per-line" attrs={{ placeholder: true }}>
             <textarea
               id="sentences-input"
@@ -164,6 +170,7 @@ export default function SubmitForm({
             />
           </Localized>
         </section>
+
         <section>
           <Localized
             id="sc-submit-from-where"
@@ -179,6 +186,13 @@ export default function SubmitForm({
           >
             <label htmlFor="source-input"></label>
           </Localized>
+
+          {formErrors.source && (
+            <Localized id="sc-submit-err-add-source">
+              <p className="error-message"></p>
+            </Localized>
+          )}
+
           <Localized id="sc-submit-ph-read-how-to" attrs={{ placeholder: true }}>
             <input
               id="source-input"
@@ -189,7 +203,14 @@ export default function SubmitForm({
             />
           </Localized>
         </section>
+
         <section>
+          {formErrors.confirmed && (
+            <Localized id="sc-submit-err-confirm-pd">
+              <p className="error-message"></p>
+            </Localized>
+          )}
+
           <input id="agree" type="checkbox" name="confirmed" onChange={handleInputChange} />
           <Localized
             id="sc-submit-confirm"
@@ -246,4 +267,13 @@ export default function SubmitForm({
       )}
     </React.Fragment>
   );
+}
+
+function parseSentences(sentenceText: string): string[] {
+  const sentences = sentenceText
+    .split(SPLIT_ON)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const dedupedSentences = Array.from(new Set(sentences));
+  return dedupedSentences;
 }

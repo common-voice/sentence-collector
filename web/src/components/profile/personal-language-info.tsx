@@ -31,7 +31,7 @@ export default function PersonalLanguageInfo() {
 
   return (
     <section>
-      {error && <p className="error-message">{error}</p>}
+      {error && <Error>{error}</Error>}
 
       {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 

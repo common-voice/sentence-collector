@@ -35,12 +35,11 @@ test('should render submit button', async () => {
   expect(screen.getByText('Submit')).toBeTruthy();
 });
 
-test('should render message', async () => {
-  const message = 'Hi';
+test('should render success', async () => {
   await renderWithLocalization(
-    <SubmitForm languages={languages} message={message} onSubmit={onSubmit} />
+    <SubmitForm languages={languages} duplicates={0} onSubmit={onSubmit} />
   );
-  expect(screen.getByText(message)).toBeTruthy();
+  expect(screen.queryByText(/Submitted sentences./)).toBeTruthy();
 });
 
 test('should render error', async () => {

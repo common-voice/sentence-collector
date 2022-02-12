@@ -5,6 +5,7 @@ import '../../../css/sentences-list.css';
 
 import { sendRequest } from '../../backend';
 import type { SentenceRecord } from '../../types';
+import Error from '../error';
 import Sentence from '../sentence';
 import SpinnerButton from '../spinner-button';
 
@@ -85,16 +86,15 @@ export default function MySentencesList() {
       </Localized>
 
       {sentencesLoading && (
-        <Localized id="sc-my-loading">
-          <p></p>
-        </Localized>
+        <div className="loading-container">
+          <span className="spinning" />
+          <Localized id="sc-my-loading">
+            <p></p>
+          </Localized>
+        </div>
       )}
 
-      {error && (
-        <Localized id="sc-my-err-fetching">
-          <p></p>
-        </Localized>
-      )}
+      {error && <Error translationKey="sc-my-err-fetching" />}
 
       {hasNoSentences && !sentencesLoading && (
         <Localized id="sc-my-no-sentences">

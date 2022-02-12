@@ -21,9 +21,11 @@ export default function Stats() {
   const [hasError, setHasError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState<string>();
-  const { languages, pendingLanguages, fetchFailure } = useSelector(
-    (state: RootState) => state.languages
-  );
+  const {
+    languages,
+    pendingLanguages,
+    fetchFailure: languageFetchFailure,
+  } = useSelector((state: RootState) => state.languages);
 
   const isLoading = loading || pendingLanguages;
 
@@ -61,7 +63,7 @@ export default function Stats() {
         <h1></h1>
       </Localized>
 
-      {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
+      {languageFetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 
       <div className="row">
         <LanguageSelector
@@ -72,16 +74,15 @@ export default function Stats() {
         />
       </div>
 
-      {isLoading && (
-        <Localized id="sc-stats-updating">
-          <p></p>
-        </Localized>
-      )}
+      {hasError && <Error translationKey="sc-stats-error" />}
 
-      {!isLoading && hasError && (
-        <Localized id="sc-stats-error">
-          <p></p>
-        </Localized>
+      {isLoading && (
+        <div className="loading-container">
+          <span className="spinning" />
+          <Localized id="sc-stats-updating">
+            <p></p>
+          </Localized>
+        </div>
       )}
 
       {!isLoading && !hasError && (
