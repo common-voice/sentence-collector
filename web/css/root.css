@@ -1,30 +1,30 @@
 :root {
+  --active-font-color: red;
+  --base-font-size: 19px;
+  --deactive-color: #d7d7db;
+  --grey-color: #d7d7db;
+  --dark-grey-color: #5e5c5b;
+  --error-background-color: #ffbfc5;
+  --error-border-color: #ff7070;
+  --error-font-color: #ff4f5e;
+  --footer-height: 60px;
+  --footer-margin-top: 1.5rem;
+  --header-height: 65px;
+  --light-border-color: #efefef;
   --main-bg-color: white;
   --main-font-color: black;
   --main-border-radius: 3px;
   --main-font-family: 'Open Sans', sans-serif;
+  --max-content-width: 85vw;
   --second-bg-color: black;
   --second-font-color: white;
   --second-font-family: 'Zilla Slab', serif;
-  --active-font-color: red;
-  --deactive-color: #d7d7db;
-  --grey-color: #d7d7db;
-  --dark-grey-color: #5e5c5b;
-  --error-font-color: #ff4f5e;
-  --error-border-color: #ff7070;
-  --error-background-color: #ffbfc5;
-  --warning-border-color: #ffff00;
-  --warning-background-color: #ffffb9;
   --success-border-color: #46ff55;
   --success-background-color: #71ffc4;
   --review-selected-color: #000000;
   --review-unselected-color: #ffffff;
-  --base-font-size: 19px;
-  --light-border-color: #efefef;
-  --header-height: 65px;
-  --footer-height: 60px;
-  --footer-margin-top: 1.5rem;
-  --max-content-width: 85vw;
+  --warning-border-color: #ffff00;
+  --warning-background-color: #ffffb9;
 }
 
 html {
