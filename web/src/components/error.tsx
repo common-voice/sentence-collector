@@ -10,13 +10,13 @@ export default function Error({ translationKey, children }: Props) {
   if (translationKey) {
     return (
       <Localized id={translationKey}>
-        <div className="error-box"></div>
+        <div className="error box"></div>
       </Localized>
     );
   }
 
   if (children) {
-    return <div className="error-box">{children}</div>;
+    return <div className="error box">{children}</div>;
   }
 
   return null;

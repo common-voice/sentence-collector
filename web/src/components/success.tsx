@@ -12,7 +12,7 @@ export default function Success({ translationKey, vars, children }: Props) {
   if (translationKey && !hasVars) {
     return (
       <Localized id={translationKey}>
-        <div className="success-box"></div>
+        <div className="success box"></div>
       </Localized>
     );
   }
@@ -20,13 +20,13 @@ export default function Success({ translationKey, vars, children }: Props) {
   if (translationKey && hasVars) {
     return (
       <Localized id={translationKey} vars={vars}>
-        <div className="success-box"></div>
+        <div className="success box"></div>
       </Localized>
     );
   }
 
   if (children) {
-    return <div className="success-box">{children}</div>;
+    return <div className="success box">{children}</div>;
   }
 
   return null;
