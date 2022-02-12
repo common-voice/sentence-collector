@@ -3,6 +3,7 @@ import { Localized, useLocalization } from '@fluent/react';
 
 import { sendRequest } from '../../backend';
 import type { SentenceRecord } from '../../types';
+import Error from '../error';
 import Sentence from '../sentence';
 
 export type RejectedSentences = Record<string, SentenceRecord[]>;
@@ -37,16 +38,15 @@ export default function RejectedSentencesList() {
       </Localized>
 
       {sentencesLoading && (
-        <Localized id="sc-rejected-loading">
-          <p></p>
-        </Localized>
+        <div className="loading-container">
+          <span className="spinning" />
+          <Localized id="sc-rejected-loading">
+            <p></p>
+          </Localized>
+        </div>
       )}
 
-      {error && (
-        <Localized id="sc-rejected-err-fetching">
-          <p></p>
-        </Localized>
-      )}
+      {error && <Error translationKey="sc-rejected-err-fetching" />}
 
       {hasNoSentences && !sentencesLoading && !error && (
         <Localized id="sc-rejected-none-found">

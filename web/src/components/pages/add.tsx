@@ -21,7 +21,7 @@ export default function Add() {
   const dispatch = useDispatch();
   const [language, setLanguage] = useState<string>('');
   const [source, setSource] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
+  const [duplicates, setDuplicates] = useState<number | undefined>();
   const [error, setError] = useState<string>('');
   const [submitted, setSubmitted] = useState<string[]>([]);
   const [unreviewed, setUnreviewed] = useState<string[]>([]);
@@ -44,7 +44,7 @@ export default function Add() {
   const resetState = () => {
     setLanguage('');
     setSource('');
-    setMessage('');
+    setDuplicates(undefined);
     setError('');
     setSubmitted([]);
     setUnreviewed([]);
@@ -91,7 +91,7 @@ export default function Add() {
       }
 
       resetState();
-      setMessage(l10n.getString('sc-add-result', { duplicates: duplicates }));
+      setDuplicates(duplicates);
       setError(
         errors && errors.length > 0
           ? l10n.getString('sc-add-err-failed', { sentences: errors.length })
@@ -157,7 +157,7 @@ export default function Add() {
   return (
     <SubmitForm
       onSubmit={onSubmit}
-      message={message}
+      duplicates={duplicates}
       error={error}
       languages={availableLanguages}
       sentenceSubmissionFailures={sentenceSubmissionFailures}

@@ -10,11 +10,13 @@
   --deactive-color: #d7d7db;
   --grey-color: #d7d7db;
   --dark-grey-color: #5e5c5b;
-  --error-color: #ff4f5e;
+  --error-font-color: #ff4f5e;
   --error-border-color: #ff7070;
   --error-background-color: #ffbfc5;
   --warning-border-color: #ffff00;
   --warning-background-color: #ffffb9;
+  --success-border-color: #46ff55;
+  --success-background-color: #71ffc4;
   --review-selected-color: #000000;
   --review-unselected-color: #ffffff;
   --base-font-size: 19px;
@@ -192,13 +194,6 @@ form button:not(.standalone) {
   font-weight: 600;
 }
 
-.form-error {
-  line-height: 1rem;
-  color: var(--error-color);
-  text-align: center;
-  font-weight: 600;
-}
-
 .loading-text {
   display: inline-block;
   font-size: 80%;
@@ -213,11 +208,21 @@ form button:not(.standalone) {
 }
 
 .error-message {
-  color: red;
+  color: var(--error-font-color);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .small {
   font-size: 0.7rem;
+}
+
+.success-box {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 2px solid var(--success-border-color);
+  background-color: var(--success-background-color);
 }
 
 .error-box {
@@ -238,4 +243,43 @@ form button:not(.standalone) {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.loading-container {
+  position: relative;
+}
+
+.spinning:before {
+  content: '';
+  width: 0px;
+  height: 0px;
+  border-radius: 50%;
+  right: 6px;
+  top: 50%;
+  position: absolute;
+  border-right: 3px solid #2795ae;
+  animation: rotate360 0.5s infinite linear, exist 0.1s forwards ease;
+}
+
+.loading-container .spinning:before {
+  right: unset;
+  left: 0px;
+}
+
+.loading-container p {
+  margin-left: 30px;
+}
+
+@keyframes rotate360 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes exist {
+  100% {
+    width: 15px;
+    height: 15px;
+    margin: -8px 5px 0 0;
+  }
 }

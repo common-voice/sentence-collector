@@ -103,34 +103,35 @@ export default function Review() {
 
   return (
     <div>
-      <section>
-        <Localized id="sc-review-title">
-          <h1></h1>
-        </Localized>
+      <Localized id="sc-review-title">
+        <h1></h1>
+      </Localized>
 
-        {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
+      {fetchFailure && <Error translationKey="sc-languages-fetch-error" />}
 
-        <div className="row">
-          <LanguageSelector
-            labelText=""
-            languages={languages}
-            selected={language}
-            onChange={onSelectLanguage}
-          />
-          <ReviewCriteria />
-        </div>
-      </section>
-
-      {sentencesLoading && (
-        <Localized id="sc-review-loading">
-          <p></p>
-        </Localized>
-      )}
+      <div className="row">
+        <LanguageSelector
+          labelText=""
+          languages={languages}
+          selected={language}
+          onChange={onSelectLanguage}
+        />
+        <ReviewCriteria />
+      </div>
 
       {!language && (
         <Localized id="sc-review-select-language">
           <p></p>
         </Localized>
+      )}
+
+      {sentencesLoading && (
+        <div className="loading-container">
+          <span className="spinning" />
+          <Localized id="sc-review-loading">
+            <p></p>
+          </Localized>
+        </div>
       )}
 
       {hasNoSentences && (
