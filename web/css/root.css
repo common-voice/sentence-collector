@@ -218,23 +218,22 @@ form button:not(.standalone) {
   font-size: 0.7rem;
 }
 
-.success-box {
+.box {
   margin: 1.5rem 0;
   padding: 1rem;
+}
+
+.box.success {
   border: 2px solid var(--success-border-color);
   background-color: var(--success-background-color);
 }
 
-.error-box {
-  margin: 1.5rem 0;
-  padding: 1rem;
+.box.error {
   border: 2px solid var(--error-border-color);
   background-color: var(--error-background-color);
 }
 
-.warning-box {
-  margin: 1.5rem 0;
-  padding: 1rem;
+.box.warning {
   border: 2px solid var(--warning-border-color);
   background-color: var(--warning-background-color);
 }

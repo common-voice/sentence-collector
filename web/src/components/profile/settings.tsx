@@ -67,7 +67,7 @@ export default function Settings() {
                 ),
               }}
             >
-              <div className="warning-box"></div>
+              <div className="warning box"></div>
             </Localized>
           )}
         </section>
