@@ -25,7 +25,7 @@ const INVALIDATIONS = [{
   regex: /(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/,
   error: "句子唔可以含有 emoji 或者其他特殊 Unicode 符號",
 }, {
-  regex: /[\u5427\u5504\u5436](\s|\u3002|\u002E|$)/,
+  regex: /[\u5427\u5504\u5436](\s|\u3002|\u002E|\uFF0C|\u002C|$)/,
   error: '句子唔可以有官話語氣詞（例如吧、唄、吶）',
 }];
 
