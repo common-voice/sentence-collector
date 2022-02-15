@@ -13,7 +13,7 @@ const INVALIDATIONS = [{
   regex: /[0-9]+/,
   error: "句子唔可以包含阿拉伯數字",
 }, {
-  regex: /[<>+*#@%^[\]()\/]/,
+  regex: /[<>+*#@%^[\]()/]/,
   error: "句子唔可以有特殊符號",
 }, {
   // 7 or more repeating characters in a row is likely a non-formal spelling or difficult to read.
