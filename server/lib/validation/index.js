@@ -13,6 +13,7 @@ const th = require('./languages/th');
 const ur = require('./languages/ur');
 const uz = require('./languages/uz');
 const yue = require('./languages/yue');
+const ca = require('./languages/ca');
 
 const VALIDATORS = {
   bas,
@@ -29,6 +30,7 @@ const VALIDATORS = {
   ur,
   uz,
   yue,
+  ca
 };
 
 module.exports = {
