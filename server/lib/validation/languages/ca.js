@@ -11,26 +11,26 @@ const INVALIDATIONS = [{
     const words = tokenizeWords('ca', sentence);
     return words.length < MIN_WORDS || words.length > MAX_WORDS;
   },
-  error: `Number of words must be between ${MIN_WORDS} and ${MAX_WORDS} (inclusive)`,
+  error: `El nombre de paraules ha de ser entre ${MIN_WORDS} i ${MAX_WORDS} (inclòs)`,
 }, {
   regex: /[0-9]+/,
-  error: 'Sentence should not contain numbers',
+  error: 'La frase no pot contenir nombres',
 }, {
   // This could mean multiple sentences per line.
   regex: /[?!.].+/,
-  error: 'Sentence should not contain sentence punctuation inside a sentence',
+  error: 'La frase no pot contenir signes de puntuació al mig',
 }, {
   // Symbols not allowed, also add them below as well to the regex:
   // < > + * \ # @ ^ “ ” ‘ ’ ( ) [ ] / { }
   regex: /[<>+*\\#@^“”‘’(){}[\]/]|\s{2,}|!{2,}/,
-  error: 'Sentence should not contain symbols or multiple spaces/exclamation marks',
+  error: 'La frase no pot contenir simbols o multiples espais o exclamacions',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
   // inbetween are considered abbreviations or acronyms.
   // This currently also matches fooBAR but we most probably don't want that either
   // as users wouldn't know how to pronounce the uppercase letters.
   regex: /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/,
-  error: 'Sentence should not contain abbreviations',
+  error: 'La frase no pot contenir abreviacions o acrònims',
 }];
 
 module.exports = {
