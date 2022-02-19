@@ -1,5 +1,6 @@
 const defaultValidator = require('./languages/default');
 const bas = require('./languages/bas');
+const ca = require('./languages/ca');
 const ckb = require('./languages/ckb');
 const en = require('./languages/en');
 const eo = require('./languages/eo');
@@ -13,10 +14,10 @@ const th = require('./languages/th');
 const ur = require('./languages/ur');
 const uz = require('./languages/uz');
 const yue = require('./languages/yue');
-const ca = require('./languages/ca');
 
 const VALIDATORS = {
   bas,
+  ca,
   ckb,
   en,
   eo,
@@ -30,7 +31,6 @@ const VALIDATORS = {
   ur,
   uz,
   yue,
-  ca
 };
 
 module.exports = {
