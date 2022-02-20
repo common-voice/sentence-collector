@@ -37,10 +37,17 @@ const FRONTEND_BASE_PATH = NODE_ENV === 'production' ? '/sentence-collector' : '
 const MOUNT_PATH = NODE_ENV === 'production' ? '' : '/sentence-collector';
 
 const COOKIE_NAME = 'sc.connect.sid';
+const maxAge = 30 * 24 * 60 * 60 * 1000;
+const staticOptions = {
+  setHeaders: (response) => {
+    response.set('X-Release-Version', process.env.RELEASE_VERSION || 'unknown');
+  },
+};
 
 const SequelizeStore = connectSessionSequelize(session.Store);
+
 const app = express();
-const maxAge = 30 * 24 * 60 * 60 * 1000;
+app.disable('x-powered-by');
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -146,6 +153,6 @@ app.use(`${MOUNT_PATH}/stats`, statsRoutes);
 app.use(`${MOUNT_PATH}/users`, usersRoutes);
 app.use(`${MOUNT_PATH}/votes`, votesRoutes);
 app.use(`${MOUNT_PATH}/api`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist')));
+app.use(express.static(path.resolve(__dirname, '..', 'web', 'dist'), staticOptions));
 
 module.exports = app;
