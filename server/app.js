@@ -40,7 +40,7 @@ const COOKIE_NAME = 'sc.connect.sid';
 const maxAge = 30 * 24 * 60 * 60 * 1000;
 const staticOptions = {
   setHeaders: (response) => {
-    response.set('X-Release-Version', process.env.RELEASE_VERSION || 'unknown');
+    response.set('X-Release-Version', process.env.GIT_COMMIT_SHA || 'unknown');
   },
 };
 
