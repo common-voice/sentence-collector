@@ -1,8 +1,13 @@
 FROM node:16-buster
 
-RUN npm install pm2 -g
+ARG COMMIT="local-build"
+
+LABEL commit=${COMMIT}
 
 ENV NODE_ENV production
+ENV GIT_COMMIT_SHA=${COMMIT}
+
+RUN npm install pm2 -g
 
 RUN mkdir -p /app/scripts
 COPY scripts/export-source-strings.js /app/scripts/
