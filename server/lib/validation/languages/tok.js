@@ -1,7 +1,5 @@
 const tokenizeWords = require('talisman/tokenizers/words');
 
-const TRANSLATION_KEY_PREFIX = 'TRANSLATION_KEY:';
-
 // Minimum of words that qualify as a sentence.
 const MIN_WORDS = 1;
 
@@ -13,13 +11,13 @@ const INVALIDATIONS = [{
     const words = tokenizeWords(sentence);
     return words.length < MIN_WORDS || words.length > MAX_WORDS;
   },
-  error: `${TRANSLATION_KEY_PREFIX}sc-validation-number-of-words`,
+  error: `toki ni li ken jo e nimi pi mute ni taso: ${MIN_WORDS}-${MAX_WORDS}`,
 }, {
   regex: /[0-9]+/,
-  error: `${TRANSLATION_KEY_PREFIX}sc-validation-no-numbers`,
+  error: 'nanpa o lon ala toki ni',
 }, {
   regex: /[<>+*#@%^[\]()/]/,
-  error: `${TRANSLATION_KEY_PREFIX}sc-validation-no-symbols`,
+  error: 'sitelen nasa o lon ala toki ni',
 }, {
   // capital letters at start of word only
   regex: /[\w\.][A-Z]/,
@@ -31,8 +29,8 @@ const INVALIDATIONS = [{
 // pronunciations, and some speakers might struggle pronouncing them.
 
 {
-  // No non-Toki-Pona letters
-  regex: /[BbCcDdFfGgHhQqRrVvXxYyZzĈĜĤĴŜŬĉĝĥĵŝŭäÄöÖüÜßððÀÁÂÃÅÆÇÈÉÊËÌÍİÎÏÐÑÒÓÔÕØÙÚÛÛÝŽàáâãåæçèéêëìíîïðñòóôõøùúûýþÿāăąćċčďđēĕėęěğġģħĩīĭįıķĸĺļľŀłńņņṫšЎḃḋḟṁṗṡẁẃẅẛỳαβΓγΔδεζηΘθικΛλμνΞξΠπρΣσςτșếōůūŁşşǐżőňựňžịŌŏČŠřś]/,
+  // No non-Toki-Pona letters; no Sitelen Pona
+  regex: /[BbCcDdFfGgHhQqRrVvXxYyZz\u00C0-\u02BF\u1E00-\u1EFF\uF1900-\uF19FF]/,
   error: 'o kepeken sitelen Lasina pi toki pona taso',
 }, {
   // No consecutive vowels
