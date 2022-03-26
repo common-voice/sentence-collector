@@ -1,17 +1,12 @@
-const tokenizeWords = require('talisman/tokenizers/words');
-
-// Minimum of words that qualify as a sentence.
-const MIN_WORDS = 1;
-
-// Maximum of words allowed per sentence to keep recordings in a manageable duration.
-const MAX_WORDS = 18;
+// Amount of characters allowed per sentence to keep recordings in a manageable duration.
+const MIN_LENGTH = 1;
+const MAX_LENGTH = 90;
 
 const INVALIDATIONS = [{
   fn: (sentence) => {
-    const words = tokenizeWords(sentence);
-    return words.length < MIN_WORDS || words.length > MAX_WORDS;
+    return sentence.length < MIN_LENGTH || sentence.length > MAX_LENGTH;
   },
-  error: `toki ni li ken jo e nimi pi mute ni taso: ${MIN_WORDS}-${MAX_WORDS}`,
+  error: `toki sitelen ni li suli ike, li ken jo e sitelen lili pi mute ni taso: ${MIN_LENGTH}-${MAX_LENGTH}`,
 }, {
   regex: /[0-9]+/,
   error: 'nanpa o lon ala toki ni',
