@@ -14,8 +14,8 @@ const INVALIDATIONS = [{
   regex: /[<>+*#@%^[\]()/]/,
   error: 'sitelen nasa o lon ala toki ni',
 }, {
-  // capital letters at start of word only
-  regex: /[\w\.][A-Z]/,
+  // capital letters at start of word only; no abbreviations
+  regex: /\w[A-Z]|[A-Z]\.[A-Z]/,
   error: 'sitelen suli li ken lon open nimi taso (ike: "jan AwiPota"; pona: "jan Awipota", "jan Awi Pota")',
 },
 
@@ -53,7 +53,7 @@ const INVALIDATIONS = [{
   error: 'sitelen "n" li lon open nimi la sitelen "j k l m p s t w" li ken ala sitelen nanpa tu',
 }, {
   // No invalid syllables
-  regex: /(Wu|wu|Wo|wo|Ji|ji|Ti|ti)/,
+  regex: /Wu|wu|Wo|wo|Ji|ji|Ti|ti/,
   error: 'sitelen "wu wo ji ti" li ken ala',
 }];
 
