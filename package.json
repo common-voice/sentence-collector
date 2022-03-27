@@ -18,17 +18,16 @@
     "pull-cv-translations": "./scripts/pull-common-voice-translations-local.sh",
     "cleanup-cv-files": "git checkout locales && git clean -fxd web/locales && git checkout web/locales"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
-    "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.3",
-    "@semantic-release/npm": "^7.1.3",
-    "@semantic-release/release-notes-generator": "^9.0.3",
-    "husky": "^7.0.1",
-    "semantic-release": "^17.4.4"
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.2",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "husky": "^7.0.4",
+    "semantic-release": "^19.0.2"
   },
   "husky": {
     "hooks": {
