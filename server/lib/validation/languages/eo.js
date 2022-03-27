@@ -22,7 +22,7 @@ const INVALIDATIONS = [{
   error: 'Frazo devas ne enhavi specialajn signojn',
 }, {
   // Sentence should not contain the letters W, Q, X, Y, or other letters that are not in the Esperanto alphabet
-  regex: /[qQwWxXyYÀ-ćĊ-ěĞ-ģĞ-ģĦ-ĳĶ-śŞ-ūŮ-\u02AF\u1E00-\u1EFFα-ωΑ-ΩЀ-ӿ]/,
+  regex: /[qQwWxXyYÀ-ćĊ-ěĞ-ģĞ-ģĦ-ĳĶ-śŞ-ūŮ-ʯḀ-ỿα-ωΑ-ΩЀ-ӿ]/,
   error: 'Frazo devas ne enhavi la literojn W, Q, X, Y, aŭ aliajn ne-esperantajn literojn',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
