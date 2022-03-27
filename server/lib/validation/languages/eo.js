@@ -11,20 +11,26 @@ const INVALIDATIONS = [{
     const words = tokenizeWords(sentence);
     return words.length < MIN_WORDS || words.length > MAX_WORDS;
   },
-  error: `Number of words must be between ${MIN_WORDS} and ${MAX_WORDS} (inclusive)`,
+  error: `Frazo devas havi minimume ${MIN_WORDS} kaj maksimume ${MAX_WORDS} vortojn`,
 }, {
+  // Sentence should not contain numbers
   regex: /[0-9]+/,
-  error: 'Sentence should not contain numbers',
+  error: 'Frazo devas ne enhavi numerojn',
 }, {
-  regex: /[<>+*#@^[\]()/wWqQxXyYäÄöÖüÜßððÀÁÂÃÅÆÇÈÉÊËÌÍİÎÏÐÑÒÓÔÕØÙÚÛÛÝŽàáâãåæçèéêëìíîïðñòóôõøùúûýþÿāăąćċčďđēĕėęěğġģħĩīĭįıķĸĺļľŀłńņņṫšЎḃḋḟṁṗṡẁẃẅẛỳαβΓγΔδεζηΘθικΛλμνΞξΠπρΣσςτșếōůūŁşşǐżőňựňžịŌŏČŠřś]/,
-  error: 'Sentence should not contain symbols, the letterss W, Q, X or Y or any letter that is not part of the EO alphabet',
+  // Sentence should not contain symbols
+  regex: /[<>+*#@^[\]()/]/,
+  error: 'Frazo devas ne enhavi specialajn signojn',
+}, {
+  // Sentence should not contain the letters W, Q, X, Y, or other letters that are not in the Esperanto alphabet
+  regex: /[qQwWxXyYÀ-ćĊ-ěĞ-ģĞ-ģĦ-ĳĶ-śŞ-ūŮ-\u02AF\u1E00-\u1EFFα-ωΑ-ΩЀ-ӿ]/,
+  error: 'Frazo devas ne enhavi la literojn W, Q, X, Y, aŭ aliajn ne-esperantajn literojn',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
   // inbetween are considered abbreviations or acronyms.
   // This currently also matches fooBAR but we most probably don't want that either
   // as users wouldn't know how to pronounce the uppercase letters.
   regex: /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/,
-  error: 'Sentence should not contain abbreviations',
+  error: 'Frazo devas ne enhavi mallongigojn',
 }];
 
 module.exports = {
