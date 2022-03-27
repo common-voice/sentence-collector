@@ -11,6 +11,7 @@ const ne = require('./languages/ne');
 const or = require('./languages/or');
 const ru = require('./languages/ru');
 const th = require('./languages/th');
+const tok = require('./languages/tok');
 const ur = require('./languages/ur');
 const uz = require('./languages/uz');
 const yue = require('./languages/yue');
@@ -28,6 +29,7 @@ const VALIDATORS = {
   or,
   ru,
   th,
+  tok,
   ur,
   uz,
   yue,
