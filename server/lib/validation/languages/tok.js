@@ -24,8 +24,8 @@ const INVALIDATIONS = [{
 // pronunciations, and some speakers might struggle pronouncing them.
 
 {
-  // No non-Toki-Pona letters; no Sitelen Pona (\uF1900-\uF19FF are UCSUR codepoints as of 2022)
-  regex: /[BbCcDdFfGgHhQqRrVvXxYyZz\u00C0-\u02BF\u1E00-\u1EFF\uF1900-\uF19FF]/,
+  // No non-Toki-Pona letters
+  regex: /[BbCcDdFfGgHhQqRrVvXxYyZzÀ-ʯḀ-ỿ]/,
   error: 'o kepeken sitelen Lasina pi toki pona taso',
 }, {
   // No consecutive vowels
