@@ -30,12 +30,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2.1.2
         with:
-          cache: yarn
-          node-version: 14
-      - name: Install CV dependencies
-        run: cd cv && NODE_ENV=development yarn
+          node-version: 16
       - name: Install SC dependencies
         run: npm ci
+
       - name: Set Git Author
         run: git config --global user.name "Sentence Collector Exporter"
       - name: Set Git Email
@@ -43,8 +41,6 @@ jobs:
 
       - name: Run Export
         run: env API_BASE_URL=${{secrets.SC_EXPORT_BASE_URL}} COMMON_VOICE_PATH=cv/ node scripts/exporter.js
-      - name: Run CV Update Locales Script
-        run: cd cv && yarn run import-locales
       - name: CV Changes
         run: cd cv && git diff --numstat
       - name: Format Changes
