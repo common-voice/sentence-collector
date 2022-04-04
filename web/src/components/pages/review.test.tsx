@@ -33,7 +33,6 @@ test('should set language from single user language', async () => {
     languages: [
       {
         id: 'de',
-        nativeName: 'Deutsch',
       },
     ],
     sentencesLoading: false,
@@ -72,7 +71,6 @@ test('should render loading', async () => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     sentencesLoading: true,
@@ -99,7 +97,6 @@ test('should render no sentences found', async () => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     sentencesLoading: false,
@@ -115,7 +112,6 @@ test('should render no sentences found if all sentences are skipped', async () =
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     sentencesLoading: false,
@@ -152,7 +148,6 @@ test('should only render form', async () => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     sentencesLoading: false,

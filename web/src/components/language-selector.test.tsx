@@ -15,11 +15,11 @@ test('should render label', async () => {
   const languages = [
     {
       id: 'en',
-      nativeName: 'English',
+      isRTL: false,
     },
     {
       id: 'de',
-      nativeName: 'Deutsch',
+      isRTL: false,
     },
   ];
 
@@ -40,7 +40,7 @@ test('should show single option without null option', async () => {
   const languages = [
     {
       id: 'de',
-      nativeName: 'Deutsch',
+      isRTL: false,
     },
   ];
 
@@ -54,7 +54,7 @@ test('should show single option without null option', async () => {
       labelText="This is a label."
     />
   );
-  expect(screen.queryByText(/Deutsch/)).toBeTruthy();
+  expect(screen.queryByText(/de/)).toBeTruthy();
   expect(screen.queryByText('--')).toBeNull();
 });
 
@@ -62,11 +62,11 @@ test('should add null option', async () => {
   const languages = [
     {
       id: 'en',
-      nativeName: 'English',
+      isRTL: false,
     },
     {
       id: 'de',
-      nativeName: 'Deutsch',
+      isRTL: false,
     },
   ];
 
@@ -81,19 +81,19 @@ test('should add null option', async () => {
     />
   );
   expect(screen.queryByText('--')).toBeTruthy();
-  expect(screen.queryByText(/English/)).toBeTruthy();
-  expect(screen.queryByText(/Deutsch/)).toBeTruthy();
+  expect(screen.queryByText(/en/)).toBeTruthy();
+  expect(screen.queryByText(/de/)).toBeTruthy();
 });
 
 test('should filter options', async () => {
   const languages = [
     {
       id: 'en',
-      nativeName: 'English',
+      isRTL: false,
     },
     {
       id: 'de',
-      nativeName: 'Deutsch',
+      isRTL: false,
     },
   ];
 
@@ -107,19 +107,19 @@ test('should filter options', async () => {
       labelText="This is a label."
     />
   );
-  expect(screen.queryByText(/Deutsch/)).toBeTruthy();
-  expect(screen.queryByText(/English/)).toBeNull();
+  expect(screen.queryByText(/de/)).toBeTruthy();
+  expect(screen.queryByText(/en/)).toBeNull();
 });
 
 test('should select option', async () => {
   const languages = [
     {
       id: 'en',
-      nativeName: 'English',
+      isRTL: false,
     },
     {
       id: 'de',
-      nativeName: 'Deutsch',
+      isRTL: false,
     },
   ];
 
@@ -134,7 +134,7 @@ test('should select option', async () => {
     />
   );
 
-  expect(screen.queryByText(/Deutsch/)).toBeTruthy();
+  expect(screen.queryByText(/de/)).toBeTruthy();
   fireEvent.change(screen.getByRole('combobox'), { target: { value: 'de' } });
   expect(onChange).toHaveBeenCalledWith('de');
 });

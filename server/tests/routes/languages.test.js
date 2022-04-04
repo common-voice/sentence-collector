@@ -6,10 +6,8 @@ import languages from '../../lib/languages';
 
 const allLanguages = [{
   id: 'en',
-  nativeName: 'English',
 }, {
   id: 'de',
-  nativeName: 'Deutsch',
 }];
 
 const additionalLanguages = ['de'];

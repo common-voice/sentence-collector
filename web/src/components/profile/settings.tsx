@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Localized } from '@fluent/react';
 
-import cvTranslatedLocales from '../../../../locales/translated.json';
 import { resetSkippedSentences } from '../../actions/sentences';
-import { DEFAULT_LOCALE } from '../../l10n';
 import type { RootState } from '../../types';
 
 import Error from '../error';
 import LanguageSelector from '../language-selector';
 
-const CV_TRANSLATED_LOCALES: string[] = cvTranslatedLocales;
-
 export default function Settings() {
   const { allLanguages = [], currentUILocale } = useSelector((state: RootState) => state.languages);
   const { skippedSentences } = useSelector((state: RootState) => state.sentences);
   const { showErrorMessage } = useSelector((state: RootState) => state.settings);
-  const [showTranslatedWarning, setShowTranslatedWarning] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -29,12 +24,6 @@ export default function Settings() {
   const onLanguageSelect = (locale: string) => {
     history.push(`/${locale}/profile`);
   };
-
-  useEffect(() => {
-    const possiblyUntranslated =
-      currentUILocale !== DEFAULT_LOCALE && !CV_TRANSLATED_LOCALES.includes(currentUILocale);
-    setShowTranslatedWarning(possiblyUntranslated);
-  }, [currentUILocale]);
 
   return (
     <section>
@@ -54,22 +43,6 @@ export default function Settings() {
             languages={allLanguages}
             onChange={onLanguageSelect}
           />
-          {showTranslatedWarning && (
-            <Localized
-              id="sc-settings-language-translated-warning"
-              elems={{
-                pontoonLinkLink: (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`https://pontoon.mozilla.org/${currentUILocale}/common-voice/`}
-                  />
-                ),
-              }}
-            >
-              <div className="warning box"></div>
-            </Localized>
-          )}
         </section>
 
         {skippedSentences && skippedSentences.length > 0 && (

@@ -12,7 +12,7 @@ export type RootState = {
 
 export type Language = {
   id: string;
-  nativeName: string;
+  isRTL: boolean;
 };
 
 export type LanguageStatsEntry = {

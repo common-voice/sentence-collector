@@ -10,11 +10,9 @@ import PersonalLanguageInfo from './personal-language-info';
 const allLanguages = [
   {
     id: 'en',
-    nativeName: 'English',
   },
   {
     id: 'de',
-    nativeName: 'Deutsch',
   },
 ];
 
@@ -31,7 +29,6 @@ beforeEach(() => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     pendingLanguages: false,
@@ -75,7 +72,6 @@ test('should disable button while languages are pending', async () => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     pendingLanguages: true,

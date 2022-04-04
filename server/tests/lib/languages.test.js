@@ -4,16 +4,18 @@ import sinon from 'sinon';
 import languages from '../../lib/languages';
 import { Sentence } from '../../lib/models';
 
-const graphQLEndpoint = '/graphql?query={ project(slug: "common-voice") { localizations { locale { code } } } }';
+const graphQLEndpoint = '/graphql?query={ project(slug: "common-voice") { localizations { locale { code, direction } } } }';
 
 const inexistingLanguageCode = 'inexisting_language_code';
 const languagesResponse = [{
   locale: {
     code: 'de',
+    direction: 'LTR',
   },
 }, {
   locale: {
     code: inexistingLanguageCode,
+    direction: 'RTL',
   },
 }];
 
@@ -43,12 +45,16 @@ test('returns languages', async (t) => {
     });
 
   const allLanguages = await languages.getAllLanguages();
-  t.deepEqual(allLanguages.length, 3);
-  const languageToCheck = allLanguages.find((lang) => lang.id === 'en');
-  t.deepEqual(languageToCheck, {
+  t.deepEqual(allLanguages, [{
+    id: 'de',
+    isRTL: false,
+  }, {
+    id: inexistingLanguageCode,
+    isRTL: true,
+  }, {
     id: 'en',
-    nativeName: 'English',
-  });
+    isRTL: false,
+  }]);
 });
 
 test('returns cached languages', async (t) => {

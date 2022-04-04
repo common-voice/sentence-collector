@@ -16,7 +16,6 @@ beforeEach(() => {
     languages: [
       {
         id: 'en',
-        nativeName: 'English',
       },
     ],
     pendingLanguages: false,

@@ -1,7 +1,6 @@
 const debug = require('debug')('sentencecollector:languages');
 const fetch = require('node-fetch');
 
-const nativeNames = require('../../locales/native-names.json');
 const { Sentence } = require('./models');
 
 const FALLBACK_LOCALE = 'en';
@@ -29,10 +28,10 @@ async function getAllLanguages() {
 
 async function fetchAllLanguages() {
   const pontoonLanguages = await fetchPontoonLanguages();
-  const allLanguages = pontoonLanguages.map((languageCode) => {
+  const allLanguages = pontoonLanguages.map(({ code, isRTL }) => {
     return {
-      id: languageCode,
-      nativeName: nativeNames[languageCode],
+      id: code,
+      isRTL,
     };
   });
 
@@ -41,20 +40,23 @@ async function fetchAllLanguages() {
 
 async function getLanguagesNotInPontoon() {
   const pontoonLanguages = await fetchPontoonLanguages();
-  const scLanguages = await getLanguagesWithSentences();
-  const missingLanguages = scLanguages.filter((lang) => !pontoonLanguages.includes(lang));
+  const scLanguageCodes = await getLanguagesWithSentences();
+  const missingLanguages = scLanguageCodes.filter((code) => !pontoonLanguages.find((pontoonLang) => pontoonLang.code === code));
   return missingLanguages;
 }
 
 async function fetchPontoonLanguages() {
-  const query = '{ project(slug: "common-voice") { localizations { locale { code } } } }';
+  const query = '{ project(slug: "common-voice") { localizations { locale { code, direction } } } }';
   const pontoonResponse = await fetch(`https://pontoon.mozilla.org/graphql?query=${query}`);
 
   const { data } = await pontoonResponse.json();
 
   return data.project.localizations
-    .map(({ locale }) => locale.code)
-    .concat('en');
+    .map(({ locale }) => ({
+      code: locale.code,
+      isRTL: locale.direction === 'RTL',
+    }))
+    .concat({ code: 'en', isRTL: false });
 }
 
 async function getLanguagesWithSentences() {

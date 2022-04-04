@@ -12,9 +12,8 @@ coverage
 .nyc_output
 data
 
-# Locales info and translations from Common Voice
+# Translations from Common Voice
 # We do not want these to change, as we pull
 # these when building the app.
-locales/*.json
 web/locales/
 !web/locales/en

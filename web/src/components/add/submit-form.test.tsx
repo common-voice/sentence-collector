@@ -11,12 +11,12 @@ const languages = [
   {
     id: 'en',
     name: 'English',
-    nativeName: 'English',
+    isRTL: false,
   },
   {
     id: 'de',
     name: 'German',
-    nativeName: 'Deutsch',
+    isRTL: false,
   },
 ];
 
