@@ -5,11 +5,9 @@ import { negotiateLanguages } from '@fluent/langneg';
 import { FluentBundle, FluentResource } from '@fluent/bundle';
 import { ReactLocalization, LocalizationProvider } from '@fluent/react';
 
-import cvRTLLocales from '../../locales/rtl.json';
 import type { RootState } from './types';
 
 export const DEFAULT_LOCALE = 'en';
-const RTL_LOCALES: string[] = cvRTLLocales;
 
 async function fetchMessages(locale: string): Promise<[string, string]> {
   const response = await fetch(`locales/${locale}/messages.ftl`);
@@ -35,6 +33,11 @@ export function AppLocalizationProvider({ children }: AppLocalizationProviderPro
   const [currentLocales, setCurrentLocales] = useState([DEFAULT_LOCALE]);
   const [l10n, setL10n] = useState<ReactLocalization | null>(null);
 
+  const isRTL = (localeCode: string) => {
+    const matchingLanguage = allLanguages.find((language) => language.id === localeCode);
+    return !!matchingLanguage?.isRTL;
+  };
+
   useEffect(() => {
     const locales = [...navigator.languages];
     if (currentUILocale) {
@@ -47,7 +50,7 @@ export function AppLocalizationProvider({ children }: AppLocalizationProviderPro
     const mainLocale = currentLocales[0];
     const { documentElement } = document;
     documentElement.setAttribute('lang', mainLocale);
-    documentElement.setAttribute('dir', RTL_LOCALES.includes(mainLocale) ? 'rtl' : 'ltr');
+    documentElement.setAttribute('dir', isRTL(mainLocale) ? 'rtl' : 'ltr');
   }, [currentLocales]);
 
   async function changeLocales(userLocales: Array<string>) {

@@ -10,7 +10,7 @@ To edit this diagram, load the `localization.svg` in the docs of the repository 
 
 For local development you don't need to take any special steps. The main source file lives in this folder in the repo.
 
-If you want to work locally with the same language info and translations as in production/staging, you can run `npm run pull-cv-locales-info` in the root folder and it will download the required files. If you additionally want to have all the translations available locally, you can run `npm run pull-cv-translations` in the root folder.
+If you want to work locally with the same translations as in production/staging, you can run `npm run pull-cv-translations` in the root folder.
 
 ### Adding a new string
 

@@ -12,10 +12,8 @@ const exampleUserRecord = {
 
 const languagesMock = [{
   id: 'en',
-  nativeName: 'English',
 }, {
   id: 'fr',
-  nativeName: 'Francais',
 }];
 
 test.beforeEach((t) => {

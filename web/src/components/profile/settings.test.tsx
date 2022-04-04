@@ -34,24 +34,6 @@ test('should render ui language section', async () => {
   expect(screen.getByText('Interface Language')).toBeTruthy();
 });
 
-test('should render potentially not translated warning', async () => {
-  (redux.useSelector as jest.Mock).mockImplementation(() => ({
-    showErrorMessage: false,
-    skippedSentences: [],
-    currentUILocale: 'de',
-    allLanguages: [],
-  }));
-
-  await renderWithLocalization(<Settings />);
-  expect(screen.getByText(/might not be fully translated/)).toBeTruthy();
-});
-
-test('should not render potentially not translated warning for English', async () => {
-  await renderWithLocalization(<Settings />);
-  expect(screen.getByText('Interface Language')).toBeTruthy();
-  expect(screen.queryByText(/might not be fully translated/)).toBeNull();
-});
-
 test('should render error message', async () => {
   (redux.useSelector as jest.Mock).mockImplementation(() => ({
     showErrorMessage: true,

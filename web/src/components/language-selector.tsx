@@ -81,10 +81,7 @@ const Option = ({ lang }: OptionProps) => {
   const { l10n } = useLocalization();
 
   const localizedName = l10n.getString(lang.id);
-  const nativeNameSuffix =
-    lang.nativeName && lang.nativeName !== lang.id ? `- ${lang.nativeName}` : '';
-
-  return <option value={lang.id}>{`${localizedName} ${nativeNameSuffix}`}</option>;
+  return <option value={lang.id}>{`${localizedName} (${lang.id})`}</option>;
 };
 
 const NullOption = () => <option value="">--</option>;

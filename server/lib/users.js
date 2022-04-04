@@ -1,7 +1,6 @@
 'use strict';
 
 const debug = require('debug')('sentencecollector:users');
-const nativeNames = require('../../locales/native-names.json');
 const languages = require('./languages');
 const { User } = require('./models');
 
@@ -21,11 +20,8 @@ async function enhanceLanguages(languageCodes) {
     // Not returning any users languages is better than completely failing
   }
 
-  const validLanguageCodes = languageCodes.filter((code) => allLanguages.find((language) => language.id === code));
-  return validLanguageCodes.map((languageCode) => ({
-    id: languageCode,
-    nativeName: nativeNames[languageCode],
-  }));
+  return languageCodes.map((code) => allLanguages.find((language) => language.id === code))
+    .filter(Boolean);
 }
 
 async function get(email) {

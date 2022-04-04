@@ -9,7 +9,6 @@ const path = require('path');
 const fetch = require('node-fetch');
 const cleanup = require('../server/lib/cleanup');
 
-const CV_LANGUAGES_URL = 'https://raw.githubusercontent.com/mozilla/common-voice/main/locales/all.json';
 const OUTPUT_TXT = 'sentence-collector.txt';
 
 const {
@@ -29,8 +28,8 @@ const exportPath = path.resolve(COMMON_VOICE_PATH, 'server', 'data');
 
 async function startExport() {
   const startTime = Date.now();
-  const cvResponse = await fetch(CV_LANGUAGES_URL);
-  const allCVLanguages = await cvResponse.json();
+  const response = await fetch(`${API_BASE_URL}/languages`);
+  const allCVLanguages = (await response.json()).map((language) => language.id).sort();
 
   for await (const languageCode of allCVLanguages) {
     await exportLanguage(languageCode);
