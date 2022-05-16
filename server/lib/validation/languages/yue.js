@@ -15,7 +15,7 @@ const INVALIDATIONS = [{
   error: "句子唔可以包含阿拉伯數字",
 }, {
   // No special symbols or spaces
-  regex: /[\s<>+*#@%^[\]()/,\.?!「」【】“”‘’'"]/,
+  regex: /[\s<>+*#@%^[\]()/,.?!「」【】“”‘’'"]/,
   error: "句子唔可以有特殊符號同空格",
 }, {
   // No repetitive punctuations
