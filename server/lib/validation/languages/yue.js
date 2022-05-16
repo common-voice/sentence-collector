@@ -15,9 +15,14 @@ const INVALIDATIONS = [{
   error: "句子唔可以包含阿拉伯數字",
 }, {
   // No special symbols or spaces
-  regex: /[\s<>+*#@%^[\]()/]/,
+  regex: /[\s<>+*#@%^[\]()/,\.?!「」【】“”‘’'"]/,
   error: "句子唔可以有特殊符號同空格",
 }, {
+  // No repetitive punctuations
+  regex: /[，。？！、]{2,}/,
+  error: "唔可以有重複標點",
+},
+{
   // 7 or more repeating characters in a row is likely a non-formal spelling or difficult to read.
   regex: /(.)\1{6}/,
   error: "唔可以有連續 7 個或以上重複字元",
