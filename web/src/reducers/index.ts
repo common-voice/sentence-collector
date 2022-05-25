@@ -18,7 +18,7 @@ const languagesPersistConfig = {
 const sentencesPersistConfig = {
   key: 'sentences',
   storage,
-  blacklist: ['sentences'],
+  blacklist: ['isUploadingSentences', 'sentences', 'sentencesLoading'],
 };
 
 export default function (history: History) {
