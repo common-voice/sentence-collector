@@ -35,6 +35,13 @@ const VALIDATORS = {
   yue,
 };
 
+// For certain language we want to normalize before we validate.
+// This then also means that the returned sentence is normalized
+// and therefore will be saved to the database in normalized form.
+const USE_NFC_NORMALIZATION = [
+  'ko',
+];
+
 module.exports = {
   validateSentences,
 };
@@ -42,20 +49,24 @@ module.exports = {
 function validateSentences(language, sentences) {
   const validator = getValidatorFor(language);
 
-  return runValidation(validator, sentences);
+  return runValidation(validator, {
+    sentences,
+    normalize: USE_NFC_NORMALIZATION.includes(language),
+  });
 }
 
-function runValidation(validator, sentences = { unreviewed: [], validated: [] }) {
+function runValidation(validator, { sentences = { unreviewed: [], validated: [] }, normalize }) {
   let filtered = [];
 
   const validate = (validSentences, sentence) => {
-    const validationResult = validateSentence(validator, sentence);
+    const sentenceToValidate = normalize ? sentence.normalize('NFC') : sentence;
+    const validationResult = validateSentence(validator, sentenceToValidate);
     if (validationResult.error) {
       filtered.push(validationResult);
       return validSentences;
     }
 
-    validSentences.push(sentence);
+    validSentences.push(sentenceToValidate);
     return validSentences;
   };
 

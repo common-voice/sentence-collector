@@ -48,3 +48,11 @@ In this example we are defining one function and one regex:
 * Using a regex: the second validation uses a regex. If the sentence contains any numbers, the regex matches and we will mark the sentence as invalid. The user will see `Sentence contains numbers` in the frontend. If no numbers are found (the regex doesn't match), the sentence will be marked as valid.
 
 You can return the same error message for multiple invalidation rules if appropriate, however try to be as specific as possible. In the frontend the errors will be grouped by this error message.
+
+## Normalization
+
+For certain languages there are benefits of normalizing the sentence in NFC before running through validation. This can be enabled by adding the language code to the `USE_NFC_NORMALIZATION` array in `index.js`. Activating normalization means that any further steps will get the normalized sentence. This includes the validation rules, as well as saving it to the database and then later on exporting it to the Common Voice repository.
+
+**Example:** In Korean you can either type `"ᄏ", "ᅩ" and "ᆯ"` which results in `콜` of length 3 (when checked with `.length`), or `콜` which is one code point.
+
+If we apply NFC the validation process gets easier to define. This topic came up in [this PR](https://github.com/common-voice/sentence-collector/pull/630#issuecomment-1201099593).
