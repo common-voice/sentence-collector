@@ -3,16 +3,22 @@ import validation from '../../../lib/validation';
 
 function validate(t, language, sentences, expected) {
   const validationResult = validation.validateSentences(language, sentences);
+  t.log(validationResult.valid);
+  t.deepEqual(validationResult.valid, expected);
+}
+
+function validateFiltered(t, language, sentences, expected) {
+  const validationResult = validation.validateSentences(language, sentences);
   t.log(validationResult.filtered);
   t.deepEqual(validationResult.filtered, expected);
 }
 
-test('validates valid sentences', validate, 'en', {
+test('validates valid sentences', validateFiltered, 'en', {
   unreviewed: ['This is valid'],
   validated: ['This is valid too'],
 }, []);
 
-test('validates invalid sentences - too long', validate, 'en', {
+test('validates invalid sentences - too long', validateFiltered, 'en', {
   unreviewed: ['This is very very very very very very very very very very very very very very very very very very very very long'],
   validated: ['This is very very very very very very very very very very very very very very very very very very very very long too'],
 }, [{
@@ -23,7 +29,7 @@ test('validates invalid sentences - too long', validate, 'en', {
   error: 'Number of words must be between 1 and 14 (inclusive)',
 }]);
 
-test('validates invalid sentences - contains numbers', validate, 'en', {
+test('validates invalid sentences - contains numbers', validateFiltered, 'en', {
   unreviewed: ['This is 2valid'],
   validated: ['This is 3valid'],
 }, [{
@@ -34,7 +40,7 @@ test('validates invalid sentences - contains numbers', validate, 'en', {
   error: 'Sentence should not contain numbers',
 }]);
 
-test('validates invalid sentences - contains abbreviation', validate, 'en', {
+test('validates invalid sentences - contains abbreviation', validateFiltered, 'en', {
   unreviewed: ['This is A.B.C.'],
   validated: ['This ABC too'],
 }, [{
@@ -45,7 +51,7 @@ test('validates invalid sentences - contains abbreviation', validate, 'en', {
   error: 'Sentence should not contain abbreviations',
 }]);
 
-test('validates invalid sentences - contains symbols', validate, 'en', {
+test('validates invalid sentences - contains symbols', validateFiltered, 'en', {
   unreviewed: ['This is # test'],
   validated: ['This is @ test', 'This is / test'],
 }, [{
@@ -59,7 +65,7 @@ test('validates invalid sentences - contains symbols', validate, 'en', {
   error: 'Sentence should not contain symbols',
 }]);
 
-test('validates invalid sentences - multiple sentences', validate, 'it', {
+test('validates invalid sentences - multiple sentences', validateFiltered, 'it', {
   unreviewed: ['This is test. And more.'],
   validated: ['This is one. This is two.'],
 }, [{
@@ -70,7 +76,7 @@ test('validates invalid sentences - multiple sentences', validate, 'it', {
   error: 'Sentence should not contain sentence punctuation inside a sentence',
 }]);
 
-test('validates invalid sentences - english chars', validate, 'ru', {
+test('validates invalid sentences - english chars', validateFiltered, 'ru', {
   unreviewed: ['This is test'],
   validated: ['This too'],
 }, [{
@@ -81,7 +87,7 @@ test('validates invalid sentences - english chars', validate, 'ru', {
   error: 'Sentence should not contain latin alphabet characters',
 }]);
 
-test('validates invalid sentences - other rules', validate, 'bas', {
+test('validates invalid sentences - other rules', validateFiltered, 'bas', {
   unreviewed: ['This is valid', 'This is wrong .', 'This as well!.', 'No;', 'Definitely not,'],
   validated: ['This too'],
 }, [{
@@ -97,3 +103,8 @@ test('validates invalid sentences - other rules', validate, 'bas', {
   sentence: 'Definitely not,',
   error: 'Sentence should not end with a comma',
 }]);
+
+test('normalizes', validate, 'ko', {
+  unreviewed: ['콜'],
+  validated: [],
+}, ['콜']);
