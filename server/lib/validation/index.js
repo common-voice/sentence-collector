@@ -4,6 +4,7 @@ const ca = require('./languages/ca');
 const ckb = require('./languages/ckb');
 const en = require('./languages/en');
 const eo = require('./languages/eo');
+const fr = require('./languages/fr');
 const ig = require('./languages/ig');
 const it = require('./languages/it');
 const kab = require( './languages/kab');
@@ -23,6 +24,7 @@ const VALIDATORS = {
   ckb,
   en,
   eo,
+  fr,
   ig,
   it,
   kab,
