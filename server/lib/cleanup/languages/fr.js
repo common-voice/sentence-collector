@@ -70,6 +70,44 @@ function clean(sentences) {
 	  .replace(/\s?$/g, ' dollars ')
 	  .replace(/(^| )(n|N)(?:°|º|°)(\s)?/g, ' $2uméro ') //numéro or Numéro
 	  
+
+       //roman numerals + century
+	  .replace(/(^|\s)Ie(r)? s.(\s|\.|,|\?|!|$)/g, ' premier siècle ')
+	  .replace(/(^|\s)II(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' deuxième siècle ')
+	  .replace(/(^|\s)III(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' troisième siècle ')
+	  .replace(/(^|\s)IV(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' quatrième siècle ')
+	  .replace(/(^|\s)V(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' cinquième siècle ')
+	  .replace(/(^|\s)VI(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' sixième siècle ')
+	  .replace(/(^|\s)VII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' septième siècle ')
+	  .replace(/(^|\s)VIII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' huitième siècle ')
+	  .replace(/(^|\s)(VIIII|IX)(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' neuvième siècle ')
+	  .replace(/(^|\s)X(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' dixième siècle ')
+	  .replace(/(^|\s)XI(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' onzième siècle ')
+	  .replace(/(^|\s)XII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' douxième siècle ')
+	  .replace(/(^|\s)XIII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' treizième siècle ')
+	  .replace(/(^|\s)(XIIII|XIV)(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' quatorzième siècle ')
+	  .replace(/(^|\s)XV(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' quinzième siècle ')
+	  .replace(/(^|\s)XVI(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' seixième siècle ')
+	  .replace(/(^|\s)XVII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' dix-septième siècle ')
+	  .replace(/(^|\s)XVIII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' dix-huitième siècle ')
+	  .replace(/(^|\s)(XIX|XVIIII)(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' dix_neuvième siècle ')
+	  .replace(/(^|\s)XX(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' vingtième siècle ')
+	  .replace(/(^|\s)XXI(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' vingt-et-unième siècle ')
+	  .replace(/(^|\s)XXII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' vingt-deuxième siècle ')
+      
+     //roman numerals
+	  .replace(/(^|\s)I(\s|\.|,|\?|!|$)/g, ' premier ')
+	  .replace(/(^|\s)II(\s|\.|,|\?|!|$)/g, ' deux ')
+	  .replace(/(^|\s)III(\s|\.|,|\?|!|$)/g, ' trois ')
+	  .replace(/(^|\s)IV(\s|\.|,|\?|!|$)/g, ' quatre ')
+	  .replace(/(^|\s)V(\s|\.|,|\?|!|$)/g, ' cinq ')
+	  .replace(/(^|\s)VI(\s|\.|,|\?|!|$)/g, ' six ')
+	  .replace(/(^|\s)VII(\s|\.|,|\?|!|$)/g, ' sept ')
+	  .replace(/(^|\s)VIII(\s|\.|,|\?|!|$)/g, ' huit ')
+	  .replace(/(^|\s)(VIIII|IX)(\s|\.|,|\?|!|$)/g, ' neuf ')
+	  .replace(/(^|\s)X(\s|\.|,|\?|!|$)/g, ' dix ')
+      
+
 	  //acronym fr-FR cleanup
 	  //based on common-voice/CorporaCreator#87  
 	  .replace(/(^|\s)ANPE(\s|\.|,|\?|!|$)/g, ' Agence Nationale Pour l\'Emploi ') 
@@ -78,18 +116,18 @@ function clean(sentences) {
       .replace(/(^|\s)CICE(\s|\.|,|\?|!|$)/g, ' Crédit d\'impôt pour la compétitivité et l\'emploi ')
       .replace(/(^|\s)DRH(\s|\.|,|\?|!|$)/g, ' Direction des Ressources Humaines ')
       .replace(/(^|\s)EDF(\s|\.|,|\?|!|$)/g, ' Electricité de France ')
-      .replace(/(^|\s)FN(\s|\.|,|\?|!|$)/g, ' F N ')
+      .replace(/(^|\s)FN(\s|\.|,|\?|!|$)/g, ' Front National ')
       .replace(/(^|\s)HLM(\s|\.|,|\?|!|$)/g, ' Habitation à Loyer Modéré ')
       .replace(/(^|\s)IGN(\s|\.|,|\?|!|$)/g, ' Institut Géographique National ')
       .replace(/(^|\s)INPI(\s|\.|,|\?|!|$)/g, ' Institut  National de la Propriété Intellectuelle ')
       .replace(/(^|\s)ISF(\s|\.|,|\?|!|$)/g, ' Impôt sur la fortune ')
       .replace(/(^|\s)IUT(\s|\.|,|\?|!|$)/g, ' Institut Universitaire de Technologie ')
-      .replace(/(^|\s)LREM(\s|\.|,|\?|!|$)/g, ' L R E M ')
+      .replace(/(^|\s)LREM(\s|\.|,|\?|!|$)/g, ' La Réplublique En Marche ')
       .replace(/(^|\s)NUPES(\s|\.|,|\?|!|$)/g, ' Nupes ')
-      .replace(/(^|\s)PHP(\s|\.|,|\?|!|$)/g, ' P H P ')
+      .replace(/(^|\s)PHP(\s|\.|,|\?|!|$)/g, ' Protocole Hypertexte Protocolaire ')
       .replace(/(^|\s)PMA(\s|\.|,|\?|!|$)/g, ' Procréation médicalement assistée ')
       .replace(/(^|\s)PME(\s|\.|,|\?|!|$)/g, ' Petite et Moyenne Entreprise ')
-      .replace(/(^|\s)RN(\s|\.|,|\?|!|$)/g, ' R N ')
+      .replace(/(^|\s)RN(\s|\.|,|\?|!|$)/g, ' Rassemblement National ')
       .replace(/(^|\s)RSA(\s|\.|,|\?|!|$)/g, ' Revenu de Solidarité Active ')
       .replace(/(^|\s)RSA(\s|\.|,|\?|!|$)/g, ' Revenu de Solidarité Active ')
       .replace(/(^|\s)RSI(\s|\.|,|\?|!|$)/g, ' Régime Social des Indépendants ')
@@ -97,11 +135,12 @@ function clean(sentences) {
       .replace(/(^|\s)SNCF(\s|\.|,|\?|!|$)/g, ' Société Nationale des Chemins de Fer ')
       .replace(/(^|\s)TGV(\s|\.|,|\?|!|$)/g, ' Train à Grande Vitesse ')
       .replace(/(^|\s)TVA(\s|\.|,|\?|!|$)/g, ' Taxe sur la Valeur Ajoutée ')
-      .replace(/(^|\s)UDI(\s|\.|,|\?|!|$)/g, ' U D I ')
-      .replace(/(^|\s)UMP(\s|\.|,|\?|!|$)/g, ' U M P ')
-      .replace(/(^|\s)USA(\s|\.|,|\?|!|$)/g, ' U S A ')
+      .replace(/(^|\s)UDI(\s|\.|,|\?|!|$)/g, ' Union des Démocrates Indépendants ')
+      .replace(/(^|\s)UMP(\s|\.|,|\?|!|$)/g, ' Union pour un Mouvement Populaire ')
+      .replace(/(^|\s)USA(\s|\.|,|\?|!|$)/g, ' Etats Unis d'Amérique ')
 
 	  //dates, digits and numbers fr-FR cleanup
+	  //todo : CONVERT TO TEXT instead of removing it
 	  .replace((^|\s)\d{1,2}\/\d{1,2}\/(\d{2}[^\d]|\d{4})(\s|$), ' ') //date format dd/mm/yy ou dd/mm/yyyy
 	  .replace((^|\s)\d{1,2}\/(\d{2}[^\d]|\d{4})(\s|$), ' ') //date format mm/yy ou mm/yyyy
 	  .replace(\d, '') //any digit ou number left
