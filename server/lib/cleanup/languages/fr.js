@@ -68,7 +68,7 @@ function clean(sentences) {
 	  .replace(/\s?€/g, ' euros ')
 	  .replace(/\s?£/g, ' livres ')
 	  .replace(/\s?$/g, ' dollars ')
-	  .replace(/(^| )(n|N)(?:°|º|°)(\s)?/g, ' $2uméro ') //numéro or Numéro
+	  .replace(/(^| )(n|N)(?:°|º|°)(\s)?/g, ' $2uméro ') //n° or N° => 'numéro' or 'Numéro'
 	  
 
        //roman numerals + century
@@ -95,8 +95,8 @@ function clean(sentences) {
 	  .replace(/(^|\s)XXI(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' vingt-et-unième siècle ')
 	  .replace(/(^|\s)XXII(e|è)(me)? s.(\s|\.|,|\?|!|$)/g, ' vingt-deuxième siècle ')
       
-     //roman numerals
-	  .replace(/(^|\s)I(\s|\.|,|\?|!|$)/g, ' premier ')
+     //roman numerals.
+	  .replace(/(^|\s)I(\s|\.|,|\?|!|$)/g, ' premier ') //translated as 'first'. We considere that it's encountered after chapter (Chapitre I => 'chapitre premier'). Work also with names (Charles I => 'Charles premier')
 	  .replace(/(^|\s)II(\s|\.|,|\?|!|$)/g, ' deux ')
 	  .replace(/(^|\s)III(\s|\.|,|\?|!|$)/g, ' trois ')
 	  .replace(/(^|\s)IV(\s|\.|,|\?|!|$)/g, ' quatre ')
@@ -106,7 +106,34 @@ function clean(sentences) {
 	  .replace(/(^|\s)VIII(\s|\.|,|\?|!|$)/g, ' huit ')
 	  .replace(/(^|\s)(VIIII|IX)(\s|\.|,|\?|!|$)/g, ' neuf ')
 	  .replace(/(^|\s)X(\s|\.|,|\?|!|$)/g, ' dix ')
+	  .replace(/(^|\s)XI(\s|\.|,|\?|!|$)/g, ' onze ')
+	  .replace(/(^|\s)XII(\s|\.|,|\?|!|$)/g, ' douze ')
+	  .replace(/(^|\s)XIII(\s|\.|,|\?|!|$)/g, ' treize ')
+	  .replace(/(^|\s)(XIIII|XIV)(\s|\.|,|\?|!|$)/g, ' quatorze ')
+	  .replace(/(^|\s)XV(\s|\.|,|\?|!|$)/g, ' quinze ')
+	  .replace(/(^|\s)XVI(\s|\.|,|\?|!|$)/g, ' seize ')
+	  .replace(/(^|\s)XVII(\s|\.|,|\?|!|$)/g, ' dix-sept ')
+	  .replace(/(^|\s)XVIII(\s|\.|,|\?|!|$)/g, ' dix-huit ')
+	  .replace(/(^|\s)(XIX|XVIIII)(\s|\.|,|\?|!|$)/g, ' dix-neuf ')
+	  .replace(/(^|\s)XX(\s|\.|,|\?|!|$)/g, ' vingt ')
+ 	  .replace(/(^|\s)XXI(\s|\.|,|\?|!|$)/g, ' vingt-et-un ')
+ 	  .replace(/(^|\s)XXII(\s|\.|,|\?|!|$)/g, ' vingt-deux ')
       
+      //first, second, etc.
+	  .replace(/(^|\s)1er?s?(\s|\.|,|\?|!|$)/g, ' premier ')
+	  .replace(/(^|\s)1(e|è)res?(\s|\.|,|\?|!|$)/g, ' premier ')
+	  .replace(/(^|\s)2(e|è)?me?s?(\s|\.|,|\?|!|$)/g, ' deuxième ')
+	  .replace(/(^|\s)2n?ds?(\s|\.|,|\?|!|$)/g, ' second ')
+	  .replace(/(^|\s)2n?des?(\s|\.|,|\?|!|$)/g, ' seconde ')
+	  .replace(/(^|\s)3i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' troisième ')
+	  .replace(/(^|\s)4i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' quatrième ')
+	  .replace(/(^|\s)5i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' cinquième ')
+	  .replace(/(^|\s)6i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' sixième ')
+	  .replace(/(^|\s)7i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' septième ')
+	  .replace(/(^|\s)8i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' huitième ')
+	  .replace(/(^|\s)9i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' neuvième ')
+	  .replace(/(^|\s)10i?(e|è)me?s?(\s|\.|,|\?|!|$)/g, ' dixième ')
+	  
 
 	  //acronym fr-FR cleanup
 	  //based on common-voice/CorporaCreator#87  
@@ -123,7 +150,7 @@ function clean(sentences) {
       .replace(/(^|\s)ISF(\s|\.|,|\?|!|$)/g, ' Impôt sur la fortune ')
       .replace(/(^|\s)IUT(\s|\.|,|\?|!|$)/g, ' Institut Universitaire de Technologie ')
       .replace(/(^|\s)LREM(\s|\.|,|\?|!|$)/g, ' La Réplublique En Marche ')
-      .replace(/(^|\s)NUPES(\s|\.|,|\?|!|$)/g, ' Nupes ')
+      .replace(/(^|\s)NUPES(\s|\.|,|\?|!|$)/g, ' Nupès ')
       .replace(/(^|\s)PHP(\s|\.|,|\?|!|$)/g, ' Protocole Hypertexte Protocolaire ')
       .replace(/(^|\s)PMA(\s|\.|,|\?|!|$)/g, ' Procréation médicalement assistée ')
       .replace(/(^|\s)PME(\s|\.|,|\?|!|$)/g, ' Petite et Moyenne Entreprise ')
@@ -137,7 +164,10 @@ function clean(sentences) {
       .replace(/(^|\s)TVA(\s|\.|,|\?|!|$)/g, ' Taxe sur la Valeur Ajoutée ')
       .replace(/(^|\s)UDI(\s|\.|,|\?|!|$)/g, ' Union des Démocrates Indépendants ')
       .replace(/(^|\s)UMP(\s|\.|,|\?|!|$)/g, ' Union pour un Mouvement Populaire ')
-      .replace(/(^|\s)USA(\s|\.|,|\?|!|$)/g, ' Etats Unis d'Amérique ')
+      .replace(/(^|\s)USA(\s|\.|,|\?|!|$)/g, ' Etats Unis d\'Amérique ')
+
+      //replace fraction 1/2 => '1 sur 2'
+     ¨.replace(/(^| )(\d+)(\s)?(\/)(\s)?(\d+)(\s|\.|,|\?|!|$)/g, '$2 sur $6')
 
 	  //dates, digits and numbers fr-FR cleanup
 	  //todo : CONVERT TO TEXT instead of removing it
