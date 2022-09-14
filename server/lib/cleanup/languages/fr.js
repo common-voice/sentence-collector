@@ -61,7 +61,7 @@ function clean(sentences) {
 	  //based on common-voice/CorporaCreator#87
 	  .replace(/(^|\s|\w)\/an(\s|\.|,|\?|!|$)/g, '$1 par an ')
 	  .replace(/(^|\s)km(\s|\.|,|\?|!|$)/g, ' kilomètres ')
-	  .replace(/%, ' pourcent ')
+	  .replace(/%/, ' pourcent ')
 	  .replace(/(^|\s|\w)\+(\s|\.|,|\?|!|$)/g, ' plus ')
 	  .replace(/(^|\s|[0-9]+)m(?:2|²)(\s|\.|,|\?|!|$)/g, '$1 mètres carrés ')
 	  .replace(/(^|\s|[0-9]+)(\/|\/\s)m(?:2|²)(\s|\.|,|\?|!|$)/g, '$1 par mètres carrés ')
