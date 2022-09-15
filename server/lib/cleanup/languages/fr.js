@@ -20,6 +20,9 @@ function clean(sentences) {
       .replace(/\s+\)/g, ')')
       .replace(/\s+\]/g, ']')
 
+      // remplacing – (long hyphen) by - (short hyphen)
+      .replace(/–/g, '-')
+
       // no space before or after hyphen
       .replace(/\s+-\s+/g, '-')
 
