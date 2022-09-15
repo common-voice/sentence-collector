@@ -1,6 +1,25 @@
 # Common Voice Sentence Collector
 
-The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is part of the [Common Voice](https://commonvoice.mozilla.org/) project. Its purpose is to provide a tool for contributors to upload public domain sentences, which then can get reviewed and are exported to the Common Voice database. Once imported they will show up for contributors on Common Voice to read out aloud.
+The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is part of the [Common Voice](https://commonvoice.mozilla.org/) project. Its purpose is to provide a tool for contributors to upload public domain sentences, which then can get reviewed and are exported to the Common Voice database. Once imported into the Common Voice website, they will show up for contributors to read out aloud.
+
+## Detailed Flow
+
+This explanation only focuses on the Sentence Collector. For bulk uploads of thousands of sentences, Sentence Collector is not the best tool. Check out the [Bulk Submission](https://github.com/common-voice/common-voice/blob/main/docs/SENTENCES.md#bulk-submission) guidelines for this use case. Another tool is the [Sentence Extractor](https://github.com/Common-Voice/cv-sentence-extractor) which allows automatic extraction of data sources such as Wikipedia.
+
+![Diagram](docs/flow.svg)
+
+In the diagram above, light blue squares represent Sentence Collector processes. The grey squares are processes outside of the Sentence Collector tooling. The grey processes are the same for other sentence sources, such as bulk submissions and Sentence Extractor. Instead of an automatic export, these use Pull Requests directly adding text files into the `server/data` folder of the Common Voice repository.
+
+1) Contributors gather sentences from public domain sources and (optionally) pre-process and pre-review them. These sentences can be from public domain books, or even self-written. The source does not matter, as long as the sentences are in the public domain. Contributors then upload these sentences through the [Sentence Collector "Add" form](https://commonvoice.mozilla.org/sentence-collector/#/add)
+2) The Sentence Collector validates these sentences based on [rules per language](server/lib/validation/VALIDATION.md) (or the English rule file as default). Any sentence that does not match the validation rules does not get further processed and is shown as error in the Sentence Collector user interface for correction. For example: sentences are not allowed to have numbers in them, such as `2022`
+3) Any sentence that passed the validation gets written to the Sentence Collector database
+4) These sentences then get shown on the [Sentence Collector "Review" page](https://commonvoice.mozilla.org/sentence-collector/#/review) for other contributors to review.
+5) Contributor's reviews are saved in the Sentence Collector database. Sentences can be approved or rejected. If at least 2 out of 3 reviews are positive, the sentence will eventually be exported for Common Voice (see the steps below).
+6) Once a week an automatic process is triggered (GitHub action) to export all approved sentences to the Common Voice repository.
+7) During this export, the [cleanup](https://github.com/common-voice/sentence-collector/blob/main/server/lib/cleanup/CLEANUP.md) scripts are run for each sentence, if configured for a language. This can be used to apply transformations for consistency, such as converting "..." into "…".
+8) The resulting `sentence-collector.txt` file is written to the [language specific folder](https://github.com/common-voice/common-voice/tree/main/server/data) in the Common Voice repository. Note that any change to that file within the Common Voice repository will be overwritten by the next export, as the only source is the Sentence Collector database.
+9) Whenever a new version of the Common Voice website is released, the sentences get imported into the Common Voice database.
+10) If a certain language is enabled for contribution, the imported sentences will then be shown to contributors to record.
 
 ## Get involved
 
