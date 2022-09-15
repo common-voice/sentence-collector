@@ -8,6 +8,8 @@ This explanation only focuses on the Sentence Collector. For bulk uploads of tho
 
 ![Diagram](docs/flow.svg)
 
+*To edit this diagram, load the `flow.svg` in the docs of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.*
+
 In the diagram above, light blue squares represent Sentence Collector processes. The grey squares are processes outside of the Sentence Collector tooling. The grey processes are the same for other sentence sources, such as bulk submissions and Sentence Extractor. Instead of an automatic export, these use Pull Requests directly adding text files into the `server/data` folder of the Common Voice repository.
 
 1) Contributors gather sentences from public domain sources and (optionally) pre-process and pre-review them. These sentences can be from public domain books, or even self-written. The source does not matter, as long as the sentences are in the public domain. Contributors then upload these sentences through the [Sentence Collector "Add" form](https://commonvoice.mozilla.org/sentence-collector/#/add)
@@ -40,7 +42,7 @@ In the diagram above, light blue squares represent Sentence Collector processes.
 
 ![Diagram](docs/architecture.svg)
 
-To edit this diagram, load the `architecture.svg` in the docs of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.
+*To edit this diagram, load the `architecture.svg` in the docs of the repository into [diagrams.net](https://app.diagrams.net/) and then save the updated version back into the repository like any other file changes you'd make.*
 
 ## Local Development
 
