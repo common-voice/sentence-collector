@@ -35,8 +35,8 @@ function clean(sentences) {
       // Normalize three consecutive dots into unicode elipsis
       .replace(/\.{3}/g, '…')
 
-      // Normalize ´ (french apostroph) into ' (usual apostroph)
-      .replace(/\´/g, '\'')
+      // Normalize ´ or ’ (french apostroph) into ' (usual apostroph)
+      .replace(/\´|’/g, '\'')
       
       // In fr-FR, those should have a no space before and a normal space after
       .replace(/\s+,/g, ',') // before ...
