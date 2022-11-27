@@ -13,9 +13,9 @@ const INVALIDATIONS = [{
   regex: /[0-9໑໒໓໔໕໖໗໘໙໐๐-๙]/,
   error: 'Sentence should not contain numbers',
 }, {
-  // English and Thai character is not allowed
+  // English and Thai characters are not allowed
   regex: /[A-Za-zก-ฮ]/,
-  error: 'Sentence should not contain latin alphabet characters',
+  error: 'Sentence should not contain latin alphabet characters or Thai characters',
 }, {
   // < > + * \ # @ ^ [ ] ( ) /
   // ellipsis: \u0EAF ຯ
