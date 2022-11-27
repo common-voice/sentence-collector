@@ -1,5 +1,5 @@
 // Lao rules
-// use any rule from Thai rules https://github.com/wannaphong/sentence-collector/blob/main/server/lib/validation/languages/th.js
+// use any rule from Thai rules https://github.com/common-voice/sentence-collector/blob/main/server/lib/validation/languages/th.js
 const MIN_LENGTH = 2;
 const MAX_LENGTH = 100;
 
