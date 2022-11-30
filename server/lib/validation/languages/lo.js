@@ -1,13 +1,13 @@
 // Lao rules
 // use any rule from Thai rules https://github.com/common-voice/sentence-collector/blob/main/server/lib/validation/languages/th.js
 const MIN_LENGTH = 2;
-const MAX_LENGTH = 100;
+const MAX_LENGTH = 140;
 
 const INVALIDATIONS = [{
   fn: (sentence) => {
     return sentence.length < MIN_LENGTH || sentence.length > MAX_LENGTH;
   },
-  error: `Number of characters must be between ${MIN_LENGTH} and ${MAX_LENGTH} (inclusive)`,
+  error: `ຈຳນວນຕົວອັກສອນຕ້ອງຢູ່ລະຫວ່າງ ${MIN_LENGTH} ຫາ ${MAX_LENGTH} (ລວມ)`,
 }, {
   // Lao digits and Thai digits
   regex: /[0-9໑໒໓໔໕໖໗໘໙໐๐-๙]/,
