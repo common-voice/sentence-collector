@@ -11,22 +11,22 @@ const INVALIDATIONS = [{
 }, {
   // Lao digits and Thai digits
   regex: /[0-9໑໒໓໔໕໖໗໘໙໐๐-๙]/,
-  error: 'Sentence should not contain numbers',
+  error: 'ປະໂຫຍກບໍ່ຄວນມີຕົວເລກ',
 }, {
   // English and Thai characters are not allowed
-  regex: /[A-Za-zก-ฮ]/,
-  error: 'Sentence should not contain latin alphabet characters or Thai characters',
+  regex: /[A-Za-z\u0E00-\u0E7F]/,
+  error: 'ປະໂຫຍກບໍ່ຄວນມີຕົວອັກສອນລາຕິນ ຫຼືຕົວອັກສອນໄທ',
 }, {
   // < > + * \ # @ ^ [ ] ( ) /
   // ellipsis: \u0EAF ຯ
   // repetition: \u0EC6 ໆ
   regex: /[<>+*\\#@^[\]()/\u0EAF\u0EC6]/,
-  error: 'Sentence should not contain symbols, including ellipsis and repetition',
+  error: 'ປະໂຫຍກບໍ່ຄວນມີສັນຍາລັກ, ລວມທັງ ຯ ແລະ ໆ',
 }, {
   // Emoji range from https://www.regextester.com/106421 and
   // https://stackoverflow.com/questions/10992921/how-to-remove-emoji-code-using-javascript
   regex: /(\u00a9|\u00ae|[\u2000-\u3300]|[\u2580-\u27bf]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]|[\ue000-\uf8ff])/,
-  error: 'Sentence should not contain emojis or other special Unicode symbols',
+  error: 'ປະໂຫຍກບໍ່ຄວນມີ ອີໂມຈິ ຫຼືສັນຍາລັກຂອງ Unicode ພິເສດອື່ນໆ',
 }];
 
 module.exports = {
