@@ -8,6 +8,7 @@ const ig = require('./languages/ig');
 const it = require('./languages/it');
 const kab = require( './languages/kab');
 const ko = require( './languages/ko');
+const lo = require( './languages/lo');
 const ne = require('./languages/ne');
 const or = require('./languages/or');
 const ru = require('./languages/ru');
@@ -27,6 +28,7 @@ const VALIDATORS = {
   it,
   kab,
   ko,
+  lo,
   ne,
   or,
   ru,
