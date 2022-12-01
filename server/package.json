@@ -25,7 +25,7 @@
     "mariadb": "^2.5.5",
     "mysql2": "^2.3.3",
     "node-fetch": "^2.6.7",
-    "passport": "^0.5.0",
+    "passport": "^0.6.0",
     "passport-auth0": "^1.4.1",
     "sequelize": "^6.9.0",
     "sequelize-cli": "^6.3.0",
