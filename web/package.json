@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "babel-jest": "^27.3.1",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.3.0",
     "babel-preset-env": "^1.7.0",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
