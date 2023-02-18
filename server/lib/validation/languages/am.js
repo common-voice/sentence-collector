@@ -11,13 +11,16 @@ const INVALIDATIONS = [{
     const words = tokenizeWords(sentence);
     return words.length < MIN_WORDS || words.length > MAX_WORDS;
   },
-  error: `Number of words must be between ${MIN_WORDS} and ${MAX_WORDS} (inclusive)`,
+  error: `በአረፍተነገሩ ውስጥ ያለው የቃላት ቁጥር በ ${MIN_WORDS} እና ${MAX_WORDS} መሆን አለበት (የሚጠቃለል)`,
 }, {
   regex: /[0-9]+/,
-  error: 'Sentence should not contain numbers',
+  error: 'አረፍተነገሩ ውስጥ ቁጥር ሊኖር አይገባም ወይም ቁጥሩን በአማርኛ ተርጉመው ያስተካክሉት እባክዎ',
+},{
+  regex: /[A-Za-z]+/,
+  error: 'አረፍተነገሩ ውስጥ በእንግሊዘኛ ፊደል የተጻፈ ነገር ካለ እባክዎ ይተርጉሙት ወይም ያስወግዱት',
 }, {
-  regex: /[<>+*#@%^[\]()/]/,
-  error: 'Sentence should not contain symbols',
+  regex: /[<>+*#@%'"^[\]()/]/,
+  error: 'አረፍተነገሩ ውስጥ የተለዩ ምልክቶች ሊኖሩ አይገባም እባክዎ ያስተካክሉ',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
   // inbetween are considered abbreviations or acronyms.
