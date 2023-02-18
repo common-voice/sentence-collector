@@ -1,10 +1,10 @@
 const tokenizeWords = require('talisman/tokenizers/words');
 
 // Minimum of words that qualify as a sentence.
-const MIN_WORDS = 6;
+const MIN_WORDS = 3;
 
 // Maximum of words allowed per sentence to keep recordings in a manageable duration.
-const MAX_WORDS = 26;
+const MAX_WORDS = 15;
 
 const INVALIDATIONS = [{
   fn: (sentence) => {
