@@ -13,21 +13,21 @@ const INVALIDATIONS = [{
   },
   error: `በአረፍተነገሩ ውስጥ ያለው የቃላት ቁጥር በ ${MIN_WORDS} እና ${MAX_WORDS} መሆን አለበት (የሚጠቃለል)`,
 }, {
-  regex: /[0-9]+/,
-  error: 'አረፍተነገሩ ውስጥ ቁጥር ሊኖር አይገባም ወይም ቁጥሩን በአማርኛ ተርጉመው ያስተካክሉት እባክዎ',
+  regex: /[0-9]+ | [\u1369-\u137C]+/,
+  error: 'አረፍተነገሩ ውስጥ ቁጥር ሊኖር አይገባም ወይም ቁጥሩን በአማርኛ ተርጉመው ያስተካክሉት ወይም አዲስ አረፍተነገር ይጨምሩ እባክዎ።',
 },{
   regex: /[A-Za-z]+/,
   error: 'አረፍተነገሩ ውስጥ በእንግሊዘኛ ፊደል የተጻፈ ነገር ካለ እባክዎ ይተርጉሙት ወይም ያስወግዱት',
 }, {
-  regex: /[<>+*#@%'"^[\]()/]/,
-  error: 'አረፍተነገሩ ውስጥ የተለዩ ምልክቶች ሊኖሩ አይገባም እባክዎ ያስተካክሉ',
+  regex: /[\u1360-\u1368]+ | [<>+*#@%^[\]()/]/,
+  error: 'አረፍተነገሩ ውስጥ የተለዩ ምልክቶች እንደ ነጠላ ሰረዝ፣ ድርብ ሰረዝ፣ የዶላር ምልክት እና ሌሎችም ሊኖሩ አይገባም እባክዎ ያስተካክሉት ወይም አዲስ አረፍተነገር ይጨምሩ።',
 }, {
   // Any words consisting of uppercase letters or uppercase letters with a period
   // inbetween are considered abbreviations or acronyms.
   // This currently also matches fooBAR but we most probably don't want that either
   // as users wouldn't know how to pronounce the uppercase letters.
-  regex: /[A-Z]{2,}|[A-Z]+\.*[A-Z]+/,
-  error: 'Sentence should not contain abbreviations',
+  regex: /[\u1200-\u1357]+\.*[\u1200-\u1357]+/,
+  error: 'አረፍተነገሩ ውስጥ ምህጻረ ቃላት ካሉ ያስወግዱት እባክዎ',
 }];
 
 module.exports = {
