@@ -27,7 +27,7 @@
     "node-fetch": "^2.6.7",
     "passport": "^0.6.0",
     "passport-auth0": "^1.4.1",
-    "sequelize": "^6.9.0",
+    "sequelize": "^6.28.2",
     "sequelize-cli": "^6.3.0",
     "swagger-ui-express": "^4.1.6",
     "talisman": "^1.1.4",
