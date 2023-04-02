@@ -1,4 +1,5 @@
 const defaultValidator = require('./languages/default');
+const am = require('./languages/am');
 const bas = require('./languages/bas');
 const ca = require('./languages/ca');
 const ckb = require('./languages/ckb');
@@ -19,6 +20,7 @@ const uz = require('./languages/uz');
 const yue = require('./languages/yue');
 
 const VALIDATORS = {
+  am,
   bas,
   ca,
   ckb,

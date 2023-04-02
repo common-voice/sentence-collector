@@ -26,7 +26,7 @@ const INVALIDATIONS = [{
   // inbetween are considered abbreviations or acronyms.
   // This currently also matches fooBAR but we most probably don't want that either
   // as users wouldn't know how to pronounce the uppercase letters.
-  regex: /[\u1200-\u1357]+\.*[\u1200-\u1357]+/,
+  regex: /[\u1200-\u1357]+\.+[\u1200-\u1357]+/,
   error: 'አረፍተነገሩ ውስጥ ምህጻረ ቃላት ካሉ ያስወግዱት እባክዎ',
 }];
 
