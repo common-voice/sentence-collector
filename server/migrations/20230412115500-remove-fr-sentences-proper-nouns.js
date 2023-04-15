@@ -1,6 +1,8 @@
 /* eslint-disable no-useless-escape */
 "use strict";
 
+// https://github.com/common-voice/common-voice/pull/3786
+
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.sequelize.query(`
@@ -2555,7 +2557,7 @@ module.exports = {
         "d’un ton qui fit frémir le président.",
         "D’un violent coup de pied, madame Marquet éteint l’ordinateur.",
         "Du pain, des gâteaux, des tartes répliqua le marin.",
-        "Duparcy lui disait : «Ma chère Bonacine, avez-vous votre compte ? \"",
+        "Duparcy lui disait : «Ma chère Bonacine, avez-vous votre compte ? \\"",
         "Duparcy, qui était toujours comique avec son sang-froid, s'amusait de tout cela.",
         "Dupin, Montalembert, Veuillot, Proudhon, Falloux",
         "Du plaisant au sévère",
@@ -3470,7 +3472,7 @@ module.exports = {
         "Et si, voyoyt-on des fleuves de moustarde, des iambons deschicquetez, des taz esparpillez.",
         "et son New-Guernesey, qui est dans l’Ohio.",
         "Et sur ce, le capitaine Nemo quitta le salon.",
-        "Et, sur l'hésitation de Cinna, il recommençait : \" Prends. \"",
+        "Et, sur l'hésitation de Cinna, il recommençait : \\" Prends. \\"",
         "Et sur quel navire ? … questionna John Howard.",
         "Et surtout que Morden ne recommence pas",
         "Et Swann pensait que c’était même peut-être là",
@@ -8139,7 +8141,7 @@ module.exports = {
         "Oh, pardon : « La-ly ».",
         "Oh ! pas du tout ! ajouta Friedel.",
         "Oh ! reprit Gwynplaine, nous sommes heureux !",
-        "Oh ! s'il vivait, celui qu'on mena chez Pilate \"",
+        "Oh ! s'il vivait, celui qu'on mena chez Pilate \\"",
         "Oh ! si nous avions raison ! … dit Contenson.",
         "Oh ! tu m’aimes, dit Gwynplaine.",
         "Oh ! un coup de canon de plus ou de moins ! ajouta Crockston.",
@@ -9877,7 +9879,7 @@ module.exports = {
         "se douter que Laly doit n'être qu'un symptôme.",
         "s’égayant du regard, les lèvres graves.",
         "Séguier sera proclamé un grand homme.",
-        "Seigneur ! Philadelphie, \"un comptoir de marchands",
+        "Seigneur ! Philadelphie, \\"un comptoir de marchands",
         "Seize cent mille livres ? fit J. -T. Maston en sautant sur sa chaise.",
         "Seize cents seulement, dit Mr. Fogg.",
         "Seize volumes de Banga pour un dix-septième de vodka.",
