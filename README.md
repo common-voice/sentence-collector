@@ -1,4 +1,6 @@
-# Common Voice Sentence Collector
+THe Sentence Collector is now integrated into the main [Common Voice website](https://commonvoice.mozilla.org/write). The GitHub repository can be found [here](https://github.com/common-voice/common-voice/). Therefore this project is archived. Note that there is no maintenance and security vulnerabilities will not get fixed. Do not run this yourself in production without forking and maintaining it.
+
+# Archived: Common Voice Sentence Collector
 
 The [Sentence Collector](https://commonvoice.mozilla.org/sentence-collector/) is part of the [Common Voice](https://commonvoice.mozilla.org/) project. Its purpose is to provide a tool for contributors to upload public domain sentences, which then can get reviewed and are exported to the Common Voice database. Once imported into the Common Voice website, they will show up for contributors to read out aloud.
 
