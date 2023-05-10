@@ -6,9 +6,6 @@ on:
       - main
     tags:
       - 'v*.*.*'
-  # To keep staging updated with translations we want to deploy 4 times a day..
-  schedule:
-    - cron: "0 */6 * * *"
 
 # Based on example https://github.com/marketplace/actions/build-and-push-docker-images#complete-workflow
 jobs:
