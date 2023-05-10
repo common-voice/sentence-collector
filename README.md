@@ -1,4 +1,4 @@
-THe Sentence Collector is now integrated into the main [Common Voice website](https://commonvoice.mozilla.org/write). The GitHub repository can be found [here](https://github.com/common-voice/common-voice/). Therefore this project is archived. Note that there is no maintenance and security vulnerabilities will not get fixed. Do not run this yourself in production without forking and maintaining it.
+The Sentence Collector is now integrated into the main [Common Voice website](https://commonvoice.mozilla.org/write). The GitHub repository can be found [here](https://github.com/common-voice/common-voice/). Therefore this project is archived. Note that there is no maintenance and security vulnerabilities will not get fixed. Do not run this yourself in production without forking and maintaining it.
 
 # Archived: Common Voice Sentence Collector
 
